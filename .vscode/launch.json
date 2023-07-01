@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "TS debugger",
+      "skipFiles": ["<node_internals>/**"],
+      "runtimeArgs": ["--loader", "tsx"],
+      "program": "${relativeFile}"
+    }
+  ]
+}

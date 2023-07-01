@@ -1,0 +1,66 @@
+{
+  "name": "elegent-router",
+  "version": "0.0.1",
+  "description": "A plugin to create router elegently",
+  "author": {
+    "name": "Soybean",
+    "email": "soybeanjs@outlook.com",
+    "url": "https://github.com/soybeanjs"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/soybeanjs/easy-router",
+  "repository": {
+    "url": "https://github.com/soybeanjs/easy-router.git"
+  },
+  "bugs": {
+    "url": "https://github.com/soybeanjs/easy-router/issues"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "pnpm typecheck && unbuild",
+    "dev": "tsx watch src",
+    "lint": "eslint . --fix",
+    "format": "soy prettier-format",
+    "commit": "soy git-commit",
+    "cleanup": "soy cleanup",
+    "update-pkg": "soy update-pkg",
+    "update-version": "bumpp --commit --push --tag",
+    "publish-pkg": "pnpm -r publish --access public",
+    "typecheck": "tsc --noEmit",
+    "release": "pnpm update-version && pnpm build && pnpm publish-pkg"
+  },
+  "dependencies": {
+    "chokidar": "3.5.3",
+    "consola": "3.2.2",
+    "fast-glob": "3.3.0",
+    "fs-extra": "11.1.1",
+    "magicast": "0.2.9",
+    "micromatch": "4.0.5"
+  },
+  "devDependencies": {
+    "@soybeanjs/cli": "0.6.2",
+    "@types/micromatch": "^4.0.2",
+    "@types/node": "20.3.2",
+    "eslint": "8.43.0",
+    "eslint-config-soybeanjs": "0.4.9",
+    "simple-git-hooks": "2.8.1",
+    "typescript": "5.1.6",
+    "unbuild": "1.2.1"
+  },
+  "simple-git-hooks": {
+    "commit-msg": "pnpm soy git-commit-verify",
+    "pre-commit": "pnpm typecheck && pnpm soy lint-staged"
+  }
+}
