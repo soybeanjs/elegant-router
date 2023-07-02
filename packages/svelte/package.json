@@ -1,0 +1,52 @@
+{
+  "name": "@elegent-router/svelte",
+  "version": "0.0.1",
+  "description": "A Svelte Router plugin to create router elegently",
+  "private": true,
+  "author": {
+    "name": "Soybean",
+    "email": "soybeanjs@outlook.com",
+    "url": "https://github.com/soybeanjs"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/soybeanjs/elegent-router",
+  "repository": {
+    "url": "https://github.com/soybeanjs/elegent-router.git"
+  },
+  "bugs": {
+    "url": "https://github.com/soybeanjs/elegent-router/issues"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "pnpm typecheck && unbuild",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "consola": "3.2.2",
+    "fs-extra": "11.1.1",
+    "magicast": "0.2.9",
+    "unplugin": "1.3.1"
+  },
+  "devDependencies": {
+    "@elegent-router/core": "workspace:*",
+    "@types/fs-extra": "11.0.1",
+    "@types/node": "20.3.3",
+    "typescript": "5.1.6",
+    "unbuild": "1.2.1"
+  }
+}

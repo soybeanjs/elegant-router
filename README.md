@@ -1,3 +1,11 @@
-# create-soybean
+# elegent-router 优雅的路由
 
-SoybeanJS 的命令行, 可以创建很多类型的项目模版
+中文 | [English](./README.en_US.md)
+
+## 介绍
+
+## 安装
+
+## 使用
+
+## 注意事项
