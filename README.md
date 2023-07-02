@@ -2,6 +2,8 @@
 
 中文 | [English](./README.en_US.md)
 
+正在开发中...
+
 ## 介绍
 
 ## 安装
