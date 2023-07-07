@@ -1,7 +1,7 @@
 {
-  "name": "elegent-router",
+  "name": "elegant-router",
   "version": "0.0.1",
-  "description": "A plugin to create router elegently",
+  "description": "A plugin to create router elegantly",
   "private": true,
   "author": {
     "name": "Soybean",
@@ -9,12 +9,12 @@
     "url": "https://github.com/soybeanjs"
   },
   "license": "MIT",
-  "homepage": "https://github.com/soybeanjs/elegent-router",
+  "homepage": "https://github.com/soybeanjs/elegant-router",
   "repository": {
-    "url": "https://github.com/soybeanjs/elegent-router.git"
+    "url": "https://github.com/soybeanjs/elegant-router.git"
   },
   "bugs": {
-    "url": "https://github.com/soybeanjs/elegent-router/issues"
+    "url": "https://github.com/soybeanjs/elegant-router/issues"
   },
   "scripts": {
     "build": "pnpm -r --filter='./packages/*' run build",
@@ -34,9 +34,5 @@
     "eslint-config-soybeanjs": "0.4.9",
     "simple-git-hooks": "2.8.1",
     "tsx": "^3.12.7"
-  },
-  "simple-git-hooks": {
-    "commit-msg": "pnpm soy git-commit-verify",
-    "pre-commit": "pnpm typecheck && pnpm soy lint-staged"
   }
 }

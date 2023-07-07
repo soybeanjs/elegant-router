@@ -1,7 +1,7 @@
 {
-  "name": "@elegent-router/svelte",
+  "name": "@elegant-router/svelte",
   "version": "0.0.1",
-  "description": "A Svelte Router plugin to create router elegently",
+  "description": "A Svelte Router plugin to create router elegantly",
   "private": true,
   "author": {
     "name": "Soybean",
@@ -9,12 +9,12 @@
     "url": "https://github.com/soybeanjs"
   },
   "license": "MIT",
-  "homepage": "https://github.com/soybeanjs/elegent-router",
+  "homepage": "https://github.com/soybeanjs/elegant-router",
   "repository": {
-    "url": "https://github.com/soybeanjs/elegent-router.git"
+    "url": "https://github.com/soybeanjs/elegant-router.git"
   },
   "bugs": {
-    "url": "https://github.com/soybeanjs/elegent-router/issues"
+    "url": "https://github.com/soybeanjs/elegant-router/issues"
   },
   "exports": {
     ".": {
@@ -43,7 +43,7 @@
     "unplugin": "1.3.1"
   },
   "devDependencies": {
-    "@elegent-router/core": "workspace:*",
+    "@elegant-router/core": "workspace:*",
     "@types/fs-extra": "11.0.1",
     "@types/node": "20.3.3",
     "typescript": "5.1.6",

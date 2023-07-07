@@ -1,33 +1,33 @@
-import ElegentRouter from '@elegent-router/core';
+import ElegantRouter from '@elegant-router/core';
 import type { ViteDevServer } from 'vite';
 import { createPluginOptions } from './options';
 import { genDtsFile } from './dts';
 import { genImportsFile } from './imports';
 import { log } from './log';
-import type { ElegentVueRouterOption } from '../types';
+import type { ElegantVueRouterOption } from '../types';
 
-export default class ElegentVueRouter {
-  options: ElegentVueRouterOption;
+export default class ElegantVueRouter {
+  options: ElegantVueRouterOption;
 
-  erCtx: ElegentRouter;
+  erCtx: ElegantRouter;
 
   viteServer?: ViteDevServer;
 
-  constructor(options: Partial<ElegentVueRouterOption> = {}) {
-    this.erCtx = new ElegentRouter(options);
+  constructor(options: Partial<ElegantVueRouterOption> = {}) {
+    this.erCtx = new ElegantRouter(options);
 
     this.options = createPluginOptions(this.erCtx.options, options);
 
     this.generate();
 
-    this.setuFSWatcher();
+    this.setupFSWatcher();
   }
 
   scanPages() {
     this.erCtx.scanPages();
   }
 
-  setuFSWatcher() {
+  setupFSWatcher() {
     this.erCtx.setupFSWatcher(async () => {
       log('The pages changed, regenerating the dts file and routes...', 'info', this.options.log);
 

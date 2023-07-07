@@ -1,6 +1,19 @@
-import type { ElegentRouterOption, ElegentRouterFile, ElegentRouterItem } from '@elegent-router/core';
+import type {
+  ElegantRouterOption,
+  ElegantRouterFile,
+  ElegantRouterNamePathMap,
+  ElegantRouterNamePathEntry,
+  ElegantRouterTree
+} from '@elegant-router/core';
 import unplugin from './unplugin';
-import type { ElegentVueRouterOption } from './types';
+import type { ElegantVueRouterOption } from './types';
 
-export type { ElegentVueRouterOption, ElegentRouterOption, ElegentRouterFile, ElegentRouterItem };
+export type {
+  ElegantVueRouterOption,
+  ElegantRouterOption,
+  ElegantRouterFile,
+  ElegantRouterNamePathMap,
+  ElegantRouterNamePathEntry,
+  ElegantRouterTree
+};
 export default unplugin;

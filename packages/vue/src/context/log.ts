@@ -5,5 +5,5 @@ import { lightGreen } from 'kolorist';
 export function log(msg: string, type: LogType, show = true) {
   if (!show) return;
 
-  consola[type](`${lightGreen('[elegent-router]')} ${msg}`);
+  consola[type](`${lightGreen('[elegant-router]')} ${msg}`);
 }

@@ -1,4 +1,4 @@
-# elegent-router 优雅的路由
+# elegant-router 优雅的路由
 
 中文 | [English](./README.en_US.md)
 

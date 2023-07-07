@@ -1,4 +1,4 @@
-# elegent-router
+# elegant-router
 
 English | [中文](./README.md)
 

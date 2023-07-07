@@ -1,19 +1,19 @@
 {
-  "name": "@elegent-router/core",
+  "name": "@elegant-router/core",
   "version": "0.0.1",
-  "description": "A plugin to create router elegently",
+  "description": "A plugin to create router elegantly",
   "author": {
     "name": "Soybean",
     "email": "soybeanjs@outlook.com",
     "url": "https://github.com/soybeanjs"
   },
   "license": "MIT",
-  "homepage": "https://github.com/soybeanjs/elegent-router",
+  "homepage": "https://github.com/soybeanjs/elegant-router",
   "repository": {
-    "url": "https://github.com/soybeanjs/elegent-router.git"
+    "url": "https://github.com/soybeanjs/elegant-router.git"
   },
   "bugs": {
-    "url": "https://github.com/soybeanjs/elegent-router/issues"
+    "url": "https://github.com/soybeanjs/elegant-router/issues"
   },
   "exports": {
     ".": {

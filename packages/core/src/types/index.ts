@@ -1,4 +1,4 @@
-export interface ElegentRouterOption {
+export interface ElegantRouterOption {
   /**
    * the root directory of the project
    * @default process.cwd()
@@ -36,7 +36,7 @@ export interface ElegentRouterOption {
    * name => name
    * ```
    */
-  routeNameTansformer: (name: string) => string;
+  routeNameTransformer: (name: string) => string;
   /**
    * transform the route path
    * @param transformedName the transformed route name
@@ -46,7 +46,7 @@ export interface ElegentRouterOption {
    * (_transformedName, path) => path
    * ```
    */
-  routePathTansformer: (transformedName: string, path: string) => string;
+  routePathTransformer: (transformedName: string, path: string) => string;
   /**
    * show log
    * @default true
@@ -54,7 +54,7 @@ export interface ElegentRouterOption {
   log: boolean;
 }
 
-export interface ElegentRouterFile {
+export interface ElegantRouterFile {
   /**
    * the glob of the page
    */
@@ -62,7 +62,7 @@ export interface ElegentRouterFile {
   /**
    * the full path of the page
    */
-  fullpath: string;
+  fullPath: string;
   /**
    * the import path of the page file
    * @description
@@ -108,7 +108,7 @@ export interface ElegentRouterFile {
  * @description
  * Map<name, path>
  */
-export type ElegentRouterNamePathMap = Map<string, string>;
+export type ElegantRouterNamePathMap = Map<string, string>;
 
 /**
  * the map of the route path and the route name
@@ -116,13 +116,13 @@ export type ElegentRouterNamePathMap = Map<string, string>;
  * @example
  * ["a", "/a"]
  */
-export type ElegentRouterNamePathEntry = [string, string];
+export type ElegantRouterNamePathEntry = [string, string];
 
 /**
  * the tree of the route
  */
-export interface ElegentRouterTree {
+export interface ElegantRouterTree {
   routeName: string;
   routePath: string;
-  children?: ElegentRouterTree[];
+  children?: ElegantRouterTree[];
 }

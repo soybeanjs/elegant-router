@@ -1,12 +1,12 @@
 import path from 'path';
 import type {
-  ElegentRouterOption,
-  ElegentRouterFile,
-  ElegentRouterNamePathMap,
-  ElegentRouterNamePathEntry,
-  ElegentRouterTree
+  ElegantRouterOption,
+  ElegantRouterFile,
+  ElegantRouterNamePathMap,
+  ElegantRouterNamePathEntry,
+  ElegantRouterTree
 } from '../types';
-import { getFullpathOfPageGlob } from './path';
+import { getFullPathOfPageGlob } from './path';
 import { PATH_SPLITTER, PAGE_DEGREE_SPLITTER, PAGE_FILE_NAME_WITH_SQUARE_BRACKETS_PATTERN } from '../constants';
 
 /**
@@ -14,11 +14,11 @@ import { PATH_SPLITTER, PAGE_DEGREE_SPLITTER, PAGE_FILE_NAME_WITH_SQUARE_BRACKET
  * @param glob
  * @param options
  */
-export function transformPageGlobToRouterFile(glob: string, options: ElegentRouterOption) {
-  const { cwd, pageDir, pageDirAlias, routeNameTansformer } = options;
+export function transformPageGlobToRouterFile(glob: string, options: ElegantRouterOption) {
+  const { cwd, pageDir, pageDirAlias, routeNameTransformer } = options;
 
   // 1. get path info
-  const fullpath = getFullpathOfPageGlob(glob, pageDir, cwd);
+  const fullPath = getFullPathOfPageGlob(glob, pageDir, cwd);
   const importPath = path.join(pageDirAlias || pageDir, glob);
 
   // 2. get route info
@@ -27,7 +27,7 @@ export function transformPageGlobToRouterFile(glob: string, options: ElegentRout
 
   const filteredDirs = dirs.filter(dir => !dir.startsWith(PAGE_DEGREE_SPLITTER)).reverse();
 
-  const routeName = routeNameTansformer(filteredDirs.join(PAGE_DEGREE_SPLITTER).toLocaleLowerCase());
+  const routeName = routeNameTransformer(filteredDirs.join(PAGE_DEGREE_SPLITTER).toLocaleLowerCase());
   let routePath = transformRouterNameToPath(routeName);
 
   let routeParamKey = '';
@@ -38,12 +38,12 @@ export function transformPageGlobToRouterFile(glob: string, options: ElegentRout
     routePath = `${routePath}/:${routeParamKey}`;
   }
 
-  const item: ElegentRouterFile = {
+  const item: ElegantRouterFile = {
     glob,
-    fullpath,
+    fullPath,
     importPath,
     routeName,
-    routePath: options.routePathTansformer(routeName, routePath),
+    routePath: options.routePathTransformer(routeName, routePath),
     routeParamKey
   };
 
@@ -55,8 +55,8 @@ export function transformPageGlobToRouterFile(glob: string, options: ElegentRout
  * @param files
  * @param options
  */
-export function transformRouterFilesToMaps(files: ElegentRouterFile[], options: ElegentRouterOption) {
-  const maps: ElegentRouterNamePathMap = new Map<string, string>();
+export function transformRouterFilesToMaps(files: ElegantRouterFile[], options: ElegantRouterOption) {
+  const maps: ElegantRouterNamePathMap = new Map<string, string>();
 
   files.forEach(file => {
     const { routeName, routePath } = file;
@@ -67,10 +67,10 @@ export function transformRouterFilesToMaps(files: ElegentRouterFile[], options: 
       if (!maps.has(name)) {
         const isSameName = name === routeName;
 
-        const itemRouteName = isSameName ? name : options.routeNameTansformer(name);
+        const itemRouteName = isSameName ? name : options.routeNameTransformer(name);
         const itemRoutePath = isSameName
           ? routePath
-          : options.routePathTansformer(itemRouteName, transformRouterNameToPath(name));
+          : options.routePathTransformer(itemRouteName, transformRouterNameToPath(name));
 
         maps.set(itemRouteName, itemRoutePath);
       }
@@ -84,8 +84,8 @@ export function transformRouterFilesToMaps(files: ElegentRouterFile[], options: 
  * transform the router files to the router entries (name -> path)
  * @param maps
  */
-export function tranformRouterMapsToEntries(maps: ElegentRouterNamePathMap) {
-  const entries: ElegentRouterNamePathEntry[] = [];
+export function transformRouterMapsToEntries(maps: ElegantRouterNamePathMap) {
+  const entries: ElegantRouterNamePathEntry[] = [];
 
   maps.forEach((routePath, routeName) => {
     entries.push([routeName, routePath]);
@@ -99,7 +99,7 @@ export function tranformRouterMapsToEntries(maps: ElegentRouterNamePathMap) {
  * @param entries
  * @param options
  */
-export function transformRouterEntriesToTrees(entries: ElegentRouterNamePathEntry[], maps: ElegentRouterNamePathMap) {
+export function transformRouterEntriesToTrees(entries: ElegantRouterNamePathEntry[], maps: ElegantRouterNamePathMap) {
   const treeWithClassify: Record<string, string[][]> = {};
 
   entries.forEach(([routeName]) => {
@@ -115,10 +115,10 @@ export function transformRouterEntriesToTrees(entries: ElegentRouterNamePathEntr
     }
   });
 
-  const trees: ElegentRouterTree[] = [];
+  const trees: ElegantRouterTree[] = [];
 
   Object.keys(treeWithClassify).forEach(moduleName => {
-    const firstLevelRoute: ElegentRouterTree = {
+    const firstLevelRoute: ElegantRouterTree = {
       routeName: moduleName,
       routePath: maps.get(moduleName) || ''
     };
@@ -141,7 +141,7 @@ export function transformRouterEntriesToTrees(entries: ElegentRouterNamePathEntr
  * @param children
  * @param maps
  */
-function recursiveGetRouteTreeChildren(parentName: string, children: string[][], maps: ElegentRouterNamePathMap) {
+function recursiveGetRouteTreeChildren(parentName: string, children: string[][], maps: ElegantRouterNamePathMap) {
   if (children.length === 0) {
     return [];
   }
@@ -151,7 +151,7 @@ function recursiveGetRouteTreeChildren(parentName: string, children: string[][],
   const currentChildren = current.filter(name => name.startsWith(parentName));
 
   const trees = currentChildren.map(name => {
-    const tree: ElegentRouterTree = {
+    const tree: ElegantRouterTree = {
       routeName: name,
       routePath: maps.get(name) || ''
     };

@@ -1,17 +1,17 @@
-import ElegentRouter from './core';
+import ElegantRouter from './core';
 import type {
-  ElegentRouterOption,
-  ElegentRouterFile,
-  ElegentRouterNamePathMap,
-  ElegentRouterNamePathEntry,
-  ElegentRouterTree
+  ElegantRouterOption,
+  ElegantRouterFile,
+  ElegantRouterNamePathMap,
+  ElegantRouterNamePathEntry,
+  ElegantRouterTree
 } from './types';
 
 export type {
-  ElegentRouterOption,
-  ElegentRouterFile,
-  ElegentRouterNamePathMap,
-  ElegentRouterNamePathEntry,
-  ElegentRouterTree
+  ElegantRouterOption,
+  ElegantRouterFile,
+  ElegantRouterNamePathMap,
+  ElegantRouterNamePathEntry,
+  ElegantRouterTree
 };
-export default ElegentRouter;
+export default ElegantRouter;

@@ -1,12 +1,12 @@
 import { createUnplugin } from 'unplugin';
-import ElegentVueRouter from './context';
-import type { ElegentVueRouterOption } from './types';
+import ElegantVueRouter from './context';
+import type { ElegantVueRouterOption } from './types';
 
-export default createUnplugin<Partial<ElegentVueRouterOption> | undefined>((options, _meta) => {
-  const ctx = new ElegentVueRouter(options);
+export default createUnplugin<Partial<ElegantVueRouterOption> | undefined>((options, _meta) => {
+  const ctx = new ElegantVueRouter(options);
 
   return {
-    name: '@elegent-router/vue',
+    name: '@elegant-router/vue',
     enforce: 'pre',
     apply: 'serve',
     vite: {

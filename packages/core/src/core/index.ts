@@ -2,19 +2,19 @@ import micromatch from 'micromatch';
 import type { FSWatcher } from 'chokidar';
 import { createPluginOptions } from './options';
 import type {
-  ElegentRouterOption,
-  ElegentRouterFile,
-  ElegentRouterNamePathMap,
-  ElegentRouterNamePathEntry,
-  ElegentRouterTree
+  ElegantRouterOption,
+  ElegantRouterFile,
+  ElegantRouterNamePathMap,
+  ElegantRouterNamePathEntry,
+  ElegantRouterTree
 } from '../types';
 import { getGlobs } from '../shared/glob';
 import { handleValidatePageGlob } from './validate';
-import { getFullpathOfPageGlob } from './path';
+import { getFullPathOfPageGlob } from './path';
 import {
   transformPageGlobToRouterFile,
   transformRouterFilesToMaps,
-  tranformRouterMapsToEntries,
+  transformRouterMapsToEntries,
   transformRouterEntriesToTrees
 } from './transform';
 import { setupWatcher } from './watcher';
@@ -22,22 +22,22 @@ import { setupWatcher } from './watcher';
 /**
  * the class of the plugin
  */
-export default class ElegentRouter {
-  options: ElegentRouterOption;
+export default class ElegantRouter {
+  options: ElegantRouterOption;
 
   pageGlobs: string[] = [];
 
-  files: ElegentRouterFile[] = [];
+  files: ElegantRouterFile[] = [];
 
-  maps: ElegentRouterNamePathMap = new Map<string, string>();
+  maps: ElegantRouterNamePathMap = new Map<string, string>();
 
-  entries: ElegentRouterNamePathEntry[] = [];
+  entries: ElegantRouterNamePathEntry[] = [];
 
-  trees: ElegentRouterTree[] = [];
+  trees: ElegantRouterTree[] = [];
 
   fsWatcher?: FSWatcher;
 
-  constructor(options: Partial<ElegentRouterOption> = {}) {
+  constructor(options: Partial<ElegantRouterOption> = {}) {
     this.options = createPluginOptions(options);
     this.scanPages();
   }
@@ -69,7 +69,7 @@ export default class ElegentRouter {
     const { cwd, pageDir, pagePatterns, pageExcludePatterns } = this.options;
 
     return globs.filter(glob => {
-      const fullGlob = getFullpathOfPageGlob(glob, pageDir, cwd);
+      const fullGlob = getFullPathOfPageGlob(glob, pageDir, cwd);
 
       const isValid = handleValidatePageGlob(glob, fullGlob);
 
@@ -85,7 +85,7 @@ export default class ElegentRouter {
   getRouterContextProps() {
     this.files = this.pageGlobs.map(glob => transformPageGlobToRouterFile(glob, this.options));
     this.maps = transformRouterFilesToMaps(this.files, this.options);
-    this.entries = tranformRouterMapsToEntries(this.maps);
+    this.entries = transformRouterMapsToEntries(this.maps);
     this.trees = transformRouterEntriesToTrees(this.entries, this.maps);
   }
 

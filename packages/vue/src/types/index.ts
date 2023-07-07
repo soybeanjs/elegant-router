@@ -1,9 +1,9 @@
-import type { ElegentRouterOption } from '@elegent-router/core';
+import type { ElegantRouterOption } from '@elegant-router/core';
 
-export interface ElegentVueRouterOption extends ElegentRouterOption {
+export interface ElegantVueRouterOption extends ElegantRouterOption {
   /**
    * the declaration file directory of the generated routes
-   * @default 'src/typings/elegent-router.d.ts'
+   * @default 'src/typings/elegant-router.d.ts'
    */
   dtsDir: string;
   /**
