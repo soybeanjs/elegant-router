@@ -1,0 +1,6 @@
+{
+  "extends": ["soybeanjs"],
+  "rules": {
+    "max-params": ["error", 4]
+  }
+}

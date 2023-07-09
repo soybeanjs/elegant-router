@@ -1,0 +1,34 @@
+[
+  {
+    "routeName": "403",
+    "routePath": "/403"
+  },
+  {
+    "routeName": "demo-a",
+    "routePath": "/demo-a",
+    "children": [
+      {
+        "routeName": "demo-a_child1",
+        "routePath": "/demo-a/child1"
+      },
+      {
+        "routeName": "demo-a_child2",
+        "routePath": "/demo-a/child2",
+        "children": [
+          {
+            "routeName": "demo-a_child2_child3",
+            "routePath": "/demo-a/child2/child3"
+          }
+        ]
+      },
+      {
+        "routeName": "demo-a_child3",
+        "routePath": "/demo-a/child3"
+      }
+    ]
+  },
+  {
+    "routeName": "demo3",
+    "routePath": "/demo3/:id"
+  }
+]

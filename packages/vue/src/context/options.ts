@@ -10,6 +10,13 @@ export function createPluginOptions(erOptions: ElegantRouterOption, options?: Pa
   const IMPORT_DIR = 'src/router/auto-imports.ts';
   const CONST_DIR = 'src/router/auto-routes.ts';
   const MODULE_DIR = 'src/router/modules';
+  const CUSTOM_ROUTES_MAP = {
+    root: '/',
+    notFound: '/:pathMatch(.*)*'
+  };
+  const DEFAULT_LAYOUTS: Record<string, string> = {
+    default: 'src/layouts/default-layout/index.vue'
+  };
 
   const opts: ElegantVueRouterOption = {
     dtsDir: DTS_DIR,
@@ -18,7 +25,9 @@ export function createPluginOptions(erOptions: ElegantRouterOption, options?: Pa
     constDir: CONST_DIR,
     splitModule: true,
     moduleDir: MODULE_DIR,
-    customConstRoutes: [],
+    customRoutesMap: CUSTOM_ROUTES_MAP,
+    layouts: DEFAULT_LAYOUTS,
+    defaultLayout: Object.keys(DEFAULT_LAYOUTS)[0],
     ...erOptions,
     ...options
   };

@@ -23,7 +23,7 @@
     "format": "soy prettier-format",
     "commit": "soy git-commit",
     "cleanup": "soy cleanup",
-    "update-pkg": "soy update-pkg",
+    "ncu": "soy ncu",
     "publish-pkg": "pnpm -r publish --access public",
     "release": "pnpm soy release && pnpm build && pnpm publish-pkg",
     "prepare": "pnpm -r --filter='./packages/core' run dev"
@@ -31,7 +31,7 @@
   "devDependencies": {
     "@soybeanjs/cli": "0.6.2",
     "eslint": "8.44.0",
-    "eslint-config-soybeanjs": "0.4.9",
+    "eslint-config-soybeanjs": "0.5.1",
     "simple-git-hooks": "2.8.1",
     "tsx": "^3.12.7"
   }

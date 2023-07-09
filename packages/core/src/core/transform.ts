@@ -100,36 +100,45 @@ export function transformRouterMapsToEntries(maps: ElegantRouterNamePathMap) {
  * @param options
  */
 export function transformRouterEntriesToTrees(entries: ElegantRouterNamePathEntry[], maps: ElegantRouterNamePathMap) {
-  const treeWithClassify: Record<string, string[][]> = {};
+  const treeWithClassify = new Map<string, string[][]>();
 
   entries.forEach(([routeName]) => {
-    const isFirstLevel = routeName.includes(PAGE_DEGREE_SPLITTER);
+    const isFirstLevel = !routeName.includes(PAGE_DEGREE_SPLITTER);
 
     if (isFirstLevel) {
-      treeWithClassify[routeName] = [];
+      treeWithClassify.set(routeName, []);
     } else {
-      const levels = routeName.split(PAGE_DEGREE_SPLITTER).length;
-      const levelNames = treeWithClassify[routeName][levels - 2];
+      const firstLevelName = routeName.split(PAGE_DEGREE_SPLITTER)[0];
 
-      treeWithClassify[routeName][levels - 2] = [...(levelNames || []), routeName];
+      const levels = routeName.split(PAGE_DEGREE_SPLITTER).length;
+
+      const currentLevelChildren = treeWithClassify.get(firstLevelName) || [];
+
+      const child = currentLevelChildren[levels - 2] || [];
+
+      child.push(routeName);
+
+      currentLevelChildren[levels - 2] = child;
+
+      treeWithClassify.set(firstLevelName, currentLevelChildren);
     }
   });
 
   const trees: ElegantRouterTree[] = [];
 
-  Object.keys(treeWithClassify).forEach(moduleName => {
+  treeWithClassify.forEach((children, key) => {
     const firstLevelRoute: ElegantRouterTree = {
-      routeName: moduleName,
-      routePath: maps.get(moduleName) || ''
+      routeName: key,
+      routePath: maps.get(key) || ''
     };
 
-    const children = treeWithClassify[moduleName];
-
-    const treeChildren = recursiveGetRouteTreeChildren(moduleName, children, maps);
+    const treeChildren = recursiveGetRouteTreeChildren(key, children, maps);
 
     if (treeChildren.length > 0) {
       firstLevelRoute.children = treeChildren;
     }
+
+    trees.push(firstLevelRoute);
   });
 
   return trees;

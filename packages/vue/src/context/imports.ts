@@ -35,7 +35,7 @@ import type { LastLevelRoute } from "@elegant-router/types";
 
   exportCode += '\n};\n';
 
-  return preCode + importCode + exportCode;
+  return `${preCode + importCode}\n${exportCode}`;
 }
 
 function getImportKey(name: string) {

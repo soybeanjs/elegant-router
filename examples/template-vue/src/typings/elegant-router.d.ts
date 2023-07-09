@@ -5,31 +5,12 @@
 
 declare module "@elegant-router/types" {
   /**
-   * the root route key
-   */
-  export type RootRouteKey = "root";
-
-  /**
-   * the root path
-   */
-  export type RootRoutePath = "/";
-
-  /**
-   * the not found route, which catch the invalid route path
-   */
-  export type NotFoundRouteKey = "not-found";
-
-  /**
-   * the not found route path, which catch the invalid route path
-   */
-  export type NotFoundRoutePath = "/:pathMatch(.*)*";
-
-  /**
    * route map
    */
   export type RouteMap = {
     "root": "/";
-    "not-found": "/:pathMatch(.*)*";
+    "notFound": "/:pathMatch(.*)*";
+    "403": "/403";
     "demo-a": "/demo-a";
     "demo-a_child1": "/demo-a/child1";
     "demo-a_child2": "/demo-a/child2";
@@ -44,10 +25,20 @@ declare module "@elegant-router/types" {
   export type RouteKey = keyof RouteMap;
 
   /**
+   * custom route key
+   */ 
+  export type CustomRouteKey = Extract<
+    RouteKey,
+    | "root"
+    | "notFound"
+  >;
+  
+  /**
    * the last level route, which has the page file
    */
   export type LastLevelRoute = Extract<
     RouteKey,
+    | "403"
     | "demo-a_child1"
     | "demo-a_child2_child3"
     | "demo-a_child3"

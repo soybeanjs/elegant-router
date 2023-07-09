@@ -1,14 +1,13 @@
-import chokidar from 'chokidar';
+import { watch } from 'chokidar';
 import { log } from './log';
 
-// eslint-disable-next-line max-params
 export function setupWatcher(
   watchDir: string,
   ignored: string[],
   callback: (glob: string[]) => Promise<void> | void,
   showLog = true
 ) {
-  const watcher = chokidar.watch('.', {
+  const watcher = watch('.', {
     ignoreInitial: true,
     cwd: watchDir,
     ignored

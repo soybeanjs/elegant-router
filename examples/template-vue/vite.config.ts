@@ -5,7 +5,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx';
 import ElegantVueRouter from '@elegant-router/vue/vite';
 
 export default defineConfig({
-  plugins: [vue(), vueJsx(), ElegantVueRouter({})],
+  plugins: [vue(), vueJsx(), ElegantVueRouter({ lazyImport: () => false })],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
