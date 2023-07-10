@@ -3,6 +3,7 @@ import type { ViteDevServer } from 'vite';
 import { createPluginOptions } from './options';
 import { genDtsFile } from './dts';
 import { genImportsFile } from './imports';
+import { genConstFile } from './const';
 import { log } from './log';
 import type { ElegantVueRouterOption } from '../types';
 
@@ -54,5 +55,6 @@ export default class ElegantVueRouter {
   async generate() {
     await genDtsFile(this.erCtx.files, this.erCtx.entries, this.options);
     await genImportsFile(this.erCtx.files, this.options);
+    await genConstFile(this.erCtx.trees, this.options);
   }
 }
