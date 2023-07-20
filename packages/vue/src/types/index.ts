@@ -52,8 +52,8 @@ export interface ElegantVueRouterOption extends ElegantRouterOption {
    * @default
    * ```ts
    *  const routesMap: Record<string, string> = {
-   *    root: '/', // 根路由
-   *    notFound: '/:pathMatch(.*)*' // 未找到路由
+   *    root: '/', // the root route
+   *    notFound: '/:pathMatch(.*)*' // the 404 route
    * }
    * ```
    */
@@ -63,7 +63,7 @@ export interface ElegantVueRouterOption extends ElegantRouterOption {
    * @default
    * ```ts
    * const layouts: Record<string, string> = {
-   * default: 'src/layouts/default-layout/index.vue'
+   *   default: 'src/layouts/default-layout/index.vue'
    * }
    * ```
    */

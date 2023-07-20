@@ -1,11 +1,14 @@
-import { generateCode, parseModule } from 'magicast';
+import path from 'path';
+import { generateCode, parseModule, loadFile } from 'magicast';
 
 interface Person {
   name: string;
   age: number;
+  gender?: 'male' | 'female';
+  component?: (() => Promise<any>) | string;
 }
 
-function start() {
+export function start() {
   // const person: Person = {
   //   name: 'soybean',
   //   age: 18
@@ -26,15 +29,22 @@ export const person: Person = {
 
 `;
 
-  const mod = parseModule<Person>(code1, { parser: require('recast/parsers/typescript') });
+  const mod = parseModule<{ person: Person }>(code1, { parser: require('recast/parsers/typescript') });
 
   mod.exports.person.component = '() => Promise.resolve(1)';
-  // (mod.exports as any).default.person.gender = 'male';
+  console.log('mod.exports.person: ', mod.exports);
 
-  const { code, map } = generateCode(mod);
-  console.log('map: ', map);
+  const { code } = generateCode(mod);
   console.log('code: ', code);
-  console.log('success');
 }
 
-start();
+async function start2() {
+  const mod = await loadFile<{ person: Person }>(path.resolve(__dirname, './file.ts'), {
+    parser: require('recast/parsers/typescript')
+  });
+
+  const name = mod.exports.person.component;
+  console.log('name: ', name);
+}
+
+start2();
