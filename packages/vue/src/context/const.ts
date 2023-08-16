@@ -5,6 +5,7 @@ import { loadFile, generateCode } from 'magicast';
 import type { ElegantRouterTree } from '@elegant-router/core';
 import { createPrefixCommentOfGenFile } from './comment';
 import { createFs } from '../shared/fs';
+import { formatCode } from '../shared/prettier';
 import type { ElegantVueRouterOption } from '../types';
 
 type AutoRoute = Omit<RouteRecordRaw, 'component' | 'children'> & {
@@ -22,14 +23,14 @@ async function getConstCode(trees: ElegantRouterTree[], options: ElegantVueRoute
 
   let code = '';
 
-  const routesFilePath = path.join(cwd, constDir);
+  const routeFilePath = path.join(cwd, constDir);
 
   try {
-    await fs.ensureFile(routesFilePath);
+    await fs.ensureFile(routeFilePath);
   } catch {
     // code = await createRouteConst();
   } finally {
-    const md = await loadFile<RouteConstExport>(routesFilePath);
+    const md = await loadFile<RouteConstExport>(routeFilePath);
 
     const autoRoutes = trees.map(item => transformRouteTreeToRouteRecordRaw(item, options));
     md.exports.autoRoutes = autoRoutes as any;
@@ -41,7 +42,11 @@ async function getConstCode(trees: ElegantRouterTree[], options: ElegantVueRoute
   //   // const moduleFilePath = path.join(cwd, dir, ROUTES_MODULE_DIR, ROUTES_FILE_NAME);
   // } else {
   // }
-  return code;
+  const formattedCode = await formatCode(code);
+
+  const removedEmptyLineCode = formattedCode.replace(/,\n\n/g, `,\n`);
+
+  return removedEmptyLineCode;
 }
 
 export async function genConstFile(tree: ElegantRouterTree[], options: ElegantVueRouterOption) {
@@ -53,7 +58,7 @@ export async function genConstFile(tree: ElegantRouterTree[], options: ElegantVu
 
   const code = await getConstCode(tree, options);
 
-  await fs.writeFile(routesFilePath, code);
+  await fs.writeFile(routesFilePath, code, 'utf8');
 }
 
 async function createRouteConst(autoRoutes: AutoRoute[], options: ElegantVueRouterOption) {
@@ -77,7 +82,9 @@ export const autoRoutes: RouteRecordRaw[] = [];
   return code;
 }
 
-export function updateRouteConst(oldConst: RouteConstExport, newConst: RouteConstExport) {}
+export function updateRouteConst(oldConst: RouteConstExport, newConst: RouteConstExport) {
+  //
+}
 
 export function getRouteConstExport(trees: ElegantRouterTree[], options: ElegantVueRouterOption) {
   const autoRoutes = trees.map(item => transformRouteTreeToRouteRecordRaw(item, options));
