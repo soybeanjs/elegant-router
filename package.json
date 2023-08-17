@@ -18,7 +18,7 @@
   },
   "scripts": {
     "build": "pnpm -r --filter='./packages/*' run build",
-    "dev": "pnpm -r --parallel --filter='./packages/*' run dev",
+    "stub": "pnpm -r --parallel --filter='./packages/*' run stub",
     "lint": "eslint . --fix",
     "format": "soy prettier-format",
     "commit": "soy git-commit",
@@ -26,7 +26,7 @@
     "ncu": "soy ncu",
     "publish-pkg": "pnpm -r publish --access public",
     "release": "pnpm soy release && pnpm build && pnpm publish-pkg",
-    "prepare": "pnpm -r --filter='./packages/core' run dev"
+    "prepare": "pnpm -r run stub"
   },
   "devDependencies": {
     "@soybeanjs/cli": "0.6.6",

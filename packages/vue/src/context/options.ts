@@ -28,6 +28,9 @@ export function createPluginOptions(erOptions: ElegantRouterOption, options?: Pa
     customRoutesMap: CUSTOM_ROUTES_MAP,
     layouts: DEFAULT_LAYOUTS,
     defaultLayout: Object.keys(DEFAULT_LAYOUTS)[0],
+    onRouteMetaGen: name => ({
+      title: name
+    }),
     ...erOptions,
     ...options
   };

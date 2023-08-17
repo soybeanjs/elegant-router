@@ -13,7 +13,7 @@ export interface ElegantVueRouterOption extends ElegantRouterOption {
   importsDir: string;
   /**
    * whether the route is lazy import
-   * @param name route name
+   * @param routeName route name
    * @default _name => true
    * @example
    * - the direct import
@@ -25,7 +25,7 @@ export interface ElegantVueRouterOption extends ElegantRouterOption {
    * const Home = import('./views/home/index.vue');
    * ```
    */
-  lazyImport(name: string): boolean;
+  lazyImport(routeName: string): boolean;
   /**
    * the directory of the route const
    * @default 'src/router/auto-routes.ts'
@@ -33,7 +33,7 @@ export interface ElegantVueRouterOption extends ElegantRouterOption {
   constDir: string;
   /**
    * whether the route is split to modules
-   * @default true
+   * @default false
    * @example
    * - true
    *  `route page "about", will generate the route const module "/modules/about.ts" in the router directory`
@@ -73,4 +73,9 @@ export interface ElegantVueRouterOption extends ElegantRouterOption {
    * @description if it doesn't set, it will be the first key of option "layouts"
    */
   defaultLayout: string;
+  /**
+   * the route meta generator
+   * @param routeName the route name
+   */
+  onRouteMetaGen(routeName: string): Record<string, unknown>;
 }

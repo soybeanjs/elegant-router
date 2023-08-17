@@ -28,13 +28,13 @@ async function getConstCode(trees: ElegantRouterTree[], options: ElegantVueRoute
   try {
     await fs.ensureFile(routeFilePath);
   } catch {
-    // code = await createRouteConst();
+    code = await createEmptyRouteConst(options);
   } finally {
-    const md = await loadFile<RouteConstExport>(routeFilePath);
+    const md = await loadFile<RouteConstExport>(routeFilePath, { parser: require('recast/parsers/typescript') });
 
     const autoRoutes = trees.map(item => transformRouteTreeToRouteRecordRaw(item, options));
     md.exports.autoRoutes = autoRoutes as any;
-    const { code: mCode } = generateCode(md.$ast);
+    const { code: mCode } = generateCode(md);
     code = transformComponent(mCode);
   }
 
@@ -61,7 +61,7 @@ export async function genConstFile(tree: ElegantRouterTree[], options: ElegantVu
   await fs.writeFile(routesFilePath, code, 'utf8');
 }
 
-async function createRouteConst(autoRoutes: AutoRoute[], options: ElegantVueRouterOption) {
+async function createEmptyRouteConst(options: ElegantVueRouterOption) {
   const { cwd, importsDir, constDir } = options;
   const importsPath = path.join(cwd, importsDir);
   const constPath = path.join(cwd, constDir);
@@ -98,16 +98,14 @@ export function getRouteConstExport(trees: ElegantRouterTree[], options: Elegant
  * @param options the plugin options
  */
 function transformRouteTreeToRouteRecordRaw(tree: ElegantRouterTree, options: ElegantVueRouterOption) {
-  const { defaultLayout } = options;
+  const { defaultLayout, onRouteMetaGen } = options;
   const { routeName, routePath, children = [] } = tree;
 
   const firstLevelRoute: AutoRoute = {
     name: routeName,
     path: routePath,
     component: `layouts.${defaultLayout}`,
-    meta: {
-      key: routeName
-    }
+    meta: onRouteMetaGen(routeName)
   };
 
   if (children.length === 0) {
@@ -115,23 +113,25 @@ function transformRouteTreeToRouteRecordRaw(tree: ElegantRouterTree, options: El
       {
         path: '.',
         component: `views.${routeName}`,
-        meta: {
-          key: routeName
-        }
+        meta: onRouteMetaGen(routeName)
       }
     ];
 
     return firstLevelRoute;
   }
 
-  const routeChildren = children.map(item => recursiveGetRouteRecordRawByChildTree(item));
+  const routeChildren = children.map(item => recursiveGetRouteRecordRawByChildTree(item, options));
 
   firstLevelRoute.children = routeChildren.flat(1);
 
   return firstLevelRoute;
 }
 
-function recursiveGetRouteRecordRawByChildTree(childTree: ElegantRouterTree): AutoRoute[] {
+function recursiveGetRouteRecordRawByChildTree(
+  childTree: ElegantRouterTree,
+  options: ElegantVueRouterOption
+): AutoRoute[] {
+  const { onRouteMetaGen } = options;
   const { routeName: cName, routePath: cPath, children: cChildren = [] } = childTree;
 
   const hasChildren = cChildren.length > 0;
@@ -141,9 +141,7 @@ function recursiveGetRouteRecordRawByChildTree(childTree: ElegantRouterTree): Au
       name: cName,
       path: cPath,
       component: `views.${cName}`,
-      meta: {
-        key: cName
-      }
+      meta: onRouteMetaGen(cName)
     };
 
     return [lastLevelRoute];
@@ -155,12 +153,10 @@ function recursiveGetRouteRecordRawByChildTree(childTree: ElegantRouterTree): Au
     name: cName,
     path: cPath,
     redirect: firstChild.routePath,
-    meta: {
-      key: cName
-    }
+    meta: onRouteMetaGen(cName)
   };
 
-  return [autoRoute, ...cChildren.map(item => recursiveGetRouteRecordRawByChildTree(item)).flat(1)];
+  return [autoRoute, ...cChildren.map(item => recursiveGetRouteRecordRawByChildTree(item, options)).flat(1)];
 }
 
 // const importsPath = path.join(cwd, importsDir);

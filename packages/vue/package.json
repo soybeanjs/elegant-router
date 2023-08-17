@@ -53,7 +53,7 @@
   ],
   "scripts": {
     "build": "pnpm typecheck && unbuild",
-    "dev": "unbuild --stub",
+    "stub": "unbuild --stub",
     "watch": "tsx watch src",
     "typecheck": "tsc --noEmit"
   },

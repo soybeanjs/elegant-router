@@ -5,6 +5,11 @@
 
 declare module "@elegant-router/types" {
   /**
+   * route layout
+   */
+  export type RouteLayout = "default";
+
+  /**
    * route map
    */
   export type RouteMap = {
@@ -32,7 +37,17 @@ declare module "@elegant-router/types" {
     | "root"
     | "notFound"
   >;
-  
+
+  /**
+   * the first level route, which contain the layout of the route
+   */
+  export type FirstLevelRoute = Extract<
+    RouteKey,
+    | "403"
+    | "demo-a"
+    | "demo3"
+  >;
+
   /**
    * the last level route, which has the page file
    */

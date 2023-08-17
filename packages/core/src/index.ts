@@ -1,4 +1,5 @@
 import ElegantRouter from './core';
+import { PAGE_DEGREE_SPLITTER, PATH_SPLITTER } from './constants';
 import type {
   ElegantRouterOption,
   ElegantRouterFile,
@@ -14,4 +15,7 @@ export type {
   ElegantRouterNamePathEntry,
   ElegantRouterTree
 };
+
+export { PAGE_DEGREE_SPLITTER, PATH_SPLITTER };
+
 export default ElegantRouter;

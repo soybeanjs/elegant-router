@@ -33,7 +33,7 @@
   ],
   "scripts": {
     "build": "pnpm typecheck && unbuild",
-    "dev": "unbuild --stub",
+    "stub": "unbuild --stub",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

@@ -43,8 +43,8 @@ async function start2() {
     parser: require('recast/parsers/typescript')
   });
 
-  const name = mod.exports.person.component;
-  console.log('name: ', name);
+  const { code } = generateCode(mod);
+  console.log('code: ', code);
 }
 
 start2();

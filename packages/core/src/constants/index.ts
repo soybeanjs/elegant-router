@@ -1,5 +1,15 @@
+/**
+ * the path splitter
+ * @example
+ * /a/b/c
+ */
 export const PATH_SPLITTER = '/';
 
+/**
+ * the page degree splitter
+ * @example
+ * a_b_c
+ */
 export const PAGE_DEGREE_SPLITTER = '_';
 
 export const PAGE_DIR_NAME_PATTERN = /^[\w-]+[0-9a-zA-Z]+$/;
