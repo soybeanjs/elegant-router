@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import path from 'path';
 import type { RouteRecordRaw } from 'vue-router';
 import { loadFile, generateCode } from 'magicast';
@@ -62,29 +61,18 @@ export async function genConstFile(tree: ElegantRouterTree[], options: ElegantVu
 }
 
 async function createEmptyRouteConst(options: ElegantVueRouterOption) {
-  const { cwd, importsDir, constDir } = options;
-  const importsPath = path.join(cwd, importsDir);
-  const constPath = path.join(cwd, constDir);
+  const code = `import type { ElegantVueRoute } from '@elegant-router/types';
 
-  const componentPath = getRelativeImport(constPath, importsPath);
-
-  const prefixComment = createPrefixCommentOfGenFile();
-
-  const code = `${prefixComment}
-
-import type { RouteRecordRaw } from "vue-router";
-import { views } from "${componentPath}";
-
-export const autoRoutes: RouteRecordRaw[] = [];
+export const autoRoutes: ElegantVueRoute[] = [];
 
 `;
 
   return code;
 }
 
-export function updateRouteConst(oldConst: RouteConstExport, newConst: RouteConstExport) {
-  //
-}
+// export function updateRouteConst(oldConst: RouteConstExport, newConst: RouteConstExport) {
+//   //
+// }
 
 export function getRouteConstExport(trees: ElegantRouterTree[], options: ElegantVueRouterOption) {
   const autoRoutes = trees.map(item => transformRouteTreeToRouteRecordRaw(item, options));
@@ -104,7 +92,7 @@ function transformRouteTreeToRouteRecordRaw(tree: ElegantRouterTree, options: El
   const firstLevelRoute: AutoRoute = {
     name: routeName,
     path: routePath,
-    component: `layouts.${defaultLayout}`,
+    component: `layout.${defaultLayout}`,
     meta: onRouteMetaGen(routeName)
   };
 
@@ -112,7 +100,7 @@ function transformRouteTreeToRouteRecordRaw(tree: ElegantRouterTree, options: El
     firstLevelRoute.children = [
       {
         path: '.',
-        component: `views.${routeName}`,
+        component: `view.${routeName}`,
         meta: onRouteMetaGen(routeName)
       }
     ];
@@ -123,6 +111,8 @@ function transformRouteTreeToRouteRecordRaw(tree: ElegantRouterTree, options: El
   const routeChildren = children.map(item => recursiveGetRouteRecordRawByChildTree(item, options));
 
   firstLevelRoute.children = routeChildren.flat(1);
+
+  firstLevelRoute.redirect = firstLevelRoute.children[0].path;
 
   return firstLevelRoute;
 }
@@ -140,7 +130,7 @@ function recursiveGetRouteRecordRawByChildTree(
     const lastLevelRoute: AutoRoute = {
       name: cName,
       path: cPath,
-      component: `views.${cName}`,
+      component: `view.${cName}`,
       meta: onRouteMetaGen(cName)
     };
 

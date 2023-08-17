@@ -30,13 +30,13 @@ export interface ElegantRouterOption {
   pageExcludePatterns: string[];
   /**
    * transform the route name
-   * @param name the route name
+   * @param routeName the route name
    * @default
    * ```ts
-   * name => name
+   * routeName => routeName
    * ```
    */
-  routeNameTransformer: (name: string) => string;
+  routeNameTransformer: (routeName: string) => string;
   /**
    * transform the route path
    * @param transformedName the transformed route name
