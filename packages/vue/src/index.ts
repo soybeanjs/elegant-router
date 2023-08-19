@@ -6,9 +6,10 @@ import type {
   ElegantRouterTree
 } from '@elegant-router/core';
 import unplugin from './unplugin';
-import type { ElegantVueRouterOption } from './types';
+import type { ElegantVueRouterOption, AutoRoute } from './types';
 
 export type {
+  AutoRoute,
   ElegantVueRouterOption,
   ElegantRouterOption,
   ElegantRouterFile,

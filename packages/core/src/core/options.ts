@@ -12,7 +12,9 @@ export function createPluginOptions(options?: Partial<ElegantRouterOption>): Ele
   const opts: ElegantRouterOption = {
     cwd: process.cwd(),
     pageDir: PAGE_DIR,
-    pageDirAlias: PAGE_DIR.replace('src/', '@/'),
+    alias: {
+      '@': 'src'
+    },
     pagePatterns: PAGE_PATTERNS,
     pageExcludePatterns: PAGE_EXCLUDE_PATTERNS,
     routeNameTransformer: name => name,

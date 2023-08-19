@@ -4,7 +4,13 @@
     {
       "files": ["*.vue"],
       "rules": {
-        "no-undef": "off" // use tsc to check the ts code of the vue
+        "no-undef": "off", // use tsc to check the ts code of the vue
+        "vue/multi-word-component-names": [
+          "error",
+          {
+            "ignores": ["index", "[id]"]
+          }
+        ]
       }
     }
   ]

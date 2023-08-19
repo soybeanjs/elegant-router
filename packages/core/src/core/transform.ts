@@ -15,11 +15,23 @@ import { PATH_SPLITTER, PAGE_DEGREE_SPLITTER, PAGE_FILE_NAME_WITH_SQUARE_BRACKET
  * @param options
  */
 export function transformPageGlobToRouterFile(glob: string, options: ElegantRouterOption) {
-  const { cwd, pageDir, pageDirAlias, routeNameTransformer } = options;
+  const { cwd, pageDir, alias, routeNameTransformer } = options;
 
   // 1. get path info
   const fullPath = getFullPathOfPageGlob(glob, pageDir, cwd);
-  const importPath = path.join(pageDirAlias || pageDir, glob);
+  let importPath = path.join(pageDir, glob);
+
+  const aliasEntries = Object.entries(alias);
+
+  aliasEntries.some(item => {
+    const [a, dir] = item;
+    const match = importPath.startsWith(dir);
+
+    if (match) {
+      importPath = importPath.replace(dir, a);
+    }
+    return match;
+  });
 
   // 2. get route info
   const dirAndFile = glob.split(PATH_SPLITTER).reverse();

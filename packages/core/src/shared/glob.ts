@@ -1,4 +1,4 @@
-import fastGlob from 'fast-glob';
+import { sync } from 'fast-glob';
 
 /**
  * get globs
@@ -7,7 +7,7 @@ import fastGlob from 'fast-glob';
  * @param matchDir the glob match directory
  */
 export function getGlobs(patterns: string[], exclude: string[], matchDir: string) {
-  const globs = fastGlob.sync(patterns, {
+  const globs = sync(patterns, {
     onlyFiles: true,
     cwd: matchDir,
     ignore: exclude

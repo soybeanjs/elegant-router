@@ -1,5 +1,5 @@
 <template>
-  <div>demo3-[id]</div>
+  <div>404</div>
 </template>
 
 <script setup lang="ts"></script>

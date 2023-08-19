@@ -66,17 +66,35 @@ export default class ElegantRouter {
    * @param globs
    */
   filterValidPageGlobs(globs: string[], needMatch = false) {
-    const { cwd, pageDir, pagePatterns, pageExcludePatterns } = this.options;
+    const { cwd, pageDir } = this.options;
 
     return globs.filter(glob => {
       const fullGlob = getFullPathOfPageGlob(glob, pageDir, cwd);
 
       const isValid = handleValidatePageGlob(glob, fullGlob);
 
-      const isMatch = !needMatch || micromatch.isMatch(glob, pagePatterns, { ignore: pageExcludePatterns });
+      const isMatch = !needMatch || this.isMatchPageGlob(glob);
 
       return isValid && isMatch;
     });
+  }
+
+  /**
+   * whether the glob is match page glob
+   * @param glob
+   */
+  isMatchPageGlob(glob: string) {
+    const { pagePatterns, pageExcludePatterns } = this.options;
+
+    return micromatch.isMatch(glob, pagePatterns, { ignore: pageExcludePatterns });
+  }
+
+  /**
+   * get route file by glob
+   * @param glob
+   */
+  getRouterFileByGlob(glob: string) {
+    return transformPageGlobToRouterFile(glob, this.options);
   }
 
   /**

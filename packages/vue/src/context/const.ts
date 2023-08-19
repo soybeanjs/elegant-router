@@ -1,16 +1,12 @@
 import path from 'path';
-import type { RouteRecordRaw } from 'vue-router';
 import { loadFile, generateCode } from 'magicast';
+import { PAGE_DEGREE_SPLITTER } from '@elegant-router/core';
 import type { ElegantRouterTree } from '@elegant-router/core';
 import { createPrefixCommentOfGenFile } from './comment';
 import { createFs } from '../shared/fs';
 import { formatCode } from '../shared/prettier';
-import type { ElegantVueRouterOption } from '../types';
-
-type AutoRoute = Omit<RouteRecordRaw, 'component' | 'children'> & {
-  component?: string;
-  children?: AutoRoute[];
-};
+import { LAYOUT_PREFIX, VIEW_PREFIX } from '../constants';
+import type { ElegantVueRouterOption, AutoRoute } from '../types';
 
 interface RouteConstExport {
   autoRoutes: AutoRoute[];
@@ -20,27 +16,26 @@ async function getConstCode(trees: ElegantRouterTree[], options: ElegantVueRoute
   const { cwd, constDir } = options;
   const fs = await createFs();
 
-  let code = '';
-
   const routeFilePath = path.join(cwd, constDir);
 
-  try {
-    await fs.ensureFile(routeFilePath);
-  } catch {
-    code = await createEmptyRouteConst(options);
-  } finally {
-    const md = await loadFile<RouteConstExport>(routeFilePath, { parser: require('recast/parsers/typescript') });
+  const existFile = await fs.exists(routeFilePath);
 
-    const autoRoutes = trees.map(item => transformRouteTreeToRouteRecordRaw(item, options));
-    md.exports.autoRoutes = autoRoutes as any;
-    const { code: mCode } = generateCode(md);
-    code = transformComponent(mCode);
+  if (!existFile) {
+    const code = await createEmptyRouteConst();
+    await fs.writeFile(routeFilePath, code, 'utf-8');
   }
 
-  // if (splitModule) {
-  //   // const moduleFilePath = path.join(cwd, dir, ROUTES_MODULE_DIR, ROUTES_FILE_NAME);
-  // } else {
-  // }
+  const md = await loadFile<RouteConstExport>(routeFilePath, { parser: require('recast/parsers/typescript') });
+
+  const autoRoutes = trees.map(item => transformRouteTreeToRouteRecordRaw(item, options));
+
+  const updated = getUpdatedRouteConst(md.exports.autoRoutes as AutoRoute[], autoRoutes);
+
+  md.exports.autoRoutes = updated as any;
+
+  let { code } = generateCode(md);
+  code = transformComponent(code);
+
   const formattedCode = await formatCode(code);
 
   const removedEmptyLineCode = formattedCode.replace(/,\n\n/g, `,\n`);
@@ -60,19 +55,41 @@ export async function genConstFile(tree: ElegantRouterTree[], options: ElegantVu
   await fs.writeFile(routesFilePath, code, 'utf8');
 }
 
-async function createEmptyRouteConst(options: ElegantVueRouterOption) {
-  const code = `import type { ElegantVueRoute } from '@elegant-router/types';
+async function createEmptyRouteConst() {
+  const prefixComment = createPrefixCommentOfGenFile(false);
 
-export const autoRoutes: ElegantVueRoute[] = [];
+  const code = `${prefixComment}
+
+import type { ElegantRoute } from '@elegant-router/types';
+
+export const autoRoutes: ElegantRoute[] = [];
 
 `;
 
   return code;
 }
 
-// export function updateRouteConst(oldConst: RouteConstExport, newConst: RouteConstExport) {
-//   //
-// }
+export function getUpdatedRouteConst(oldConst: AutoRoute[], newConst: AutoRoute[]) {
+  const updated = newConst.map(item => {
+    const findItem = oldConst.find(i => (i?.name && i.name === item?.name) || i.path === item.path);
+
+    if (!findItem) {
+      return item;
+    }
+
+    const isFirstLevel = !findItem?.name || (findItem.name as string).split(PAGE_DEGREE_SPLITTER).length === 1;
+
+    if (isFirstLevel) {
+      return findItem;
+    }
+
+    findItem.children = getUpdatedRouteConst(findItem.children || [], item.children || []);
+
+    return findItem;
+  });
+
+  return updated;
+}
 
 export function getRouteConstExport(trees: ElegantRouterTree[], options: ElegantVueRouterOption) {
   const autoRoutes = trees.map(item => transformRouteTreeToRouteRecordRaw(item, options));
@@ -90,17 +107,16 @@ function transformRouteTreeToRouteRecordRaw(tree: ElegantRouterTree, options: El
   const { routeName, routePath, children = [] } = tree;
 
   const firstLevelRoute: AutoRoute = {
-    name: routeName,
     path: routePath,
-    component: `layout.${defaultLayout}`,
-    meta: onRouteMetaGen(routeName)
+    component: `${LAYOUT_PREFIX}${defaultLayout}`
   };
 
   if (children.length === 0) {
     firstLevelRoute.children = [
       {
-        path: '.',
-        component: `view.${routeName}`,
+        name: routeName,
+        path: '',
+        component: `${VIEW_PREFIX}${routeName}`,
         meta: onRouteMetaGen(routeName)
       }
     ];
@@ -108,13 +124,26 @@ function transformRouteTreeToRouteRecordRaw(tree: ElegantRouterTree, options: El
     return firstLevelRoute;
   }
 
-  const routeChildren = children.map(item => recursiveGetRouteRecordRawByChildTree(item, options));
+  const routeChildren = getRouteRecordRawByChildTrees(children, options);
 
-  firstLevelRoute.children = routeChildren.flat(1);
+  const route: AutoRoute = {
+    name: routeName,
+    path: firstLevelRoute.path,
+    component: firstLevelRoute.component,
+    redirect: {
+      name: routeChildren[0].name
+    },
+    meta: onRouteMetaGen(routeName),
+    children: routeChildren
+  };
 
-  firstLevelRoute.redirect = firstLevelRoute.children[0].path;
+  return route;
+}
 
-  return firstLevelRoute;
+function getRouteRecordRawByChildTrees(childTrees: ElegantRouterTree[], options: ElegantVueRouterOption) {
+  const children = childTrees.map(item => recursiveGetRouteRecordRawByChildTree(item, options));
+
+  return children.flat(1);
 }
 
 function recursiveGetRouteRecordRawByChildTree(
@@ -130,7 +159,7 @@ function recursiveGetRouteRecordRawByChildTree(
     const lastLevelRoute: AutoRoute = {
       name: cName,
       path: cPath,
-      component: `view.${cName}`,
+      component: `${VIEW_PREFIX}${cName}`,
       meta: onRouteMetaGen(cName)
     };
 
@@ -142,35 +171,13 @@ function recursiveGetRouteRecordRawByChildTree(
   const autoRoute: AutoRoute = {
     name: cName,
     path: cPath,
-    redirect: firstChild.routePath,
+    redirect: {
+      name: firstChild.routeName
+    },
     meta: onRouteMetaGen(cName)
   };
 
   return [autoRoute, ...cChildren.map(item => recursiveGetRouteRecordRawByChildTree(item, options)).flat(1)];
-}
-
-// const importsPath = path.join(cwd, importsDir);
-// const routeModulePath = path.join(cwd, moduleDir, `${routeName}.ts`);
-// const constPath = path.join(cwd, constDir);
-
-// const componentPath = splitModule
-//   ? getRelativeImport(routeModulePath, importsPath)
-//   : getRelativeImport(constPath, importsPath);
-
-function getRelativeImport(from: string, to: string) {
-  let relativePath = path.relative(path.dirname(from), to);
-
-  if (!relativePath.startsWith('.')) {
-    relativePath = path.format({ dir: '.', name: relativePath });
-  }
-
-  const ext = path.extname(relativePath);
-
-  if (ext) {
-    relativePath = relativePath.replace(ext, '');
-  }
-
-  return relativePath;
 }
 
 function transformComponent(routeJson: string) {

@@ -4,6 +4,7 @@ import type { ElegantRouterFile, ElegantRouterNamePathEntry } from '@elegant-rou
 import type { ElegantVueRouterOption } from '../types';
 import { createFs } from '../shared/fs';
 import { createPrefixCommentOfGenFile } from './comment';
+import { LAYOUT_PREFIX, VIEW_PREFIX } from '../constants';
 
 function getDtsCode(
   files: ElegantRouterFile[],
@@ -119,9 +120,10 @@ declare module "@elegant-router/types" {
   /**
    * the child of single level route
    */
-  type SingleLevelRouteChild<K extends string> = Omit<RouteRecordRaw, 'component' | 'children'> & {
-    path: '.';
-    component: \`view.\${K}\`;
+  type SingleLevelRouteChild<K extends string, N = K> = Omit<RouteRecordRaw, 'component' | 'children'> & {
+    name: N;
+    path: '';
+    component: \`${VIEW_PREFIX}\${K}\`;
   };
   
   /**
@@ -129,17 +131,11 @@ declare module "@elegant-router/types" {
    */
   type SingleLevelRoute<K extends SingleLevelRouteKey = SingleLevelRouteKey> = K extends string
     ? Omit<RouteRecordRaw, 'name' | 'path' | 'component' | 'children'> & {
-        name: K;
         path: RouteMap[K];
-        component: \`layout.\${RouteLayout}\`;
+        component: \`${LAYOUT_PREFIX}\${RouteLayout}\`;
         children: [SingleLevelRouteChild<K>];
       }
     : never;
-  
-  /**
-   * the redirect path
-   */
-  type RedirectRoutePath<K extends AutoRouteKey> = RouteMap[GetChildRouteKey<K>];
   
   /**
    * the center level route
@@ -148,7 +144,9 @@ declare module "@elegant-router/types" {
     ? Omit<RouteRecordRaw, 'name' | 'path' | 'component' | 'children' | 'redirect'> & {
         name: K;
         path: RouteMap[K];
-        redirect: RedirectRoutePath<K>;
+        redirect: {
+          name: GetChildRouteKey<K>;
+        };
       }
     : never;
   
@@ -159,7 +157,7 @@ declare module "@elegant-router/types" {
     ? Omit<RouteRecordRaw, 'name' | 'path' | 'component' | 'children'> & {
         name: K;
         path: RouteMap[K];
-        component: \`view.\${K}\`;
+        component: \`${VIEW_PREFIX}\${K}\`;
       }
     : never;
   
@@ -170,16 +168,59 @@ declare module "@elegant-router/types" {
     ? Omit<RouteRecordRaw, 'name' | 'path' | 'component' | 'children' | 'redirect'> & {
         name: K;
         path: RouteMap[K];
-        component: \`layout.\${RouteLayout}\`;
-        redirect: RedirectRoutePath<K>;
+        component: \`${LAYOUT_PREFIX}\${RouteLayout}\`;
+        redirect: {
+          name: GetChildRouteKey<K>;
+        };
         children: (CenterLevelRoute<GetChildRouteKey<K>> | LastLevelRoute<GetChildRouteKey<K>>)[];
+      }
+    : never;
+  
+  /**
+   * the custom first level route
+   */
+  type CustomSingleLevelRoute<K extends CustomRouteKey = CustomRouteKey> = K extends string 
+    ? Omit<RouteRecordRaw, 'name' | 'path' | 'component' | 'children'> & {
+        path: RouteMap[K];
+        component: \`${LAYOUT_PREFIX}\${RouteLayout}\`;
+        children: [SingleLevelRouteChild<LastLevelRouteKey, K>];
       }
     : never;
 
   /**
-   * the multi level route
+   * the custom multi level route
    */
-  type ElegantVueRoute = SingleLevelRoute | MultiLevelRoute;
+  type CustomMultiLevelRoute<K extends CustomRouteKey = CustomRouteKey> = K extends string
+    ? Omit<RouteRecordRaw, 'name' | 'path' | 'component' | 'children' | 'redirect'> & {
+        name: K;
+        path: RouteMap[K];
+        component: \`${LAYOUT_PREFIX}\${RouteLayout}\`;
+        children: (CenterLevelRoute<CenterLevelRouteKey> | LastLevelRoute<LastLevelRouteKey>)[];
+      }
+    : never;
+
+  /**
+   * the custom redirect route
+   */
+  type CustomRedirectRoute<K extends CustomRouteKey = CustomRouteKey> = K extends string
+    ? Omit<RouteRecordRaw, 'name' | 'path' | 'component' | 'children'> & {
+        name: K;
+        path: RouteMap[K];
+        redirect: {
+          name: Exclude<RouteKey, K>;
+        };
+      }
+    : never;
+
+  /**
+   * the custom route
+   */
+  type CustomRoute = CustomSingleLevelRoute | CustomMultiLevelRoute | CustomRedirectRoute;
+
+  /**
+   * the elegant route
+   */
+  type ElegantRoute = SingleLevelRoute | MultiLevelRoute | CustomRoute;
 }
 `;
 

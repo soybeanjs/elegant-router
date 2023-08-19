@@ -7,12 +7,11 @@ import type { ElegantVueRouterOption } from '../types';
  */
 export function createPluginOptions(erOptions: ElegantRouterOption, options?: Partial<ElegantVueRouterOption>) {
   const DTS_DIR = 'src/typings/elegant-router.d.ts';
-  const IMPORT_DIR = 'src/router/auto-imports.ts';
-  const CONST_DIR = 'src/router/auto-routes.ts';
-  const MODULE_DIR = 'src/router/modules';
+  const IMPORT_DIR = 'src/router/elegant/imports.ts';
+  const CONST_DIR = 'src/router/elegant/routes.ts';
   const CUSTOM_ROUTES_MAP = {
     root: '/',
-    notFound: '/:pathMatch(.*)*'
+    'not-found': '/:pathMatch(.*)*'
   };
   const DEFAULT_LAYOUTS: Record<string, string> = {
     default: 'src/layouts/default-layout/index.vue'
@@ -23,11 +22,11 @@ export function createPluginOptions(erOptions: ElegantRouterOption, options?: Pa
     importsDir: IMPORT_DIR,
     lazyImport: _name => true,
     constDir: CONST_DIR,
-    splitModule: true,
-    moduleDir: MODULE_DIR,
     customRoutesMap: CUSTOM_ROUTES_MAP,
     layouts: DEFAULT_LAYOUTS,
     defaultLayout: Object.keys(DEFAULT_LAYOUTS)[0],
+    layoutLazyImport: _name => true,
+    transformDir: 'src/router/elegant/transform.ts',
     onRouteMetaGen: name => ({
       title: name
     }),

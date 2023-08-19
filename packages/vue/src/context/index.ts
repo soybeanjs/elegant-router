@@ -4,20 +4,23 @@ import { createPluginOptions } from './options';
 import { genDtsFile } from './dts';
 import { genImportsFile } from './imports';
 import { genConstFile } from './const';
+import { genTransformFile } from './transform';
 import { log } from './log';
 import type { ElegantVueRouterOption } from '../types';
 
 export default class ElegantVueRouter {
   options: ElegantVueRouterOption;
 
-  erCtx: ElegantRouter;
+  elegantRouter: ElegantRouter;
 
   viteServer?: ViteDevServer;
 
   constructor(options: Partial<ElegantVueRouterOption> = {}) {
-    this.erCtx = new ElegantRouter(options);
+    this.elegantRouter = new ElegantRouter(options);
 
-    this.options = createPluginOptions(this.erCtx.options, options);
+    this.options = createPluginOptions(this.elegantRouter.options, options);
+
+    genTransformFile(this.options);
 
     this.generate();
 
@@ -25,11 +28,11 @@ export default class ElegantVueRouter {
   }
 
   scanPages() {
-    this.erCtx.scanPages();
+    this.elegantRouter.scanPages();
   }
 
   setupFSWatcher() {
-    this.erCtx.setupFSWatcher(async () => {
+    this.elegantRouter.setupFSWatcher(async () => {
       log('The pages changed, regenerating the dts file and routes...', 'info', this.options.log);
 
       await this.generate();
@@ -41,7 +44,7 @@ export default class ElegantVueRouter {
   }
 
   stopFSWatcher() {
-    this.erCtx.stopFSWatcher();
+    this.elegantRouter.stopFSWatcher();
   }
 
   setViteServer(server: ViteDevServer) {
@@ -53,8 +56,10 @@ export default class ElegantVueRouter {
   }
 
   async generate() {
-    await genDtsFile(this.erCtx.files, this.erCtx.entries, this.options);
-    await genImportsFile(this.erCtx.files, this.options);
-    await genConstFile(this.erCtx.trees, this.options);
+    const { files, entries, trees } = this.elegantRouter;
+
+    await genDtsFile(files, entries, this.options);
+    await genImportsFile(files, this.options);
+    await genConstFile(trees, this.options);
   }
 }

@@ -10,11 +10,14 @@ export interface ElegantRouterOption {
    */
   pageDir: string;
   /**
-   * the alias of the directory of the pages
-   * @description if set, it will be used for the page file import path
-   * @default ""
+   * src alias
+   * @description it will be used for the page and layout file import path
+   * @default
+   * ```ts
+   * { "@": "src" }
+   * ```
    */
-  pageDirAlias: string;
+  alias: Record<string, string>;
   /**
    * the patterns to match the page files
    * @default ["**‍/index.{vue,tsx,jsx}", "**‍/[[]*[]].{vue,tsx,jsx}"]
