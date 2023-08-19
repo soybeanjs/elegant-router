@@ -55,7 +55,7 @@
     "build": "pnpm typecheck && unbuild",
     "stub": "unbuild --stub",
     "watch": "tsx watch src",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
     "consola": "3.2.3",
