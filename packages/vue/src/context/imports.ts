@@ -1,7 +1,8 @@
-import path from 'path';
+import path from 'node:path';
+import { writeFile } from 'node:fs/promises';
 import type { ElegantRouterFile } from '@elegant-router/core';
 import type { ElegantVueRouterOption, LayoutFile } from '../types';
-import { createFs } from '../shared/fs';
+import { ensureFile } from '../shared/fs';
 
 function getImportsCode(files: ElegantRouterFile[], options: ElegantVueRouterOption) {
   const layoutFiles = getLayoutFile(options);
@@ -82,17 +83,13 @@ function getImportKey(name: string) {
 export async function genImportsFile(files: ElegantRouterFile[], options: ElegantVueRouterOption) {
   if (files.length === 0) return;
 
-  const fs = await createFs();
-
   const importsPath = path.join(options.cwd, options.importsDir);
 
-  try {
-    await fs.ensureFile(importsPath);
-  } catch {}
+  await ensureFile(importsPath);
 
   const code = getImportsCode(files, options);
 
-  await fs.writeFile(importsPath, code);
+  await writeFile(importsPath, code);
 }
 
 export function getLayoutFile(options: ElegantVueRouterOption) {

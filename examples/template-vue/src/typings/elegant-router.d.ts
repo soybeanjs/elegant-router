@@ -19,6 +19,7 @@ declare module "@elegant-router/types" {
     "not-found": "/:pathMatch(.*)*";
     "403": "/403";
     "404": "/404";
+    "500": "/500";
     "demo-a": "/demo-a";
     "demo-a_child1": "/demo-a/child1";
     "demo-a_child2": "/demo-a/child2";
@@ -53,6 +54,7 @@ declare module "@elegant-router/types" {
     RouteKey,
     | "403"
     | "404"
+    | "500"
     | "demo-a"
     | "demo3"
   >;
@@ -64,6 +66,7 @@ declare module "@elegant-router/types" {
     RouteKey,
     | "403"
     | "404"
+    | "500"
     | "demo-a_child1"
     | "demo-a_child2_child3"
     | "demo-a_child3"

@@ -114,20 +114,15 @@ export default class ElegantRouter {
    */
   setupFSWatcher(afterChange: () => void, beforeChange?: () => void) {
     const { pageDir, pageExcludePatterns } = this.options;
-
     this.fsWatcher = setupWatcher(
       pageDir,
       pageExcludePatterns,
       globs => {
         const updateGlobs = this.filterValidPageGlobs(globs, true);
-
         const needUpdate = updateGlobs.length > 0;
-
         if (needUpdate) {
           beforeChange?.();
-
           this.scanPages();
-
           afterChange();
         }
       },

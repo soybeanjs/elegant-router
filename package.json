@@ -33,6 +33,6 @@
     "eslint": "8.47.0",
     "eslint-config-soybeanjs": "0.5.4",
     "simple-git-hooks": "2.9.0",
-    "tsx": "^3.12.7"
+    "tsx": "3.12.7"
   }
 }

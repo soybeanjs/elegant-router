@@ -1,0 +1,25 @@
+import { basename, dirname, resolve } from 'node:path';
+import { readFile, writeFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+import fg from 'fast-glob';
+import chalk from 'chalk';
+import { consola } from 'consola';
+
+async function run() {
+  // fix cjs exports
+  const files = await fg('*.cjs', {
+    ignore: ['chunk-*'],
+    absolute: true,
+    cwd: resolve(dirname(fileURLToPath(import.meta.url)), '../dist')
+  });
+
+  for await (const file of files) {
+    consola.log(chalk.cyan.inverse(' POST '), `Fix ${basename(file)}`);
+    let code = await readFile(file, 'utf8');
+    code = code.replace('exports.default =', 'module.exports =');
+    code += 'exports.default = module.exports;';
+    await writeFile(file, code);
+  }
+}
+
+run();

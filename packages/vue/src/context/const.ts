@@ -1,9 +1,12 @@
-import path from 'path';
+import path from 'node:path';
+import { existsSync } from 'node:fs';
+import { writeFile } from 'node:fs/promises';
 import { loadFile, generateCode } from 'magicast';
+import { parse } from 'recast/parsers/typescript';
 import { PAGE_DEGREE_SPLITTER } from '@elegant-router/core';
 import type { ElegantRouterTree } from '@elegant-router/core';
 import { createPrefixCommentOfGenFile } from './comment';
-import { createFs } from '../shared/fs';
+
 import { formatCode } from '../shared/prettier';
 import { LAYOUT_PREFIX, VIEW_PREFIX } from '../constants';
 import type { ElegantVueRouterOption, AutoRoute } from '../types';
@@ -14,18 +17,16 @@ interface RouteConstExport {
 
 async function getConstCode(trees: ElegantRouterTree[], options: ElegantVueRouterOption) {
   const { cwd, constDir } = options;
-  const fs = await createFs();
-
   const routeFilePath = path.join(cwd, constDir);
 
-  const existFile = await fs.exists(routeFilePath);
+  const existFile = existsSync(routeFilePath);
 
   if (!existFile) {
     const code = await createEmptyRouteConst();
-    await fs.writeFile(routeFilePath, code, 'utf-8');
+    await writeFile(routeFilePath, code, 'utf-8');
   }
 
-  const md = await loadFile<RouteConstExport>(routeFilePath, { parser: require('recast/parsers/typescript') });
+  const md = await loadFile<RouteConstExport>(routeFilePath, { parser: { parse } });
 
   const autoRoutes = trees.map(item => transformRouteTreeToRouteRecordRaw(item, options));
 
@@ -46,13 +47,11 @@ async function getConstCode(trees: ElegantRouterTree[], options: ElegantVueRoute
 export async function genConstFile(tree: ElegantRouterTree[], options: ElegantVueRouterOption) {
   const { cwd, constDir } = options;
 
-  const fs = await createFs();
-
   const routesFilePath = path.join(cwd, constDir);
 
   const code = await getConstCode(tree, options);
 
-  await fs.writeFile(routesFilePath, code, 'utf8');
+  await writeFile(routesFilePath, code, 'utf8');
 }
 
 async function createEmptyRouteConst() {

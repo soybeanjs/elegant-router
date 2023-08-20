@@ -33,6 +33,20 @@ export const autoRoutes: ElegantRoute[] = [
     ]
   },
   {
+    path: '/500',
+    component: 'layout.default',
+    children: [
+      {
+        name: '500',
+        path: '',
+        component: 'view.500',
+        meta: {
+          title: '500'
+        }
+      }
+    ]
+  },
+  {
     name: 'demo-a',
     path: '/demo-a',
     component: 'layout.default',

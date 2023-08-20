@@ -1,6 +1,7 @@
-import path from 'path';
+import path from 'node:path';
+import { writeFile } from 'node:fs/promises';
 import { createPrefixCommentOfGenFile } from './comment';
-import { createFs } from '../shared/fs';
+import { ensureFile } from '../shared/fs';
 import type { ElegantVueRouterOption } from '../types';
 
 export function getTransformCode() {
@@ -79,15 +80,11 @@ function getViewName(component: string) {
  * @param options
  */
 export async function genTransformFile(options: ElegantVueRouterOption) {
-  const fs = await createFs();
-
   const code = getTransformCode();
 
   const transformPath = path.join(options.cwd, options.transformDir);
 
-  try {
-    await fs.ensureFile(transformPath);
-  } catch {}
+  ensureFile(transformPath);
 
-  await fs.writeFile(transformPath, code);
+  await writeFile(transformPath, code);
 }

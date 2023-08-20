@@ -1,5 +1,12 @@
 {
-  "cSpell.words": ["consola", "kolorist", "magicast", "unplugin"],
+  "cSpell.words": [
+    "consola",
+    "iife",
+    "kolorist",
+    "magicast",
+    "tsup",
+    "unplugin"
+  ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },

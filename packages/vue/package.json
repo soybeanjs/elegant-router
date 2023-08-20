@@ -17,34 +17,34 @@
   },
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     },
     "./vite": {
       "types": "./dist/vite.d.ts",
-      "require": "./dist/vite.mjs",
-      "import": "./dist/vite.mjs"
+      "import": "./dist/vite.mjs",
+      "require": "./dist/vite.cjs"
     },
     "./webpack": {
       "types": "./dist/webpack.d.ts",
-      "require": "./dist/webpack.mjs",
-      "import": "./dist/webpack.mjs"
+      "import": "./dist/webpack.mjs",
+      "require": "./dist/webpack.cjs"
     },
     "./rollup": {
       "types": "./dist/rollup.d.ts",
-      "require": "./dist/rollup.mjs",
-      "import": "./dist/rollup.mjs"
+      "import": "./dist/rollup.mjs",
+      "require": "./dist/rollup.cjs"
     },
     "./esbuild": {
       "types": "./dist/esbuild.d.ts",
-      "require": "./dist/esbuild.mjs",
-      "import": "./dist/esbuild.mjs"
+      "import": "./dist/esbuild.mjs",
+      "require": "./dist/esbuild.cjs"
     }
   },
+  "types": "./dist/index.d.ts",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
@@ -52,31 +52,27 @@
     "dist"
   ],
   "scripts": {
-    "build": "pnpm typecheck && unbuild",
-    "stub": "unbuild --stub",
-    "watch": "tsx watch src",
+    "build": "pnpm typecheck && tsup",
+    "build:fix": "tsx ./scripts/postbuild.ts",
+    "dev": "tsup --watch src",
     "typecheck": "tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
+    "@elegant-router/core": "workspace:*",
     "consola": "3.2.3",
-    "fs-extra": "11.1.1",
     "kolorist": "1.8.0",
-    "magic-string": "^0.30.2",
+    "magic-string": "0.30.2",
     "magicast": "0.2.10",
-    "prettier": "^3.0.2",
+    "prettier": "3.0.2",
     "unplugin": "1.4.0"
   },
   "devDependencies": {
-    "@elegant-router/core": "workspace:*",
-    "@types/fs-extra": "11.0.1",
     "@types/node": "20.5.1",
-    "@vue/compiler-sfc": "^3.3.4",
+    "rollup": "3.28.0",
+    "tsup": "7.2.0",
     "typescript": "5.1.6",
     "unbuild": "1.2.1",
-    "vite": "^4.4.9",
-    "vue-router": "^4.2.4"
-  },
-  "peerDependencies": {
-    "@vue/compiler-sfc": "3.3.4"
+    "vite": "4.4.9",
+    "vue-router": "4.2.4"
   }
 }

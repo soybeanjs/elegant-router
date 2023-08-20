@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import { createUnplugin } from 'unplugin';
 import ElegantVueRouter from './context';
 import { setRouteNamePageFile } from './shared/route-name';

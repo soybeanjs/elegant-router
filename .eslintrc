@@ -1,6 +1,7 @@
 {
   "extends": ["soybeanjs"],
   "rules": {
-    "max-params": ["error", 4]
+    "max-params": ["error", 4],
+    "import/no-named-as-default-member": "off"
   }
 }

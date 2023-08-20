@@ -1,8 +1,9 @@
-import path from 'path';
+import path from 'node:path';
+import { writeFile } from 'node:fs/promises';
 import { PAGE_DEGREE_SPLITTER } from '@elegant-router/core';
 import type { ElegantRouterFile, ElegantRouterNamePathEntry } from '@elegant-router/core';
+import { ensureFile } from '../shared/fs';
 import type { ElegantVueRouterOption } from '../types';
-import { createFs } from '../shared/fs';
 import { createPrefixCommentOfGenFile } from './comment';
 import { LAYOUT_PREFIX, VIEW_PREFIX } from '../constants';
 
@@ -234,8 +235,6 @@ export async function genDtsFile(
 ) {
   if (files.length === 0) return;
 
-  const fs = await createFs();
-
   const customEntries = Object.entries(options.customRoutesMap);
 
   const code = getDtsCode(files, entries, customEntries, options.layouts);
@@ -243,8 +242,8 @@ export async function genDtsFile(
   const dtsPath = path.join(options.cwd, options.dtsDir);
 
   try {
-    await fs.ensureFile(dtsPath);
+    await ensureFile(dtsPath);
   } catch {}
 
-  await fs.writeFile(dtsPath, code);
+  await writeFile(dtsPath, code);
 }
