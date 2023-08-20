@@ -1,6 +1,19 @@
 # Changelog
 
 
+## [v0.1.0](https://github.com/soybeanjs/elegent-router/compare/v0.0.2...v0.1.0) (23-08-20)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **projects**:
+  - remove useless file &nbsp;-&nbsp; by @honghuangdc [<samp>(3a772)</samp>](https://github.com/soybeanjs/elegent-router/commit/3a772e1)
+  - fix typecheck script &nbsp;-&nbsp; by @honghuangdc [<samp>(052c4)</samp>](https://github.com/soybeanjs/elegent-router/commit/052c476)
+  - use tsup replace unbuild fix build &nbsp;-&nbsp; by @honghuangdc [<samp>(8b67b)</samp>](https://github.com/soybeanjs/elegent-router/commit/8b67b8e)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+
 ## [v0.0.2](https://github.com/soybeanjs/elegent-router/compare/...v0.0.2) (23-08-20)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
