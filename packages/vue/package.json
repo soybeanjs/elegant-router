@@ -52,8 +52,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "pnpm typecheck && tsup",
-    "dev": "tsup --watch src",
+    "build": "pnpm typecheck && pnpm unbuild",
     "stub": "unbuild --stub",
     "typecheck": "tsc --noEmit --skipLibCheck"
   },
@@ -61,7 +60,7 @@
     "@elegant-router/core": "workspace:*",
     "consola": "3.2.3",
     "kolorist": "1.8.0",
-    "magic-string": "0.30.2",
+    "magic-string": "0.30.3",
     "magicast": "0.2.10",
     "prettier": "3.0.2",
     "unplugin": "1.4.0"
@@ -69,7 +68,6 @@
   "devDependencies": {
     "@types/node": "20.5.1",
     "rollup": "3.28.0",
-    "tsup": "7.2.0",
     "typescript": "5.1.6",
     "unbuild": "1.2.1",
     "vite": "4.4.9",
