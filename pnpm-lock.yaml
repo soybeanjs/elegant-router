@@ -21,7 +21,7 @@ importers:
         specifier: 2.9.0
         version: 2.9.0
       tsx:
-        specifier: ^3.12.7
+        specifier: 3.12.7
         version: 3.12.7
 
   examples/template-vue:
@@ -197,7 +197,7 @@ importers:
         specifier: 0.2.10
         version: 0.2.10
       prettier:
-        specifier: ^3.0.2
+        specifier: 3.0.2
         version: 3.0.2
       unplugin:
         specifier: 1.4.0
@@ -207,10 +207,10 @@ importers:
         specifier: 20.5.1
         version: 20.5.1
       rollup:
-        specifier: ^3.28.0
+        specifier: 3.28.0
         version: 3.28.0
       tsup:
-        specifier: ^7.2.0
+        specifier: 7.2.0
         version: 7.2.0(postcss@8.4.28)(typescript@5.1.6)
       typescript:
         specifier: 5.1.6
@@ -219,10 +219,10 @@ importers:
         specifier: 1.2.1
         version: 1.2.1
       vite:
-        specifier: ^4.4.9
+        specifier: 4.4.9
         version: 4.4.9(@types/node@20.5.1)
       vue-router:
-        specifier: ^4.2.4
+        specifier: 4.2.4
         version: 4.2.4(vue@3.3.4)
 
 packages:
@@ -3845,7 +3845,6 @@ packages:
   /iconv-lite@0.6.3:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
     engines: {node: '>=0.10.0'}
-    requiresBuild: true
     dependencies:
       safer-buffer: 2.1.2
     dev: true
@@ -4871,7 +4870,7 @@ packages:
       semver: 7.5.4
       semver-utils: 1.1.4
       source-map-support: 0.5.21
-      spawn-please: 2.0.1
+      spawn-please: 2.0.2
       strip-json-comments: 5.0.1
       untildify: 4.0.0
       update-notifier: 6.0.2
@@ -5769,7 +5768,6 @@ packages:
 
   /safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
-    requiresBuild: true
     dev: true
     optional: true
 
@@ -5976,8 +5974,8 @@ packages:
       whatwg-url: 7.1.0
     dev: true
 
-  /spawn-please@2.0.1:
-    resolution: {integrity: sha512-W+cFbZR2q2mMTfjz5ZGvhBAiX+e/zczFCNlbS9mxiSdYswBXwUuBUT+a0urH+xZZa8f/bs0mXHyZsZHR9hKogA==}
+  /spawn-please@2.0.2:
+    resolution: {integrity: sha512-KM8coezO6ISQ89c1BzyWNtcn2V2kAVtwIXd3cN/V5a0xPYc1F/vydrRc01wsKFEQ/p+V1a4sw4z2yMITIXrgGw==}
     engines: {node: '>=14'}
     dependencies:
       cross-spawn: 7.0.3
