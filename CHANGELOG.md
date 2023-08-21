@@ -1,6 +1,25 @@
 # Changelog
 
 
+## [v0.1.1](https://github.com/soybeanjs/elegent-router/compare/v0.1.0...v0.1.1) (23-08-21)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **projects**: use path.posix.join replace path.join &nbsp;-&nbsp; by @honghuangdc [<samp>(7dd20)</samp>](https://github.com/soybeanjs/elegent-router/commit/7dd20ef)
+
+### &nbsp;&nbsp;&nbsp;🔥 Performance
+
+- **projects**: perf code &nbsp;-&nbsp; by @honghuangdc [<samp>(a0106)</samp>](https://github.com/soybeanjs/elegent-router/commit/a0106dc)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **projects**: add stub script &nbsp;-&nbsp; by **Soybean** [<samp>(a663d)</samp>](https://github.com/soybeanjs/elegent-router/commit/a663dff)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+[Soybean](mailto:Soybean@macdeMacBook-Pro-2.local)
+
 ## [v0.1.0](https://github.com/soybeanjs/elegent-router/compare/v0.0.2...v0.1.0) (23-08-20)
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
