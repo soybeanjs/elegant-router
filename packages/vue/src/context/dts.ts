@@ -239,7 +239,7 @@ export async function genDtsFile(
 
   const code = getDtsCode(files, entries, customEntries, options.layouts);
 
-  const dtsPath = path.join(options.cwd, options.dtsDir);
+  const dtsPath = path.posix.join(options.cwd, options.dtsDir);
 
   try {
     await ensureFile(dtsPath);

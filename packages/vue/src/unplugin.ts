@@ -23,7 +23,7 @@ export default createUnplugin<Partial<ElegantVueRouterOption> | undefined>((opti
 
       if (!isInPageDir) return null;
 
-      const filePath = path.join(cwd, pageDir);
+      const filePath = path.posix.join(cwd, pageDir);
 
       const glob = id.replace(`${filePath}/`, '');
 

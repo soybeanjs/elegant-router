@@ -82,7 +82,7 @@ function getViewName(component: string) {
 export async function genTransformFile(options: ElegantVueRouterOption) {
   const code = getTransformCode();
 
-  const transformPath = path.join(options.cwd, options.transformDir);
+  const transformPath = path.posix.join(options.cwd, options.transformDir);
 
   ensureFile(transformPath);
 

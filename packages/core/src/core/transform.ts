@@ -19,7 +19,7 @@ export function transformPageGlobToRouterFile(glob: string, options: ElegantRout
 
   // 1. get path info
   const fullPath = getFullPathOfPageGlob(glob, pageDir, cwd);
-  let importPath = path.join(pageDir, glob);
+  let importPath = path.posix.join(pageDir, glob);
 
   const aliasEntries = Object.entries(alias);
 

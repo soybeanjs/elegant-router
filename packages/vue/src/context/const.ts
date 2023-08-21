@@ -17,7 +17,7 @@ interface RouteConstExport {
 
 async function getConstCode(trees: ElegantRouterTree[], options: ElegantVueRouterOption) {
   const { cwd, constDir } = options;
-  const routeFilePath = path.join(cwd, constDir);
+  const routeFilePath = path.posix.join(cwd, constDir);
 
   const existFile = existsSync(routeFilePath);
 
@@ -47,7 +47,7 @@ async function getConstCode(trees: ElegantRouterTree[], options: ElegantVueRoute
 export async function genConstFile(tree: ElegantRouterTree[], options: ElegantVueRouterOption) {
   const { cwd, constDir } = options;
 
-  const routesFilePath = path.join(cwd, constDir);
+  const routesFilePath = path.posix.join(cwd, constDir);
 
   const code = await getConstCode(tree, options);
 

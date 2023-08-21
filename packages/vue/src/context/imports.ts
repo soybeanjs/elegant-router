@@ -83,7 +83,7 @@ function getImportKey(name: string) {
 export async function genImportsFile(files: ElegantRouterFile[], options: ElegantVueRouterOption) {
   if (files.length === 0) return;
 
-  const importsPath = path.join(options.cwd, options.importsDir);
+  const importsPath = path.posix.join(options.cwd, options.importsDir);
 
   await ensureFile(importsPath);
 
