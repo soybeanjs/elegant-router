@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [v0.1.3](https://github.com/soybeanjs/elegent-router/compare/v0.1.2...v0.1.3) (23-08-22)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **projects**: add minify &nbsp;-&nbsp; by @honghuangdc [<samp>(66890)</samp>](https://github.com/soybeanjs/elegent-router/commit/668903d)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+
 ## [v0.1.2](https://github.com/soybeanjs/elegent-router/compare/v0.1.1...v0.1.2) (23-08-22)
 
 ### &nbsp;&nbsp;&nbsp;🏡 Chore
