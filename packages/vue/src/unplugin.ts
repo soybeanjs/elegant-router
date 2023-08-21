@@ -16,7 +16,7 @@ export default createUnplugin<Partial<ElegantVueRouterOption> | undefined>((opti
         ctx.setViteServer(server);
       }
     },
-    transform(code, id) {
+    transformInclude(id) {
       const { cwd, pageDir } = ctx.elegantRouter.options;
 
       const isInPageDir = id.startsWith(path.join(cwd, pageDir));
@@ -27,13 +27,18 @@ export default createUnplugin<Partial<ElegantVueRouterOption> | undefined>((opti
 
       const glob = id.replace(`${filePath}/`, '');
 
-      if (ctx.elegantRouter.isMatchPageGlob(glob)) {
-        const { routeName } = ctx.elegantRouter.getRouterFileByGlob(glob);
+      return ctx.elegantRouter.isMatchPageGlob(glob);
+    },
+    transform(code, id) {
+      const { cwd, pageDir } = ctx.elegantRouter.options;
 
-        return setRouteNamePageFile(code, id, routeName);
-      }
+      const filePath = path.posix.join(cwd, pageDir);
 
-      return null;
+      const glob = id.replace(`${filePath}/`, '');
+
+      const { routeName } = ctx.elegantRouter.getRouterFileByGlob(glob);
+
+      return setRouteNamePageFile(code, id, routeName);
     }
   };
 });

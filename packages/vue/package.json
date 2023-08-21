@@ -53,7 +53,6 @@
   ],
   "scripts": {
     "build": "pnpm typecheck && tsup",
-    "build:fix": "tsx ./scripts/postbuild.ts",
     "dev": "tsup --watch src",
     "stub": "unbuild --stub",
     "typecheck": "tsc --noEmit --skipLibCheck"

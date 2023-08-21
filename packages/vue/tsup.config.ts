@@ -1,15 +1,10 @@
 import { defineConfig } from 'tsup';
 
-// const extMap: Record<Format, string> = {
-//   cjs: '.cjs',
-//   esm: '.mjs',
-//   iife: '.js'
-// };
-
 export default defineConfig({
-  splitting: true,
   entryPoints: ['src/*.ts'],
   clean: true,
+  splitting: true,
+  cjsInterop: true,
   format: ['esm', 'cjs'],
   outExtension({ format }) {
     return {
@@ -25,6 +20,5 @@ export default defineConfig({
 const require = createRequire(import.meta.url);`
       };
     }
-  },
-  onSuccess: 'npm run build:fix'
+  }
 });
