@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [v0.1.4](https://github.com/soybeanjs/elegent-router/compare/v0.1.3...v0.1.4) (23-08-23)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **projects**: fix cwd in windows &nbsp;-&nbsp; by @honghuangdc [<samp>(f1547)</samp>](https://github.com/soybeanjs/elegent-router/commit/f15472e)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+
 ## [v0.1.3](https://github.com/soybeanjs/elegent-router/compare/v0.1.2...v0.1.3) (23-08-22)
 
 ### &nbsp;&nbsp;&nbsp;🏡 Chore
