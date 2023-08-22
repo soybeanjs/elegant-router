@@ -23,18 +23,39 @@ import { setupWatcher } from './watcher';
  * the class of the plugin
  */
 export default class ElegantRouter {
+  /**
+   * the plugin options
+   */
   options: ElegantRouterOption;
 
+  /**
+   * the page globs
+   */
   pageGlobs: string[] = [];
 
+  /**
+   * the router files
+   */
   files: ElegantRouterFile[] = [];
 
+  /**
+   * the router name path maps
+   */
   maps: ElegantRouterNamePathMap = new Map<string, string>();
 
+  /**
+   * the router name path entries
+   */
   entries: ElegantRouterNamePathEntry[] = [];
 
+  /**
+   * the router trees
+   */
   trees: ElegantRouterTree[] = [];
 
+  /**
+   * the FS watcher
+   */
   fsWatcher?: FSWatcher;
 
   constructor(options: Partial<ElegantRouterOption> = {}) {

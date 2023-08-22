@@ -23,5 +23,8 @@ export function createPluginOptions(options?: Partial<ElegantRouterOption>): Ele
     ...options
   };
 
+  // normalize the path if it is windows
+  opts.cwd = opts.cwd.replace(/\\/g, '/');
+
   return opts;
 }
