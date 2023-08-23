@@ -6,7 +6,7 @@ import Inspect from 'vite-plugin-inspect';
 import ElegantVueRouter from '@elegant-router/vue/vite';
 
 export default defineConfig({
-  plugins: [vue(), vueJsx(), ElegantVueRouter({ lazyImport: () => false }), Inspect()],
+  plugins: [vue(), vueJsx(), ElegantVueRouter(), Inspect()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))

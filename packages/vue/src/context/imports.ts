@@ -23,7 +23,7 @@ import type { LastLevelRouteKey, RouteLayout } from "@elegant-router/types";
   layoutFiles.forEach(file => {
     const { layoutName, importPath } = file;
 
-    const isLazy = options.lazyImport(layoutName);
+    const isLazy = options.layoutLazyImport(layoutName);
 
     if (isLazy) {
       exportLayoutCode += `\n  ${layoutName}: () => import("${importPath}"),`;
@@ -56,7 +56,7 @@ import type { LastLevelRouteKey, RouteLayout } from "@elegant-router/types";
 
   exportCode += '\n};\n';
 
-  return `${preCode + importCode}\n${exportLayoutCode}\n${exportCode}`;
+  return `${preCode}\n${importCode}${exportLayoutCode}\n${exportCode}`;
 }
 
 function getImportKey(name: string) {
