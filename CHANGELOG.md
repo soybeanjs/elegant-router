@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [v0.1.5](https://github.com/soybeanjs/elegent-router/compare/v0.1.4...v0.1.5) (23-08-24)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **projects**: fix layoutLazyImport &nbsp;-&nbsp; by @honghuangdc [<samp>(dacce)</samp>](https://github.com/soybeanjs/elegent-router/commit/dacceab)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+
 ## [v0.1.4](https://github.com/soybeanjs/elegent-router/compare/v0.1.3...v0.1.4) (23-08-23)
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
