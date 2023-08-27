@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [v0.1.6](https://github.com/soybeanjs/elegent-router/compare/v0.1.5...v0.1.6) (23-08-27)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **projects**: support moduleResolution node &nbsp;-&nbsp; by @honghuangdc [<samp>(bcac3)</samp>](https://github.com/soybeanjs/elegent-router/commit/bcac3f6)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+
 ## [v0.1.5](https://github.com/soybeanjs/elegent-router/compare/v0.1.4...v0.1.5) (23-08-24)
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
