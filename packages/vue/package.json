@@ -51,6 +51,13 @@
   "files": [
     "dist"
   ],
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*"
+      ]
+    }
+  },
   "scripts": {
     "build": "pnpm typecheck && pnpm unbuild",
     "stub": "unbuild --stub",

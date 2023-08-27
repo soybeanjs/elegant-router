@@ -34,5 +34,10 @@
     "eslint-config-soybeanjs": "0.5.4",
     "simple-git-hooks": "2.9.0",
     "tsx": "3.12.7"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@elegant-router/vue@0.1.5": "patches/@elegant-router__vue@0.1.5.patch"
+    }
   }
 }
