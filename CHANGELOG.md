@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [v0.1.7](https://github.com/soybeanjs/elegent-router/compare/v0.1.6...v0.1.7) (23-08-27)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **projects**: fix types export &nbsp;-&nbsp; by @honghuangdc [<samp>(5920c)</samp>](https://github.com/soybeanjs/elegent-router/commit/5920cc0)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+
 ## [v0.1.6](https://github.com/soybeanjs/elegent-router/compare/v0.1.5...v0.1.6) (23-08-27)
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
