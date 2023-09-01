@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [v0.1.8](https://github.com/soybeanjs/elegent-router/compare/v0.1.7...v0.1.8) (23-09-01)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **projects**: fix default layout option &nbsp;-&nbsp; by @honghuangdc [<samp>(80660)</samp>](https://github.com/soybeanjs/elegent-router/commit/8066035)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+
 ## [v0.1.7](https://github.com/soybeanjs/elegent-router/compare/v0.1.6...v0.1.7) (23-08-27)
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
