@@ -8,7 +8,7 @@ import type { LastLevelRouteKey, RouteLayout } from "@elegant-router/types";
 
 
 export const layouts: Record<RouteLayout, RouteComponent | (() => Promise<RouteComponent>)> = {
-  default: () => import("@/layouts/default-layout/index.vue"),
+  base: () => import("@/layouts/base-layout/index.vue"),
 };
 
 export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<RouteComponent>)> = {
@@ -19,4 +19,6 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   "demo-a_child2_child3": () => import("@/views/demo-a/child2/child3/index.vue"),
   "demo-a_child3": () => import("@/views/demo-a/child3/index.vue"),
   demo3: () => import("@/views/demo3/[id].vue"),
+  "multi-menu_first_child": () => import("@/views/multi-menu/first_child/index.vue"),
+  "multi-menu_second_child_home": () => import("@/views/multi-menu/second_child_home/index.vue"),
 };

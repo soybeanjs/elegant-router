@@ -3,7 +3,6 @@ import { existsSync } from 'node:fs';
 import { writeFile } from 'node:fs/promises';
 import { loadFile, generateCode } from 'magicast';
 import { parse } from 'recast/parsers/typescript';
-import { PAGE_DEGREE_SPLITTER } from '@elegant-router/core';
 import type { ElegantRouterTree } from '@elegant-router/core';
 import { createPrefixCommentOfGenFile } from './comment';
 
@@ -70,19 +69,31 @@ export const autoRoutes: ElegantRoute[] = [];
 
 export function getUpdatedRouteConst(oldConst: AutoRoute[], newConst: AutoRoute[]) {
   const updated = newConst.map(item => {
-    const findItem = oldConst.find(i => (i?.name && i.name === item?.name) || i.path === item.path);
+    const hasName = Boolean(item?.name);
+
+    const findItem = oldConst.find(i => (hasName && i.name === item.name) || i.path === item.path);
 
     if (!findItem) {
       return item;
     }
 
-    const isFirstLevel = !findItem?.name || (findItem.name as string).split(PAGE_DEGREE_SPLITTER).length === 1;
-
-    if (isFirstLevel) {
-      return findItem;
+    if (hasName) {
+      findItem.path = item.path;
     }
 
-    findItem.children = getUpdatedRouteConst(findItem.children || [], item.children || []);
+    if (findItem.component) {
+      findItem.component = item.component;
+    }
+
+    if (findItem.redirect) {
+      findItem.redirect = item.redirect;
+    }
+
+    const children = getUpdatedRouteConst(findItem.children || [], item.children || []);
+
+    if (children.length) {
+      findItem.children = children;
+    }
 
     return findItem;
   });

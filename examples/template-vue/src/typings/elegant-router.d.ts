@@ -9,7 +9,7 @@ declare module "@elegant-router/types" {
   /**
    * route layout
    */
-  export type RouteLayout = "default";
+  export type RouteLayout = "base";
 
   /**
    * route map
@@ -26,6 +26,12 @@ declare module "@elegant-router/types" {
     "demo-a_child2_child3": "/demo-a/child2/child3";
     "demo-a_child3": "/demo-a/child3";
     "demo3": "/demo3/:id";
+    "multi-menu": "/multi-menu";
+    "multi-menu_first": "/multi-menu/first";
+    "multi-menu_first_child": "/multi-menu/first/child";
+    "multi-menu_second": "/multi-menu/second";
+    "multi-menu_second_child": "/multi-menu/second/child";
+    "multi-menu_second_child_home": "/multi-menu/second/child/home";
   };
 
   /**
@@ -57,6 +63,7 @@ declare module "@elegant-router/types" {
     | "500"
     | "demo-a"
     | "demo3"
+    | "multi-menu"
   >;
 
   /**
@@ -71,6 +78,8 @@ declare module "@elegant-router/types" {
     | "demo-a_child2_child3"
     | "demo-a_child3"
     | "demo3"
+    | "multi-menu_first_child"
+    | "multi-menu_second_child_home"
   >;
 
   /**

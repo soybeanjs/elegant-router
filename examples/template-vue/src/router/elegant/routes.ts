@@ -6,7 +6,7 @@ import type { ElegantRoute } from '@elegant-router/types';
 export const autoRoutes: ElegantRoute[] = [
   {
     path: '/403',
-    component: 'layout.default',
+    component: 'layout.base',
     children: [
       {
         name: '403',
@@ -20,7 +20,7 @@ export const autoRoutes: ElegantRoute[] = [
   },
   {
     path: '/404',
-    component: 'layout.default',
+    component: 'layout.base',
     children: [
       {
         name: '404',
@@ -34,7 +34,7 @@ export const autoRoutes: ElegantRoute[] = [
   },
   {
     path: '/500',
-    component: 'layout.default',
+    component: 'layout.base',
     children: [
       {
         name: '500',
@@ -49,7 +49,7 @@ export const autoRoutes: ElegantRoute[] = [
   {
     name: 'demo-a',
     path: '/demo-a',
-    component: 'layout.default',
+    component: 'layout.base',
     redirect: {
       name: 'demo-a_child1'
     },
@@ -95,7 +95,7 @@ export const autoRoutes: ElegantRoute[] = [
   },
   {
     path: '/demo3/:id',
-    component: 'layout.default',
+    component: 'layout.base',
     children: [
       {
         name: 'demo3',
@@ -103,6 +103,65 @@ export const autoRoutes: ElegantRoute[] = [
         component: 'view.demo3',
         meta: {
           title: 'demo3'
+        }
+      }
+    ]
+  },
+  {
+    name: 'multi-menu',
+    path: '/multi-menu',
+    component: 'layout.base',
+    redirect: {
+      name: 'multi-menu_first'
+    },
+    meta: {
+      title: 'multi-menu'
+    },
+    children: [
+      {
+        name: 'multi-menu_first',
+        path: '/multi-menu/first',
+        redirect: {
+          name: 'multi-menu_first_child'
+        },
+        meta: {
+          title: 'multi-menu_first'
+        }
+      },
+      {
+        name: 'multi-menu_first_child',
+        path: '/multi-menu/first/child',
+        component: 'view.multi-menu_first_child',
+        meta: {
+          title: 'multi-menu_first_child'
+        }
+      },
+      {
+        name: 'multi-menu_second',
+        path: '/multi-menu/second',
+        redirect: {
+          name: 'multi-menu_second_child'
+        },
+        meta: {
+          title: 'multi-menu_second'
+        }
+      },
+      {
+        name: 'multi-menu_second_child',
+        path: '/multi-menu/second/child',
+        redirect: {
+          name: 'multi-menu_second_child_home'
+        },
+        meta: {
+          title: 'multi-menu_second_child'
+        }
+      },
+      {
+        name: 'multi-menu_second_child_home',
+        path: '/multi-menu/second/child/home',
+        component: 'view.multi-menu_second_child_home',
+        meta: {
+          title: 'multi-menu_second_child_home'
         }
       }
     ]
