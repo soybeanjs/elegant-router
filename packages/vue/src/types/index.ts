@@ -49,7 +49,7 @@ export interface ElegantVueRouterOption extends ElegantRouterOption {
    * @default
    * ```ts
    * const layouts: Record<string, string> = {
-   *   default: 'src/layouts/default-layout/index.vue'
+   *   base: 'src/layouts/base-layout/index.vue'
    * }
    * ```
    */

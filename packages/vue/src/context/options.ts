@@ -14,7 +14,7 @@ export function createPluginOptions(erOptions: ElegantRouterOption, options?: Pa
     'not-found': '/:pathMatch(.*)*'
   };
   const DEFAULT_LAYOUTS: Record<string, string> = {
-    default: 'src/layouts/default-layout/index.vue'
+    base: 'src/layouts/base-layout/index.vue'
   };
 
   const opts: ElegantVueRouterOption = {
@@ -33,6 +33,8 @@ export function createPluginOptions(erOptions: ElegantRouterOption, options?: Pa
     ...erOptions,
     ...options
   };
+
+  opts.defaultLayout = Object.keys(opts.layouts)[0];
 
   return opts;
 }
