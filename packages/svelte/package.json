@@ -1,6 +1,6 @@
 {
   "name": "@elegant-router/svelte",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "A Svelte Router plugin to create router elegantly",
   "private": true,
   "author": {

@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [v0.1.9](https://github.com/soybeanjs/elegent-router/compare/v0.1.8...v0.1.9) (23-09-02)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **projects**: fix route const &nbsp;-&nbsp; by @honghuangdc [<samp>(ed968)</samp>](https://github.com/soybeanjs/elegent-router/commit/ed96888)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+
 ## [v0.1.8](https://github.com/soybeanjs/elegent-router/compare/v0.1.7...v0.1.8) (23-09-01)
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
