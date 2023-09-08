@@ -6,7 +6,7 @@ import type { ElegantRoute } from '@elegant-router/types';
 export const autoRoutes: ElegantRoute[] = [
   {
     path: '/403',
-    component: 'layout.blank',
+    component: 'layout.base',
     children: [
       {
         name: '403',

@@ -28,7 +28,9 @@ async function getConstCode(trees: ElegantRouterTree[], options: ElegantVueRoute
 
   const autoRoutes = trees.map(item => transformRouteTreeToRouteRecordRaw(item, options));
 
-  const updated = getUpdatedRouteConst(md.exports.autoRoutes as AutoRoute[], autoRoutes, options);
+  const oldRoutes = JSON.parse(JSON.stringify(md.exports.autoRoutes)) as AutoRoute[];
+
+  const updated = getUpdatedRouteConst(oldRoutes, autoRoutes, options);
 
   md.exports.autoRoutes = updated as any;
 
