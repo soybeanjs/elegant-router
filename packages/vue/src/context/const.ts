@@ -29,7 +29,7 @@ async function getConstCode(trees: ElegantRouterTree[], options: ElegantVueRoute
 
   const autoRoutes = trees.map(item => transformRouteTreeToRouteRecordRaw(item, options));
 
-  const updated = getUpdatedRouteConst(md.exports.autoRoutes as AutoRoute[], autoRoutes);
+  const updated = getUpdatedRouteConst(md.exports.autoRoutes as AutoRoute[], autoRoutes, options);
 
   md.exports.autoRoutes = updated as any;
 
@@ -67,7 +67,13 @@ export const autoRoutes: ElegantRoute[] = [];
   return code;
 }
 
-export function getUpdatedRouteConst(oldConst: AutoRoute[], newConst: AutoRoute[]) {
+function isValidLayout(layout: string, layouts: Record<string, string>) {
+  const layoutName = layout.replace(LAYOUT_PREFIX, '');
+
+  return Boolean(layouts[layoutName]);
+}
+
+export function getUpdatedRouteConst(oldConst: AutoRoute[], newConst: AutoRoute[], options: ElegantVueRouterOption) {
   const updated = newConst.map(item => {
     const hasName = Boolean(item?.name);
 
@@ -82,14 +88,23 @@ export function getUpdatedRouteConst(oldConst: AutoRoute[], newConst: AutoRoute[
     }
 
     if (findItem.component) {
-      findItem.component = item.component;
+      /**
+       * invalid layout
+       * @description maybe the layouts are updated
+       */
+      const isInValidLayout =
+        findItem.component.includes(LAYOUT_PREFIX) && !isValidLayout(findItem.component, options.layouts);
+
+      if (!isInValidLayout) {
+        findItem.component = item.component;
+      }
     }
 
     if (findItem.redirect) {
       findItem.redirect = item.redirect;
     }
 
-    const children = getUpdatedRouteConst(findItem.children || [], item.children || []);
+    const children = getUpdatedRouteConst(findItem.children || [], item.children || [], options);
 
     if (children.length) {
       findItem.children = children;
