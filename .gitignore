@@ -33,3 +33,5 @@ stats.html
 package-lock.json
 yarn.lock
 pnmp-lock.yaml
+
+.VSCodeCounter

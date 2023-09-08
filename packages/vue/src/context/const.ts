@@ -5,7 +5,6 @@ import { loadFile, generateCode } from 'magicast';
 import { parse } from 'recast/parsers/typescript';
 import type { ElegantRouterTree } from '@elegant-router/core';
 import { createPrefixCommentOfGenFile } from './comment';
-
 import { formatCode } from '../shared/prettier';
 import { LAYOUT_PREFIX, VIEW_PREFIX } from '../constants';
 import type { ElegantVueRouterOption, AutoRoute } from '../types';
@@ -95,7 +94,7 @@ export function getUpdatedRouteConst(oldConst: AutoRoute[], newConst: AutoRoute[
     if (findItem.redirect) {
       const { children = [] } = findItem;
 
-      const childrenNames = children.map(i => i.name);
+      const childrenNames = children?.map(i => i.name) || [];
 
       const { name: redirectName } = findItem.redirect as { name: string };
 
