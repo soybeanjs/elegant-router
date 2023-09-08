@@ -11,9 +11,9 @@ export function getFullPathOfPageGlob(glob: string, pageDir: string, cwd: string
 }
 
 /**
- * get the full path of the page glob
- * @param normalPath  the normal path
+ * normalize the windows path
+ * @param windowsPath the windows path
  */
-export function normalizeWindowsPath(normalPath: string) {
-  return normalPath.replace(/\\/g, '/');
+export function normalizeWindowsPath(windowsPath: string) {
+  return windowsPath.replace(/\\/g, '/');
 }
