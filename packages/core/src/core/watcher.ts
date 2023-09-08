@@ -1,5 +1,6 @@
 import { watch } from 'chokidar';
 import { log } from './log';
+import { normalizeWindowsPath } from './path';
 
 export function setupWatcher(
   watchDir: string,
@@ -14,14 +15,13 @@ export function setupWatcher(
   });
 
   const stacks: string[] = [];
+
   function addStack(path: string) {
     stacks.push(path);
   }
+
   function clearStack() {
     stacks.length = 0;
-  }
-  function replacePath(path: string) {
-    return path.replace(/\\/g, '/');
   }
 
   let timeoutId: NodeJS.Timeout | null = null;
@@ -44,13 +44,13 @@ export function setupWatcher(
     log('watcher ready', 'start', showLog);
   });
   watcher.on('add', path => {
-    const replacedPath = replacePath(path);
-    addStack(replacedPath);
+    const normalPath = normalizeWindowsPath(path);
+    addStack(normalPath);
     handleStack();
   });
   watcher.on('unlink', path => {
-    const replacedPath = replacePath(path);
-    addStack(replacedPath);
+    const normalPath = normalizeWindowsPath(path);
+    addStack(normalPath);
     handleStack();
   });
 

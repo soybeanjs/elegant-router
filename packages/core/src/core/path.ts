@@ -9,3 +9,11 @@ import path from 'node:path';
 export function getFullPathOfPageGlob(glob: string, pageDir: string, cwd: string) {
   return path.posix.join(cwd, pageDir, glob);
 }
+
+/**
+ * get the full path of the page glob
+ * @param normalPath the page normal path
+ */
+export function normalizeWindowsPath(normalPath: string) {
+  return normalPath.replace(/\\/g, '/');
+}
