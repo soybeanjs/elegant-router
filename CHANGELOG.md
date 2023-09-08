@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [v0.2.1](https://github.com/soybeanjs/elegent-router/compare/v0.2.0...v0.2.1) (23-09-09)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **projects**: fix update redirect &nbsp;-&nbsp; by @honghuangdc [<samp>(c14aa)</samp>](https://github.com/soybeanjs/elegent-router/commit/c14aaca)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+
 ## [v0.2.0](https://github.com/soybeanjs/elegent-router/compare/v0.1.10...v0.2.0) (23-09-09)
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
