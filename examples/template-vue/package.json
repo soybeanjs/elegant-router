@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
+    "debug": "vite --debug",
     "build": "run-s type-check build-only",
     "preview": "vite preview",
     "build-only": "vite build",

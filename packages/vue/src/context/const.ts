@@ -67,12 +67,6 @@ export const autoRoutes: ElegantRoute[] = [];
   return code;
 }
 
-function isValidLayout(layout: string, layouts: Record<string, string>) {
-  const layoutName = layout.replace(LAYOUT_PREFIX, '');
-
-  return Boolean(layouts[layoutName]);
-}
-
 export function getUpdatedRouteConst(oldConst: AutoRoute[], newConst: AutoRoute[], options: ElegantVueRouterOption) {
   const updated = newConst.map(item => {
     const hasName = Boolean(item?.name);
@@ -88,20 +82,28 @@ export function getUpdatedRouteConst(oldConst: AutoRoute[], newConst: AutoRoute[
     }
 
     if (findItem.component) {
-      /**
-       * invalid layout
-       * @description maybe the layouts are updated
-       */
-      const isInValidLayout =
-        findItem.component.includes(LAYOUT_PREFIX) && !isValidLayout(findItem.component, options.layouts);
+      const isView = findItem.component.startsWith(VIEW_PREFIX);
+      const isLayout = findItem.component.startsWith(LAYOUT_PREFIX);
+      const layoutName = findItem.component.replace(LAYOUT_PREFIX, '');
+      const hasLayout = Boolean(options.layouts[layoutName]);
 
-      if (!isInValidLayout) {
+      if (isView || (isLayout && !hasLayout)) {
         findItem.component = item.component;
       }
     }
 
     if (findItem.redirect) {
-      findItem.redirect = item.redirect;
+      const { children = [] } = findItem;
+
+      const childrenNames = children.map(i => i.name);
+
+      const { name: redirectName } = findItem.redirect as { name: string };
+
+      const hasRedirect = redirectName && childrenNames.includes(redirectName);
+
+      if (!hasRedirect) {
+        findItem.redirect = item.redirect;
+      }
     }
 
     const children = getUpdatedRouteConst(findItem.children || [], item.children || [], options);

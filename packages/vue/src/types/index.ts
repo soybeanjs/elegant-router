@@ -49,7 +49,8 @@ export interface ElegantVueRouterOption extends ElegantRouterOption {
    * @default
    * ```ts
    * const layouts: Record<string, string> = {
-   *   base: 'src/layouts/base-layout/index.vue'
+   *   base: 'src/layouts/base-layout/index.vue',
+   *   blank: 'src/layouts/blank-layout/index.vue'
    * }
    * ```
    */
@@ -62,7 +63,7 @@ export interface ElegantVueRouterOption extends ElegantRouterOption {
   /**
    * whether the route is lazy import
    * @param layoutName the layout name
-   * @default _name => true
+   * @default _name => false
    */
   layoutLazyImport(layoutName: string): boolean;
   /**
@@ -73,6 +74,12 @@ export interface ElegantVueRouterOption extends ElegantRouterOption {
   /**
    * the route meta generator
    * @param routeName the route name
+   * @default
+   * ```ts
+   *  const onRouteMetaGen = (routeName: string) => ({
+   *    title: routeName
+   *  })
+   * ```
    */
   onRouteMetaGen(routeName: string): Record<string, unknown>;
 }

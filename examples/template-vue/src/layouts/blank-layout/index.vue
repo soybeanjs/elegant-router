@@ -1,8 +1,6 @@
 <template>
   <div>
-    <header>头部</header>
     <RouterView />
-    <footer>底部</footer>
   </div>
 </template>
 
@@ -10,7 +8,7 @@
 import { RouterView } from 'vue-router';
 
 defineOptions({
-  name: 'BaseLayout'
+  name: 'BlankLayout'
 });
 </script>
 

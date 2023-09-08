@@ -14,7 +14,8 @@ export function createPluginOptions(erOptions: ElegantRouterOption, options?: Pa
     'not-found': '/:pathMatch(.*)*'
   };
   const DEFAULT_LAYOUTS: Record<string, string> = {
-    base: 'src/layouts/base-layout/index.vue'
+    base: 'src/layouts/base-layout/index.vue',
+    blank: 'src/layouts/blank-layout/index.vue'
   };
 
   const opts: ElegantVueRouterOption = {
@@ -25,7 +26,7 @@ export function createPluginOptions(erOptions: ElegantRouterOption, options?: Pa
     customRoutesMap: CUSTOM_ROUTES_MAP,
     layouts: DEFAULT_LAYOUTS,
     defaultLayout: Object.keys(DEFAULT_LAYOUTS)[0],
-    layoutLazyImport: _name => true,
+    layoutLazyImport: _name => false,
     transformDir: 'src/router/elegant/transform.ts',
     onRouteMetaGen: name => ({
       title: name
