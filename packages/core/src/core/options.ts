@@ -1,4 +1,5 @@
 import type { ElegantRouterOption } from '../types';
+import { normalizeWindowsPath } from './path';
 
 /**
  * create the plugin options
@@ -24,7 +25,7 @@ export function createPluginOptions(options?: Partial<ElegantRouterOption>): Ele
   };
 
   // normalize the path if it is windows
-  opts.cwd = opts.cwd.replace(/\\/g, '/');
+  opts.cwd = normalizeWindowsPath(opts.cwd);
 
   return opts;
 }
