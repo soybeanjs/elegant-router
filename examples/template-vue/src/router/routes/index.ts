@@ -13,7 +13,7 @@ const constantRoutes: CustomRoute[] = [
   },
   {
     path: '/:pathMatch(.*)*',
-    component: 'layout.default',
+    component: 'layout.base',
     children: [
       {
         name: 'not-found',

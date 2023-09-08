@@ -20,6 +20,9 @@ export function setupWatcher(
   function clearStack() {
     stacks.length = 0;
   }
+  function replacePath(path: string) {
+    return path.replace(/\\/g, '/');
+  }
 
   let timeoutId: NodeJS.Timeout | null = null;
 
@@ -41,11 +44,13 @@ export function setupWatcher(
     log('watcher ready', 'start', showLog);
   });
   watcher.on('add', path => {
-    addStack(path);
+    const replacedPath = replacePath(path);
+    addStack(replacedPath);
     handleStack();
   });
   watcher.on('unlink', path => {
-    addStack(path);
+    const replacedPath = replacePath(path);
+    addStack(replacedPath);
     handleStack();
   });
 
