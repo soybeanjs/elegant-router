@@ -1,6 +1,22 @@
 # Changelog
 
 
+## [v0.1.10](https://github.com/soybeanjs/elegent-router/compare/v0.1.9...v0.1.10) (23-09-08)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **other**: window path bug &nbsp;-&nbsp; by **songyf** [<samp>(986b2)</samp>](https://github.com/soybeanjs/elegent-router/commit/986b2cf)
+- **projects**: fix update route const &nbsp;-&nbsp; by @honghuangdc [<samp>(211db)</samp>](https://github.com/soybeanjs/elegent-router/commit/211dbbe)
+
+### &nbsp;&nbsp;&nbsp;💅 Refactors
+
+- **projects**: update comment &nbsp;-&nbsp; by @honghuangdc [<samp>(e072d)</samp>](https://github.com/soybeanjs/elegent-router/commit/e072dbc)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+[songyf](mailto:songyifan@zx-tech.net)
+
 ## [v0.1.9](https://github.com/soybeanjs/elegent-router/compare/v0.1.8...v0.1.9) (23-09-02)
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
