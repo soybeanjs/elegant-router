@@ -20,10 +20,10 @@
     "build": "pnpm -r --filter='./packages/*' run build",
     "stub": "pnpm -r --parallel --filter='./packages/*' run stub",
     "lint": "eslint . --fix",
-    "format": "soy prettier-format",
+    "format": "soy prettier-write",
     "commit": "soy git-commit",
     "cleanup": "soy cleanup",
-    "ncu": "soy ncu",
+    "update-pkg": "soy ncu",
     "publish-pkg": "pnpm -r publish --access public",
     "release": "pnpm soy release && pnpm build && pnpm publish-pkg",
     "prepare": "pnpm -r run stub"

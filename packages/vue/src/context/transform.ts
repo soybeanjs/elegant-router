@@ -84,7 +84,7 @@ export async function genTransformFile(options: ElegantVueRouterOption) {
 
   const transformPath = path.posix.join(options.cwd, options.transformDir);
 
-  ensureFile(transformPath);
+  await ensureFile(transformPath);
 
   await writeFile(transformPath, code);
 }

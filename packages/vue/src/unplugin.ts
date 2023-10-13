@@ -10,8 +10,11 @@ export default createUnplugin<Partial<ElegantVueRouterOption> | undefined>((opti
   return {
     name: '@elegant-router/vue',
     enforce: 'pre',
-    apply: 'serve',
     vite: {
+      apply: 'serve',
+      configResolved() {
+        ctx.setupFSWatcher();
+      },
       configureServer(server) {
         ctx.setViteServer(server);
       }

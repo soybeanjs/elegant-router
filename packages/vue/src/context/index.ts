@@ -23,8 +23,6 @@ export default class ElegantVueRouter {
     genTransformFile(this.options);
 
     this.generate();
-
-    this.setupFSWatcher();
   }
 
   scanPages() {
