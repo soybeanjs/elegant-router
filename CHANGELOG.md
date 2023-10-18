@@ -1,6 +1,20 @@
 # Changelog
 
 
+## [v0.2.4](https://github.com/soybeanjs/elegent-router/compare/v0.2.3...v0.2.4) (23-10-19)
+
+### &nbsp;&nbsp;&nbsp;🔥 Performance
+
+- **projects**: perf config &nbsp;-&nbsp; by @honghuangdc [<samp>(6a474)</samp>](https://github.com/soybeanjs/elegent-router/commit/6a474af)
+
+### &nbsp;&nbsp;&nbsp;📖 Documentation
+
+- **projects**: update README.md &nbsp;-&nbsp; by @honghuangdc [<samp>(4a4d0)</samp>](https://github.com/soybeanjs/elegent-router/commit/4a4d068)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+
 ## [v0.2.3](https://github.com/soybeanjs/elegent-router/compare/v0.2.2...v0.2.3) (23-10-13)
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
