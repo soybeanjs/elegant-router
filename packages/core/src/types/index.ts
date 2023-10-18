@@ -20,7 +20,7 @@ export interface ElegantRouterOption {
   alias: Record<string, string>;
   /**
    * the patterns to match the page files
-   * @default ["**‍/index.{vue,tsx,jsx}", "**‍/[[]*[]].{vue,tsx,jsx}"]
+   * @default ["**‍/index.vue", "**‍/[[]*[]].vue"]
    * @example "index.vue", "[id.vue]"
    * @link the detail syntax: https://github.com/micromatch/micromatch
    */

@@ -20,18 +20,17 @@ declare module "@elegant-router/types" {
     "403": "/403";
     "404": "/404";
     "500": "/500";
-    "demo-a": "/demo-a";
-    "demo-a_child1": "/demo-a/child1";
-    "demo-a_child2": "/demo-a/child2";
-    "demo-a_child2_child3": "/demo-a/child2/child3";
-    "demo-a_child3": "/demo-a/child3";
-    "demo3": "/demo3/:id";
+    "about": "/about";
+    "list": "/list";
+    "list_detail": "/list/detail";
+    "list_home": "/list/home";
     "multi-menu": "/multi-menu";
     "multi-menu_first": "/multi-menu/first";
     "multi-menu_first_child": "/multi-menu/first/child";
     "multi-menu_second": "/multi-menu/second";
     "multi-menu_second_child": "/multi-menu/second/child";
     "multi-menu_second_child_home": "/multi-menu/second/child/home";
+    "user": "/user/:id";
   };
 
   /**
@@ -61,9 +60,10 @@ declare module "@elegant-router/types" {
     | "403"
     | "404"
     | "500"
-    | "demo-a"
-    | "demo3"
+    | "about"
+    | "list"
     | "multi-menu"
+    | "user"
   >;
 
   /**
@@ -74,12 +74,12 @@ declare module "@elegant-router/types" {
     | "403"
     | "404"
     | "500"
-    | "demo-a_child1"
-    | "demo-a_child2_child3"
-    | "demo-a_child3"
-    | "demo3"
+    | "about"
+    | "list_detail"
+    | "list_home"
     | "multi-menu_first_child"
     | "multi-menu_second_child_home"
+    | "user"
   >;
 
   /**

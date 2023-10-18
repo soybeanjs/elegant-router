@@ -7,7 +7,7 @@ import { normalizeWindowsPath } from './path';
  */
 export function createPluginOptions(options?: Partial<ElegantRouterOption>): ElegantRouterOption {
   const PAGE_DIR = 'src/views';
-  const PAGE_PATTERNS = ['**/index.{vue,tsx,jsx}', '**/[[]*[]].{vue,tsx,jsx}'];
+  const PAGE_PATTERNS = ['**/index.vue', '**/[[]*[]].vue'];
   const PAGE_EXCLUDE_PATTERNS = ['**/components/**'];
 
   const opts: ElegantRouterOption = {

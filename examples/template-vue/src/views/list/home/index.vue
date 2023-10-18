@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div>MultiMenu First Child</div>
+  <div>List Home</div>
 </template>
 
 <style scoped></style>

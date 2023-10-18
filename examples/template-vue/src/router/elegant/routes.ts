@@ -47,62 +47,44 @@ export const autoRoutes: ElegantRoute[] = [
     ]
   },
   {
-    name: 'demo-a',
-    path: '/demo-a',
+    path: '/about',
     component: 'layout.base',
-    redirect: {
-      name: 'demo-a_child1'
-    },
-    meta: {
-      title: 'demo-a'
-    },
     children: [
       {
-        name: 'demo-a_child1',
-        path: '/demo-a/child1',
-        component: 'view.demo-a_child1',
+        name: 'about',
+        path: '',
+        component: 'view.about',
         meta: {
-          title: 'demo-a_child1'
-        }
-      },
-      {
-        name: 'demo-a_child2',
-        path: '/demo-a/child2',
-        redirect: {
-          name: 'demo-a_child2_child3'
-        },
-        meta: {
-          title: 'demo-a_child2'
-        }
-      },
-      {
-        name: 'demo-a_child2_child3',
-        path: '/demo-a/child2/child3',
-        component: 'view.demo-a_child2_child3',
-        meta: {
-          title: 'demo-a_child2_child3'
-        }
-      },
-      {
-        name: 'demo-a_child3',
-        path: '/demo-a/child3',
-        component: 'view.demo-a_child3',
-        meta: {
-          title: 'demo-a_child3'
+          title: 'about'
         }
       }
     ]
   },
   {
-    path: '/demo3/:id',
+    name: 'list',
+    path: '/list',
     component: 'layout.base',
+    redirect: {
+      name: 'list_detail'
+    },
+    meta: {
+      title: 'list'
+    },
     children: [
       {
-        name: 'demo3',
-        path: '',
-        component: 'view.demo3',
+        name: 'list_detail',
+        path: '/list/detail',
+        component: 'view.list_detail',
         meta: {
-          title: 'demo3'
+          title: 'list_detail'
+        }
+      },
+      {
+        name: 'list_home',
+        path: '/list/home',
+        component: 'view.list_home',
+        meta: {
+          title: 'list_home'
         }
       }
     ]
@@ -162,6 +144,20 @@ export const autoRoutes: ElegantRoute[] = [
         component: 'view.multi-menu_second_child_home',
         meta: {
           title: 'multi-menu_second_child_home'
+        }
+      }
+    ]
+  },
+  {
+    path: '/user/:id',
+    component: 'layout.base',
+    children: [
+      {
+        name: 'user',
+        path: '',
+        component: 'view.user',
+        meta: {
+          title: 'user'
         }
       }
     ]

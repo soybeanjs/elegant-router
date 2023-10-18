@@ -15,13 +15,13 @@ export const layouts: Record<RouteLayout, RouteComponent | (() => Promise<RouteC
 };
 
 export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<RouteComponent>)> = {
-  403: () => import("@/views/403/index.vue"),
-  404: () => import("@/views/404/index.vue"),
-  500: () => import("@/views/500/index.vue"),
-  "demo-a_child1": () => import("@/views/demo-a/child1/index.vue"),
-  "demo-a_child2_child3": () => import("@/views/demo-a/child2/child3/index.vue"),
-  "demo-a_child3": () => import("@/views/demo-a/child3/index.vue"),
-  demo3: () => import("@/views/demo3/[id].vue"),
+  403: () => import("@/views/_error/403/index.vue"),
+  404: () => import("@/views/_error/404/index.vue"),
+  500: () => import("@/views/_error/500/index.vue"),
+  about: () => import("@/views/about/index.vue"),
+  list_detail: () => import("@/views/list/detail/index.vue"),
+  list_home: () => import("@/views/list/home/index.vue"),
   "multi-menu_first_child": () => import("@/views/multi-menu/first_child/index.vue"),
   "multi-menu_second_child_home": () => import("@/views/multi-menu/second_child_home/index.vue"),
+  user: () => import("@/views/user/[id].vue"),
 };
