@@ -10,8 +10,8 @@ export interface ElegantRouterOption {
    */
   pageDir: string;
   /**
-   * src alias
-   * @description it will be used for the page and layout file import path
+   * alias
+   * @description it can be used for the page and layout file import path
    * @default
    * ```ts
    * { "@": "src" }
