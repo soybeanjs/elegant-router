@@ -1,6 +1,20 @@
 # Changelog
 
 
+## [v0.2.5](https://github.com/soybeanjs/elegent-router/compare/v0.2.4...v0.2.5) (23-10-22)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **projects**: add tree route transformer &nbsp;-&nbsp; by @honghuangdc [<samp>(61714)</samp>](https://github.com/soybeanjs/elegent-router/commit/617143b)
+
+### &nbsp;&nbsp;&nbsp;📖 Documentation
+
+- **projects**: rename README &nbsp;-&nbsp; by @honghuangdc [<samp>(6f8fb)</samp>](https://github.com/soybeanjs/elegent-router/commit/6f8fb94)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+
 ## [v0.2.4](https://github.com/soybeanjs/elegent-router/compare/v0.2.3...v0.2.4) (23-10-19)
 
 ### &nbsp;&nbsp;&nbsp;🔥 Performance
