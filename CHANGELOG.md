@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [v0.2.6](https://github.com/soybeanjs/elegent-router/compare/v0.2.5...v0.2.6) (23-10-24)
+
+### &nbsp;&nbsp;&nbsp;🔥 Performance
+
+- **projects**: perf tree route transformer function &nbsp;-&nbsp; by @honghuangdc [<samp>(18568)</samp>](https://github.com/soybeanjs/elegent-router/commit/1856815)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+
 ## [v0.2.5](https://github.com/soybeanjs/elegent-router/compare/v0.2.4...v0.2.5) (23-10-22)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
