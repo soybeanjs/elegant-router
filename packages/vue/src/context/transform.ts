@@ -11,6 +11,7 @@ export function getTransformCode() {
 
 import type { RouteRecordRaw, RouteComponent } from 'vue-router';
 import type { AutoRoute } from '@elegant-router/vue';
+import type { ElegantRoute } from '@elegant-router/types';
 
 const LAYOUT_PREFIX = 'layout.';
 const VIEW_PREFIX = 'view.';
@@ -90,13 +91,15 @@ export function transformElegantRouteToTreeRoute(routes: AutoRoute[]) {
     const treeChildren: AutoRoute[] = [];
 
     children.forEach(child => {
-      // current route level is 2, if has parent, then level is 3 or more
-      const hasParent = (child.name as string).split('_').length > 2;
+      const childName = child.name as string;
 
-      const current = treeMap.get(child.name as string)!;
+      // current route level is 2, if has parent, then level is 3 or more
+      const hasParent = childName.split('_').length > 2;
+
+      const current = treeMap.get(childName)!;
 
       if (hasParent) {
-        const parentName = (child.name as string).split('_').slice(0, -1).join('_');
+        const parentName = childName.split('_').slice(0, -1).join('_');
 
         const parent = treeMap.get(parentName);
 
@@ -118,7 +121,7 @@ export function transformElegantRouteToTreeRoute(routes: AutoRoute[]) {
     return treeRoute;
   });
 
-  return treeRoutes;
+  return treeRoutes as ElegantRoute[];
 }
 `;
 
