@@ -1,5 +1,5 @@
 {
-  "name": "@elegant-router/vue",
+  "name": "@elegant-router/vue-v2",
   "version": "0.2.6",
   "description": "A Vue3 Router plugin to create router elegantly",
   "author": {
@@ -73,6 +73,7 @@
     "magic-string": "0.30.5",
     "magicast": "0.3.0",
     "prettier": "3.0.3",
+    "recast": "0.23.4",
     "unplugin": "1.5.0"
   },
   "devDependencies": {
