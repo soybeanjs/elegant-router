@@ -26,9 +26,9 @@ importers:
 
   examples/template-vue:
     dependencies:
-      '@elegant-router/vue-v2':
+      '@elegant-router/vue':
         specifier: workspace:*
-        version: link:../../packages/vue-v2
+        version: link:../../packages/vue
       pinia:
         specifier: 2.1.7
         version: 2.1.7(typescript@5.2.2)(vue@3.3.7)
@@ -180,49 +180,6 @@ importers:
         version: 2.0.0(typescript@5.2.2)
 
   packages/vue:
-    dependencies:
-      '@elegant-router/core':
-        specifier: workspace:*
-        version: link:../core
-      consola:
-        specifier: 3.2.3
-        version: 3.2.3
-      kolorist:
-        specifier: 1.8.0
-        version: 1.8.0
-      magic-string:
-        specifier: 0.30.5
-        version: 0.30.5
-      magicast:
-        specifier: 0.3.0
-        version: 0.3.0
-      prettier:
-        specifier: 3.0.3
-        version: 3.0.3
-      unplugin:
-        specifier: 1.5.0
-        version: 1.5.0
-    devDependencies:
-      '@types/node':
-        specifier: 20.8.10
-        version: 20.8.10
-      rollup:
-        specifier: 4.2.0
-        version: 4.2.0
-      typescript:
-        specifier: 5.2.2
-        version: 5.2.2
-      unbuild:
-        specifier: 2.0.0
-        version: 2.0.0(typescript@5.2.2)
-      vite:
-        specifier: 4.5.0
-        version: 4.5.0(@types/node@20.8.10)
-      vue-router:
-        specifier: 4.2.5
-        version: 4.2.5(vue@3.3.7)
-
-  packages/vue-v2:
     dependencies:
       '@elegant-router/core':
         specifier: workspace:*
@@ -2276,7 +2233,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001559
-      electron-to-chromium: 1.4.574
+      electron-to-chromium: 1.4.575
       node-releases: 2.0.13
       update-browserslist-db: 1.0.13(browserslist@4.22.1)
     dev: true
@@ -2820,8 +2777,8 @@ packages:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
     dev: true
 
-  /electron-to-chromium@1.4.574:
-    resolution: {integrity: sha512-bg1m8L0n02xRzx4LsTTMbBPiUd9yIR+74iPtS/Ao65CuXvhVZHP0ym1kSdDG3yHFDXqHQQBKujlN1AQ8qZnyFg==}
+  /electron-to-chromium@1.4.575:
+    resolution: {integrity: sha512-kY2BGyvgAHiX899oF6xLXSIf99bAvvdPhDoJwG77nxCSyWYuRH6e9a9a3gpXBvCs6lj4dQZJkfnW2hdKWHEISg==}
     dev: true
 
   /emoji-regex@8.0.0:
@@ -5940,14 +5897,6 @@ packages:
       '@babel/code-frame': 7.22.13
     dev: true
 
-  /rollup@3.28.0:
-    resolution: {integrity: sha512-d7zhvo1OUY2SXSM6pfNjgD5+d0Nz87CUp4mt8l/GgVP3oBsPwzNvSzyu1me6BSG9JIgWNTVcafIXBIyM8yQ3yw==}
-    engines: {node: '>=14.18.0', npm: '>=8.0.0'}
-    hasBin: true
-    optionalDependencies:
-      fsevents: 2.3.3
-    dev: true
-
   /rollup@3.29.4:
     resolution: {integrity: sha512-oWzmBZwvYrU0iJHtDmhsm662rC15FRXmcjCk1xD771dFDx5jJ02ufAQQTn0etB2emNk4J9EZg/yWKpsn9BWGRw==}
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
@@ -6864,7 +6813,7 @@ packages:
       '@types/node': 20.8.10
       esbuild: 0.18.20
       postcss: 8.4.31
-      rollup: 3.28.0
+      rollup: 3.29.4
     optionalDependencies:
       fsevents: 2.3.3
     dev: true

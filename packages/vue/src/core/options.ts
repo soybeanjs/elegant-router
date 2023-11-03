@@ -9,7 +9,8 @@ export function createPluginOptions(erOptions: ElegantRouterOption, options?: Pa
   const DTS_DIR = 'src/typings/elegant-router.d.ts';
   const IMPORT_DIR = 'src/router/elegant/imports.ts';
   const CONST_DIR = 'src/router/elegant/routes.ts';
-  const CUSTOM_ROUTES_MAP = {
+  const TRANSFORM_DIR = 'src/router/elegant/transform.ts';
+  const CUSTOM_ROUTES_MAP: Record<string, string> = {
     root: '/',
     'not-found': '/:pathMatch(.*)*'
   };
@@ -23,19 +24,26 @@ export function createPluginOptions(erOptions: ElegantRouterOption, options?: Pa
     importsDir: IMPORT_DIR,
     lazyImport: _name => true,
     constDir: CONST_DIR,
-    customRoutesMap: CUSTOM_ROUTES_MAP,
+    customRoutes: {
+      map: CUSTOM_ROUTES_MAP,
+      names: []
+    },
     layouts: DEFAULT_LAYOUTS,
     defaultLayout: Object.keys(DEFAULT_LAYOUTS)[0],
     layoutLazyImport: _name => false,
-    transformDir: 'src/router/elegant/transform.ts',
+    transformDir: TRANSFORM_DIR,
     onRouteMetaGen: name => ({
       title: name
     }),
+    routeConstFormatCommand: `eslint --fix ${CONST_DIR}`,
+    routeConstOverrideUpdateProps: [],
     ...erOptions,
     ...options
   };
 
-  opts.defaultLayout = Object.keys(opts.layouts)[0];
+  if (!opts.layouts[opts.defaultLayout]) {
+    opts.defaultLayout = Object.keys(opts.layouts)[0];
+  }
 
   return opts;
 }

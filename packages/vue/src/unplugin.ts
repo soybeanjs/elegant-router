@@ -1,8 +1,8 @@
 import path from 'node:path';
 import { createUnplugin } from 'unplugin';
-import ElegantVueRouter from './context';
-import { setRouteNamePageFile } from './shared/route-name';
-import type { ElegantVueRouterOption } from './types';
+import ElegantVueRouter from './core';
+import { setRouteNamePageFile } from './plugin';
+import type { ElegantVueRouterOption, ElegantConstRoute } from './types';
 
 export default createUnplugin<Partial<ElegantVueRouterOption> | undefined>((options, _meta) => {
   const ctx = new ElegantVueRouter(options);
@@ -45,3 +45,5 @@ export default createUnplugin<Partial<ElegantVueRouterOption> | undefined>((opti
     }
   };
 });
+
+export type { ElegantVueRouterOption, ElegantConstRoute };

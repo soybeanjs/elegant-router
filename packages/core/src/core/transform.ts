@@ -193,7 +193,7 @@ function recursiveGetRouteTreeChildren(parentName: string, children: string[][],
  * @param name
  * @example "a_b_c" => ["a", "a_b", "a_b_c"]
  */
-function splitRouterName(name: string) {
+export function splitRouterName(name: string) {
   const names = name.split(PAGE_DEGREE_SPLITTER);
 
   return names.reduce((prev, cur) => {
@@ -212,7 +212,7 @@ function splitRouterName(name: string) {
  * @param name
  * @example "a_b_c" => "/a/b/c"
  */
-function transformRouterNameToPath(name: string) {
+export function transformRouterNameToPath(name: string) {
   const routerPath = PATH_SPLITTER + name.replaceAll(PAGE_DEGREE_SPLITTER, PATH_SPLITTER);
 
   return routerPath;

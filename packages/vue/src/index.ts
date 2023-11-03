@@ -6,15 +6,15 @@ import type {
   ElegantRouterTree
 } from '@elegant-router/core';
 import unplugin from './unplugin';
-import type { ElegantVueRouterOption, AutoRoute } from './types';
+import type { ElegantVueRouterOption, ElegantConstRoute } from './types';
 
 export type {
-  AutoRoute,
-  ElegantVueRouterOption,
   ElegantRouterOption,
   ElegantRouterFile,
   ElegantRouterNamePathMap,
   ElegantRouterNamePathEntry,
-  ElegantRouterTree
+  ElegantRouterTree,
+  ElegantVueRouterOption,
+  ElegantConstRoute
 };
 export default unplugin;

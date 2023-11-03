@@ -1,4 +1,4 @@
-import type { RouteRecordRaw } from 'vue-router';
+import type { _RouteRecordBase } from 'vue-router';
 import type { ElegantRouterOption } from '@elegant-router/core';
 
 export interface ElegantVueRouterOption extends ElegantRouterOption {
@@ -34,16 +34,37 @@ export interface ElegantVueRouterOption extends ElegantRouterOption {
   constDir: string;
   /**
    * define custom routes, which's route only generate the route declaration
-   * @description the name path map of custom route
+   * @description the name path map of custom route or the names, if only provide the names, it will generate path by the route name
    * @default
    * ```ts
-   *  const routesMap: Record<string, string> = {
-   *    root: '/', // the root route
-   *    notFound: '/:pathMatch(.*)*' // the 404 route
+   * const customRoutes = {
+   *   map: {
+   *     root: '/', // the root route
+   *     notFound: '/:pathMatch(.*)*' // the 404 route
+   *   },
+   *   names: []
+   * }
+   * ```
+   * @example
+   * ```ts
+   * const customRoutes = {
+   *   map: {},
+   *   names: ['custom_multi_first']
+   * }
+   * ```
+   * the route name "custom_multi_first" will generate the following route map
+   * ```ts
+   * const routeMap = {
+   *   custom: '/custom',
+   *   custom_multi: '/custom/multi',
+   *   custom_multi_first: '/custom/multi/first',
    * }
    * ```
    */
-  customRoutesMap: Record<string, string>;
+  customRoutes: {
+    map: Record<string, string>;
+    names: string[];
+  };
   /**
    * the name and file path of the route layouts
    * @default
@@ -85,12 +106,16 @@ export interface ElegantVueRouterOption extends ElegantRouterOption {
   onRouteMetaGen(routeName: string): Record<string, unknown>;
 }
 
-export type LayoutFile = {
-  layoutName: string;
-  importPath: string;
+/**
+ * elegant const route
+ */
+export type ElegantConstRoute = Omit<_RouteRecordBase, 'name' | 'path' | 'children'> & {
+  name: string;
+  path: string;
+  component?: string;
+  children?: ElegantConstRoute[];
 };
 
-export type AutoRoute = Omit<RouteRecordRaw, 'component' | 'children'> & {
-  component?: string;
-  children?: AutoRoute[];
+export type RouteConstExport = {
+  generatedRoutes: ElegantConstRoute[];
 };
