@@ -1,6 +1,28 @@
 # Changelog
 
 
+## [v0.3.0-beta.0](https://github.com/soybeanjs/elegent-router/compare/v0.2.6...v0.3.0-beta.0) (23-11-04)
+
+### &nbsp;&nbsp;&nbsp;🚨 Breaking Changes
+
+- **projects**: change elegant const route to tree structure &nbsp;-&nbsp; by @honghuangdc [<samp>(3ae9c)</samp>](https://github.com/soybeanjs/elegent-router/commit/3ae9cc9)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **projects**: fix type &nbsp;-&nbsp; by @honghuangdc [<samp>(4ee29)</samp>](https://github.com/soybeanjs/elegent-router/commit/4ee2970)
+
+### &nbsp;&nbsp;&nbsp;💅 Refactors
+
+- **projects**: refactor @elegant-router/vue &nbsp;-&nbsp; by @honghuangdc [<samp>(60e04)</samp>](https://github.com/soybeanjs/elegent-router/commit/60e04b4)
+
+### &nbsp;&nbsp;&nbsp;📖 Documentation
+
+- **projects**: update README.md &nbsp;-&nbsp; by @honghuangdc [<samp>(dd3fc)</samp>](https://github.com/soybeanjs/elegent-router/commit/dd3fc2b)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+
 ## [v0.2.6](https://github.com/soybeanjs/elegent-router/compare/v0.2.5...v0.2.6) (23-10-24)
 
 ### &nbsp;&nbsp;&nbsp;🔥 Performance
