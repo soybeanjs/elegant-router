@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { writeFile } from 'node:fs/promises';
 import type { ElegantRouterFile } from '@elegant-router/core';
-import type { ElegantVueRouterOption, LayoutFile } from '../types';
+import type { ElegantVueRouterOption } from '../types';
 import { ensureFile } from '../shared/fs';
 import { createPrefixCommentOfGenFile } from './comment';
 
@@ -94,7 +94,10 @@ export function getLayoutFile(options: ElegantVueRouterOption) {
 
   const layoutKeys = Object.keys(layouts);
 
-  const files: LayoutFile[] = layoutKeys.map(key => {
+  const files: {
+    layoutName: string;
+    importPath: string;
+  }[] = layoutKeys.map(key => {
     let importPath = layouts[key];
 
     Object.entries(alias).some(([a, dir]) => {

@@ -35,8 +35,6 @@ export function createPluginOptions(erOptions: ElegantRouterOption, options?: Pa
     onRouteMetaGen: name => ({
       title: name
     }),
-    routeConstFormatCommand: `eslint --fix ${CONST_DIR}`,
-    routeConstOverrideUpdateProps: [],
     ...erOptions,
     ...options
   };
