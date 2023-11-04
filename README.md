@@ -76,11 +76,11 @@ export default defineConfig({
 
 ```ts
 import type { ElegantRoute, CustomRoute } from "@elegant-router/types";
-import { autoRoutes } from "../elegant/routes";
+import { generatedRoutes } from "../elegant/routes";
 import { layouts, views } from "../elegant/imports";
-import { transformElegantRouteToVueRoute } from "../elegant/transform";
+import { transformElegantRoutesToVueRoutes } from "../elegant/transform";
 
-const constantRoutes: CustomRoute[] = [
+const customRoutes: CustomRoute[] = [
   {
     name: "root",
     path: "/",
@@ -89,21 +89,15 @@ const constantRoutes: CustomRoute[] = [
     },
   },
   {
+    name: "not-found",
     path: "/:pathMatch(.*)*",
-    component: "layout.base",
-    children: [
-      {
-        name: "not-found",
-        path: "",
-        component: "view.404",
-      },
-    ],
+    component: "layout.base$view.404",
   },
 ];
 
-const elegantRoutes: ElegantRoute[] = [...constantRoutes, ...autoRoutes];
+const elegantRoutes: ElegantRoute[] = [...customRoutes, ...generatedRoutes];
 
-export const routes = transformElegantRouteToVueRoute(
+export const routes = transformElegantRoutesToVueRoutes(
   elegantRoutes,
   layouts,
   views
@@ -154,22 +148,35 @@ views
 
 ```ts
 {
+  name: 'about',
   path: '/about',
-  component: 'layout.base',
+  component: 'layout.base$view.about',
+  meta: {
+    title: 'about'
+  }
+},
+```
+
+> it is a single level route, to add layout, the component props combines the layout and view component, split by the dollar sign "$"
+
+#### Transformed Vue routes
+
+```ts
+{
+  path: '/about',
+  component: BaseLayout,
   children: [
     {
       name: 'about',
       path: '',
-      component: 'view.about',
+      component: () => import('@/views/about/index.vue'),
       meta: {
         title: 'about'
       }
     }
   ]
-}
+},
 ```
-
-> Although it is a first level route, there are still two levels of route data, because the first level route also needs to use the layout component, so the first level route is the layout component and the second level route is the page component
 
 ### Secondary route
 
@@ -203,9 +210,6 @@ views
   name: 'list',
   path: '/list',
   component: 'layout.base',
-  redirect: {
-    name: 'list_home'
-  },
   meta: {
     title: 'list'
   },
@@ -230,7 +234,43 @@ views
 }
 ```
 
-> There are also two layers of route data for secondary routes, the first layer of route is the layout component and the second layer of route is the page component, where the first layer of route data contains the redirection configuration, which by default redirects to the first sub-route
+> There are two layers of route data for secondary routes, the first layer of route is the layout component and the second layer of route is the page component
+
+#### Transformed Vue routes
+
+```ts
+{
+  name: 'list',
+  path: '/list',
+  component: BaseLayout,
+  redirect: {
+    name: 'list_home'
+  },
+  meta: {
+    title: 'list'
+  },
+  children: [
+    {
+      name: 'list_home',
+      path: '/list/home',
+      component: () => import('@/views/list/home/index.vue'),
+      meta: {
+        title: 'list_home'
+      }
+    },
+    {
+      name: 'list_detail',
+      path: '/list/detail',
+      component: () => import('@/views/list/detail/index.vue'),
+      meta: {
+        title: 'list_detail'
+      }
+    }
+  ]
+},
+```
+
+> the first layer of route data contains the redirection configuration, which by default redirects to the first sub-route
 
 ### Multi-level route (level 3 route and above)
 
@@ -270,6 +310,66 @@ views
   name: 'multi-menu',
   path: '/multi-menu',
   component: 'layout.base',
+  meta: {
+    title: 'multi-menu'
+  },
+  children: [
+    {
+      name: 'multi-menu_first',
+      path: '/multi-menu/first',
+      meta: {
+        title: 'multi-menu_first'
+      },
+      children: [
+        {
+          name: 'multi-menu_first_child',
+          path: '/multi-menu/first/child',
+          component: 'view.multi-menu_first_child',
+          meta: {
+            title: 'multi-menu_first_child'
+          }
+        }
+      ]
+    },
+    {
+      name: 'multi-menu_second',
+      path: '/multi-menu/second',
+      meta: {
+        title: 'multi-menu_second'
+      },
+      children: [
+        {
+          name: 'multi-menu_second_child',
+          path: '/multi-menu/second/child',
+          meta: {
+            title: 'multi-menu_second_child'
+          },
+          children: [
+            {
+              name: 'multi-menu_second_child_home',
+              path: '/multi-menu/second/child/home',
+              component: 'view.multi-menu_second_child_home',
+              meta: {
+                title: 'multi-menu_second_child_home'
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+> if the route level is greater than 2, the generated route data is a recursive structure
+
+#### Transformed Vue routes
+
+```ts
+{
+  name: 'multi-menu',
+  path: '/multi-menu',
+  component: BaseLayout,
   redirect: {
     name: 'multi-menu_first'
   },
@@ -290,7 +390,7 @@ views
     {
       name: 'multi-menu_first_child',
       path: '/multi-menu/first/child',
-      component: 'view.multi-menu_first_child',
+      component: () => import('@/views/multi-menu/first_child/index.vue'),
       meta: {
         title: 'multi-menu_first_child'
       }
@@ -303,7 +403,7 @@ views
       },
       meta: {
         title: 'multi-menu_second'
-      }
+      },
     },
     {
       name: 'multi-menu_second_child',
@@ -313,21 +413,21 @@ views
       },
       meta: {
         title: 'multi-menu_second_child'
-      }
+      },
     },
     {
       name: 'multi-menu_second_child_home',
       path: '/multi-menu/second/child/home',
-      component: 'view.multi-menu_second_child_home',
+      component: () => import('@/views/multi-menu/second_child_home/index.vue'),
       meta: {
         title: 'multi-menu_second_child_home'
       }
     }
   ]
-}
+},
 ```
 
-> There are still only two layers of route data for multilevel route, the first layer being the layout component and the second layer being the intermediate route layer or the component for the last level of route, where the intermediate route layer's route data contains redirection configurations, which by default redirects to the first sub-route
+> the transformed Vue routes only has two levels, the first level is the layout component, and the second level is the redirect routes or the page routes
 
 ### Ignore folder aggregation routes
 
@@ -350,46 +450,28 @@ views
 
 ```ts
 {
+  name: '403',
   path: '/403',
-  component: 'layout.base',
-  children: [
-    {
-      name: '403',
-      path: '',
-      component: 'view.403',
-      meta: {
-        title: '403'
-      }
-    }
-  ]
+  component: 'layout.base$view.403',
+  meta: {
+    title: '403'
+  }
 },
 {
+  name: '404',
   path: '/404',
-  component: 'layout.base',
-  children: [
-    {
-      name: '404',
-      path: '',
-      component: 'view.404',
-      meta: {
-        title: '404'
-      }
-    }
-  ]
+  component: 'layout.base$view.404',
+  meta: {
+    title: '404'
+  }
 },
 {
+  name: '500',
   path: '/500',
-  component: 'layout.base',
-  children: [
-    {
-      name: '500',
-      path: '',
-      component: 'view.500',
-      meta: {
-        title: '500'
-      }
-    }
-  ]
+  component: 'layout.base$view.500',
+  meta: {
+    title: '500'
+  }
 },
 ```
 
@@ -407,19 +489,98 @@ views
 
 ```ts
 {
+  name: 'user',
   path: '/user/:id',
-  component: 'layout.base',
-  children: [
-    {
-      name: 'user',
-      path: '',
-      component: 'view.user',
-      meta: {
-        title: 'user'
-      }
-    }
-  ]
+  component: 'layout.base$view.user',
+  props: true,
+  meta: {
+    title: 'user'
+  }
 }
+```
+
+#### Advanced parameter route
+
+```ts
+import type { RouteKey } from "@elegant-router/types";
+
+ElegantVueRouter({
+  routePathTransformer(routeName, routePath) {
+    const routeKey = routeName as RouteKey;
+
+    if (routeKey === "user") {
+      return "/user/:id(\\d+)";
+    }
+
+    return routePath;
+  },
+});
+```
+
+### Custom Route
+
+the custom route is only used to generate the route declaration, and the route file is not generated, you should create the route file manually.
+
+#### Config custom routes
+
+```ts
+ElegantVueRouter({
+  customRoutes: {
+    map: {
+      root: "/",
+      notFound: "/:pathMatch(.*)*",
+    },
+    names: ["two-level_route"],
+  },
+});
+```
+
+**Generated CustomRouteKey**
+
+```ts
+type RouteMap = {
+  root: "/";
+  notFound: "/:pathMatch(.*)*";
+  "two-level": "/two-level";
+  "two-level_route": "/two-level/route";
+};
+
+type CustomRouteKey = "root" | "notFound" | "two-level" | "two-level_route";
+```
+
+#### Custom routes's component
+
+**it can use existing page components as the route component**
+
+```ts
+import type { CustomRoute } from "@elegant-router/types";
+
+const customRoutes: CustomRoute[] = [
+  {
+    name: "root",
+    path: "/",
+    redirect: {
+      name: "403",
+    },
+  },
+  {
+    name: "not-found",
+    path: "/:pathMatch(.*)*",
+    component: "layout.base$view.404",
+  },
+  {
+    name: "two-level",
+    path: "/two-level",
+    component: "layout.base",
+    children: [
+      {
+        name: "two-level_route",
+        path: "/two-level/route",
+        component: "view.about",
+      },
+    ],
+  },
+];
 ```
 
 ## Plugin Option
@@ -440,18 +601,18 @@ views
 
 > extends `ElegantRouterOption`
 
-| property         | instruction                                                                                                                                  | type                                            | default value                                                                                |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| dtsDir           | the declaration file directory of the generated routes                                                                                       | `string`                                        | `"src/typings/elegant-router.d.ts"`                                                          |
-| importsDir       | the directory of the imports of routes                                                                                                       | `string`                                        | `"src/router/elegant/imports.ts"`                                                            |
-| lazyImport       | whether the route is lazy import                                                                                                             | `(routeName: string) => boolean`                | `_name => true`                                                                              |
-| constDir         | the directory of the route const                                                                                                             | `string`                                        | `"src/router/elegant/routes.ts"`                                                             |
-| customRoutesMap  | define custom routes, which's route only generate the route declaration                                                                      | `Record<string, string>`                        | `{ root: "/", notFound: "/:pathMatch(\*)\*" }`                                               |
-| layouts          | the name and file path of the route layouts                                                                                                  | `Record<string, string>`                        | `{ base: "src/layouts/base-layout/index.vue", blank: "src/layouts/blank-layout/index.vue" }` |
-| defaultLayout    | the default layout name used in generated route const ( takes the first layout of `layouts` by default.)                                     | `string`                                        | `"base"`                                                                                     |
-| layoutLazyImport | whether the route is lazy import                                                                                                             | `(layoutName: string) => boolean`               | `_name => false`                                                                             |
-| transformDir     | the directory of the routes transform function (Converts the route definitions of the generated conventions into routes for the vue-router.) | `string`                                        | `"src/router/elegant/transform.ts"`                                                          |
-| onRouteMetaGen   | the route meta generator                                                                                                                     | `(routeName: string) => Record<string, string>` | `routeName => ({ title: routeName })`                                                        |
+| property         | instruction                                                                                                                                  | type                                               | default value                                                                                |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| dtsDir           | the declaration file directory of the generated routes                                                                                       | `string`                                           | `"src/typings/elegant-router.d.ts"`                                                          |
+| importsDir       | the directory of the imports of routes                                                                                                       | `string`                                           | `"src/router/elegant/imports.ts"`                                                            |
+| lazyImport       | whether the route is lazy import                                                                                                             | `(routeName: string) => boolean`                   | `_name => true`                                                                              |
+| constDir         | the directory of the route const                                                                                                             | `string`                                           | `"src/router/elegant/routes.ts"`                                                             |
+| customRoutes     | define custom routes, which's route only generate the route declaration                                                                      | `{ map: Record<string, string>; names: string[] }` | `{ map: { root: "/", notFound: "/:pathMatch(\*)\*" }, names: []}`                            |
+| layouts          | the name and file path of the route layouts                                                                                                  | `Record<string, string>`                           | `{ base: "src/layouts/base-layout/index.vue", blank: "src/layouts/blank-layout/index.vue" }` |
+| defaultLayout    | the default layout name used in generated route const ( takes the first layout of `layouts` by default.)                                     | `string`                                           | `"base"`                                                                                     |
+| layoutLazyImport | whether the route is lazy import                                                                                                             | `(layoutName: string) => boolean`                  | `_name => false`                                                                             |
+| transformDir     | the directory of the routes transform function (Converts the route definitions of the generated conventions into routes for the vue-router.) | `string`                                           | `"src/router/elegant/transform.ts"`                                                          |
+| onRouteMetaGen   | the route meta generator                                                                                                                     | `(routeName: string) => Record<string, string>`    | `routeName => ({ title: routeName })`                                                        |
 
 ## Caveat
 

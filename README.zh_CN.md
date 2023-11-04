@@ -76,11 +76,11 @@ export default defineConfig({
 
 ```ts
 import type { ElegantRoute, CustomRoute } from "@elegant-router/types";
-import { autoRoutes } from "../elegant/routes";
+import { generatedRoutes } from "../elegant/routes";
 import { layouts, views } from "../elegant/imports";
-import { transformElegantRouteToVueRoute } from "../elegant/transform";
+import { transformElegantRoutesToVueRoutes } from "../elegant/transform";
 
-const constantRoutes: CustomRoute[] = [
+const customRoutes: CustomRoute[] = [
   {
     name: "root",
     path: "/",
@@ -89,21 +89,15 @@ const constantRoutes: CustomRoute[] = [
     },
   },
   {
+    name: "not-found",
     path: "/:pathMatch(.*)*",
-    component: "layout.base",
-    children: [
-      {
-        name: "not-found",
-        path: "",
-        component: "view.404",
-      },
-    ],
+    component: "layout.base$view.404",
   },
 ];
 
-const elegantRoutes: ElegantRoute[] = [...constantRoutes, ...autoRoutes];
+const elegantRoutes: ElegantRoute[] = [...customRoutes, ...generatedRoutes];
 
-export const routes = transformElegantRouteToVueRoute(
+export const routes = transformElegantRoutesToVueRoutes(
   elegantRoutes,
   layouts,
   views
@@ -154,22 +148,35 @@ views
 
 ```ts
 {
+  name: 'about',
   path: '/about',
-  component: 'layout.base',
+  component: 'layout.base$view.about',
+  meta: {
+    title: 'about'
+  }
+},
+```
+
+> 它是一个单级路由，为了添加布局，组件属性将布局和视图组件组合在一起，用美元符号“$”分割
+
+#### 转换成的Vue路由
+
+```ts
+{
+  path: '/about',
+  component: BaseLayout,
   children: [
     {
       name: 'about',
       path: '',
-      component: 'view.about',
+      component: () => import('@/views/about/index.vue'),
       meta: {
         title: 'about'
       }
     }
   ]
-}
+},
 ```
-
-> 虽然是一级路由，但是路由数据仍然是有两层的，因为一级路由也需要使用布局组件，因此第一层路由是布局组件，第二层路由是页面组件
 
 ### 二级路由
 
@@ -203,9 +210,6 @@ views
   name: 'list',
   path: '/list',
   component: 'layout.base',
-  redirect: {
-    name: 'list_home'
-  },
   meta: {
     title: 'list'
   },
@@ -225,12 +229,48 @@ views
       meta: {
         title: 'list_detail'
       }
-    },
+    }
   ]
 }
 ```
 
-> 二级路由的路由数据也是有两层的，第一层路由是布局组件，第二层路由是页面组件，其中第一层的路由数据中包含了重定向的配置，默认重定向到第一个子路由
+> 二级路由的路由数据也是有两层的，第一层路由是布局组件，第二层路由是页面组件
+
+#### 转换成的Vue路由
+
+```ts
+{
+  name: 'list',
+  path: '/list',
+  component: BaseLayout,
+  redirect: {
+    name: 'list_home'
+  },
+  meta: {
+    title: 'list'
+  },
+  children: [
+    {
+      name: 'list_home',
+      path: '/list/home',
+      component: () => import('@/views/list/home/index.vue'),
+      meta: {
+        title: 'list_home'
+      }
+    },
+    {
+      name: 'list_detail',
+      path: '/list/detail',
+      component: () => import('@/views/list/detail/index.vue'),
+      meta: {
+        title: 'list_detail'
+      }
+    }
+  ]
+},
+```
+
+> 路由数据的第一层包含重定向的配置，默认重定向到第一个子路由
 
 ### 多级路由（三级路由及以上）
 
@@ -270,6 +310,66 @@ views
   name: 'multi-menu',
   path: '/multi-menu',
   component: 'layout.base',
+  meta: {
+    title: 'multi-menu'
+  },
+  children: [
+    {
+      name: 'multi-menu_first',
+      path: '/multi-menu/first',
+      meta: {
+        title: 'multi-menu_first'
+      },
+      children: [
+        {
+          name: 'multi-menu_first_child',
+          path: '/multi-menu/first/child',
+          component: 'view.multi-menu_first_child',
+          meta: {
+            title: 'multi-menu_first_child'
+          }
+        }
+      ]
+    },
+    {
+      name: 'multi-menu_second',
+      path: '/multi-menu/second',
+      meta: {
+        title: 'multi-menu_second'
+      },
+      children: [
+        {
+          name: 'multi-menu_second_child',
+          path: '/multi-menu/second/child',
+          meta: {
+            title: 'multi-menu_second_child'
+          },
+          children: [
+            {
+              name: 'multi-menu_second_child_home',
+              path: '/multi-menu/second/child/home',
+              component: 'view.multi-menu_second_child_home',
+              meta: {
+                title: 'multi-menu_second_child_home'
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+> 如果路由层级大于 2，生成的路由数据是一个递归结构
+
+#### 转换成的Vue路由
+
+```ts
+{
+  name: 'multi-menu',
+  path: '/multi-menu',
+  component: BaseLayout,
   redirect: {
     name: 'multi-menu_first'
   },
@@ -290,7 +390,7 @@ views
     {
       name: 'multi-menu_first_child',
       path: '/multi-menu/first/child',
-      component: 'view.multi-menu_first_child',
+      component: () => import('@/views/multi-menu/first_child/index.vue'),
       meta: {
         title: 'multi-menu_first_child'
       }
@@ -303,7 +403,7 @@ views
       },
       meta: {
         title: 'multi-menu_second'
-      }
+      },
     },
     {
       name: 'multi-menu_second_child',
@@ -313,21 +413,21 @@ views
       },
       meta: {
         title: 'multi-menu_second_child'
-      }
+      },
     },
     {
       name: 'multi-menu_second_child_home',
       path: '/multi-menu/second/child/home',
-      component: 'view.multi-menu_second_child_home',
+      component: () => import('@/views/multi-menu/second_child_home/index.vue'),
       meta: {
         title: 'multi-menu_second_child_home'
       }
     }
   ]
-}
+},
 ```
 
-> 多级路由的路由数据仍然只有两层，第一层为布局组件，第二层为中间路由层或最后一级路由的组件，其中中间路由层的路由数据中包含了重定向的配置，默认重定向到第一个子路由
+> 转换的 Vue 路由只有两层，第一层是布局组件，第二层是重定向路由或者页面路由
 
 ### 忽略文件夹的聚合路由
 
@@ -350,46 +450,28 @@ views
 
 ```ts
 {
+  name: '403',
   path: '/403',
-  component: 'layout.base',
-  children: [
-    {
-      name: '403',
-      path: '',
-      component: 'view.403',
-      meta: {
-        title: '403'
-      }
-    }
-  ]
+  component: 'layout.base$view.403',
+  meta: {
+    title: '403'
+  }
 },
 {
+  name: '404',
   path: '/404',
-  component: 'layout.base',
-  children: [
-    {
-      name: '404',
-      path: '',
-      component: 'view.404',
-      meta: {
-        title: '404'
-      }
-    }
-  ]
+  component: 'layout.base$view.404',
+  meta: {
+    title: '404'
+  }
 },
 {
+  name: '500',
   path: '/500',
-  component: 'layout.base',
-  children: [
-    {
-      name: '500',
-      path: '',
-      component: 'view.500',
-      meta: {
-        title: '500'
-      }
-    }
-  ]
+  component: 'layout.base$view.500',
+  meta: {
+    title: '500'
+  }
 },
 ```
 
@@ -407,19 +489,98 @@ views
 
 ```ts
 {
+  name: 'user',
   path: '/user/:id',
-  component: 'layout.base',
-  children: [
-    {
-      name: 'user',
-      path: '',
-      component: 'view.user',
-      meta: {
-        title: 'user'
-      }
-    }
-  ]
+  component: 'layout.base$view.user',
+  props: true,
+  meta: {
+    title: 'user'
+  }
 }
+```
+
+#### 高级的参数路由
+
+```ts
+import type { RouteKey } from "@elegant-router/types";
+
+ElegantVueRouter({
+  routePathTransformer(routeName, routePath) {
+    const routeKey = routeName as RouteKey;
+
+    if (routeKey === "user") {
+      return "/user/:id(\\d+)";
+    }
+
+    return routePath;
+  },
+});
+```
+
+### 自定义路由
+
+自定义路由只用于生成路由声明，不会生成路由文件，需要手动创建路由文件
+
+#### 自定义路由配置
+
+```ts
+ElegantVueRouter({
+  customRoutes: {
+    map: {
+      root: "/",
+      notFound: "/:pathMatch(.*)*",
+    },
+    names: ["two-level_route"],
+  },
+});
+```
+
+**生成的路由key**
+
+```ts
+type RouteMap = {
+  root: "/";
+  notFound: "/:pathMatch(.*)*";
+  "two-level": "/two-level";
+  "two-level_route": "/two-level/route";
+};
+
+type CustomRouteKey = "root" | "notFound" | "two-level" | "two-level_route";
+```
+
+#### 自定义路由的component
+
+**复用已经存在的页面路由component**
+
+```ts
+import type { CustomRoute } from "@elegant-router/types";
+
+const customRoutes: CustomRoute[] = [
+  {
+    name: "root",
+    path: "/",
+    redirect: {
+      name: "403",
+    },
+  },
+  {
+    name: "not-found",
+    path: "/:pathMatch(.*)*",
+    component: "layout.base$view.404",
+  },
+  {
+    name: "two-level",
+    path: "/two-level",
+    component: "layout.base",
+    children: [
+      {
+        name: "two-level_route",
+        path: "/two-level/route",
+        component: "view.about",
+      },
+    ],
+  },
+];
 ```
 
 ## 插件配置
@@ -440,18 +601,18 @@ views
 
 > 继承自 `ElegantRouterOption`
 
-| 属性名           | 说明                                                                           | 类型                                            | 默认值                                                                                       |
-| ---------------- | ------------------------------------------------------------------------------ | ----------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| dtsDir           | 生成的路由类型声明文件的相对根目录路径                                         | `string`                                        | `"src/typings/elegant-router.d.ts"`                                                          |
-| importsDir       | 生成的路由导入文件的相对根目录路径                                             | `string`                                        | `"src/router/elegant/imports.ts"`                                                            |
-| lazyImport       | 是否使用懒加载导入                                                             | `(routeName: string) => boolean`                | `_name => true`                                                                              |
-| constDir         | 生成的路由定义文件的相对根目录路径                                             | `string`                                        | `"src/router/elegant/routes.ts"`                                                             |
-| customRoutesMap  | 自定义路由的名称和路径映射表（只会生成路由类型）                               | `Record<string, string>`                        | `{ root: "/", notFound: "/:pathMatch(\*)\*" }`                                               |
-| layouts          | 布局组件的名称和文件路径映射表                                                 | `Record<string, string>`                        | `{ base: "src/layouts/base-layout/index.vue", blank: "src/layouts/blank-layout/index.vue" }` |
-| defaultLayout    | 生成路由定义里面的默认布局组件 ( 默认取`layouts`的第一个布局)                  | `string`                                        | `"base"`                                                                                     |
-| layoutLazyImport | 是否使用懒加载导入布局组件                                                     | `(layoutName: string) => boolean`               | `_name => false`                                                                             |
-| transformDir     | 路由转换文件的相对根目录路径 (将生成约定的路由定义转换成 vue-router 的 routes) | `string`                                        | `"src/router/elegant/transform.ts"`                                                          |
-| onRouteMetaGen   | 路由元信息生成函数                                                             | `(routeName: string) => Record<string, string>` | `routeName => ({ title: routeName })`                                                        |
+| 属性名           | 说明                                                                           | 类型                                               | 默认值                                                                                       |
+| ---------------- | ------------------------------------------------------------------------------ | -------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| dtsDir           | 生成的路由类型声明文件的相对根目录路径                                         | `string`                                           | `"src/typings/elegant-router.d.ts"`                                                          |
+| importsDir       | 生成的路由导入文件的相对根目录路径                                             | `string`                                           | `"src/router/elegant/imports.ts"`                                                            |
+| lazyImport       | 是否使用懒加载导入                                                             | `(routeName: string) => boolean`                   | `_name => true`                                                                              |
+| constDir         | 生成的路由定义文件的相对根目录路径                                             | `string`                                           | `"src/router/elegant/routes.ts"`                                                             |
+| customRoutes     | 自定义路由的名称和路径映射表（只会生成路由类型）                               | `{ map: Record<string, string>; names: string[] }` | `{ map: { root: "/", notFound: "/:pathMatch(\*)\*" }, names: []}`                            |
+| layouts          | 布局组件的名称和文件路径映射表                                                 | `Record<string, string>`                           | `{ base: "src/layouts/base-layout/index.vue", blank: "src/layouts/blank-layout/index.vue" }` |
+| defaultLayout    | 生成路由定义里面的默认布局组件 ( 默认取`layouts`的第一个布局)                  | `string`                                           | `"base"`                                                                                     |
+| layoutLazyImport | 是否使用懒加载导入布局组件                                                     | `(layoutName: string) => boolean`                  | `_name => false`                                                                             |
+| transformDir     | 路由转换文件的相对根目录路径 (将生成约定的路由定义转换成 vue-router 的 routes) | `string`                                           | `"src/router/elegant/transform.ts"`                                                          |
+| onRouteMetaGen   | 路由元信息生成函数                                                             | `(routeName: string) => Record<string, string>`    | `routeName => ({ title: routeName })`                                                        |
 
 ## 注意事项
 
