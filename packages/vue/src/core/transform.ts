@@ -158,16 +158,28 @@ function transformElegantRouteToVueRoute(
   return vueRoutes;
 }
 
-/**
- * get route path by route key
- * @param key route key
- */
-export function getRoutePath(key: RouteKey) {
-  const routeMap: RouteMap = {
-    ${allEntries.map(([routeName, routePath]) => `"${routeName}": "${routePath}"`).join(',\n    ')}
-  };
+const routeMap: RouteMap = {
+  ${allEntries.map(([routeName, routePath]) => `"${routeName}": "${routePath}"`).join(',\n  ')}
+};
 
-  return routeMap[key];
+/**
+ * get route path by route name
+ * @param name route name
+ */
+export function getRoutePath(name: RouteKey) {
+  return routeMap[name] || null;
+}
+
+/**
+ * get route name by route path
+ * @param path route path
+ */
+export function getRouteName(path: RouteMap[RouteKey]) {
+  const routeEntries = Object.entries(routeMap) as [RouteKey, RouteMap[RouteKey]][];
+
+  const routeName = routeEntries.find(([, routePath]) => routePath === path)?.[0];
+
+  return routeName || null;
 }
 `;
 

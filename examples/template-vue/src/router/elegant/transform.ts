@@ -132,26 +132,41 @@ function transformElegantRouteToVueRoute(
   return vueRoutes;
 }
 
-export function getRoutePath(key: RouteKey) {
-  const routeMap: RouteMap = {
-    "root": "/",
-    "not-found": "/:pathMatch(.*)*",
-    "403": "/403",
-    "404": "/404",
-    "500": "/500",
-    "about": "/about",
-    "list": "/list",
-    "list_detail": "/list/detail",
-    "list_home": "/list/home",
-    "multi-menu": "/multi-menu",
-    "multi-menu_first": "/multi-menu/first",
-    "multi-menu_first_child": "/multi-menu/first/child",
-    "multi-menu_second": "/multi-menu/second",
-    "multi-menu_second_child": "/multi-menu/second/child",
-    "multi-menu_second_child_home": "/multi-menu/second/child/home",
-    "user": "/user/:id"
-  };
+const routeMap: RouteMap = {
+  "root": "/",
+  "not-found": "/:pathMatch(.*)*",
+  "403": "/403",
+  "404": "/404",
+  "500": "/500",
+  "about": "/about",
+  "list": "/list",
+  "list_detail": "/list/detail",
+  "list_home": "/list/home",
+  "multi-menu": "/multi-menu",
+  "multi-menu_first": "/multi-menu/first",
+  "multi-menu_first_child": "/multi-menu/first/child",
+  "multi-menu_second": "/multi-menu/second",
+  "multi-menu_second_child": "/multi-menu/second/child",
+  "multi-menu_second_child_home": "/multi-menu/second/child/home",
+  "user": "/user/:id"
+};
 
-  return routeMap[key];
+/**
+ * get route path by route name
+ * @param name route name
+ */
+export function getRoutePath(name: RouteKey) {
+  return routeMap[name] || null;
 }
 
+/**
+ * get route name by route path
+ * @param path route path
+ */
+export function getRouteName(path: RouteMap[RouteKey]) {
+  const routeEntries = Object.entries(routeMap) as [RouteKey, RouteMap[RouteKey]][];
+
+  const routeName = routeEntries.find(([, routePath]) => routePath === path)?.[0];
+
+  return routeName || null;
+}
