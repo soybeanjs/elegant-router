@@ -1,6 +1,23 @@
 # Changelog
 
 
+## [v0.3.0-beta.3](https://github.com/soybeanjs/elegent-router/compare/v0.3.0-beta.2...v0.3.0-beta.3) (23-11-05)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **projects**: add getRoutePath transform &nbsp;-&nbsp; by @honghuangdc [<samp>(42869)</samp>](https://github.com/soybeanjs/elegent-router/commit/4286946)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **projects**:
+  - github workflow add publish npm &nbsp;-&nbsp; by @honghuangdc [<samp>(3695b)</samp>](https://github.com/soybeanjs/elegent-router/commit/3695b32)
+  - add packageManager in package.json &nbsp;-&nbsp; by @honghuangdc [<samp>(7d4f9)</samp>](https://github.com/soybeanjs/elegent-router/commit/7d4f946)
+  - update github workflow &nbsp;-&nbsp; by @honghuangdc [<samp>(ff1eb)</samp>](https://github.com/soybeanjs/elegent-router/commit/ff1eb14)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+
 ## [v0.3.0-beta.2](https://github.com/soybeanjs/elegent-router/compare/v0.3.0-beta.1...v0.3.0-beta.2) (23-11-05)
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
