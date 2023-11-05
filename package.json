@@ -25,7 +25,7 @@
     "cleanup": "soy cleanup",
     "update-pkg": "soy ncu",
     "publish-pkg": "pnpm -r publish --access public",
-    "release": "pnpm soy release && pnpm build && pnpm publish-pkg",
+    "release": "pnpm soy release",
     "prepare": "pnpm -r run stub"
   },
   "devDependencies": {
