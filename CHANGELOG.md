@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [v0.3.0-beta.5](https://github.com/soybeanjs/elegent-router/compare/v0.3.0-beta.4...v0.3.0-beta.5) (23-11-06)
+
+### &nbsp;&nbsp;&nbsp;🔥 Performance
+
+- **projects**: perf route dts &nbsp;-&nbsp; by @honghuangdc [<samp>(1d6f7)</samp>](https://github.com/soybeanjs/elegent-router/commit/1d6f7ab)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+
 ## [v0.3.0-beta.4](https://github.com/soybeanjs/elegent-router/compare/v0.3.0-beta.3...v0.3.0-beta.4) (23-11-06)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
