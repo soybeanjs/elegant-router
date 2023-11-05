@@ -5,7 +5,7 @@
 
 import type { RouteRecordRaw, RouteComponent } from 'vue-router';
 import type { ElegantConstRoute } from '@elegant-router/vue';
-import type { RouteKey, RouteMap } from '@elegant-router/types';
+import type { RouteMap, RouteKey, RoutePath } from '@elegant-router/types';
 
 /**
  * transform elegant const routes to vue routes
@@ -163,10 +163,10 @@ export function getRoutePath(name: RouteKey) {
  * get route name by route path
  * @param path route path
  */
-export function getRouteName(path: RouteMap[RouteKey]) {
-  const routeEntries = Object.entries(routeMap) as [RouteKey, RouteMap[RouteKey]][];
+export function getRouteName(path: RoutePath) {
+  const routeEntries = Object.entries(routeMap) as [RouteKey, RoutePath][];
 
-  const routeName = routeEntries.find(([, routePath]) => routePath === path)?.[0];
+  const routeName: RouteKey | null = routeEntries.find(([, routePath]) => routePath === path)?.[0] || null;
 
-  return routeName || null;
+  return routeName;
 }
