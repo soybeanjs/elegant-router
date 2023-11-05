@@ -5,6 +5,7 @@
 
 import type { RouteRecordRaw, RouteComponent } from 'vue-router';
 import type { ElegantConstRoute } from '@elegant-router/vue';
+import type { RouteKey, RouteMap } from '@elegant-router/types';
 
 /**
  * transform elegant const routes to vue routes
@@ -129,5 +130,28 @@ function transformElegantRouteToVueRoute(
   vueRoutes.unshift(vueRoute);
 
   return vueRoutes;
-}  
+}
+
+export function getRoutePath(key: RouteKey) {
+  const routeMap: RouteMap = {
+    "root": "/",
+    "not-found": "/:pathMatch(.*)*",
+    "403": "/403",
+    "404": "/404",
+    "500": "/500",
+    "about": "/about",
+    "list": "/list",
+    "list_detail": "/list/detail",
+    "list_home": "/list/home",
+    "multi-menu": "/multi-menu",
+    "multi-menu_first": "/multi-menu/first",
+    "multi-menu_first_child": "/multi-menu/first/child",
+    "multi-menu_second": "/multi-menu/second",
+    "multi-menu_second_child": "/multi-menu/second/child",
+    "multi-menu_second_child_home": "/multi-menu/second/child/home",
+    "user": "/user/:id"
+  };
+
+  return routeMap[key];
+}
 

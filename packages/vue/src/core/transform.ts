@@ -1,6 +1,8 @@
 import path from 'node:path';
 import { writeFile } from 'node:fs/promises';
+import type { ElegantRouterNamePathEntry } from '@elegant-router/core';
 import { createPrefixCommentOfGenFile } from './comment';
+import { getCustomRouteConfig } from './shared';
 import { ensureFile } from '../shared/fs';
 import type { ElegantVueRouterOption } from '../types';
 
@@ -8,8 +10,8 @@ import type { ElegantVueRouterOption } from '../types';
  * generate the transform file
  * @param options
  */
-export async function genTransformFile(options: ElegantVueRouterOption) {
-  const code = getTransformCode();
+export async function genTransformFile(options: ElegantVueRouterOption, entries: ElegantRouterNamePathEntry[]) {
+  const code = getTransformCode(options, entries);
 
   const transformPath = path.posix.join(options.cwd, options.transformDir);
 
@@ -18,13 +20,18 @@ export async function genTransformFile(options: ElegantVueRouterOption) {
   await writeFile(transformPath, code);
 }
 
-function getTransformCode() {
+function getTransformCode(options: ElegantVueRouterOption, entries: ElegantRouterNamePathEntry[]) {
   const prefixComment = createPrefixCommentOfGenFile();
+
+  const { entries: customEntries } = getCustomRouteConfig(options);
+
+  const allEntries = [...customEntries, ...entries];
 
   const code = `${prefixComment}
 
 import type { RouteRecordRaw, RouteComponent } from 'vue-router';
 import type { ElegantConstRoute } from '@elegant-router/vue';
+import type { RouteKey, RouteMap } from '@elegant-router/types';
 
 /**
  * transform elegant const routes to vue routes
@@ -149,8 +156,19 @@ function transformElegantRouteToVueRoute(
   vueRoutes.unshift(vueRoute);
 
   return vueRoutes;
-}  
+}
 
+/**
+ * get route path by route key
+ * @param key route key
+ */
+export function getRoutePath(key: RouteKey) {
+  const routeMap: RouteMap = {
+    ${allEntries.map(([routeName, routePath]) => `"${routeName}": "${routePath}"`).join(',\n    ')}
+  };
+
+  return routeMap[key];
+}
 `;
 
   return code;

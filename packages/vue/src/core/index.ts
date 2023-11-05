@@ -20,7 +20,7 @@ export default class ElegantVueRouter {
 
     this.options = createPluginOptions(this.elegantRouter.options, options);
 
-    genTransformFile(this.options);
+    genTransformFile(this.options, this.elegantRouter.entries);
 
     this.generate();
   }

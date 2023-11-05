@@ -1,5 +1,5 @@
 import type { _RouteRecordBase } from 'vue-router';
-import type { ElegantRouterOption } from '@elegant-router/core';
+import type { ElegantRouterOption, ElegantRouterNamePathEntry } from '@elegant-router/core';
 
 export interface ElegantVueRouterOption extends ElegantRouterOption {
   /**
@@ -105,6 +105,15 @@ export interface ElegantVueRouterOption extends ElegantRouterOption {
    */
   onRouteMetaGen(routeName: string): Record<string, unknown>;
 }
+
+/**
+ *
+ */
+export type CustomRouteConfig = {
+  entries: ElegantRouterNamePathEntry[];
+  firstLevelRoutes: string[];
+  lastLevelRoutes: string[];
+};
 
 /**
  * elegant const route
