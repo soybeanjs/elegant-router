@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [v0.3.0-beta.4](https://github.com/soybeanjs/elegent-router/compare/v0.3.0-beta.3...v0.3.0-beta.4) (23-11-06)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **projects**: add getRouteName transform &nbsp;-&nbsp; by @honghuangdc [<samp>(93051)</samp>](https://github.com/soybeanjs/elegent-router/commit/930513c)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+
 ## [v0.3.0-beta.3](https://github.com/soybeanjs/elegent-router/compare/v0.3.0-beta.2...v0.3.0-beta.3) (23-11-05)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
