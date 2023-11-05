@@ -42,6 +42,9 @@ export const generatedRoutes: GeneratedRoute[] = [
     name: 'list',
     path: '/list',
     component: 'layout.base',
+    redirect: {
+      name: 'list_home'
+    },
     meta: {
       title: 'list'
     },

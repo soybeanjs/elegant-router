@@ -130,7 +130,7 @@ function transformElegantRouteToVueRoute(
   }
   
   // add redirect to child
-  if (children?.length) {
+  if (children?.length && !vueRoute.redirect) {
     vueRoute.redirect = {
       name: children[0].name
     };
