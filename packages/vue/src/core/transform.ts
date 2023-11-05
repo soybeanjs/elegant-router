@@ -115,8 +115,6 @@ function transformElegantRouteToVueRoute(
       return [singleLevelRoute];
     }
 
-    
-
     if (isLayout(component)) {
       const layoutName = getLayoutName(component);
 
@@ -131,8 +129,8 @@ function transformElegantRouteToVueRoute(
 
   }
   
-  // center level layout add redirect to child
-  if (!component && children?.length) {
+  // add redirect to child
+  if (children?.length) {
     vueRoute.redirect = {
       name: children[0].name
     };

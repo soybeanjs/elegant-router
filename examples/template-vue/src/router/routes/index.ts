@@ -7,9 +7,7 @@ const customRoutes: CustomRoute[] = [
   {
     name: 'root',
     path: '/',
-    redirect: {
-      name: '403'
-    }
+    redirect: '/403'
   },
   {
     name: 'not-found',
