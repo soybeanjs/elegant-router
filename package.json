@@ -1,6 +1,6 @@
 {
   "name": "elegant-router",
-  "version": "0.3.0-beta.5",
+  "version": "0.3.0-beta.6",
   "description": "A plugin to create router elegantly",
   "private": true,
   "packageManager": "pnpm@8.10.2",
