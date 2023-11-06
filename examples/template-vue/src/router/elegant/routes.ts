@@ -124,7 +124,6 @@ export const generatedRoutes: GeneratedRoute[] = [
     name: 'user',
     path: '/user/:id',
     component: 'layout.base$view.user',
-    props: true,
     meta: {
       title: 'user'
     }
