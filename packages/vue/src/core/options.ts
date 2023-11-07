@@ -25,7 +25,7 @@ export function createPluginOptions(erOptions: ElegantRouterOption, options?: Pa
     lazyImport: _name => true,
     constDir: CONST_DIR,
     customRoutes: {
-      map: CUSTOM_ROUTES_MAP,
+      map: {},
       names: []
     },
     layouts: DEFAULT_LAYOUTS,
@@ -37,6 +37,11 @@ export function createPluginOptions(erOptions: ElegantRouterOption, options?: Pa
     }),
     ...erOptions,
     ...options
+  };
+
+  opts.customRoutes.map = {
+    ...CUSTOM_ROUTES_MAP,
+    ...opts.customRoutes.map
   };
 
   if (!opts.layouts[opts.defaultLayout]) {
