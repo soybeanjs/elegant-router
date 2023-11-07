@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [v0.3.0-beta.7](https://github.com/soybeanjs/elegent-router/compare/v0.3.0-beta.6...v0.3.0-beta.7) (23-11-07)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **projects**: add default customRoutes map &nbsp;-&nbsp; by @honghuangdc [<samp>(9fa1b)</samp>](https://github.com/soybeanjs/elegent-router/commit/9fa1ba6)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+
 ## [v0.3.0-beta.6](https://github.com/soybeanjs/elegent-router/compare/v0.3.0-beta.5...v0.3.0-beta.6) (23-11-07)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
