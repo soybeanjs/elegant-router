@@ -3,7 +3,7 @@
   "version": "0.3.0",
   "description": "A plugin to create router elegantly",
   "private": true,
-  "packageManager": "pnpm@8.10.2",
+  "packageManager": "pnpm@8.10.5",
   "author": {
     "name": "Soybean",
     "email": "soybeanjs@outlook.com",
@@ -30,10 +30,10 @@
     "prepare": "pnpm -r run stub"
   },
   "devDependencies": {
-    "@soybeanjs/cli": "0.7.5",
-    "eslint": "8.52.0",
+    "@soybeanjs/cli": "0.7.9",
+    "eslint": "8.53.0",
     "eslint-config-soybeanjs": "0.5.8",
     "simple-git-hooks": "2.9.0",
-    "tsx": "3.14.0"
+    "tsx": "4.1.3"
   }
 }

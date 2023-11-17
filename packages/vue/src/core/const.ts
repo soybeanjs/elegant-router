@@ -2,7 +2,7 @@ import path from 'node:path';
 import { existsSync } from 'node:fs';
 import { writeFile } from 'node:fs/promises';
 import { loadFile, generateCode } from 'magicast';
-import { parse } from 'recast/parsers/typescript';
+import { parse } from 'recast/parsers/typescript.js';
 import { PAGE_DEGREE_SPLITTER } from '@elegant-router/core';
 import type { ElegantRouterTree } from '@elegant-router/core';
 import { createPrefixCommentOfGenFile } from './comment';
