@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [v0.3.1](https://github.com/soybeanjs/elegent-router/compare/v0.3.0...v0.3.1) (23-11-17)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **projects**: update deps, support Vite5 &nbsp;-&nbsp; by @honghuangdc [<samp>(96b1a)</samp>](https://github.com/soybeanjs/elegent-router/commit/96b1aaa)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+
 ## [v0.3.0-beta.7](https://github.com/soybeanjs/elegent-router/compare/v0.3.0-beta.6...v0.3.0-beta.7) (23-11-07)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features

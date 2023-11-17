@@ -1,6 +1,6 @@
 {
   "name": "@elegant-router/react",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A React Router plugin to create router elegantly",
   "private": true,
   "author": {
