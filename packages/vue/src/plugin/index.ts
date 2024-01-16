@@ -1,7 +1,7 @@
 import MagicString from 'magic-string';
 
 export function setRouteNamePageFile(code: string, _id: string, routeName: string) {
-  const SCRIPT_SETUP = /<script\s+setup[\s\S]*?>/;
+  const SCRIPT_SETUP = /<script.*setup.*>/;
 
   if (!SCRIPT_SETUP.test(code)) {
     return null;
