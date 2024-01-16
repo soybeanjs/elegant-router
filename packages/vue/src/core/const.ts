@@ -132,7 +132,7 @@ function mergeObject<T extends Record<string, unknown>>(target: T, source: T) {
 
   keys.forEach(key => {
     if (!target[key]) {
-      Object.assign(target, source[key]);
+      Object.assign(target, { [key]: source[key] });
     }
   });
 }
