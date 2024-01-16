@@ -1,6 +1,18 @@
 # Changelog
 
 
+## [v0.3.2](https://github.com/soybeanjs/elegent-router/compare/v0.3.1...v0.3.2) (24-01-16)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **projects**:
+  - fix function mergeObject &nbsp;-&nbsp; by @honghuangdc [<samp>(33113)</samp>](https://github.com/soybeanjs/elegent-router/commit/3311302)
+  - fix regexp: script setup &nbsp;-&nbsp; by @honghuangdc [<samp>(394ed)</samp>](https://github.com/soybeanjs/elegent-router/commit/394ed79)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+
 ## [v0.3.1](https://github.com/soybeanjs/elegent-router/compare/v0.3.0...v0.3.1) (23-11-17)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
