@@ -4,28 +4,23 @@ English | [中文](./README.zh_CN.md)
 
 ## Introduction
 
-ElegantRouter is a tool for creating routes based on the file system. It can directly and automatically generate route definitions, route file imports, and route-related type definitions. You only need to create route files according to the agreed rules, and you don't need to write any additional configurations in the route files.
+ElegantRouter is a tool for creating routes based on the file system, which can automatically generate route definitions, route file imports and route-related type definitions. Just create the route file according to the agreed rules, without adding any additional configuration in the route file.
 
 ### Differences and similarities
 
-The similarities and differences between ElegantRouter and other file system based route tools are as follows:
+The main difference between ElegantRouter and other file system-based routing tools is that:
 
-1. Other file-based route tools have a lot of configuration conventions and black-box route data, which makes it difficult to customize.
-2. ElegantRouter still follows the api-first principle, but only automates the process of configuring routes.
+1. Other tools have complex configuration rules, and the route data is a black box, which is difficult to customize.
+2. ElegantRouter follows the api-first principle and automates the process of configuring routes.
 
-### The traditional route configuration process
+Taking configuring Vue routes as an example, the traditional way of creating page routes requires the following steps:
 
-Take the process of configuring Vue routes as an example. To create a page route, you need to go through the following steps:
+1. Import the layout component
+2. Import the page component
+3. Define the route in the route configuration file
 
-1. import the layout component
-2. import the page component
-3. Define the route in the route configuration file.
-
-**Disadvantage:**
-
-- The above steps, while not seemingly complicated, are repeated during actual development and need to be done manually each time.
-- Maintenance of route names and paths is very cumbersome
-- There is no clear convention on route definition for layout and page components, which leads to confusion in route definition
+Although these steps are not complicated, in actual development, they are repetitive and need to be done manually. In addition, the maintenance of route names and paths is very troublesome, there is no clear agreement on the route definition of the layout and page components, resulting in a messy route definition.
+And using ElegantRouter, you only need to create the route file according to the agreed rules, you can automatically generate the route in the specified route file.
 
 ### ElegantRouter's route configuration process
 
