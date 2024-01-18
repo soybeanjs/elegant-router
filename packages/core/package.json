@@ -1,6 +1,6 @@
 {
   "name": "@elegant-router/core",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "A plugin to create router elegantly",
   "author": {
     "name": "Soybean",
@@ -28,7 +28,9 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "pnpm typecheck && unbuild",
     "stub": "unbuild --stub",

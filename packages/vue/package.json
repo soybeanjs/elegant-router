@@ -1,6 +1,6 @@
 {
   "name": "@elegant-router/vue",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "A Vue3 Router plugin to create router elegantly",
   "author": {
     "name": "Soybean",
@@ -52,10 +52,15 @@
   "types": "./dist/index.d.ts",
   "typesVersions": {
     "*": {
-      "*": ["./dist/*", "./*"]
+      "*": [
+        "./dist/*",
+        "./*"
+      ]
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "pnpm typecheck && pnpm unbuild",
     "stub": "unbuild --stub",

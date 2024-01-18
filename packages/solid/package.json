@@ -1,6 +1,6 @@
 {
   "name": "@elegant-router/solid",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "private": true,
   "description": "A Solid Router plugin to create router elegantly",
   "author": {
@@ -29,7 +29,9 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "pnpm typecheck && unbuild",
     "typecheck": "tsc --noEmit --skipLibCheck"

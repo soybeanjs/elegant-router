@@ -1,6 +1,28 @@
 # Changelog
 
 
+## [v0.3.3](https://github.com/soybeanjs/elegent-router/compare/v0.3.2...v0.3.3) (24-01-19)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **projects**: fix customRoute generate repeat routes &nbsp;-&nbsp; by @honghuangdc [<samp>(7bf1a)</samp>](https://github.com/soybeanjs/elegent-router/commit/7bf1a1f)
+
+### &nbsp;&nbsp;&nbsp;💅 Refactors
+
+- **projects**: use eslint flat config &nbsp;-&nbsp; by @honghuangdc [<samp>(5f7bc)</samp>](https://github.com/soybeanjs/elegent-router/commit/5f7bc70)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **deps**: update deps &nbsp;-&nbsp; by @honghuangdc [<samp>(24df6)</samp>](https://github.com/soybeanjs/elegent-router/commit/24df68d)
+
+### &nbsp;&nbsp;&nbsp;🤖 CI
+
+- **projects**: update release.yaml &nbsp;-&nbsp; by @honghuangdc [<samp>(654d3)</samp>](https://github.com/soybeanjs/elegent-router/commit/654d35f)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+
 ## [v0.3.2](https://github.com/soybeanjs/elegent-router/compare/v0.3.1...v0.3.2) (24-01-16)
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
