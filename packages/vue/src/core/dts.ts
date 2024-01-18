@@ -277,7 +277,7 @@ declare module "@elegant-router/types" {
           name: K;
           path: RouteMap[K];
           component: \`${LAYOUT_PREFIX}\${RouteLayout}\`;
-          children: (CustomCenterLevelRoute<GetChildRouteKey<K>> | CustomLastLevelRoute<K>)[];
+          children: (CustomCenterLevelRoute<GetChildRouteKey<K>> | CustomLastLevelRoute<GetChildRouteKey<K>>)[];
         }
       : never;
 
