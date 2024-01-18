@@ -1,24 +1,24 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "module": "ESNext",
     "target": "ESNext",
-    "lib": ["DOM", "ESNext"],
-    "strict": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "jsx": "preserve",
     "jsxImportSource": "vue",
+    "lib": ["DOM", "ESNext"],
+    "baseUrl": ".",
+    "module": "ESNext",
     "moduleResolution": "node",
-    "isolatedModules": true,
-    "resolveJsonModule": true,
-    "noUnusedLocals": true,
-    "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true,
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["vite/client", "node"]
+    "resolveJsonModule": true,
+    "types": ["vite/client", "node"],
+    "strict": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true
   },
   "exclude": ["node_modules", "dist"]
 }

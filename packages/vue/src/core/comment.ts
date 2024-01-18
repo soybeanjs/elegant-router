@@ -1,5 +1,6 @@
 /**
  * create the prefix comment of the generated file
+ *
  * @param disabledFormat whether disabled format
  */
 export function createPrefixCommentOfGenFile(disabledFormat = true) {

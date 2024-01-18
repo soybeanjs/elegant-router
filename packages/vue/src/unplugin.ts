@@ -2,7 +2,7 @@ import path from 'node:path';
 import { createUnplugin } from 'unplugin';
 import ElegantVueRouter from './core';
 import { setRouteNamePageFile } from './plugin';
-import type { ElegantVueRouterOption, ElegantConstRoute } from './types';
+import type { ElegantConstRoute, ElegantVueRouterOption } from './types';
 
 export default createUnplugin<Partial<ElegantVueRouterOption> | undefined>((options, _meta) => {
   const ctx = new ElegantVueRouter(options);

@@ -1,8 +1,8 @@
 {
   "name": "@elegant-router/svelte",
   "version": "0.3.2",
-  "description": "A Svelte Router plugin to create router elegantly",
   "private": true,
+  "description": "A Svelte Router plugin to create router elegantly",
   "author": {
     "name": "Soybean",
     "email": "soybeanjs@outlook.com",
@@ -16,22 +16,20 @@
   "bugs": {
     "url": "https://github.com/soybeanjs/elegant-router/issues"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     }
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
-  },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "build": "pnpm typecheck && unbuild",
     "typecheck": "tsc --noEmit --skipLibCheck"

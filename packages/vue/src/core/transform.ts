@@ -1,13 +1,14 @@
 import path from 'node:path';
 import { writeFile } from 'node:fs/promises';
 import type { ElegantRouterNamePathEntry } from '@elegant-router/core';
-import { createPrefixCommentOfGenFile } from './comment';
-import { getCustomRouteConfig } from './shared';
 import { ensureFile } from '../shared/fs';
 import type { ElegantVueRouterOption } from '../types';
+import { createPrefixCommentOfGenFile } from './comment';
+import { getCustomRouteConfig } from './shared';
 
 /**
  * generate the transform file
+ *
  * @param options
  */
 export async function genTransformFile(options: ElegantVueRouterOption, entries: ElegantRouterNamePathEntry[]) {

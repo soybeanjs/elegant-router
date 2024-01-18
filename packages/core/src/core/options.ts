@@ -1,8 +1,10 @@
+import process from 'node:process';
 import type { ElegantRouterOption } from '../types';
 import { normalizeWindowsPath } from './path';
 
 /**
  * create the plugin options
+ *
  * @param options the plugin options
  */
 export function createPluginOptions(options?: Partial<ElegantRouterOption>): ElegantRouterOption {

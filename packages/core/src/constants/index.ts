@@ -1,14 +1,16 @@
 /**
  * the path splitter
+ *
  * @example
- * /a/b/c
+ *   /a/b / c;
  */
 export const PATH_SPLITTER = '/';
 
 /**
  * the page degree splitter
+ *
  * @example
- * a_b_c
+ *   a_b_c;
  */
 export const PAGE_DEGREE_SPLITTER = '_';
 

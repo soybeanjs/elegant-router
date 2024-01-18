@@ -1,9 +1,9 @@
 import { consola } from 'consola';
 import {
-  PATH_SPLITTER,
   PAGE_DIR_NAME_PATTERN,
   PAGE_FILE_NAME_PATTERN,
   PAGE_FILE_NAME_WITH_SQUARE_BRACKETS_PATTERN,
+  PATH_SPLITTER,
   UPPERCASE_LETTER_PATTERN
 } from '../constants';
 
@@ -11,6 +11,7 @@ type ValidateCondition = [boolean, string];
 
 /**
  * validate the glob
+ *
  * @param glob the page glob
  * @param globPath the full path of the page glob
  */

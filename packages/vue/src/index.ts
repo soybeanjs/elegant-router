@@ -1,12 +1,12 @@
 import type {
-  ElegantRouterOption,
   ElegantRouterFile,
-  ElegantRouterNamePathMap,
   ElegantRouterNamePathEntry,
+  ElegantRouterNamePathMap,
+  ElegantRouterOption,
   ElegantRouterTree
 } from '@elegant-router/core';
 import unplugin from './unplugin';
-import type { ElegantVueRouterOption, ElegantConstRoute } from './types';
+import type { ElegantConstRoute, ElegantVueRouterOption } from './types';
 
 export type {
   ElegantRouterOption,

@@ -1,9 +1,10 @@
 {
   "name": "elegant-router",
+  "type": "module",
   "version": "0.3.2",
-  "description": "A plugin to create router elegantly",
   "private": true,
   "packageManager": "pnpm@8.10.5",
+  "description": "A plugin to create router elegantly",
   "author": {
     "name": "Soybean",
     "email": "soybeanjs@outlook.com",
@@ -19,21 +20,24 @@
   },
   "scripts": {
     "build": "pnpm -r --filter='./packages/*' run build",
-    "stub": "pnpm -r --parallel --filter='./packages/*' run stub",
-    "lint": "eslint . --fix",
-    "format": "soy prettier-write",
-    "commit": "soy git-commit",
     "cleanup": "soy cleanup",
-    "update-pkg": "soy ncu",
+    "commit": "soy git-commit",
+    "format": "soy prettier-write",
+    "lint": "eslint . --fix",
+    "prepare": "pnpm -r run stub",
     "publish-pkg": "pnpm -r publish --access public",
     "release": "pnpm soy release",
-    "prepare": "pnpm -r run stub"
+    "stub": "pnpm -r --parallel --filter='./packages/*' run stub",
+    "update-pkg": "soy ncu"
   },
   "devDependencies": {
     "@soybeanjs/cli": "1.0.2",
+    "@soybeanjs/eslint-config": "1.1.6",
     "eslint": "8.56.0",
-    "eslint-config-soybeanjs": "0.5.8",
+    "eslint-plugin-vue": "9.20.1",
     "simple-git-hooks": "2.9.0",
-    "tsx": "4.7.0"
+    "tsx": "4.7.0",
+    "typescript": "5.3.3",
+    "vue-eslint-parser": "9.4.0"
   }
 }

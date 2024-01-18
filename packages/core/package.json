@@ -15,6 +15,9 @@
   "bugs": {
     "url": "https://github.com/soybeanjs/elegant-router/issues"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -22,15 +25,10 @@
       "require": "./dist/index.cjs"
     }
   },
-  "types": "./dist/index.d.ts",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
-  },
-  "files": [
-    "dist"
-  ],
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
   "scripts": {
     "build": "pnpm typecheck && unbuild",
     "stub": "unbuild --stub",

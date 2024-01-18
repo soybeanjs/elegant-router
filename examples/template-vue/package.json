@@ -1,16 +1,16 @@
 {
   "name": "template-vue",
+  "type": "module",
   "version": "0.3.2",
   "private": true,
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "debug": "vite --debug",
     "build": "run-s type-check build-only",
-    "preview": "vite preview",
     "build-only": "vite build",
-    "type-check": "vue-tsc --noEmit --skipLibCheck",
-    "lint": "eslint . --fix"
+    "debug": "vite --debug",
+    "dev": "vite",
+    "lint": "eslint . --fix",
+    "preview": "vite preview",
+    "type-check": "vue-tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
     "@elegant-router/vue": "workspace:*",

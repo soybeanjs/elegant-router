@@ -1,12 +1,12 @@
 import ElegantRouter from '@elegant-router/core';
 import type { ViteDevServer } from 'vite';
+import type { ElegantVueRouterOption } from '../types';
 import { createPluginOptions } from './options';
 import { genDtsFile } from './dts';
 import { genImportsFile } from './imports';
 import { genConstFile } from './const';
 import { genTransformFile } from './transform';
 import { log } from './log';
-import type { ElegantVueRouterOption } from '../types';
 
 export default class ElegantVueRouter {
   options: ElegantVueRouterOption;

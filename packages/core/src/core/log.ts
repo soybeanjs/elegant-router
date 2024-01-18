@@ -4,6 +4,7 @@ import { lightGreen } from 'kolorist';
 
 /**
  * log the message
+ *
  * @param msg the message
  * @param type the log type
  * @param show whether to show the log

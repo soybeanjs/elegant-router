@@ -1,14 +1,14 @@
 import path from 'node:path';
 import { existsSync } from 'node:fs';
 import { writeFile } from 'node:fs/promises';
-import { loadFile, generateCode } from 'magicast';
+import { generateCode, loadFile } from 'magicast';
 import { parse } from 'recast/parsers/typescript.js';
 import { PAGE_DEGREE_SPLITTER } from '@elegant-router/core';
 import type { ElegantRouterTree } from '@elegant-router/core';
-import { createPrefixCommentOfGenFile } from './comment';
 import { formatCode } from '../shared/prettier';
-import { LAYOUT_PREFIX, VIEW_PREFIX, FIRST_LEVEL_ROUTE_COMPONENT_SPLIT } from '../constants';
-import type { ElegantVueRouterOption, RouteConstExport, ElegantConstRoute } from '../types';
+import { FIRST_LEVEL_ROUTE_COMPONENT_SPLIT, LAYOUT_PREFIX, VIEW_PREFIX } from '../constants';
+import type { ElegantConstRoute, ElegantVueRouterOption, RouteConstExport } from '../types';
+import { createPrefixCommentOfGenFile } from './comment';
 
 export async function genConstFile(tree: ElegantRouterTree[], options: ElegantVueRouterOption) {
   const { cwd, constDir } = options;
@@ -159,6 +159,7 @@ function getElegantConstRouteMap(constRoutes: ElegantConstRoute[]) {
 
 /**
  * transform ElegantRouter route tree to ElegantConstRoute
+ *
  * @param tree the ElegantRouter route tree
  * @param options the plugin options
  */

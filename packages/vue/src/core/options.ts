@@ -3,6 +3,7 @@ import type { ElegantVueRouterOption } from '../types';
 
 /**
  * create the plugin options
+ *
  * @param options the plugin options
  */
 export function createPluginOptions(erOptions: ElegantRouterOption, options?: Partial<ElegantVueRouterOption>) {

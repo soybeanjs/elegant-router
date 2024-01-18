@@ -1,4 +1,4 @@
-import type { ElegantRoute, CustomRoute } from '@elegant-router/types';
+import type { CustomRoute, ElegantRoute } from '@elegant-router/types';
 import { generatedRoutes } from '../elegant/routes';
 import { layouts, views } from '../elegant/imports';
 import { transformElegantRoutesToVueRoutes } from '../elegant/transform';

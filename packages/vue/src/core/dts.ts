@@ -2,11 +2,11 @@ import path from 'node:path';
 import { writeFile } from 'node:fs/promises';
 import { PAGE_DEGREE_SPLITTER } from '@elegant-router/core';
 import type { ElegantRouterFile, ElegantRouterNamePathEntry } from '@elegant-router/core';
-import { createPrefixCommentOfGenFile } from './comment';
-import { getCustomRouteConfig } from './shared';
 import { ensureFile } from '../shared/fs';
-import type { ElegantVueRouterOption, CustomRouteConfig } from '../types';
+import type { CustomRouteConfig, ElegantVueRouterOption } from '../types';
 import { LAYOUT_PREFIX, VIEW_PREFIX } from '../constants';
+import { getCustomRouteConfig } from './shared';
+import { createPrefixCommentOfGenFile } from './comment';
 
 export async function genDtsFile(
   files: ElegantRouterFile[],

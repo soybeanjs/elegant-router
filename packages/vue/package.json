@@ -15,52 +15,47 @@
   "bugs": {
     "url": "https://github.com/soybeanjs/elegant-router/issues"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     },
     "./vite": {
       "types": "./dist/vite.d.ts",
-      "require": "./dist/vite.cjs",
-      "import": "./dist/vite.mjs"
+      "import": "./dist/vite.mjs",
+      "require": "./dist/vite.cjs"
     },
     "./webpack": {
       "types": "./dist/webpack.d.ts",
-      "require": "./dist/webpack.cjs",
-      "import": "./dist/webpack.mjs"
+      "import": "./dist/webpack.mjs",
+      "require": "./dist/webpack.cjs"
     },
     "./rollup": {
       "types": "./dist/rollup.d.ts",
-      "require": "./dist/rollup.cjs",
-      "import": "./dist/rollup.mjs"
+      "import": "./dist/rollup.mjs",
+      "require": "./dist/rollup.cjs"
     },
     "./esbuild": {
       "types": "./dist/esbuild.d.ts",
-      "require": "./dist/esbuild.cjs",
-      "import": "./dist/esbuild.mjs"
+      "import": "./dist/esbuild.mjs",
+      "require": "./dist/esbuild.cjs"
     },
     "./*": "./*"
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
-  },
-  "files": [
-    "dist"
-  ],
   "typesVersions": {
     "*": {
-      "*": [
-        "./dist/*",
-        "./*"
-      ]
+      "*": ["./dist/*", "./*"]
     }
   },
+  "files": ["dist"],
   "scripts": {
     "build": "pnpm typecheck && pnpm unbuild",
     "stub": "unbuild --stub",

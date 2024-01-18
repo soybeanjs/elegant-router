@@ -1,9 +1,10 @@
 import { splitRouterName, transformRouterNameToPath } from '@elegant-router/core';
 import type { ElegantRouterNamePathEntry } from '@elegant-router/core';
-import type { ElegantVueRouterOption, CustomRouteConfig } from '../types';
+import type { CustomRouteConfig, ElegantVueRouterOption } from '../types';
 
 /**
  * get custom route config
+ *
  * @param options
  */
 export function getCustomRouteConfig(options: ElegantVueRouterOption): CustomRouteConfig {

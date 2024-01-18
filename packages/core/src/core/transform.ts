@@ -1,16 +1,17 @@
 import path from 'node:path';
 import type {
-  ElegantRouterOption,
   ElegantRouterFile,
-  ElegantRouterNamePathMap,
   ElegantRouterNamePathEntry,
+  ElegantRouterNamePathMap,
+  ElegantRouterOption,
   ElegantRouterTree
 } from '../types';
+import { PAGE_DEGREE_SPLITTER, PAGE_FILE_NAME_WITH_SQUARE_BRACKETS_PATTERN, PATH_SPLITTER } from '../constants';
 import { getFullPathOfPageGlob } from './path';
-import { PATH_SPLITTER, PAGE_DEGREE_SPLITTER, PAGE_FILE_NAME_WITH_SQUARE_BRACKETS_PATTERN } from '../constants';
 
 /**
  * transform the page glob to the router file
+ *
  * @param glob
  * @param options
  */
@@ -64,6 +65,7 @@ export function transformPageGlobToRouterFile(glob: string, options: ElegantRout
 
 /**
  * transform the router files to the router maps (name -> path)
+ *
  * @param files
  * @param options
  */
@@ -94,6 +96,7 @@ export function transformRouterFilesToMaps(files: ElegantRouterFile[], options: 
 
 /**
  * transform the router files to the router entries (name -> path)
+ *
  * @param maps
  */
 export function transformRouterMapsToEntries(maps: ElegantRouterNamePathMap) {
@@ -108,6 +111,7 @@ export function transformRouterMapsToEntries(maps: ElegantRouterNamePathMap) {
 
 /**
  * transform the router entries to the router trees
+ *
  * @param entries
  * @param options
  */
@@ -158,6 +162,7 @@ export function transformRouterEntriesToTrees(entries: ElegantRouterNamePathEntr
 
 /**
  * recursive get the route tree children
+ *
  * @param parentName
  * @param children
  * @param maps
@@ -189,9 +194,12 @@ function recursiveGetRouteTreeChildren(parentName: string, children: string[][],
 }
 
 /**
- *  split the router name
+ * split the router name
+ *
+ * @example
+ *   a_b_c => ['a', 'a_b', 'a_b_c'];
+ *
  * @param name
- * @example "a_b_c" => ["a", "a_b", "a_b_c"]
  */
 export function splitRouterName(name: string) {
   const names = name.split(PAGE_DEGREE_SPLITTER);
@@ -209,8 +217,11 @@ export function splitRouterName(name: string) {
 
 /**
  * transform the router name to the router path
+ *
+ * @example
+ *   a_b_c => '/a/b/c';
+ *
  * @param name
- * @example "a_b_c" => "/a/b/c"
  */
 export function transformRouterNameToPath(name: string) {
   const routerPath = PATH_SPLITTER + name.replaceAll(PAGE_DEGREE_SPLITTER, PATH_SPLITTER);

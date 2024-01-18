@@ -2,6 +2,7 @@ import fg from 'fast-glob';
 
 /**
  * get globs
+ *
  * @param patterns the glob patterns
  * @param exclude the glob exclude patterns
  * @param matchDir the glob match directory

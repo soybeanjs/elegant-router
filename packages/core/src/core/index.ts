@@ -1,61 +1,45 @@
 import micromatch from 'micromatch';
 import type { FSWatcher } from 'chokidar';
-import { createPluginOptions } from './options';
 import type {
-  ElegantRouterOption,
   ElegantRouterFile,
-  ElegantRouterNamePathMap,
   ElegantRouterNamePathEntry,
+  ElegantRouterNamePathMap,
+  ElegantRouterOption,
   ElegantRouterTree
 } from '../types';
 import { getGlobs } from '../shared/glob';
+import { createPluginOptions } from './options';
 import { handleValidatePageGlob } from './validate';
 import { getFullPathOfPageGlob } from './path';
 import {
   transformPageGlobToRouterFile,
+  transformRouterEntriesToTrees,
   transformRouterFilesToMaps,
-  transformRouterMapsToEntries,
-  transformRouterEntriesToTrees
+  transformRouterMapsToEntries
 } from './transform';
 import { setupWatcher } from './watcher';
 
-/**
- * the class of the plugin
- */
+/** the class of the plugin */
 export default class ElegantRouter {
-  /**
-   * the plugin options
-   */
+  /** the plugin options */
   options: ElegantRouterOption;
 
-  /**
-   * the page globs
-   */
+  /** the page globs */
   pageGlobs: string[] = [];
 
-  /**
-   * the router files
-   */
+  /** the router files */
   files: ElegantRouterFile[] = [];
 
-  /**
-   * the router name path maps
-   */
+  /** the router name path maps */
   maps: ElegantRouterNamePathMap = new Map<string, string>();
 
-  /**
-   * the router name path entries
-   */
+  /** the router name path entries */
   entries: ElegantRouterNamePathEntry[] = [];
 
-  /**
-   * the router trees
-   */
+  /** the router trees */
   trees: ElegantRouterTree[] = [];
 
-  /**
-   * the FS watcher
-   */
+  /** the FS watcher */
   fsWatcher?: FSWatcher;
 
   constructor(options: Partial<ElegantRouterOption> = {}) {
@@ -63,17 +47,13 @@ export default class ElegantRouter {
     this.scanPages();
   }
 
-  /**
-   * scan the pages
-   */
+  /** scan the pages */
   scanPages() {
     this.getPageGlobs();
     this.getRouterContextProps();
   }
 
-  /**
-   * get the valid page globs
-   */
+  /** get the valid page globs */
   getPageGlobs() {
     const { pagePatterns, pageExcludePatterns, pageDir } = this.options;
 
@@ -84,6 +64,7 @@ export default class ElegantRouter {
 
   /**
    * filter the valid page globs
+   *
    * @param globs
    */
   filterValidPageGlobs(globs: string[], needMatch = false) {
@@ -102,6 +83,7 @@ export default class ElegantRouter {
 
   /**
    * whether the glob is match page glob
+   *
    * @param glob
    */
   isMatchPageGlob(glob: string) {
@@ -112,15 +94,14 @@ export default class ElegantRouter {
 
   /**
    * get route file by glob
+   *
    * @param glob
    */
   getRouterFileByGlob(glob: string) {
     return transformPageGlobToRouterFile(glob, this.options);
   }
 
-  /**
-   * get the router context props
-   */
+  /** get the router context props */
   getRouterContextProps() {
     this.files = this.pageGlobs.map(glob => transformPageGlobToRouterFile(glob, this.options));
     this.maps = transformRouterFilesToMaps(this.files, this.options);
@@ -130,6 +111,7 @@ export default class ElegantRouter {
 
   /**
    * setup the FS watcher
+   *
    * @param afterChange after change callback
    * @param beforeChange before change callback
    */
@@ -151,9 +133,7 @@ export default class ElegantRouter {
     );
   }
 
-  /**
-   * stop the FS watcher
-   */
+  /** stop the FS watcher */
   stopFSWatcher() {
     this.fsWatcher?.close();
   }
