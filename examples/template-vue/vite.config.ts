@@ -14,6 +14,9 @@ export default defineConfig({
         base: 'src/layouts/base-layout/index.vue',
         blank: 'src/layouts/blank-layout/index.vue'
       },
+      customRoutes: {
+        names: ['exception_403', 'exception_404', 'exception_500', 'list_detail']
+      },
       layoutLazyImport: () => false
     }),
     Inspect()

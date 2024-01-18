@@ -70,8 +70,8 @@ export interface ElegantVueRouterOption extends ElegantRouterOption {
    * ```
    */
   customRoutes: {
-    map: Record<string, string>;
-    names: string[];
+    map?: Record<string, string>;
+    names?: string[];
   };
   /**
    * the name and file path of the route layouts

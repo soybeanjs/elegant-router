@@ -24,7 +24,7 @@ export async function genTransformFile(options: ElegantVueRouterOption, entries:
 function getTransformCode(options: ElegantVueRouterOption, entries: ElegantRouterNamePathEntry[]) {
   const prefixComment = createPrefixCommentOfGenFile();
 
-  const { entries: customEntries } = getCustomRouteConfig(options);
+  const { entries: customEntries } = getCustomRouteConfig(options, entries);
 
   const allEntries = [...customEntries, ...entries];
 

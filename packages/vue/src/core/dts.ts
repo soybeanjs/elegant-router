@@ -15,7 +15,7 @@ export async function genDtsFile(
 ) {
   if (files.length === 0) return;
 
-  const customEntries = getCustomRouteConfig(options);
+  const customEntries = getCustomRouteConfig(options, entries);
 
   const code = getDtsCode(files, entries, customEntries, options.layouts);
 
