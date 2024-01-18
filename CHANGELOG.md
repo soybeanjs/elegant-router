@@ -1,6 +1,20 @@
 # Changelog
 
 
+## [v0.3.4](https://github.com/soybeanjs/elegent-router/compare/v0.3.3...v0.3.4) (24-01-19)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **projects**: fix elegant router generated dts &nbsp;-&nbsp; by @honghuangdc [<samp>(2b02b)</samp>](https://github.com/soybeanjs/elegent-router/commit/2b02bbf)
+
+### &nbsp;&nbsp;&nbsp;📖 Documentation
+
+- **projects**: update README.md &nbsp;-&nbsp; by @honghuangdc [<samp>(ea2a1)</samp>](https://github.com/soybeanjs/elegent-router/commit/ea2a1f9)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+
 ## [v0.3.3](https://github.com/soybeanjs/elegent-router/compare/v0.3.2...v0.3.3) (24-01-19)
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
