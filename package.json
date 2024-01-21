@@ -22,12 +22,12 @@
     "build": "pnpm -r --filter='./packages/*' run build",
     "cleanup": "soy cleanup",
     "commit": "soy git-commit",
-    "format": "soy prettier-write",
     "lint": "eslint . --fix",
-    "prepare": "pnpm -r run stub",
+    "prepare": "pnpm -r run stub && pnpm simple-git-hooks",
     "publish-pkg": "pnpm -r publish --access public",
     "release": "pnpm soy release",
     "stub": "pnpm -r --parallel --filter='./packages/*' run stub",
+    "typecheck": "tsc --noEmit --skipLibCheck",
     "update-pkg": "soy ncu"
   },
   "devDependencies": {
@@ -35,9 +35,17 @@
     "@soybeanjs/eslint-config": "1.1.6",
     "eslint": "8.56.0",
     "eslint-plugin-vue": "9.20.1",
+    "lint-staged": "15.2.0",
     "simple-git-hooks": "2.9.0",
     "tsx": "4.7.0",
     "typescript": "5.3.3",
     "vue-eslint-parser": "9.4.0"
+  },
+  "simple-git-hooks": {
+    "commit-msg": "pnpm soy git-commit-verify",
+    "pre-commit": "pnpm typecheck && pnpm lint-staged"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
   }
 }
