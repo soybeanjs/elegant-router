@@ -27,7 +27,7 @@ export default createUnplugin<Partial<ElegantVueRouterOption> | undefined>((opti
       transformInclude(id) {
         const { cwd, pageDir } = ctx.elegantRouter.options;
 
-        const isInPageDir = id.startsWith(path.join(cwd, pageDir));
+        const isInPageDir = id.startsWith(path.posix.join(cwd, pageDir));
 
         if (!isInPageDir) return null;
 
