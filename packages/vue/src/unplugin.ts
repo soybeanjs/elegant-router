@@ -7,43 +7,49 @@ import type { ElegantConstRoute, ElegantVueRouterOption } from './types';
 export default createUnplugin<Partial<ElegantVueRouterOption> | undefined>((options, _meta) => {
   const ctx = new ElegantVueRouter(options);
 
-  return {
-    name: '@elegant-router/vue',
-    enforce: 'pre',
-    vite: {
-      apply: 'serve',
-      configResolved() {
-        ctx.setupFSWatcher();
-      },
-      configureServer(server) {
-        ctx.setViteServer(server);
+  return [
+    {
+      name: '@elegant-router/vue',
+      enforce: 'pre',
+      vite: {
+        apply: 'serve',
+        configResolved() {
+          ctx.setupFSWatcher();
+        },
+        configureServer(server) {
+          ctx.setViteServer(server);
+        }
       }
     },
-    transformInclude(id) {
-      const { cwd, pageDir } = ctx.elegantRouter.options;
+    {
+      name: '@elegant-router/inject-name',
+      enforce: 'pre',
+      transformInclude(id) {
+        const { cwd, pageDir } = ctx.elegantRouter.options;
 
-      const isInPageDir = id.startsWith(path.join(cwd, pageDir));
+        const isInPageDir = id.startsWith(path.join(cwd, pageDir));
 
-      if (!isInPageDir) return null;
+        if (!isInPageDir) return null;
 
-      const filePath = path.posix.join(cwd, pageDir);
+        const filePath = path.posix.join(cwd, pageDir);
 
-      const glob = id.replace(`${filePath}/`, '');
+        const glob = id.replace(`${filePath}/`, '');
 
-      return ctx.elegantRouter.isMatchPageGlob(glob);
-    },
-    transform(code, id) {
-      const { cwd, pageDir } = ctx.elegantRouter.options;
+        return ctx.elegantRouter.isMatchPageGlob(glob);
+      },
+      transform(code, id) {
+        const { cwd, pageDir } = ctx.elegantRouter.options;
 
-      const filePath = path.posix.join(cwd, pageDir);
+        const filePath = path.posix.join(cwd, pageDir);
 
-      const glob = id.replace(`${filePath}/`, '');
+        const glob = id.replace(`${filePath}/`, '');
 
-      const { routeName } = ctx.elegantRouter.getRouterFileByGlob(glob);
+        const { routeName } = ctx.elegantRouter.getRouterFileByGlob(glob);
 
-      return setRouteNamePageFile(code, id, routeName);
+        return setRouteNamePageFile(code, id, routeName);
+      }
     }
-  };
+  ];
 });
 
 export type { ElegantVueRouterOption, ElegantConstRoute };
