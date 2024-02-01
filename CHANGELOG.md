@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [v0.3.5](https://github.com/soybeanjs/elegant-router/compare/v0.3.4...v0.3.5) (24-02-01)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **projects**: fix inject name &nbsp;-&nbsp; by @honghuangdc [<samp>(b27ab)</samp>](https://github.com/soybeanjs/elegant-router/commit/b27ab8a)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+
 ## [v0.3.4](https://github.com/soybeanjs/elegent-router/compare/v0.3.3...v0.3.4) (24-01-19)
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
