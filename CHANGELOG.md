@@ -1,6 +1,21 @@
 # Changelog
 
 
+## [v0.3.6](https://github.com/soybeanjs/elegent-router/compare/v0.3.5...v0.3.6) (24-02-02)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **projects**: fix inject name in windows &nbsp;-&nbsp; by @honghuangdc [<samp>(e9399)</samp>](https://github.com/soybeanjs/elegent-router/commit/e9399b2)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **deps**: update deps &nbsp;-&nbsp; by @honghuangdc [<samp>(27887)</samp>](https://github.com/soybeanjs/elegent-router/commit/2788757)
+- **projects**: add lint-staged &nbsp;-&nbsp; by @honghuangdc [<samp>(f4619)</samp>](https://github.com/soybeanjs/elegent-router/commit/f4619cc)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+
 ## [v0.3.5](https://github.com/soybeanjs/elegant-router/compare/v0.3.4...v0.3.5) (24-02-01)
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
