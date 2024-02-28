@@ -35,7 +35,7 @@
     "typecheck": "tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
-    "chokidar": "3.5.3",
+    "chokidar": "3.6.0",
     "consola": "3.2.3",
     "fast-glob": "3.3.2",
     "kolorist": "1.8.0",
@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@types/micromatch": "4.0.6",
-    "@types/node": "20.11.15",
+    "@types/node": "20.11.21",
     "typescript": "5.3.3",
     "unbuild": "2.0.0"
   }
