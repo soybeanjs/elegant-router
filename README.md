@@ -186,7 +186,7 @@ views
 │   │   └── index.vue
 ```
 
-> Please don't have the above index.vue on the same level as the folder, this is not part of the agreed upon rules
+> Please don't have the following index.vue on the same level as the folder, this is not part of the agreed upon rules
 
 **Error example**
 
