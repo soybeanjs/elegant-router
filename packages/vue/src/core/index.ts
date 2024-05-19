@@ -20,8 +20,6 @@ export default class ElegantVueRouter {
 
     this.options = createPluginOptions(this.elegantRouter.options, options);
 
-    genTransformFile(this.options, this.elegantRouter.entries);
-
     this.generate();
   }
 
@@ -56,6 +54,7 @@ export default class ElegantVueRouter {
   async generate() {
     const { files, entries, trees } = this.elegantRouter;
 
+    genTransformFile(this.options, entries);
     await genDtsFile(files, entries, this.options);
     await genImportsFile(files, this.options);
     await genConstFile(trees, this.options);
