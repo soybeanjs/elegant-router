@@ -36,13 +36,13 @@
   },
   "dependencies": {
     "consola": "3.2.3",
-    "magicast": "0.3.3",
-    "unplugin": "1.7.1"
+    "magicast": "0.3.4",
+    "unplugin": "1.10.1"
   },
   "devDependencies": {
     "@elegant-router/core": "workspace:*",
-    "@types/node": "20.11.21",
-    "typescript": "5.3.3",
+    "@types/node": "20.12.12",
+    "typescript": "5.4.5",
     "unbuild": "2.0.0"
   }
 }

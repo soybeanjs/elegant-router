@@ -42,9 +42,9 @@
     "micromatch": "4.0.5"
   },
   "devDependencies": {
-    "@types/micromatch": "4.0.6",
-    "@types/node": "20.11.21",
-    "typescript": "5.3.3",
+    "@types/micromatch": "4.0.7",
+    "@types/node": "20.12.12",
+    "typescript": "5.4.5",
     "unbuild": "2.0.0"
   }
 }
