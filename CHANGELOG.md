@@ -1,6 +1,34 @@
 # Changelog
 
 
+## [v0.3.7](https://github.com/soybeanjs/elegent-router/compare/v0.3.6...v0.3.7) (2024-05-20)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **projects**: add error handle when route resolve failed &nbsp;-&nbsp; by @honghuangdc [<samp>(35612)</samp>](https://github.com/soybeanjs/elegent-router/commit/356127e)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **projects**: fix the timing of the `genTransformFile` function &nbsp;-&nbsp; by @honghuangdc [<samp>(63977)</samp>](https://github.com/soybeanjs/elegent-router/commit/6397732)
+
+### &nbsp;&nbsp;&nbsp;📖 Documentation
+
+- **projects**:
+  - update README.md &nbsp;-&nbsp; by @honghuangdc [<samp>(54649)</samp>](https://github.com/soybeanjs/elegent-router/commit/5464947)
+  - update docs &nbsp;-&nbsp; by @honghuangdc [<samp>(51656)</samp>](https://github.com/soybeanjs/elegent-router/commit/5165621)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **deps**:
+  - update deps &nbsp;-&nbsp; by @honghuangdc [<samp>(8794d)</samp>](https://github.com/soybeanjs/elegent-router/commit/8794d4a)
+  - update deps &nbsp;-&nbsp; by @honghuangdc [<samp>(37be7)</samp>](https://github.com/soybeanjs/elegent-router/commit/37be7d2)
+- **projects**:
+  - update pnpm version &nbsp;-&nbsp; by @honghuangdc [<samp>(21f74)</samp>](https://github.com/soybeanjs/elegent-router/commit/21f7439)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+
 ## [v0.3.6](https://github.com/soybeanjs/elegent-router/compare/v0.3.5...v0.3.6) (24-02-02)
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
