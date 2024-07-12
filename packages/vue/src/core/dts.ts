@@ -83,7 +83,7 @@ declare module "@elegant-router/types" {
 
   /**
    * custom route key
-   */ 
+   */
   export type CustomRouteKey = Extract<
     RouteKey,`;
 
@@ -96,7 +96,7 @@ declare module "@elegant-router/types" {
 
   /**
    * the generated route key
-   */ 
+   */
   export type GeneratedRouteKey = Exclude<RouteKey, CustomRouteKey>;
 
   /**
