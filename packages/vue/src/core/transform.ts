@@ -128,6 +128,9 @@ function transformElegantRouteToVueRoute(
         const singleLevelRoute: RouteRecordRaw = {
           path,
           component: layouts[layout],
+          meta: {
+            title: route.meta?.title || ''
+          },
           children: [
             {
               name,

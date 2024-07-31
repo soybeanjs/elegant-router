@@ -39,12 +39,12 @@
     "consola": "3.2.3",
     "fast-glob": "3.3.2",
     "kolorist": "1.8.0",
-    "micromatch": "4.0.5"
+    "micromatch": "4.0.7"
   },
   "devDependencies": {
-    "@types/micromatch": "4.0.7",
-    "@types/node": "20.12.12",
-    "typescript": "5.4.5",
+    "@types/micromatch": "4.0.9",
+    "@types/node": "22.0.0",
+    "typescript": "5.5.4",
     "unbuild": "2.0.0"
   }
 }

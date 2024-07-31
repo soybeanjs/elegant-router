@@ -31,15 +31,15 @@
     "update-pkg": "soy ncu"
   },
   "devDependencies": {
-    "@soybeanjs/cli": "1.0.14",
-    "@soybeanjs/eslint-config": "1.3.5",
-    "eslint": "9.3.0",
-    "eslint-plugin-vue": "9.26.0",
-    "lint-staged": "15.2.2",
+    "@soybeanjs/cli": "1.1.0",
+    "@soybeanjs/eslint-config": "1.4.0",
+    "eslint": "9.8.0",
+    "eslint-plugin-vue": "9.27.0",
+    "lint-staged": "15.2.7",
     "simple-git-hooks": "2.11.1",
-    "tsx": "4.10.5",
-    "typescript": "5.4.5",
-    "vue-eslint-parser": "9.4.2"
+    "tsx": "4.16.3",
+    "typescript": "5.5.4",
+    "vue-eslint-parser": "9.4.3"
   },
   "simple-git-hooks": {
     "commit-msg": "pnpm soy git-commit-verify",
