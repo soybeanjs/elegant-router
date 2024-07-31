@@ -1,6 +1,22 @@
 # Changelog
 
 
+## [v0.3.8](https://github.com/soybeanjs/elegent-router/compare/v0.3.7...v0.3.8) (2024-08-01)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **projects**: update deps & fix vue-router meta type &nbsp;-&nbsp; by @honghuangdc [<samp>(43eed)</samp>](https://github.com/soybeanjs/elegent-router/commit/43eed04)
+
+### &nbsp;&nbsp;&nbsp;🎨 Styles
+
+- remove unnecessary Spaces in the generated template &nbsp;-&nbsp; by **Azir-11** [<samp>(7ac9b)</samp>](https://github.com/soybeanjs/elegent-router/commit/7ac9b60)
+- remove the extra space at the beginning of the line &nbsp;-&nbsp; by **Azir-11** [<samp>(d7fba)</samp>](https://github.com/soybeanjs/elegent-router/commit/d7fba4b)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
+[Azir-11](mailto:2075125282@qq.com)
+
 ## [v0.3.7](https://github.com/soybeanjs/elegent-router/compare/v0.3.6...v0.3.7) (2024-05-20)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features

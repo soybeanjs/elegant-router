@@ -1,6 +1,6 @@
 {
   "name": "@elegant-router/solid",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "private": true,
   "description": "A Solid Router plugin to create router elegantly",
   "author": {
