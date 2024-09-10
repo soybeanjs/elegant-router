@@ -10,6 +10,8 @@ export default defineConfig({
     vue(),
     vueJsx(),
     ElegantVueRouter({
+      pagePatterns: ['**/index.vue', '**/[[]*[]].vue'],
+      pageExcludePatterns: ['**/components/**', '**/modules/**'],
       layouts: {
         base: 'src/layouts/base-layout/index.vue',
         blank: 'src/layouts/blank-layout/index.vue'
