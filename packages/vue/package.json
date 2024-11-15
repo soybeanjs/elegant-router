@@ -69,7 +69,7 @@
     "magicast": "0.3.5",
     "prettier": "3.3.3",
     "recast": "0.23.9",
-    "unplugin": "1.14.0"
+    "unplugin": "1.16.0"
   },
   "devDependencies": {
     "@types/node": "22.5.4",
