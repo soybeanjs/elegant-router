@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.3.8",
   "private": true,
-  "packageManager": "pnpm@9.10.0",
+  "packageManager": "pnpm@9.15.0",
   "description": "A plugin to create router elegantly",
   "author": {
     "name": "Soybean",
@@ -32,13 +32,13 @@
   },
   "devDependencies": {
     "@soybeanjs/cli": "1.1.1",
-    "@soybeanjs/eslint-config": "1.4.1",
-    "eslint": "9.10.0",
-    "eslint-plugin-vue": "9.28.0",
-    "lint-staged": "15.2.10",
+    "@soybeanjs/eslint-config": "1.4.3",
+    "eslint": "9.16.0",
+    "eslint-plugin-vue": "9.32.0",
+    "lint-staged": "15.2.11",
     "simple-git-hooks": "2.11.1",
-    "tsx": "4.19.0",
-    "typescript": "5.6.2",
+    "tsx": "4.19.2",
+    "typescript": "5.7.2",
     "vue-eslint-parser": "9.4.3"
   },
   "simple-git-hooks": {
