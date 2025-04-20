@@ -14,21 +14,21 @@
   },
   "dependencies": {
     "@elegant-router/vue": "workspace:*",
-    "pinia": "2.3.0",
+    "pinia": "3.0.2",
     "vue": "3.5.13",
     "vue-router": "4.5.0"
   },
   "devDependencies": {
-    "@soybeanjs/cli": "1.1.1",
-    "@types/node": "22.10.2",
-    "@vitejs/plugin-vue": "5.2.1",
-    "@vitejs/plugin-vue-jsx": "4.1.1",
-    "eslint": "9.16.0",
+    "@soybeanjs/cli": "1.2.1",
+    "@types/node": "22.14.1",
+    "@vitejs/plugin-vue": "5.2.3",
+    "@vitejs/plugin-vue-jsx": "4.1.2",
+    "eslint": "9.25.0",
     "eslint-config-soybeanjs": "0.5.9",
     "npm-run-all": "4.1.5",
-    "typescript": "5.7.2",
-    "vite": "6.0.3",
-    "vite-plugin-inspect": "0.10.3",
-    "vue-tsc": "2.1.10"
+    "typescript": "5.8.3",
+    "vite": "6.3.2",
+    "vite-plugin-inspect": "11.0.1",
+    "vue-tsc": "2.2.8"
   }
 }

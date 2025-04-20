@@ -1,5 +1,5 @@
-import ElegantRouter from '@elegant-router/core';
 import type { ViteDevServer } from 'vite';
+import ElegantRouter from '@elegant-router/core';
 import type { ElegantVueRouterOption } from '../types';
 import { createPluginOptions } from './options';
 import { genDtsFile } from './dts';

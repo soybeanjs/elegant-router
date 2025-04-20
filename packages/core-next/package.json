@@ -1,8 +1,7 @@
 {
-  "name": "@elegant-router/react",
-  "version": "0.3.8",
-  "private": true,
-  "description": "A React Router plugin to create router elegantly",
+  "name": "@elegant-router/core-next",
+  "version": "1.0.0-alpha.1",
+  "description": "A plugin to create router elegantly",
   "author": {
     "name": "Soybean",
     "email": "soybeanjs@outlook.com",
@@ -31,18 +30,21 @@
   "types": "./dist/index.d.ts",
   "files": ["dist"],
   "scripts": {
-    "build": "pnpm typecheck && unbuild",
+    "build": "unbuild",
+    "stub": "unbuild --stub",
     "typecheck": "tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
-    "consola": "3.2.3",
-    "magicast": "0.3.5",
-    "unplugin": "2.1.0"
+    "chokidar": "4.0.3",
+    "consola": "3.4.2",
+    "fast-glob": "3.3.3",
+    "kolorist": "1.8.0",
+    "micromatch": "4.0.8"
   },
   "devDependencies": {
-    "@elegant-router/core": "workspace:*",
-    "@types/node": "22.10.2",
-    "typescript": "5.7.2",
-    "unbuild": "2.0.0"
+    "@types/micromatch": "4.0.9",
+    "@types/node": "22.14.1",
+    "typescript": "5.8.3",
+    "unbuild": "3.5.0"
   }
 }
