@@ -1,4 +1,4 @@
-import { writeFile } from 'node:fs/promises';
+// import { writeFile } from 'node:fs/promises';
 import type { AutoRouterNode, AutoRouterOptions, RequiredAutoRouterOptions, ResolvedGlob } from '../types';
 import { resolveOptions } from './option';
 import { resolveGlobs } from './glob';
@@ -20,7 +20,7 @@ export class AutoRouter {
     this.globs = resolveGlobs(this.options);
     this.nodes = resolveNodes(this.globs, this.options);
 
-    writeFile('globs.json', JSON.stringify(this.globs, null, 2));
-    writeFile('nodes.json', JSON.stringify(this.nodes, null, 2));
+    // writeFile('test/globs.json', JSON.stringify(this.globs, null, 2));
+    // writeFile('test/nodes.json', JSON.stringify(this.nodes, null, 2));
   }
 }
