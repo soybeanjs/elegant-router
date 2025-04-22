@@ -1,19 +1,22 @@
+import { yellow } from 'kolorist';
 import type { AutoRouterNode, AutoRouterParamType, RequiredAutoRouterOptions, ResolvedGlob } from '../types';
 
 export function resolveNodes(globs: ResolvedGlob[], options: RequiredAutoRouterOptions) {
-  return globs.map(glob => resolveNode(glob, options));
+  const nodes = globs.map(glob => resolveNode(glob, options));
+
+  return filterConflictNodes(nodes);
 }
 
 function resolveNode(resolvedGlob: ResolvedGlob, options: RequiredAutoRouterOptions) {
-  const path = resolvePath(resolvedGlob);
+  const resolvedPath = resolvePath(resolvedGlob);
 
   let node: AutoRouterNode = {
     ...resolvedGlob,
-    path,
+    path: resolvedPath,
     get name() {
       return options.getRouteName(node);
     },
-    originPath: path,
+    originPath: resolvedPath,
     get layout() {
       return options.getRouteLayout(node, options.layouts);
     }
@@ -28,20 +31,20 @@ function resolveNode(resolvedGlob: ResolvedGlob, options: RequiredAutoRouterOpti
 function resolvePath(resolvedGlob: ResolvedGlob) {
   const { glob } = resolvedGlob;
 
-  let path = glob;
-  if (!path.startsWith('/')) {
-    path = `/${path}`;
+  let globPath = glob;
+  if (!globPath.startsWith('/')) {
+    globPath = `/${globPath}`;
   }
 
-  if (path.endsWith('.vue')) {
-    path = path.replace(/\.vue$/, '');
+  if (globPath.endsWith('.vue')) {
+    globPath = globPath.replace(/\.vue$/, '');
   }
 
-  if (path.endsWith('/index')) {
-    path = path.replace(/\/index$/, '');
+  if (globPath.endsWith('/index')) {
+    globPath = globPath.replace(/\/index$/, '');
   }
 
-  return path;
+  return globPath;
 }
 
 /**
@@ -53,16 +56,14 @@ function resolvePath(resolvedGlob: ResolvedGlob) {
  * @param glob
  */
 function resolveGroupNode(node: AutoRouterNode) {
-  const { path } = node;
-
   const GROUP_REG = /\/\((\w+)\)\//;
 
-  const match = path.match(GROUP_REG);
+  const match = node.path.match(GROUP_REG);
 
   if (match) {
     const [matchItem, group] = match;
     node.group = group;
-    node.path = path.replace(matchItem, '/');
+    node.path = node.path.replace(matchItem, '/');
   }
 
   return node;
@@ -80,16 +81,14 @@ function resolveGroupNode(node: AutoRouterNode) {
  * @param node
  */
 function resolveParamNode(node: AutoRouterNode) {
-  const { path } = node;
-
-  const optional = getOptionalParamsByPath(path);
+  const optional = getOptionalParamsByPath(node.path);
   if (optional?.params) {
     node.params = { ...node.params, ...optional.params };
     node.path = optional.path;
   }
 
   if (!optional) {
-    const required = getParamsByPath(path);
+    const required = getParamsByPath(node.path);
     if (required?.params) {
       node.params = { ...node.params, ...required.params };
       node.path = required.path;
@@ -99,24 +98,24 @@ function resolveParamNode(node: AutoRouterNode) {
   return node;
 }
 
-function getOptionalParamsByPath(path: string) {
+function getOptionalParamsByPath(nodePath: string) {
   const OPTIONAL_PARAM_REG = /\[\[(\w+)\]\]/g;
 
-  const match = path.match(OPTIONAL_PARAM_REG);
+  const match = nodePath.match(OPTIONAL_PARAM_REG);
 
   if (!match) {
     return null;
   }
 
   const params: Record<string, AutoRouterParamType> = {};
-  let formatPath = path;
+  let formatPath = nodePath;
 
   match.forEach(item => {
     const param = item.slice(2, -2);
     params[param] = 'optional';
   });
 
-  formatPath = path.replace(OPTIONAL_PARAM_REG, ':$1?');
+  formatPath = nodePath.replace(OPTIONAL_PARAM_REG, ':$1?');
   formatPath = formatPath.replace(/_:/g, '/:');
 
   const BETWEEN_REG = /\/:\w+\??\w+\/:/;
@@ -125,10 +124,10 @@ function getOptionalParamsByPath(path: string) {
   return { params, path: formatPath };
 }
 
-function getParamsByPath(path: string) {
+function getParamsByPath(nodePath: string) {
   const PARAM_REG = /\[(\w+)\]/g;
 
-  const match = path.match(PARAM_REG);
+  const match = nodePath.match(PARAM_REG);
 
   if (!match) {
     return null;
@@ -136,18 +135,55 @@ function getParamsByPath(path: string) {
 
   const params: Record<string, AutoRouterParamType> = {};
 
-  let formatPath = path;
+  let formatPath = nodePath;
 
   match.forEach(item => {
     const param = item.slice(1, -1);
     params[param] = 'required';
   });
 
-  formatPath = path.replace(PARAM_REG, ':$1');
+  formatPath = nodePath.replace(PARAM_REG, ':$1');
   formatPath = formatPath.replace(/_:/g, '/:');
 
   const BETWEEN_REG = /\/:\w+\??\w+\/:/;
   formatPath = formatPath.replace(BETWEEN_REG, item => item.replace('_', '/'));
 
   return { params, path: formatPath };
+}
+
+function filterConflictNodes(nodes: AutoRouterNode[]) {
+  const nodeMap = new Map<string, AutoRouterNode[]>();
+
+  nodes.forEach(node => {
+    const items = nodeMap.get(node.name) ?? [];
+
+    items.push(node);
+
+    nodeMap.set(node.name, items);
+  });
+
+  const result: AutoRouterNode[] = [];
+
+  const conflictNodes: AutoRouterNode[] = [];
+
+  nodeMap.forEach(items => {
+    result.push(items[0]);
+
+    if (items.length > 1) {
+      conflictNodes.push(...items);
+    }
+  });
+
+  if (conflictNodes.length > 0) {
+    console.warn(`\n${yellow('conflict routes, use the first one by default【路由冲突，默认取第一个】: ')}\n`);
+    console.table(
+      conflictNodes.map(item => ({
+        name: item.name,
+        path: item.path,
+        glob: item.glob
+      }))
+    );
+  }
+
+  return result;
 }

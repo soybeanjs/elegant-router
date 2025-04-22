@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "chokidar": "4.0.3",
+    "kolorist": "1.8.0",
     "picomatch": "4.0.2",
     "tinyglobby": "0.2.13"
   },

@@ -1,0 +1,74 @@
+[
+  {
+    "pageDir": "src/views",
+    "glob": "(builtin)/403.vue",
+    "filePath": "/Users/soybean/Web/Projects/SoybeanJS/elegant-router/examples/template-vue/src/views/(builtin)/403.vue",
+    "importPath": "@/views/(builtin)/403.vue"
+  },
+  {
+    "pageDir": "src/views",
+    "glob": "(builtin)/404/index.vue",
+    "filePath": "/Users/soybean/Web/Projects/SoybeanJS/elegant-router/examples/template-vue/src/views/(builtin)/404/index.vue",
+    "importPath": "@/views/(builtin)/404/index.vue"
+  },
+  {
+    "pageDir": "src/views",
+    "glob": "(builtin)/404.vue",
+    "filePath": "/Users/soybean/Web/Projects/SoybeanJS/elegant-router/examples/template-vue/src/views/(builtin)/404.vue",
+    "importPath": "@/views/(builtin)/404.vue"
+  },
+  {
+    "pageDir": "src/views",
+    "glob": "(builtin)/login/index.vue",
+    "filePath": "/Users/soybean/Web/Projects/SoybeanJS/elegant-router/examples/template-vue/src/views/(builtin)/login/index.vue",
+    "importPath": "@/views/(builtin)/login/index.vue"
+  },
+  {
+    "pageDir": "src/views",
+    "glob": "home/child.vue",
+    "filePath": "/Users/soybean/Web/Projects/SoybeanJS/elegant-router/examples/template-vue/src/views/home/child.vue",
+    "importPath": "@/views/home/child.vue"
+  },
+  {
+    "pageDir": "src/views",
+    "glob": "home/index.vue",
+    "filePath": "/Users/soybean/Web/Projects/SoybeanJS/elegant-router/examples/template-vue/src/views/home/index.vue",
+    "importPath": "@/views/home/index.vue"
+  },
+  {
+    "pageDir": "src/views",
+    "glob": "list/[id].vue",
+    "filePath": "/Users/soybean/Web/Projects/SoybeanJS/elegant-router/examples/template-vue/src/views/list/[id].vue",
+    "importPath": "@/views/list/[id].vue"
+  },
+  {
+    "pageDir": "src/views",
+    "glob": "list/add.vue",
+    "filePath": "/Users/soybean/Web/Projects/SoybeanJS/elegant-router/examples/template-vue/src/views/list/add.vue",
+    "importPath": "@/views/list/add.vue"
+  },
+  {
+    "pageDir": "src/views",
+    "glob": "list/detail2-[[id]]-[[userId]].vue",
+    "filePath": "/Users/soybean/Web/Projects/SoybeanJS/elegant-router/examples/template-vue/src/views/list/detail2-[[id]]-[[userId]].vue",
+    "importPath": "@/views/list/detail2-[[id]]-[[userId]].vue"
+  },
+  {
+    "pageDir": "src/views",
+    "glob": "list/detail_[id]_[userId].vue",
+    "filePath": "/Users/soybean/Web/Projects/SoybeanJS/elegant-router/examples/template-vue/src/views/list/detail_[id]_[userId].vue",
+    "importPath": "@/views/list/detail_[id]_[userId].vue"
+  },
+  {
+    "pageDir": "src/views",
+    "glob": "list/edit_[id].vue",
+    "filePath": "/Users/soybean/Web/Projects/SoybeanJS/elegant-router/examples/template-vue/src/views/list/edit_[id].vue",
+    "importPath": "@/views/list/edit_[id].vue"
+  },
+  {
+    "pageDir": "src/views",
+    "glob": "list/index.vue",
+    "filePath": "/Users/soybean/Web/Projects/SoybeanJS/elegant-router/examples/template-vue/src/views/list/index.vue",
+    "importPath": "@/views/list/index.vue"
+  }
+]

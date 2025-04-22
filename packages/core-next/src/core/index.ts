@@ -1,23 +1,26 @@
 import { writeFile } from 'node:fs/promises';
 import type { AutoRouterNode, AutoRouterOptions, RequiredAutoRouterOptions, ResolvedGlob } from '../types';
-import globJson from '../../globs.json';
 import { resolveOptions } from './option';
-// import { resolveGlobs } from './glob';
+import { resolveGlobs } from './glob';
 import { resolveNodes } from './node';
 
 export class AutoRouter {
-  private options: RequiredAutoRouterOptions;
+  private options: RequiredAutoRouterOptions = {} as RequiredAutoRouterOptions;
 
-  globs: ResolvedGlob[];
+  globs: ResolvedGlob[] = [];
 
-  nodes: AutoRouterNode[];
+  nodes: AutoRouterNode[] = [];
 
-  constructor(options?: AutoRouterOptions) {
-    this.options = resolveOptions(options);
-    // this.globs = resolveGlobs(this.options);
-    this.globs = globJson;
+  constructor() {
+    this.init();
+  }
+
+  async init(options?: AutoRouterOptions) {
+    this.options = await resolveOptions(options);
+    this.globs = resolveGlobs(this.options);
     this.nodes = resolveNodes(this.globs, this.options);
 
+    writeFile('globs.json', JSON.stringify(this.globs, null, 2));
     writeFile('nodes.json', JSON.stringify(this.nodes, null, 2));
   }
 }

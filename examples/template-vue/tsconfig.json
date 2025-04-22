@@ -1,7 +1,10 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "types": ["soy-ui"]
   },
-  "extends": "../../tsconfig.base.json",
   "include": ["./**/*.ts", "./**/*.tsx", "./**/*.vue"]
 }

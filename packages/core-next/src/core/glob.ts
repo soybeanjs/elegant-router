@@ -3,22 +3,52 @@ import { globSync } from 'tinyglobby';
 import type { RequiredAutoRouterOptions, ResolvedGlob } from '../types';
 
 export function resolveGlobs(options: RequiredAutoRouterOptions) {
-  const { cwd, pageDir, pageInclude, pageExclude } = options;
+  const { cwd, pageDir, pageInclude, pageExclude, alias } = options;
 
-  const pageDirs = (Array.isArray(pageDir) ? pageDir : [pageDir]).map(dir => path.resolve(cwd, dir));
+  const pageDirs = Array.isArray(pageDir) ? pageDir : [pageDir];
 
-  const pageGlobs: ResolvedGlob[] = pageDirs.flatMap(dir => {
+  const pageGlobs = pageDirs.flatMap(dir => {
+    const $pageDir = path.resolve(cwd, dir);
+
     const globs = globSync(pageInclude, {
-      cwd: dir,
+      cwd: $pageDir,
       onlyFiles: true,
       ignore: pageExclude
     });
 
-    return globs.map(glob => ({
-      cwd: dir,
-      glob
-    }));
+    const result: ResolvedGlob[] = globs.map(glob => {
+      const filePath = path.resolve($pageDir, glob);
+      const importPath = resolveImportPath(filePath, alias);
+
+      return {
+        pageDir: dir,
+        glob,
+        filePath,
+        importPath
+      };
+    });
+
+    return result;
   });
 
   return pageGlobs;
+}
+
+function resolveImportPath(filePath: string, alias: Record<string, string>) {
+  let iPath = filePath;
+
+  const aliasEntries = Object.entries(alias);
+
+  aliasEntries.some(item => {
+    const [a, dir] = item;
+    const match = iPath.startsWith(dir);
+
+    if (match) {
+      iPath = iPath.replace(dir, a);
+    }
+
+    return match;
+  });
+
+  return iPath;
 }

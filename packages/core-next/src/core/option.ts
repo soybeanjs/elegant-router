@@ -1,27 +1,26 @@
 import process from 'node:process';
-import { pascalCase } from '../shared';
-import type { AutoRouterOptions, RequiredAutoRouterOptions } from '../types';
+import { pascalCase, resolveAliasFromTsConfig } from '../shared';
+import type { AutoRouterNode, AutoRouterOptions, RequiredAutoRouterOptions } from '../types';
 
-export function resolveOptions(options?: AutoRouterOptions): RequiredAutoRouterOptions {
+export async function resolveOptions(options?: AutoRouterOptions): Promise<RequiredAutoRouterOptions> {
+  const cwd = process.cwd();
+  const alias = await resolveAliasFromTsConfig(cwd, 'tsconfig.json');
+
   const defaultOptions: RequiredAutoRouterOptions = {
-    cwd: process.cwd(),
+    cwd,
     pageDir: ['src/pages', 'src/views'],
     pageInclude: '**/*.vue',
     pageExclude: ['**/components/**', '**/modules/**'],
     dts: 'src/typings/auto-router.d.ts',
     tsconfig: 'tsconfig.json',
+    alias,
     routerDir: 'src/router/auto-router',
     layouts: {
       base: 'src/layouts/base/index.vue'
     },
     layoutLazy: () => false,
     getRoutePath: node => node.path,
-    getRouteName: node => {
-      const PARAM_REG = /\/:\w+\??/g;
-      const path = node.path.replace(PARAM_REG, '');
-
-      return pascalCase(path.split('/').join('-'));
-    },
+    getRouteName,
     getRouteLayout: (_node, layouts) => Object.keys(layouts)[0],
     routeLazy: () => true
   };
@@ -29,4 +28,10 @@ export function resolveOptions(options?: AutoRouterOptions): RequiredAutoRouterO
   const resolvedOptions: RequiredAutoRouterOptions = Object.assign(defaultOptions, options);
 
   return resolvedOptions;
+}
+
+export function getRouteName(node: AutoRouterNode) {
+  const path = node.path.replaceAll(':', '').replaceAll('?', '');
+
+  return pascalCase(path.split('/').join('-'));
 }
