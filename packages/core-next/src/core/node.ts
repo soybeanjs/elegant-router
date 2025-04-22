@@ -1,17 +1,21 @@
-import type { AutoRouterNode, RequiredAutoRouterOptions, ResolvedGlob } from '../types';
+import type { AutoRouterNode, AutoRouterParamType, RequiredAutoRouterOptions, ResolvedGlob } from '../types';
 
-export function resolveNode(resolvedGlob: ResolvedGlob, options: RequiredAutoRouterOptions) {
+export function resolveNodes(globs: ResolvedGlob[], options: RequiredAutoRouterOptions) {
+  return globs.map(glob => resolveNode(glob, options));
+}
+
+function resolveNode(resolvedGlob: ResolvedGlob, options: RequiredAutoRouterOptions) {
   const path = resolvePath(resolvedGlob);
 
   let node: AutoRouterNode = {
     ...resolvedGlob,
     path,
     get name() {
-      return options.getRouteName(this);
+      return options.getRouteName(node);
     },
     originPath: path,
     get layout() {
-      return options.getRouteLayout(this, options.layouts);
+      return options.getRouteLayout(node, options.layouts);
     }
   };
 
@@ -51,14 +55,14 @@ function resolvePath(resolvedGlob: ResolvedGlob) {
 function resolveGroupNode(node: AutoRouterNode) {
   const { path } = node;
 
-  const GROUP_REG = /^\/(.*)\/(.*)$/;
+  const GROUP_REG = /\/\((\w+)\)\//;
 
   const match = path.match(GROUP_REG);
 
   if (match) {
-    const [, group, name] = path.split('/');
-    node.group = group.slice(1, -1);
-    node.path = `/${name}`;
+    const [matchItem, group] = match;
+    node.group = group;
+    node.path = path.replace(matchItem, '/');
   }
 
   return node;
@@ -78,27 +82,72 @@ function resolveGroupNode(node: AutoRouterNode) {
 function resolveParamNode(node: AutoRouterNode) {
   const { path } = node;
 
-  let params: Record<string, boolean> | null = null;
+  const optional = getOptionalParamsByPath(path);
+  if (optional?.params) {
+    node.params = { ...node.params, ...optional.params };
+    node.path = optional.path;
+  }
 
-  // 可选参数（一个或多个） 例如：/[[id]]/[[userId]], /edit_[[id]]_[[userId]], /edit-[[id]]-[[userId]]
+  if (!optional) {
+    const required = getParamsByPath(path);
+    if (required?.params) {
+      node.params = { ...node.params, ...required.params };
+      node.path = required.path;
+    }
+  }
+
+  return node;
+}
+
+function getOptionalParamsByPath(path: string) {
   const OPTIONAL_PARAM_REG = /\[\[(\w+)\]\]/g;
 
   const match = path.match(OPTIONAL_PARAM_REG);
 
-  if (match) {
-    params = {};
-    match.forEach(item => {
-      const param = item.slice(2, -2);
-      params![param] = true;
-    });
-    // 将path转换成 例如：/[[id]]/[[userId]] => /:id?/:userId?, /edit_[[id]]_[[userId]] => /edit/:id?/:userId?, /edit-[[id]]-[[userId]] => /edit-:id?-:userId?
-    node.path = path.replace(OPTIONAL_PARAM_REG, ':$1?');
-    node.path = path.replace(/_:/g, '/:');
+  if (!match) {
+    return null;
   }
 
-  if (params) {
-    node.params = params;
+  const params: Record<string, AutoRouterParamType> = {};
+  let formatPath = path;
+
+  match.forEach(item => {
+    const param = item.slice(2, -2);
+    params[param] = 'optional';
+  });
+
+  formatPath = path.replace(OPTIONAL_PARAM_REG, ':$1?');
+  formatPath = formatPath.replace(/_:/g, '/:');
+
+  const BETWEEN_REG = /\/:\w+\??\w+\/:/;
+  formatPath = formatPath.replace(BETWEEN_REG, item => item.replace('_', '/'));
+
+  return { params, path: formatPath };
+}
+
+function getParamsByPath(path: string) {
+  const PARAM_REG = /\[(\w+)\]/g;
+
+  const match = path.match(PARAM_REG);
+
+  if (!match) {
+    return null;
   }
 
-  return node;
+  const params: Record<string, AutoRouterParamType> = {};
+
+  let formatPath = path;
+
+  match.forEach(item => {
+    const param = item.slice(1, -1);
+    params[param] = 'required';
+  });
+
+  formatPath = path.replace(PARAM_REG, ':$1');
+  formatPath = formatPath.replace(/_:/g, '/:');
+
+  const BETWEEN_REG = /\/:\w+\??\w+\/:/;
+  formatPath = formatPath.replace(BETWEEN_REG, item => item.replace('_', '/'));
+
+  return { params, path: formatPath };
 }

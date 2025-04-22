@@ -11,7 +11,6 @@ export function resolveGlobs(options: RequiredAutoRouterOptions) {
     const globs = globSync(pageInclude, {
       cwd: dir,
       onlyFiles: true,
-      absolute: true,
       ignore: pageExclude
     });
 

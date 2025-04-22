@@ -1,5 +1,2 @@
-import { AutoRouter } from './core';
-
-export default AutoRouter;
-
+export * from './core';
 export * from './types';

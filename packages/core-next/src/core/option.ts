@@ -2,10 +2,10 @@ import process from 'node:process';
 import { pascalCase } from '../shared';
 import type { AutoRouterOptions, RequiredAutoRouterOptions } from '../types';
 
-export function resolveOptions(options: AutoRouterOptions): RequiredAutoRouterOptions {
+export function resolveOptions(options?: AutoRouterOptions): RequiredAutoRouterOptions {
   const defaultOptions: RequiredAutoRouterOptions = {
     cwd: process.cwd(),
-    pageDir: 'src/pages',
+    pageDir: ['src/pages', 'src/views'],
     pageInclude: '**/*.vue',
     pageExclude: ['**/components/**', '**/modules/**'],
     dts: 'src/typings/auto-router.d.ts',
@@ -16,7 +16,12 @@ export function resolveOptions(options: AutoRouterOptions): RequiredAutoRouterOp
     },
     layoutLazy: () => false,
     getRoutePath: node => node.path,
-    getRouteName: node => pascalCase(node.path.split('/').join('-')),
+    getRouteName: node => {
+      const PARAM_REG = /\/:\w+\??/g;
+      const path = node.path.replace(PARAM_REG, '');
+
+      return pascalCase(path.split('/').join('-'));
+    },
     getRouteLayout: (_node, layouts) => Object.keys(layouts)[0],
     routeLazy: () => true
   };

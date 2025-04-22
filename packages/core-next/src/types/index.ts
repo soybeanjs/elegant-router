@@ -5,13 +5,15 @@ export interface ResolvedGlob {
   glob: string;
 }
 
+export type AutoRouterParamType = 'optional' | 'required';
+
 export interface AutoRouterNode extends ResolvedGlob {
   path: string;
   name: string;
   originPath: string;
   layout: string;
   group?: string;
-  params?: Record<string, boolean>;
+  params?: Record<string, AutoRouterParamType>;
 }
 
 export interface AutoRouterOptions {

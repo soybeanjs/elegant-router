@@ -24,6 +24,7 @@
     "vue-router": "4.5.0"
   },
   "devDependencies": {
+    "@elegant-router/core-next": "workspace:*",
     "@soybean-ui/unocss-preset": "0.0.2-beta.3",
     "@soybeanjs/cli": "1.2.1",
     "@types/node": "22.14.1",
