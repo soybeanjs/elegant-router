@@ -36,14 +36,12 @@
   },
   "dependencies": {
     "chokidar": "4.0.3",
-    "consola": "3.4.2",
-    "fast-glob": "3.3.3",
-    "kolorist": "1.8.0",
-    "micromatch": "4.0.8"
+    "picomatch": "4.0.2",
+    "tinyglobby": "0.2.13"
   },
   "devDependencies": {
-    "@types/micromatch": "4.0.9",
     "@types/node": "22.14.1",
+    "@types/picomatch": "4.0.0",
     "typescript": "5.8.3",
     "unbuild": "3.5.0"
   }

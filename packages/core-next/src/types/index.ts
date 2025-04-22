@@ -9,9 +9,9 @@ export interface AutoRouterNode extends ResolvedGlob {
   path: string;
   name: string;
   originPath: string;
-  group: string;
   layout: string;
-  params: Record<string, boolean>;
+  group?: string;
+  params?: Record<string, boolean>;
 }
 
 export interface AutoRouterOptions {
