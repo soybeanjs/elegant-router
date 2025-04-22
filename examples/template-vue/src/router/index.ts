@@ -1,9 +1,28 @@
+import type { App } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
-import { routes } from './routes';
+import type { Router } from 'vue-router';
 
-const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes
+export const router = createRouter({
+  history: createWebHistory(),
+  routes: [
+    {
+      name: 'home',
+      path: '/',
+      component: () => import('../views/home/index.vue')
+    }
+  ]
 });
 
-export default router;
+/**
+ * Router guard
+ *
+ * @param router - Router instance
+ */
+function createRouterGuard(_router: Router) {}
+
+/** Setup Vue Router */
+export async function setupRouter(app: App) {
+  app.use(router);
+  createRouterGuard(router);
+  await router.isReady();
+}

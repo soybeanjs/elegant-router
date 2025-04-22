@@ -1,5 +1,5 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div>HelloWorld</div>
+  <div>404</div>
 </template>

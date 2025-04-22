@@ -1,5 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div>HelloWorld</div>
+  <div>search-list</div>
 </template>
+
+<style scoped></style>
