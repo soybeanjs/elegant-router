@@ -3,8 +3,9 @@
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "never"
   },
-  "eslint.experimental.useFlatConfig": true,
   "editor.formatOnSave": false,
   "eslint.validate": ["html", "css", "scss", "json", "jsonc"],
-  "prettier.enable": false
+  "prettier.enable": false,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "vue.server.hybridMode": true
 }

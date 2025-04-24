@@ -24,13 +24,13 @@
     "vue-router": "4.5.0"
   },
   "devDependencies": {
-    "@elegant-router/core-next": "workspace:*",
     "@soybean-ui/unocss-preset": "0.0.2-beta.3",
     "@soybeanjs/cli": "1.2.1",
     "@types/node": "22.14.1",
     "@unocss/eslint-config": "66.0.0",
     "@vitejs/plugin-vue": "5.2.3",
     "@vitejs/plugin-vue-jsx": "4.1.2",
+    "elegant-router": "workspace:*",
     "klona": "2.0.6",
     "lint-staged": "15.5.1",
     "simple-git-hooks": "2.12.1",
