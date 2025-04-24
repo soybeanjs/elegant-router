@@ -87,10 +87,10 @@ function getVueRouterDtsCode(nodes: AutoRouterNode[]) {
 export {}
 
 declare module "vue-router" {
-  import type { RouteNamedMap } from '${VUE_ROUTER_MODULE_NAME}';
+  type RouteNamedMap = import('${VUE_ROUTER_MODULE_NAME}').RouteNamedMap;
 
   export interface TypesConfig {
-    RouteNamedMap: RouteNamedMap
+    RouteNamedMap: RouteNamedMap;
   }
 }
 

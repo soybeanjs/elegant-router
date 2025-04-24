@@ -8,10 +8,10 @@
 export {}
 
 declare module "vue-router" {
-  import type { RouteNamedMap } from 'vue-router/auto-routes';
+  type RouteNamedMap = import('vue-router/auto-routes').RouteNamedMap;
 
   export interface TypesConfig {
-    RouteNamedMap: RouteNamedMap
+    RouteNamedMap: RouteNamedMap;
   }
 }
 

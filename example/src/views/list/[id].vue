@@ -1,7 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useRoute } from 'vue-router';
+
+const route = useRoute('ListId');
+</script>
 
 <template>
-  <div>list-id</div>
+  <div>list-id: {{ route.params.id }}</div>
 </template>
 
 <style scoped></style>
