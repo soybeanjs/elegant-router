@@ -54,10 +54,15 @@
   "types": "./dist/index.d.ts",
   "typesVersions": {
     "*": {
-      "*": ["./dist/*", "./*"]
+      "*": [
+        "./dist/*",
+        "./*"
+      ]
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "unbuild",
     "cleanup": "soy cleanup",
@@ -72,10 +77,11 @@
   },
   "dependencies": {
     "chokidar": "4.0.3",
-    "consola": "^3.4.2",
+    "consola": "3.4.2",
     "kolorist": "1.8.0",
     "picomatch": "4.0.2",
-    "tinyglobby": "0.2.13"
+    "tinyglobby": "0.2.13",
+    "ts-morph": "^25.0.1"
   },
   "devDependencies": {
     "@soybeanjs/cli": "1.2.1",
