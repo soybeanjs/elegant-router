@@ -1,6 +1,6 @@
 {
   "name": "@elegant-router/vue",
-  "version": "0.3.8",
+  "version": "1.0.0-alpha.2",
   "description": "A Vue3 Router plugin to create router elegantly",
   "author": {
     "name": "Soybean",

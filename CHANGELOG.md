@@ -1,6 +1,55 @@
 # Changelog
 
 
+## [v1.0.0-alpha.2](https://github.com/soybeanjs/elegant-router/compare/v0.3.8...v1.0.0-alpha.2) (2025-04-27)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **projects**:
+  - init next version &nbsp;-&nbsp; by @soybeanjs [<samp>(8d5b0)</samp>](https://github.com/soybeanjs/elegant-router/commit/8d5b07d)
+  - resolve node &nbsp;-&nbsp; by @soybeanjs [<samp>(4c308)</samp>](https://github.com/soybeanjs/elegant-router/commit/4c30868)
+  - resolve node &nbsp;-&nbsp; by @soybeanjs [<samp>(1dae2)</samp>](https://github.com/soybeanjs/elegant-router/commit/1dae212)
+  - add alias & optimize resolve glob &nbsp;-&nbsp; by @soybeanjs [<samp>(cd1c5)</samp>](https://github.com/soybeanjs/elegant-router/commit/cd1c54e)
+  - generate dts & optimize node &nbsp;-&nbsp; by @soybeanjs [<samp>(5b854)</samp>](https://github.com/soybeanjs/elegant-router/commit/5b8541a)
+  - init generate routes code &nbsp;-&nbsp; by @soybeanjs [<samp>(5840e)</samp>](https://github.com/soybeanjs/elegant-router/commit/5840e90)
+  - generate routes &nbsp;-&nbsp; by @soybeanjs [<samp>(ba64b)</samp>](https://github.com/soybeanjs/elegant-router/commit/ba64b34)
+  - generate transformer and shared &nbsp;-&nbsp; by @soybeanjs [<samp>(a80fd)</samp>](https://github.com/soybeanjs/elegant-router/commit/a80fd18)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **projects**:
+  - fix template-vue vite config &nbsp;-&nbsp; by @soybeanjs [<samp>(e8581)</samp>](https://github.com/soybeanjs/elegant-router/commit/e8581f9)
+  - fix generated dts &nbsp;-&nbsp; by @soybeanjs [<samp>(8c486)</samp>](https://github.com/soybeanjs/elegant-router/commit/8c48680)
+
+### &nbsp;&nbsp;&nbsp;🛠 Optimizations
+
+- **projects**: move debug files to debug directory &nbsp;-&nbsp; by @soybeanjs [<samp>(b7b7a)</samp>](https://github.com/soybeanjs/elegant-router/commit/b7b7a3f)
+
+### &nbsp;&nbsp;&nbsp;💅 Refactors
+
+- **projects**:
+  - refactor example template-vue &nbsp;-&nbsp; by @soybeanjs [<samp>(5770f)</samp>](https://github.com/soybeanjs/elegant-router/commit/5770fbf)
+  - move `template-vue` to `example` &nbsp;-&nbsp; by @soybeanjs [<samp>(9e5e4)</samp>](https://github.com/soybeanjs/elegant-router/commit/9e5e4e8)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **deps**:
+  - update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(3d344)</samp>](https://github.com/soybeanjs/elegant-router/commit/3d3446d)
+  - bump vue from 3.5.4 to 3.5.12 &nbsp;-&nbsp; by **dependabot[bot]** [<samp>(80a79)</samp>](https://github.com/soybeanjs/elegant-router/commit/80a791e)
+  - update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(26087)</samp>](https://github.com/soybeanjs/elegant-router/commit/26087f5)
+- **projects**:
+  - remove dependabot.yml &nbsp;-&nbsp; by @soybeanjs [<samp>(68d0c)</samp>](https://github.com/soybeanjs/elegant-router/commit/68d0c98)
+  - init project &nbsp;-&nbsp; by @soybeanjs [<samp>(ddfc8)</samp>](https://github.com/soybeanjs/elegant-router/commit/ddfc85c)
+
+### &nbsp;&nbsp;&nbsp;🎨 Styles
+
+- **projects**: format code &nbsp;-&nbsp; by @soybeanjs [<samp>(5fc15)</samp>](https://github.com/soybeanjs/elegant-router/commit/5fc151c)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+[dependabot[bot]](mailto:49699333+dependabot[bot]@users.noreply.github.com)
+
 ## [v0.3.8](https://github.com/soybeanjs/elegent-router/compare/v0.3.7...v0.3.8) (2024-08-01)
 
 ### &nbsp;&nbsp;&nbsp;🏡 Chore
