@@ -1,9 +1,10 @@
 import path from 'node:path';
+import { stat } from 'node:fs/promises';
 import { globSync } from 'tinyglobby';
 import { resolveImportPath } from '../shared';
 import type { ParsedAutoRouterOptions, ResolvedGlob } from '../types';
 
-export function resolveGlobs(options: ParsedAutoRouterOptions) {
+export async function resolveGlobs(options: ParsedAutoRouterOptions) {
   const { cwd, pageDir, pageInclude, pageExclude, alias } = options;
 
   const pageDirs = Array.isArray(pageDir) ? pageDir : [pageDir];
@@ -17,7 +18,7 @@ export function resolveGlobs(options: ParsedAutoRouterOptions) {
       ignore: pageExclude
     });
 
-    const result: ResolvedGlob[] = globs.map(glob => {
+    const result = globs.map(glob => {
       const filePath = path.resolve($pageDir, glob);
       const importPath = resolveImportPath(filePath, alias);
 
@@ -32,5 +33,16 @@ export function resolveGlobs(options: ParsedAutoRouterOptions) {
     return result;
   });
 
-  return pageGlobs;
+  const globs: ResolvedGlob[] = await Promise.all(
+    pageGlobs.map(async glob => {
+      const info = await stat(glob.filePath);
+
+      return {
+        ...glob,
+        inode: info.ino
+      };
+    })
+  );
+
+  return globs;
 }

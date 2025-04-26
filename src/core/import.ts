@@ -2,7 +2,7 @@ import path from 'node:path';
 import { writeFile } from 'node:fs/promises';
 import { createPrefixCommentOfGenFile, ensureFile } from '../shared';
 import type { AutoRouterNode, ParsedAutoRouterOptions } from '../types';
-import { ELEGANT_ROUTER_TYPES_MODULE_NAME } from './constant';
+import { ELEGANT_ROUTER_TYPES_MODULE_NAME } from '../constants';
 
 export async function generateImportsFile(nodes: AutoRouterNode[], options: ParsedAutoRouterOptions) {
   const { cwd, routerGeneratedDir } = options;

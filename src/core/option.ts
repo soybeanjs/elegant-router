@@ -1,19 +1,17 @@
 import process from 'node:process';
 import path from 'node:path';
 import { getImportName, pascalCase, resolveAliasFromTsConfig, resolveImportPath } from '../shared';
-import type { AutoRouterNode, AutoRouterOptions, ParsedAutoRouterOptions } from '../types';
+import { NOT_FOUND_ROUTE_NAME, ROOT_ROUTE_NAME } from '../constants';
+import type { AutoRouterNode, AutoRouterOptions, CustomRoute, ParsedAutoRouterOptions } from '../types';
 
 export async function resolveOptions(options?: AutoRouterOptions): Promise<ParsedAutoRouterOptions> {
   const cwd = process.cwd();
   const alias = await resolveAliasFromTsConfig(cwd, 'tsconfig.json');
 
-  const defaultCustomRoute = {
-    Root: '/',
-    NotFound: '/:pathMatch(.*)*'
-  };
-
   const defaultOptions: Required<AutoRouterOptions> = {
     cwd,
+    watchFile: true,
+    fileUpdateDuration: 500,
     pageDir: ['src/pages', 'src/views'],
     pageInclude: '**/*.vue',
     pageExclude: ['**/components/**', '**/modules/**'],
@@ -22,9 +20,13 @@ export async function resolveOptions(options?: AutoRouterOptions): Promise<Parse
     tsconfig: 'tsconfig.json',
     alias,
     routerGeneratedDir: 'src/router/_generated',
-    customRoute: defaultCustomRoute,
+    customRoute: {},
+    rootRedirect: '/home',
+    notFoundRouteComponent: '404',
+    defaultCustomRouteComponent: 'wip',
     layouts: {
-      base: 'src/layouts/base/index.vue'
+      base: 'src/layouts/base/index.vue',
+      blank: 'src/layouts/blank/index.vue'
     },
     layoutLazy: () => true,
     getRoutePath: node => node.path,
@@ -33,10 +35,22 @@ export async function resolveOptions(options?: AutoRouterOptions): Promise<Parse
     routeLazy: () => true
   };
 
-  const { layouts, layoutLazy, ...restOptions } = Object.assign(defaultOptions, options);
+  const { customRoute, layouts, layoutLazy, ...restOptions } = Object.assign(defaultOptions, options);
+
+  const builtInCustomRoute: CustomRoute = {
+    [ROOT_ROUTE_NAME]: '/',
+    [NOT_FOUND_ROUTE_NAME]: '/:pathMatch(.*)*'
+  };
+
+  const pageInclude = Array.isArray(restOptions.pageInclude) ? restOptions.pageInclude : [restOptions.pageInclude];
 
   const parsedOptions: ParsedAutoRouterOptions = {
+    pageExtension: pageInclude.map(item => item.split('.').pop()!),
     ...restOptions,
+    customRoute: {
+      ...customRoute,
+      ...builtInCustomRoute
+    },
     layouts: Object.entries(layouts).map(([name, importPath]) => {
       let importName = getImportName(name);
 
@@ -51,11 +65,6 @@ export async function resolveOptions(options?: AutoRouterOptions): Promise<Parse
         isLazy: layoutLazy(name)
       };
     })
-  };
-
-  parsedOptions.customRoute = {
-    ...defaultCustomRoute,
-    ...restOptions.customRoute
   };
 
   return parsedOptions;

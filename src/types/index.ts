@@ -1,3 +1,5 @@
+import type { RouteRecordRedirect, RouteRecordSingleView } from 'vue-router';
+
 export type MaybeArray<T> = T | T[];
 
 export interface ResolvedGlob {
@@ -29,6 +31,12 @@ export interface ResolvedGlob {
    * 路由导入路径
    */
   importPath: string;
+  /**
+   * the inode of the file
+   *
+   * 文件唯一标识
+   */
+  inode: number;
 }
 
 /**
@@ -64,6 +72,12 @@ export interface AutoRouterNode extends ResolvedGlob {
    * 路由原始路径
    */
   originPath: string;
+  /**
+   * the component of the route
+   *
+   * 路由组件
+   */
+  component: string;
   /**
    * the layout of the route
    *
@@ -106,6 +120,26 @@ export interface AutoRouterNode extends ResolvedGlob {
   isCustom?: boolean;
 }
 
+interface RenamedNode extends AutoRouterNode {
+  /**
+   * the old node name
+   *
+   * 旧节点名称
+   */
+  oldNodeName: string;
+}
+
+export interface NodeStatInfo {
+  add: AutoRouterNode[];
+  rename: RenamedNode[];
+}
+
+export interface CustomRoute {
+  readonly Root: string;
+  readonly NotFound: string;
+  [key: string]: string;
+}
+
 export interface AutoRouterOptions {
   /**
    * the root directory of the project
@@ -115,6 +149,22 @@ export interface AutoRouterOptions {
    * @default process.cwd()
    */
   cwd?: string;
+  /**
+   * whether to watch the file
+   *
+   * 是否监听文件
+   *
+   * @default true
+   */
+  watchFile?: boolean;
+  /**
+   * the duration of the file update
+   *
+   * 文件更新时间
+   *
+   * @default 500 ms
+   */
+  fileUpdateDuration?: number;
   /**
    * the directory of the pages
    *
@@ -184,7 +234,10 @@ export interface AutoRouterOptions {
    *
    * 路由布局
    *
-   * @default "{ base: 'src/layouts/base/index.vue' }"
+   * @default "{
+   *  base: 'src/layouts/base/index.vue',
+   *  blank: 'src/layouts/blank/index.vue',
+   * }"
    */
   layouts?: Record<string, string>;
   /**
@@ -200,13 +253,36 @@ export interface AutoRouterOptions {
    *
    * 自定义路由 (格式: { name: path })
    *
-   * @default
-   * "{
-   *   "Root": "/",
-   *   "NotFound": "/:pathMatch(.*)*"
-   * }"
+   * @default builtin custom route
+   *
+   * - Root: '/',
+   * - NotFound: '/:pathMatch(.*)*'
    */
   customRoute?: Record<string, string>;
+  /**
+   * the root redirect path
+   *
+   * 根路由重定向路径
+   *
+   * @default '/home'
+   */
+  rootRedirect?: string;
+  /**
+   * the not found route component
+   *
+   * 404 路由组件
+   *
+   * @default '404'
+   */
+  notFoundRouteComponent?: string;
+  /**
+   * the default custom route component
+   *
+   * 默认自定义路由组件
+   *
+   * @default 'wip'
+   */
+  defaultCustomRouteComponent?: string;
   /**
    * the path of the route
    *
@@ -269,5 +345,18 @@ export interface NormalizedLayout {
 }
 
 export type ParsedAutoRouterOptions = Omit<Required<AutoRouterOptions>, 'layouts' | 'layoutLazy'> & {
+  pageExtension: string[];
   layouts: NormalizedLayout[];
+  customRoute: CustomRoute;
 };
+
+export interface AutoRouterSingleView extends Omit<RouteRecordSingleView, 'component'> {
+  component: string;
+  layout: string;
+}
+
+export interface AutoRouterRedirect extends RouteRecordRedirect {
+  layout: string;
+}
+
+export type AutoRouterRoute = AutoRouterSingleView | AutoRouterRedirect;

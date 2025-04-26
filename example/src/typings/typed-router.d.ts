@@ -8,7 +8,7 @@
 export {}
 
 declare module "vue-router" {
-  type RouteNamedMap = import('vue-router/auto-routes').RouteNamedMap;
+  type RouteNamedMap = import("vue-router/auto-routes").RouteNamedMap;
 
   export interface TypesConfig {
     RouteNamedMap: RouteNamedMap;
@@ -22,18 +22,20 @@ declare module "vue-router/auto-routes" {
    * route named map
   */
   export interface RouteNamedMap {
+    "Root": RouteRecordInfo<"Root", "/", Record<never, never>, Record<never, never>>;
+    "NotFound": RouteRecordInfo<"NotFound", "/:pathMatch(.*)*", Record<never, never>, Record<never, never>>;
     "403": RouteRecordInfo<"403", "/403", Record<never, never>, Record<never, never>>;
     "404": RouteRecordInfo<"404", "/404", Record<never, never>, Record<never, never>>;
-    "Login": RouteRecordInfo<"Login", "/login", Record<never, never>, Record<never, never>>;
-    "HomeChild": RouteRecordInfo<"HomeChild", "/home/child", Record<never, never>, Record<never, never>>;
     "Home": RouteRecordInfo<"Home", "/home", Record<never, never>, Record<never, never>>;
-    "ListId": RouteRecordInfo<"ListId", "/list/:id", { id: ParamValue<true> }, { id: ParamValue<false> }>;
+    "HomeChild": RouteRecordInfo<"HomeChild", "/home/child", Record<never, never>, Record<never, never>>;
+    "HomeChild5": RouteRecordInfo<"HomeChild5", "/home/child5", Record<never, never>, Record<never, never>>;
+    "List": RouteRecordInfo<"List", "/list", Record<never, never>, Record<never, never>>;
     "ListAdd": RouteRecordInfo<"ListAdd", "/list/add", Record<never, never>, Record<never, never>>;
     "ListDetail2IdUserId": RouteRecordInfo<"ListDetail2IdUserId", "/list/detail2-:id?-:userId?", { id?: ParamValueZeroOrOne<true>, userId?: ParamValueZeroOrOne<true> }, { id?: ParamValueZeroOrOne<false>, userId?: ParamValueZeroOrOne<false> }>;
     "ListDetailIdUserId": RouteRecordInfo<"ListDetailIdUserId", "/list/detail/:id/:userId", { id: ParamValue<true>, userId: ParamValue<true> }, { id: ParamValue<false>, userId: ParamValue<false> }>;
     "ListEditId": RouteRecordInfo<"ListEditId", "/list/edit/:id", { id: ParamValue<true> }, { id: ParamValue<false> }>;
-    "List": RouteRecordInfo<"List", "/list", Record<never, never>, Record<never, never>>;
-    "Root": RouteRecordInfo<"Root", "/", Record<never, never>, Record<never, never>>;
-    "NotFound": RouteRecordInfo<"NotFound", "/:pathMatch(.*)*", Record<never, never>, Record<never, never>>
+    "ListId": RouteRecordInfo<"ListId", "/list/:id", { id: ParamValue<true> }, { id: ParamValue<false> }>;
+    "Login": RouteRecordInfo<"Login", "/login", Record<never, never>, Record<never, never>>;
+    "Wip": RouteRecordInfo<"Wip", "/wip", Record<never, never>, Record<never, never>>
   }
 }

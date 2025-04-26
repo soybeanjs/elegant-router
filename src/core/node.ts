@@ -1,19 +1,90 @@
 import { yellow } from 'kolorist';
 import { getImportName, logger } from '../shared';
-import type { AutoRouterNode, AutoRouterParamType, ParsedAutoRouterOptions, ResolvedGlob } from '../types';
+import { NOT_FOUND_ROUTE_NAME, NO_FILE_INODE, ROOT_ROUTE_NAME } from '../constants';
+import type {
+  AutoRouterNode,
+  AutoRouterParamType,
+  NodeStatInfo,
+  ParsedAutoRouterOptions,
+  ResolvedGlob
+} from '../types';
+import { getTempNodes } from './temp';
 
 export function resolveNodes(globs: ResolvedGlob[], options: ParsedAutoRouterOptions) {
   const nodes = globs.map(glob => resolveNode(glob, options));
 
   const filteredNodes = filterConflictNodes(nodes);
 
-  const customNodes = resolveCustomNode(options.customRoute);
+  const customNodes = resolveCustomNode(options);
 
-  return [...filteredNodes, ...customNodes];
+  const result = [...filteredNodes, ...customNodes];
+
+  result.sort((a, b) => sortNodeName(a.name, b.name));
+
+  return result;
+}
+
+/**
+ * 排序节点名称
+ *
+ * @param preName
+ * @param curName
+ */
+export function sortNodeName(preName: string, curName: string) {
+  if (preName === ROOT_ROUTE_NAME) {
+    return -1;
+  }
+
+  if (curName === ROOT_ROUTE_NAME) {
+    return 1;
+  }
+
+  if (preName === NOT_FOUND_ROUTE_NAME) {
+    return -1;
+  }
+
+  if (curName === NOT_FOUND_ROUTE_NAME) {
+    return 1;
+  }
+
+  return preName.localeCompare(curName);
+}
+
+export async function getNodeStatInfo(nodes: AutoRouterNode[]) {
+  const preStat = await getTempNodes();
+  const preStatInodes = Object.values(preStat);
+
+  const info: NodeStatInfo = {
+    add: [],
+    rename: []
+  };
+
+  nodes.forEach(node => {
+    const { name, inode } = node;
+
+    if (inode === NO_FILE_INODE) return;
+
+    const preInode = preStat[name];
+
+    if (!preInode && !preStatInodes.includes(inode)) {
+      info.add.push(node);
+      return;
+    }
+
+    if (preStatInodes.includes(inode)) {
+      const oldNodeName = Object.entries(preStat).find(([_, ino]) => ino === inode)?.[0];
+
+      if (oldNodeName && oldNodeName !== name) {
+        info.rename.push({ ...node, oldNodeName });
+      }
+    }
+  });
+
+  return info;
 }
 
 function resolveNode(resolvedGlob: ResolvedGlob, options: ParsedAutoRouterOptions) {
-  const resolvedPath = resolvePath(resolvedGlob);
+  const resolvedPath = resolvePath(resolvedGlob, options.pageExtension);
 
   let node: AutoRouterNode = {
     ...resolvedGlob,
@@ -22,6 +93,9 @@ function resolveNode(resolvedGlob: ResolvedGlob, options: ParsedAutoRouterOption
       return options.getRouteName(node);
     },
     originPath: resolvedPath,
+    get component() {
+      return node.name;
+    },
     get layout() {
       return options.getRouteLayout(node);
     },
@@ -39,22 +113,42 @@ function resolveNode(resolvedGlob: ResolvedGlob, options: ParsedAutoRouterOption
   return node;
 }
 
-function resolveCustomNode(customRoute: Record<string, string>) {
+function resolveCustomNode(options: ParsedAutoRouterOptions) {
+  const { customRoute, notFoundRouteComponent, defaultCustomRouteComponent, getRouteLayout } = options;
+
   const nodes: AutoRouterNode[] = [];
 
   Object.entries(customRoute).forEach(([name, path]) => {
+    let component = defaultCustomRouteComponent;
+
+    if (name === ROOT_ROUTE_NAME) {
+      component = '';
+    }
+
+    if (name === NOT_FOUND_ROUTE_NAME) {
+      component = notFoundRouteComponent;
+    }
+
     let node: AutoRouterNode = {
       name,
       path,
       originPath: '',
-      layout: '',
+      component: name === ROOT_ROUTE_NAME ? '' : component,
+      get layout() {
+        if (name === ROOT_ROUTE_NAME) {
+          return '';
+        }
+
+        return getRouteLayout(node);
+      },
       importName: '',
       isLazy: false,
       isCustom: true,
       pageDir: '',
       glob: '',
       filePath: '',
-      importPath: ''
+      importPath: '',
+      inode: NO_FILE_INODE
     };
 
     node = resolveParamNode(node);
@@ -65,7 +159,7 @@ function resolveCustomNode(customRoute: Record<string, string>) {
   return nodes;
 }
 
-function resolvePath(resolvedGlob: ResolvedGlob) {
+function resolvePath(resolvedGlob: ResolvedGlob, extension: string[]) {
   const { glob } = resolvedGlob;
 
   let globPath = glob;
@@ -73,9 +167,11 @@ function resolvePath(resolvedGlob: ResolvedGlob) {
     globPath = `/${globPath}`;
   }
 
-  if (globPath.endsWith('.vue')) {
-    globPath = globPath.replace(/\.vue$/, '');
-  }
+  extension.forEach(ext => {
+    if (globPath.endsWith(`.${ext}`)) {
+      globPath = globPath.replace(`.${ext}`, '');
+    }
+  });
 
   if (globPath.endsWith('/index')) {
     globPath = globPath.replace(/\/index$/, '');

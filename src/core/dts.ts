@@ -2,7 +2,7 @@ import path from 'node:path';
 import { writeFile } from 'node:fs/promises';
 import { createPrefixCommentOfGenFile, ensureFile } from '../shared';
 import type { AutoRouterNode, ParsedAutoRouterOptions } from '../types';
-import { ELEGANT_ROUTER_TYPES_MODULE_NAME, VUE_ROUTER_MODULE_NAME } from './constant';
+import { ELEGANT_ROUTER_TYPES_MODULE_NAME, VUE_ROUTER_MODULE_NAME } from '../constants';
 
 export async function generateDtsFile(nodes: AutoRouterNode[], options: ParsedAutoRouterOptions) {
   const dtsPath = path.posix.join(options.cwd, options.dts);
@@ -29,6 +29,9 @@ function getDtsCode(nodes: AutoRouterNode[], options: ParsedAutoRouterOptions) {
   let code = `${prefixComment}
 
 declare module "${ELEGANT_ROUTER_TYPES_MODULE_NAME}" {
+  type RouteRecordSingleView = import("vue-router").RouteRecordSingleView;
+  type RouteRecordRedirect = import("vue-router").RouteRecordRedirect;
+
   /**
    * route layout key
    */
@@ -73,6 +76,31 @@ declare module "${ELEGANT_ROUTER_TYPES_MODULE_NAME}" {
    * the route file key, which has it's own file
    */
   export type RouteFileKey = Exclude<RouteKey, CustomRouteKey>;
+
+  /**
+   * mapped name and path
+   */
+  type MappedNamePath = {
+    [K in RouteKey]: { name: K; path: RoutePathMap[K] };
+  }[RouteKey];
+
+  /**
+   * auto router single view
+   */
+  export type AutoRouterSingleView = Omit<RouteRecordSingleView, 'component' | 'name' | 'path'> & {
+    component: RouteFileKey;
+    layout: RouteLayoutKey;
+  } & MappedNamePath;
+
+  /**
+   * auto router redirect
+   */
+  export type AutoRouterRedirect = Omit<RouteRecordRedirect, 'children' | 'name' | 'path'> & MappedNamePath;
+
+  /**
+   * auto router route
+   */
+  export type AutoRouterRoute = AutoRouterSingleView | AutoRouterRedirect;
 }
 `;
 
@@ -80,14 +108,14 @@ declare module "${ELEGANT_ROUTER_TYPES_MODULE_NAME}" {
 }
 
 function getVueRouterDtsCode(nodes: AutoRouterNode[]) {
-  const prefixComment = createPrefixCommentOfGenFile();
+  const prefixComment = createPrefixCommentOfGenFile(true);
 
   const code = `${prefixComment}
 
 export {}
 
 declare module "vue-router" {
-  type RouteNamedMap = import('${VUE_ROUTER_MODULE_NAME}').RouteNamedMap;
+  type RouteNamedMap = import("${VUE_ROUTER_MODULE_NAME}").RouteNamedMap;
 
   export interface TypesConfig {
     RouteNamedMap: RouteNamedMap;

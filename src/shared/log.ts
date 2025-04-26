@@ -18,6 +18,10 @@ class Logger {
     this.logger[type](`${this.prefix} ${msg}`);
   }
 
+  start(msg: string, show = true) {
+    this.log(msg, 'start', show);
+  }
+
   info(msg: string, show = true) {
     this.log(msg, 'info', show);
   }
