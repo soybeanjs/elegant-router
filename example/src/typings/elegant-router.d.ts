@@ -7,6 +7,11 @@
 declare module "@elegant-router/types" {
   type RouteRecordSingleView = import("vue-router").RouteRecordSingleView;
   type RouteRecordRedirect = import("vue-router").RouteRecordRedirect;
+  type RouteComponent = import("vue-router").RouteComponent;
+
+  type Lazy<T> = () => Promise<T>;
+
+  export type RawRouteComponent = RouteComponent | Lazy<RouteComponent>;
 
   /**
    * route layout key
@@ -43,6 +48,16 @@ declare module "@elegant-router/types" {
    * route path
    */
   export type RoutePath = RoutePathMap[RouteKey];
+
+  /**
+   * root route key
+   */
+  export type RootRouteKey = 'Root';
+
+  /**
+   * not found route key
+   */
+  export type NotFoundRouteKey = 'NotFound';
 
   /**
    * custom route key

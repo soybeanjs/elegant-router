@@ -21,9 +21,8 @@ export function getImportsCode(nodes: AutoRouterNode[], options: ParsedAutoRoute
 
   const preCode = createPrefixCommentOfGenFile();
 
-  let importCode = `import type { RouteComponent } from "vue-router";
-import type { RouteFileKey, RouteLayoutKey } from "${ELEGANT_ROUTER_TYPES_MODULE_NAME}";\n`;
-  let exportLayoutCode = `\nexport const layouts: Record<RouteLayoutKey, RouteComponent | (() => Promise<RouteComponent>)> = {`;
+  let importCode = `import type { RouteFileKey, RouteLayoutKey, RawRouteComponent } from "${ELEGANT_ROUTER_TYPES_MODULE_NAME}";\n`;
+  let exportLayoutCode = `\nexport const layouts: Record<RouteLayoutKey, RawRouteComponent> = {`;
 
   layouts.forEach(layout => {
     const { name, importName, importPath, isLazy } = layout;
@@ -38,7 +37,7 @@ import type { RouteFileKey, RouteLayoutKey } from "${ELEGANT_ROUTER_TYPES_MODULE
 
   exportLayoutCode += '\n};\n';
 
-  let exportCode = `export const views: Record<RouteFileKey, RouteComponent | (() => Promise<RouteComponent>)> = {`;
+  let exportCode = `export const views: Record<RouteFileKey, RawRouteComponent> = {`;
 
   nodes
     .filter(node => !node.isCustom)

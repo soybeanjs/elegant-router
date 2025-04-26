@@ -83,10 +83,6 @@ export const routes: AutoRouterRoute[] = [
     path: '/list/:id',
     layout: 'base',
     component: 'ListId',
-    props: true,
-    meta: {
-      title: 'List',
-    },
   },
   {
     name: 'Login',
@@ -99,8 +95,5 @@ export const routes: AutoRouterRoute[] = [
     path: '/wip',
     layout: 'base',
     component: 'Wip',
-    props: {
-      id: 1,
-    }
   }
 ];

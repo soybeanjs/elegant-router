@@ -31,6 +31,11 @@ function getDtsCode(nodes: AutoRouterNode[], options: ParsedAutoRouterOptions) {
 declare module "${ELEGANT_ROUTER_TYPES_MODULE_NAME}" {
   type RouteRecordSingleView = import("vue-router").RouteRecordSingleView;
   type RouteRecordRedirect = import("vue-router").RouteRecordRedirect;
+  type RouteComponent = import("vue-router").RouteComponent;
+
+  type Lazy<T> = () => Promise<T>;
+
+  export type RawRouteComponent = RouteComponent | Lazy<RouteComponent>;
 
   /**
    * route layout key
@@ -58,6 +63,16 @@ declare module "${ELEGANT_ROUTER_TYPES_MODULE_NAME}" {
    * route path
    */
   export type RoutePath = RoutePathMap[RouteKey];
+
+  /**
+   * root route key
+   */
+  export type RootRouteKey = 'Root';
+
+  /**
+   * not found route key
+   */
+  export type NotFoundRouteKey = 'NotFound';
 
   /**
    * custom route key

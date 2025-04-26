@@ -8,6 +8,7 @@ import { generateDtsFile } from './dts';
 import { generateRoutes } from './route';
 import { resolveGlobs } from './glob';
 import { FileWatcher } from './watcher';
+import { generateSharedFile, generateTransformerFile } from './generate';
 
 export class AutoRouter {
   private options: ParsedAutoRouterOptions = {} as ParsedAutoRouterOptions;
@@ -47,6 +48,8 @@ export class AutoRouter {
 
     await generateDtsFile(this.nodes, this.options);
     await generateImportsFile(this.nodes, this.options);
+    await generateTransformerFile(this.options);
+    await generateSharedFile(this.nodes, this.options);
     await generateRoutes(this.nodes, this.statInfo, this.options);
 
     await updateTempNodes(this.nodes);
