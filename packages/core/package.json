@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@types/micromatch": "4.0.9",
-    "@types/node": "22.14.1",
+    "@types/node": "22.15.2",
     "typescript": "5.8.3",
     "unbuild": "3.5.0"
   }
