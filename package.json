@@ -54,15 +54,10 @@
   "types": "./dist/index.d.ts",
   "typesVersions": {
     "*": {
-      "*": [
-        "./dist/*",
-        "./*"
-      ]
+      "*": ["./dist/*", "./*"]
     }
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "build": "unbuild",
     "cleanup": "soy cleanup",
