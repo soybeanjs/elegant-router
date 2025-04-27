@@ -1,8 +1,7 @@
 import process from 'node:process';
 import path from 'node:path';
 import { getImportName, resolveAliasFromTsConfig, resolveImportPath, transformPathToName } from '../shared';
-import { NOT_FOUND_ROUTE_NAME, ROOT_ROUTE_NAME } from '../constants';
-import type { AutoRouterOptions, CustomRoute, ParsedAutoRouterOptions } from '../types';
+import type { AutoRouterOptions, ParsedAutoRouterOptions } from '../types';
 
 export function resolveOptions(options?: AutoRouterOptions): ParsedAutoRouterOptions {
   const cwd = process.cwd();
@@ -32,8 +31,8 @@ export function resolveOptions(options?: AutoRouterOptions): ParsedAutoRouterOpt
     getRoutePath: node => node.path,
     getRouteName: node => transformPathToName(node.path),
     routeLayoutMap: {},
-    getRouteLayout: (node, layoutMap) => {
-      const layout = layoutMap[node.filePath];
+    getRouteLayout: node => {
+      const layout = defaultOptions.routeLayoutMap[node.filePath];
 
       if (!layout) {
         return Object.keys(defaultOptions.layouts!)?.[0] || 'unknown';
@@ -44,22 +43,23 @@ export function resolveOptions(options?: AutoRouterOptions): ParsedAutoRouterOpt
     routeLazy: () => true
   };
 
-  const { customRoute, layouts, layoutLazy, ...restOptions } = Object.assign(defaultOptions, options);
-
-  const builtInCustomRoute: CustomRoute = {
-    [ROOT_ROUTE_NAME]: '/',
-    [NOT_FOUND_ROUTE_NAME]: '/:pathMatch(.*)*'
-  };
+  const { customRoute: $customRoute, layouts, layoutLazy, ...restOptions } = Object.assign(defaultOptions, options);
 
   const pageInclude = Array.isArray(restOptions.pageInclude) ? restOptions.pageInclude : [restOptions.pageInclude];
+
+  const customRoute: Record<string, string> = {
+    ...$customRoute.map
+  };
+
+  $customRoute.paths?.forEach(p => {
+    const name = transformPathToName(p);
+    customRoute[name] = p;
+  });
 
   const parsedOptions: ParsedAutoRouterOptions = {
     pageExtension: pageInclude.map(item => item.split('.').pop()!),
     ...restOptions,
-    customRoute: {
-      ...customRoute,
-      ...builtInCustomRoute
-    },
+    customRoutes: Object.entries(customRoute).map(([name, p]) => ({ name, path: p })),
     layouts: Object.entries(layouts).map(([name, importPath]) => {
       let importName = getImportName(name);
 

@@ -1,6 +1,6 @@
 import { yellow } from 'kolorist';
 import { getImportName, logger } from '../shared';
-import { NOT_FOUND_ROUTE_NAME, NO_FILE_INODE, ROOT_ROUTE_NAME } from '../constants';
+import { BUILT_IN_CUSTOM_ROUTE, NOT_FOUND_ROUTE_NAME, NO_FILE_INODE, ROOT_ROUTE_NAME } from '../constants';
 import type {
   AutoRouterNode,
   AutoRouterParamType,
@@ -16,8 +16,9 @@ export function resolveNodes(globs: ResolvedGlob[], options: ParsedAutoRouterOpt
   const filteredNodes = filterConflictNodes(nodes);
 
   const customNodes = resolveCustomNode(options);
+  const builtinNodes = resolveBuiltinNode(options);
 
-  const result = [...filteredNodes, ...customNodes];
+  const result = [...builtinNodes, ...filteredNodes, ...customNodes];
 
   result.sort((a, b) => sortNodeName(a.name, b.name));
 
@@ -84,7 +85,7 @@ export async function getNodeStatInfo(cwd: string, nodes: AutoRouterNode[]) {
 }
 
 export function resolveNode(resolvedGlob: ResolvedGlob, options: ParsedAutoRouterOptions) {
-  const { getRouteName, getRouteLayout, routeLayoutMap, routeLazy } = options;
+  const { getRouteName, getRouteLayout, routeLazy } = options;
 
   const resolvedPath = resolveGlobPath(resolvedGlob, options.pageExtension);
 
@@ -99,7 +100,7 @@ export function resolveNode(resolvedGlob: ResolvedGlob, options: ParsedAutoRoute
       return node.name;
     },
     get layout() {
-      return getRouteLayout(node, routeLayoutMap);
+      return getRouteLayout(node);
     },
     get importName() {
       return getImportName(node.name);
@@ -116,42 +117,13 @@ export function resolveNode(resolvedGlob: ResolvedGlob, options: ParsedAutoRoute
 }
 
 function resolveCustomNode(options: ParsedAutoRouterOptions) {
-  const { customRoute, notFoundRouteComponent, defaultCustomRouteComponent, getRouteLayout, routeLayoutMap } = options;
+  const { customRoutes, defaultCustomRouteComponent, getRouteLayout } = options;
 
   const nodes: AutoRouterNode[] = [];
 
-  Object.entries(customRoute).forEach(([name, path]) => {
-    let component = defaultCustomRouteComponent;
-
-    if (name === ROOT_ROUTE_NAME) {
-      component = '';
-    }
-
-    if (name === NOT_FOUND_ROUTE_NAME) {
-      component = notFoundRouteComponent;
-    }
-
-    let node: AutoRouterNode = {
-      name,
-      path,
-      originPath: '',
-      component: name === ROOT_ROUTE_NAME ? '' : component,
-      get layout() {
-        if (name === ROOT_ROUTE_NAME) {
-          return '';
-        }
-
-        return getRouteLayout(node, routeLayoutMap);
-      },
-      importName: '',
-      isLazy: false,
-      isCustom: true,
-      pageDir: '',
-      glob: '',
-      filePath: '',
-      importPath: '',
-      inode: NO_FILE_INODE
-    };
+  customRoutes.forEach(({ name, path }) => {
+    let node: AutoRouterNode = createEmptyCustomNode(name, path, getRouteLayout);
+    node.component = defaultCustomRouteComponent;
 
     node = resolveParamNode(node);
 
@@ -159,6 +131,44 @@ function resolveCustomNode(options: ParsedAutoRouterOptions) {
   });
 
   return nodes;
+}
+
+function resolveBuiltinNode(options: ParsedAutoRouterOptions) {
+  const { notFoundRouteComponent, getRouteLayout } = options;
+
+  const rootNode: AutoRouterNode = {
+    ...createEmptyCustomNode(ROOT_ROUTE_NAME, BUILT_IN_CUSTOM_ROUTE[ROOT_ROUTE_NAME], getRouteLayout),
+    layout: ''
+  };
+
+  const notFoundNode: AutoRouterNode = {
+    ...createEmptyCustomNode(NOT_FOUND_ROUTE_NAME, BUILT_IN_CUSTOM_ROUTE[NOT_FOUND_ROUTE_NAME], getRouteLayout),
+    component: notFoundRouteComponent
+  };
+
+  return [rootNode, notFoundNode];
+}
+
+function createEmptyCustomNode(name: string, path: string, getRouteLayout: (node: AutoRouterNode) => string) {
+  const node: AutoRouterNode = {
+    name,
+    path,
+    originPath: '',
+    component: '',
+    get layout() {
+      return getRouteLayout(node);
+    },
+    importName: '',
+    isLazy: false,
+    isCustom: true,
+    pageDir: '',
+    glob: '',
+    filePath: '',
+    importPath: '',
+    inode: NO_FILE_INODE
+  };
+
+  return node;
 }
 
 function resolveGlobPath(resolvedGlob: ResolvedGlob, extension: string[]) {

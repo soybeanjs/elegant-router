@@ -135,9 +135,8 @@ export interface NodeStatInfo {
 }
 
 export interface CustomRoute {
-  readonly Root: string;
-  readonly NotFound: string;
-  [key: string]: string;
+  map: Record<string, string>;
+  paths: string[];
 }
 
 export interface AutoRouterOptions {
@@ -249,16 +248,20 @@ export interface AutoRouterOptions {
    */
   layoutLazy?: (layout: string) => boolean;
   /**
-   * the custom route (format: { name: path })
+   * the custom route
    *
-   * 自定义路由 (格式: { name: path })
-   *
-   * @default builtin custom route
-   *
-   * - Root: '/',
-   * - NotFound: '/:pathMatch(.*)*'
+   * @example
+   *   ```ts
+   *     customRoute: {
+   *       map: {
+   *         Home: '/home',
+   *         About: '/about'
+   *       },
+   *       paths: ['/home2', '/about2']
+   *     }
+   *   ```;
    */
-  customRoute?: Record<string, string>;
+  customRoute?: Partial<CustomRoute>;
   /**
    * the root redirect path
    *
@@ -316,7 +319,7 @@ export interface AutoRouterOptions {
    *
    * @default get the first key of the layouts
    */
-  getRouteLayout?: (node: AutoRouterNode, layoutMap: Record<string, string>) => string;
+  getRouteLayout?: (node: AutoRouterNode) => string;
   /**
    * the lazy of the route
    *
@@ -356,10 +359,12 @@ export interface NormalizedLayout {
   isLazy: boolean;
 }
 
-export type ParsedAutoRouterOptions = Omit<Required<AutoRouterOptions>, 'layouts' | 'layoutLazy'> & {
+export type CustomRouteItem = { name: string; path: string };
+
+export type ParsedAutoRouterOptions = Omit<Required<AutoRouterOptions>, 'customRoute' | 'layouts' | 'layoutLazy'> & {
   pageExtension: string[];
   layouts: NormalizedLayout[];
-  customRoute: CustomRoute;
+  customRoutes: CustomRouteItem[];
 };
 
 export interface AutoRouterSingleView extends Omit<RouteRecordSingleView, 'component'> {
