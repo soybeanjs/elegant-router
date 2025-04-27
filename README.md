@@ -1,147 +1,342 @@
 # ElegantRouter
 
-English | [中文](./README.zh_CN.md)
+基于文件系统的自动路由生成工具，简化路由配置，提升开发效率。
 
-## Introduction
+中文 | [English](./README.en_US.md)
 
-ElegantRouter is a tool for creating routes based on the file system, which can automatically generate route definitions, route file imports and route-related type definitions. Just create the route file according to the agreed rules, without adding any additional configuration in the route file.
+## 介绍
 
-### Differences and similarities
+Elegant Router 是一个基于文件系统创建路由的工具，它能自动化生成路由定义、路由文件导入以及路由相关的类型定义。只需按照约定的规则创建路由文件，无需在路由文件中添加任何额外配置。
 
-The main difference between ElegantRouter and other file system-based routing tools is that:
+### 背景
 
-1. Other tools have complex configuration rules, and the route data is a black box, which is difficult to customize.
-2. ElegantRouter follows the api-first principle and automates the process of configuring routes.
+ElegantRouter 与其他基于文件系统的路由工具的主要区别在于：
 
-Taking configuring Vue routes as an example, the traditional way of creating page routes requires the following steps:
+1. 其他工具的配置规则繁多，路由数据为黑盒，自定义难度大。
+2. ElegantRouter 遵循api-first原则，将配置路由的过程自动化。
 
-1. Import the layout component
-2. Import the page component
-3. Define the route in the route configuration file
+以配置Vue路由为例，传统的创建页面路由需要以下步骤：
 
-Although these steps are not complicated, in actual development, they are repetitive and need to be done manually. In addition, the maintenance of route names and paths is very troublesome, there is no clear agreement on the route definition of the layout and page components, resulting in a messy route definition.
-And using ElegantRouter, you only need to create the route file according to the agreed rules, you can automatically generate the route in the specified route file.
+1. 导入布局组件
+2. 导入页面组件
+3. 在路由配置文件中定义路由
 
-### ElegantRouter's route configuration process
+这些步骤虽然不复杂，但在实际开发中，它们是重复且需要手动完成的。此外，路由名称和路径的维护非常麻烦，对布局和页面组件的路由定义没有明确的约定，导致路由定义混乱。
+而使用ElegantRouter，你只需要按照约定的规则创建路由文件，即可在指定的路由文件中自动生成路由。
 
-You only need to create a route file according to the agreed rules to generate the route in the specified route file.
+### 特性
 
-## Installation
+- **基于文件系统** - 基于文件系统自动生成路由配置，无需手动定义路由
+- **白盒设计** - 路由数据为白盒，自定义难度低
+- **类型安全** - 自动生成路由相关的类型定义，提供类型安全的路由导航
+- **灵活可配置** - 提供丰富的配置选项，满足不同项目的需求
+- **布局管理** - 简化布局与组件的关联配置，自动处理层级关系
+- **代码分割** - 自动处理组件导入和代码分割，优化应用性能
 
-### Install the Vue version (other frameworks to come...)
+### 核心功能
+
+1. **自动路由生成** - 基于文件系统自动生成路由配置
+2. **类型定义生成** - 自动生成路由相关的类型定义
+3. **路由导入管理** - 自动处理组件导入和代码分割
+4. **布局集成** - 简化布局与组件的关联配置
+5. **路由转换器** - 提供一级路由到二级路由的转换功能
+
+## 安装
 
 ```bash
-pnpm install @elegant-router/vue
+pnpm install elegant-router
 ```
 
-## Use
+## 使用
 
-### Introduce the plugin in Vite
+### 在 Vite 中引入插件
 
 ```ts
-import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-import ElegantVueRouter from "@elegant-router/vue/vite";
+import ElegantRouter from "elegant-router/vite";
 
 export default defineConfig({
   plugins: [
     vue(),
-    ElegantVueRouter({
-      alias: {
-        "@": "src",
-      },
-      layouts: {
-        base: "src/layouts/base-layout/index.vue",
-        blank: "src/layouts/blank-layout/index.vue",
-      },
-    }),
-  ],
-  resolve: {
-    alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
-    },
-  },
+    ElegantRouter(),
+  ]
 });
 ```
 
-### Integration in Vue Router
-
-**src/router/routes/index.ts**
+### 在 Vue Router 中集成
 
 ```ts
-import type { ElegantRoute, CustomRoute } from "@elegant-router/types";
-import { generatedRoutes } from "../elegant/routes";
-import { layouts, views } from "../elegant/imports";
-import { transformElegantRoutesToVueRoutes } from "../elegant/transform";
+// src/router/index.ts
+import { createRouter, createWebHistory } from 'vue-router';
+import { routes } from './_generated/routes';
+import { layouts, views } from './_generated/imports';
+import { transformToVueRoutes } from './_generated/transformer';
 
-const customRoutes: CustomRoute[] = [
-  {
-    name: "root",
-    path: "/",
-    redirect: {
-      name: "403",
-    },
-  },
-  {
-    name: "not-found",
-    path: "/:pathMatch(.*)*",
-    component: "layout.base$view.404",
-  },
-];
-
-const elegantRoutes: ElegantRoute[] = [...customRoutes, ...generatedRoutes];
-
-export const routes = transformElegantRoutesToVueRoutes(
-  elegantRoutes,
-  layouts,
-  views
-);
-```
-
-**src/router/index.ts**
-
-```ts
-import { createRouter, createWebHistory } from "vue-router";
-import { routes } from "./routes";
+// 转换路由
+const vueRoutes = transformToVueRoutes(routes, layouts, views);
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes,
+  history: createWebHistory(),
+  routes: vueRoutes
 });
 
 export default router;
 ```
 
-### Starting the project
+## 路由文件创建规则
 
-After starting the project, the plugin will automatically generate the src/router/elegant directory, and the files in this directory are the automatically generated route import, route definition and route transformation files.
+新版插件更加灵活，不再对目录结构有严格限制，但仍然建议遵循一定的规范以提高开发效率。
 
-## Configuration
+### 基本路由
 
-### Route file creation
-
-You can configure `pagePatterns` to specify the rules for creating route files. The rules for creating route files are regular expressions, and if the path of a route file matches the regular expression, the route file will be created.
-
-Default: all files named `index.vue`、`[id].vue`、`[module].vue`, etc. below the folder.
+创建 `src/views/home/index.vue` 将自动生成路由：
 
 ```ts
-pagePatterns: ["**‍/index.vue", "**‍/[[]*[]].vue"];
+{
+  name: 'Home',
+  path: '/home',
+  layout: 'base',
+  component: 'Home'
+}
 ```
 
-### One-level route (single-level route)
+> 其中 `layout` 字段指定使用的布局组件，`component` 字段指定视图组件的导入键。通过 transformer 转换后将生成包含 layout 和 children 的二级路由结构。
 
-#### Folder structure
+> 其他的路由属性如 props, meta, beforeEnter 等可以直接在现有路由数据上添加。
 
-```
-views
-├── about
-│   └── index.vue
-```
+### 带参数的路由
 
-#### Generated routes
+创建 `src/views/list/[id].vue` 将自动生成带参数的路由：
 
 ```ts
+{
+  name: 'ListId',
+  path: '/list/:id',
+  layout: 'base',
+  component: 'ListId'
+}
+```
+
+### 可选参数路由
+
+创建 `src/views/list/detail2-[[id]]-[[userId]].vue` 将自动生成带可选参数的路由：
+
+```ts
+{
+  name: 'ListDetail2IdUserId',
+  path: '/list/detail2-:id?-:userId?',
+  layout: 'base',
+  component: 'ListDetail2IdUserId'
+}
+```
+
+### 多参数路由
+
+创建 `src/views/list/detail_[id]_[userId].vue` 将自动生成带多参数的路由：
+
+```ts
+{
+  name: 'ListDetailIdUserId',
+  path: '/list/detail/:id/:userId',
+  layout: 'base',
+  component: 'ListDetailIdUserId'
+}
+```
+
+### Group 路由
+
+创建 `src/views/(group)/demo/index.vue` 将自动生成 Group 路由：
+
+```ts
+{
+  name: 'Demo',
+  path: '/demo',
+  component: 'Demo'
+}
+```
+
+### 自定义路由
+
+自定义路由用于使用已有的页面路由文件
+
+#### 自定义路由配置
+
+```ts
+ElegantRouter({
+  customRoutes: {
+    'CustomRoute': '/custom-route'
+  },
+});
+```
+
+#### 自定义路由的component
+
+```ts
+{
+  name: "CustomRoute",
+  path: "/custom-route",
+  layout: "base",
+  component: "wip", // 使用已有的页面路由文件
+}
+```
+
+## 自动生成的文件
+
+启动项目后，插件会在配置的 `routerGeneratedDir` 目录下（默认为 `src/router/_generated`）生成以下文件：
+
+1. **routes.ts** - 包含基于文件系统生成的路由配置
+2. **imports.ts** - 包含自动导入的布局和视图组件
+3. **transformer.ts** - 提供路由转换功能，将一级路由转换为 Vue Router 所需的格式
+4. **shared.ts** - 提供路由路径和名称映射，方便在代码中使用
+
+## 路由转换过程
+
+插件通过 transformer 将一级路由转换为 Vue Router 可用的格式：
+
+```ts
+// 转换前的一级路由
+{
+  name: 'Home',
+  path: '/home',
+  layout: 'base',
+  component: 'Home'
+}
+
+// 转换后的Vue路由
+// 以布局为单位进行分组
+{
+  path: '/base-layout',
+  component: () => import('@/layouts/base/index.vue'),
+  children: [
+    {
+      name: 'Home',
+      path: '/home',
+      component: () => import('@/views/home/index.vue')
+    }
+    // ...同一布局下的其他路由
+  ]
+}
+```
+
+## 配置选项
+
+```ts
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import ElegantRouter from 'elegant-router/vite';
+
+export default defineConfig({
+  plugins: [
+    vue(),
+    ElegantRouter({
+      // 项目根目录
+      cwd: process.cwd(),
+
+      // 是否监听文件变化
+      watchFile: true,
+
+      // 文件更新时间（毫秒）
+      fileUpdateDuration: 500,
+
+      // 页面目录（可以指定多个）
+      pageDir: ['src/pages', 'src/views'],
+
+      // 页面文件匹配规则
+      pageInclude: '**/*.vue',
+
+      // 排除的页面文件
+      pageExclude: ['**/components/**', '**/modules/**'],
+
+      // 类型定义文件路径
+      dts: 'src/typings/elegant-router.d.ts',
+
+      // vue-router 类型定义文件路径
+      vueRouterDts: 'src/typings/typed-router.d.ts',
+
+      // tsconfig 文件路径
+      tsconfig: 'tsconfig.json',
+
+      // 项目别名配置
+      alias: {
+        '@': 'src'
+      },
+
+      // 路由生成目录
+      routerGeneratedDir: 'src/router/_generated',
+
+      // 布局配置
+      layouts: {
+        base: 'src/layouts/base/index.vue',
+        blank: 'src/layouts/blank/index.vue'
+      },
+
+      // 布局组件是否懒加载
+      layoutLazy: (layout) => true,
+
+      // 自定义路由（名称:路径）
+      customRoute: {
+        Root: '/',
+        NotFound: '/:pathMatch(.*)*'
+      },
+
+      // 根路由重定向路径
+      rootRedirect: '/home',
+
+      // 404 路由组件
+      notFoundRouteComponent: '404',
+
+      // 默认自定义路由组件
+      defaultCustomRouteComponent: 'wip',
+
+      // 自定义路由路径生成
+      getRoutePath: (node) => node.path,
+
+      // 自定义路由名称生成
+      getRouteName: (node) => node.name,
+
+      // 自定义路由布局
+      getRouteLayout: (node) => node.layout,
+
+      // 路由组件是否懒加载
+      routeLazy: (node) => true
+    })
+  ]
+});
+```
+
+## 新旧版本的主要差异
+
+### 1. 设计理念的变化
+
+#### 旧版插件
+- **强耦合的路由与菜单数据**: 为了方便快速根据路由数据直接生成菜单数据，对目录结构有很严格的限制。
+- **特定的目录结构要求**: 要求遵循严格的目录结构规范，如不允许在有子目录的同时拥有同级的 index.vue 文件。
+- **多级路由生成**: 支持生成多层嵌套的路由结构，最终转换为 Vue Router 的两层结构。
+
+#### 新版插件
+- **解耦路由与菜单**: 新版专注于路由生成，不再考虑菜单数据的自动生成，由用户自行处理菜单数据。
+- **更灵活的目录结构**: 不再对目录结构有严格限制，更专注于文件命名约定。
+- **一级路由模型**: 生成的路由数据为一级结构，包含 layout 和 component 信息，通过 transformer 按布局分组转换成二级路由。
+
+### 2. 技术实现的变化
+
+#### 旧版插件
+- **组件组合方式**: 使用 `layout.base$view.about` 格式字符串表示布局和组件的组合关系。
+- **递归的路由结构**: 生成递归嵌套的路由结构，再在转换时拍平为二级。
+- **生成的文件**: 生成 imports.ts、routes.ts、transform.ts 三个文件。
+
+#### 新版插件
+- **分离的布局与组件**: 使用独立的 `layout` 和 `component` 字段表示布局和组件。
+- **一级数据模型**: 生成简单一级的路由数据，布局通过 transformer 分组处理。
+- **额外的工具文件**: 除了原有三个文件外，新增 shared.ts 文件提供路由路径和名称映射的工具函数。
+- **更完善的类型支持**: 自动生成更全面的类型定义，提供类型安全的路由导航。
+
+### 3. 生成的路由数据对比
+
+#### 旧版插件生成的路由示例
+```ts
+// 单级路由
 {
   name: 'about',
   path: '/about',
@@ -149,58 +344,9 @@ views
   meta: {
     title: 'about'
   }
-},
-```
+}
 
-> it is a single level route, to add layout, the component props combines the layout and view component, split by the dollar sign "$"
-
-#### Transformed Vue routes
-
-```ts
-{
-  path: '/about',
-  component: BaseLayout,
-  children: [
-    {
-      name: 'about',
-      path: '',
-      component: () => import('@/views/about/index.vue'),
-      meta: {
-        title: 'about'
-      }
-    }
-  ]
-},
-```
-
-### Secondary route
-
-#### Folder structure
-
-```
-views
-├── list
-│   ├── home
-│   │   └── index.vue
-│   ├── detail
-│   │   └── index.vue
-```
-
-> Please don't have the following index.vue on the same level as the folder, this is not part of the agreed upon rules
-
-**Error example**
-
-```
-views
-├── list
-│   ├── index.vue
-│   ├── detail
-│   │   └── index.vue
-```
-
-#### Generated routes
-
-```ts
+// 多级路由
 {
   name: 'list',
   path: '/list',
@@ -216,24 +362,50 @@ views
       meta: {
         title: 'list_home'
       }
-    },
-    {
-      name: 'list_detail',
-      path: '/list/detail',
-      component: 'view.list_detail',
-      meta: {
-        title: 'list_detail'
-      }
-    },
+    }
   ]
 }
 ```
 
-> There are two layers of route data for secondary routes, the first layer of route is the layout component and the second layer of route is the page component
-
-#### Transformed Vue routes
-
+#### 新版插件生成的路由示例
 ```ts
+// 所有路由均为一级结构
+{
+  name: 'Home',
+  path: '/home',
+  layout: 'base',
+  component: 'Home'
+}
+
+{
+  name: 'ListHome',
+  path: '/list/home',
+  layout: 'base',
+  component: 'ListHome'
+}
+```
+
+### 4. 转换后的路由结构对比
+
+#### 旧版插件转换后的 Vue 路由
+```ts
+// 单级路由转换结果
+{
+  path: '/about',
+  component: BaseLayout,
+  children: [
+    {
+      name: 'about',
+      path: '',
+      component: () => import('@/views/about/index.vue'),
+      meta: {
+        title: 'about'
+      }
+    }
+  ]
+}
+
+// 多级路由转换结果
 {
   name: 'list',
   path: '/list',
@@ -252,375 +424,53 @@ views
       meta: {
         title: 'list_home'
       }
-    },
-    {
-      name: 'list_detail',
-      path: '/list/detail',
-      component: () => import('@/views/list/detail/index.vue'),
-      meta: {
-        title: 'list_detail'
-      }
-    }
-  ]
-},
-```
-
-> the first layer of route data contains the redirection configuration, which by default redirects to the first sub-route
-
-### Multi-level route (level 3 route and above)
-
-#### Folder structure
-
-- The folder hierarchy is deep
-
-```
-views
-├── multi-menu
-│   ├── first
-│   │   ├── child
-│   │   │   └── index.vue
-│   ├── second
-│   │   ├── child
-│   │   │   ├── home
-│   │   │   │   └── index.vue
-```
-
-- Two-tier folder hierarchy (recommended)
-
-```
-views
-├── multi-menu
-│   ├── first_child
-│   │   └── index.vue
-│   ├── second_child_home
-│   │   └── index.vue
-```
-
-> The route hierarchy is split by the underscore symbol "\_", which prevents the folder hierarchy from being too deep.
-
-#### Generated routes
-
-```ts
-{
-  name: 'multi-menu',
-  path: '/multi-menu',
-  component: 'layout.base',
-  meta: {
-    title: 'multi-menu'
-  },
-  children: [
-    {
-      name: 'multi-menu_first',
-      path: '/multi-menu/first',
-      meta: {
-        title: 'multi-menu_first'
-      },
-      children: [
-        {
-          name: 'multi-menu_first_child',
-          path: '/multi-menu/first/child',
-          component: 'view.multi-menu_first_child',
-          meta: {
-            title: 'multi-menu_first_child'
-          }
-        }
-      ]
-    },
-    {
-      name: 'multi-menu_second',
-      path: '/multi-menu/second',
-      meta: {
-        title: 'multi-menu_second'
-      },
-      children: [
-        {
-          name: 'multi-menu_second_child',
-          path: '/multi-menu/second/child',
-          meta: {
-            title: 'multi-menu_second_child'
-          },
-          children: [
-            {
-              name: 'multi-menu_second_child_home',
-              path: '/multi-menu/second/child/home',
-              component: 'view.multi-menu_second_child_home',
-              meta: {
-                title: 'multi-menu_second_child_home'
-              }
-            }
-          ]
-        }
-      ]
     }
   ]
 }
 ```
 
-> if the route level is greater than 2, the generated route data is a recursive structure
-
-#### Transformed Vue routes
-
+#### 新版插件转换后的 Vue 路由
 ```ts
+// 转换后以布局为单位进行分组
 {
-  name: 'multi-menu',
-  path: '/multi-menu',
-  component: BaseLayout,
-  redirect: {
-    name: 'multi-menu_first'
-  },
-  meta: {
-    title: 'multi-menu'
-  },
+  path: '/base-layout',
+  component: () => import('@/layouts/base/index.vue'),
   children: [
     {
-      name: 'multi-menu_first',
-      path: '/multi-menu/first',
-      redirect: {
-        name: 'multi-menu_first_child'
-      },
-      meta: {
-        title: 'multi-menu_first'
-      }
+      name: 'Home',
+      path: '/home',
+      component: () => import('@/views/home/index.vue')
     },
     {
-      name: 'multi-menu_first_child',
-      path: '/multi-menu/first/child',
-      component: () => import('@/views/multi-menu/first_child/index.vue'),
-      meta: {
-        title: 'multi-menu_first_child'
-      }
-    },
-    {
-      name: 'multi-menu_second',
-      path: '/multi-menu/second',
-      redirect: {
-        name: 'multi-menu_second_child'
-      },
-      meta: {
-        title: 'multi-menu_second'
-      },
-    },
-    {
-      name: 'multi-menu_second_child',
-      path: '/multi-menu/second/child',
-      redirect: {
-        name: 'multi-menu_second_child_home'
-      },
-      meta: {
-        title: 'multi-menu_second_child'
-      },
-    },
-    {
-      name: 'multi-menu_second_child_home',
-      path: '/multi-menu/second/child/home',
-      component: () => import('@/views/multi-menu/second_child_home/index.vue'),
-      meta: {
-        title: 'multi-menu_second_child_home'
-      }
+      name: 'ListHome',
+      path: '/list/home',
+      component: () => import('@/views/list/home/index.vue')
     }
+    // ...同一布局下的其他路由
   ]
-},
-```
-
-> the transformed Vue routes only has two levels, the first level is the layout component, and the second level is the redirect routes or the page routes
-
-### Ignore folder aggregation routes
-
-Folder names that begin with an underscore "\_" will be ignored
-
-#### Folder structure
-
-```
-views
-├── _error
-│   ├── 403
-│   │   └── index.vue
-│   ├── 404
-│   │   └── index.vue
-│   ├── 500
-│   │   └── index.vue
-```
-
-#### Generated routes
-
-```ts
-{
-  name: '403',
-  path: '/403',
-  component: 'layout.base$view.403',
-  meta: {
-    title: '403'
-  }
-},
-{
-  name: '404',
-  path: '/404',
-  component: 'layout.base$view.404',
-  meta: {
-    title: '404'
-  }
-},
-{
-  name: '500',
-  path: '/500',
-  component: 'layout.base$view.500',
-  meta: {
-    title: '500'
-  }
-},
-```
-
-### Parameter Route
-
-#### Folder structure
-
-```
-views
-├── user
-│   └── [id].vue
-```
-
-#### Generated routes
-
-```ts
-{
-  name: 'user',
-  path: '/user/:id',
-  component: 'layout.base$view.user',
-  props: true,
-  meta: {
-    title: 'user'
-  }
 }
 ```
 
-#### Advanced parameter route
+### 新版插件的改进点
 
-```ts
-import type { RouteKey } from "@elegant-router/types";
+1. **更简洁的路由模型**: 采用一级路由数据模型，简化了路由生成逻辑，更易于理解和维护。
+2. **更灵活的文件结构**: 去除了对目录结构的严格限制，用户可以更自由地组织项目文件。
+3. **更强大的类型支持**: 提供了更完善的类型定义和工具函数，增强了路由导航的类型安全性。
+4. **按布局分组的转换逻辑**: transformer 按布局对路由进行分组，使得同一布局下的页面更好管理。
+5. **路由名称和路径映射工具**: 新增 shared.ts 文件提供路由名称和路径的映射工具，方便代码中引用路由。
+6. **更合理的文件命名**: 生成的组件导入名称更加直观，与文件路径保持一致性。
+7. **更高的可扩展性**: 分离布局和组件配置，为未来提供更多自定义可能性。
 
-ElegantVueRouter({
-  routePathTransformer(routeName, routePath) {
-    const routeKey = routeName as RouteKey;
+### 使用建议
 
-    if (routeKey === "user") {
-      return "/user/:id(\\d+)";
-    }
+1. 如果你的项目正在使用旧版插件，并且已经基于其严格的目录结构组织了大量页面，建议继续使用旧版插件，或者在迁移时做好充分准备。
+2. 对于新项目，建议直接使用新版插件，享受更灵活的文件结构和更强大的类型支持。
+3. 如果你的项目有复杂的菜单需求，需要自行开发菜单生成逻辑，不再依赖于路由自动生成菜单数据。
 
-    return routePath;
-  },
-});
-```
+## 最佳实践
 
-### Custom Route
-
-the custom route is only used to generate the route declaration, and the route file is not generated, you should create the route file manually.
-
-#### Config custom routes
-
-```ts
-ElegantVueRouter({
-  customRoutes: {
-    map: {
-      root: "/",
-      notFound: "/:pathMatch(.*)*",
-    },
-    names: ["two-level_route"],
-  },
-});
-```
-
-**Generated CustomRouteKey**
-
-```ts
-type RouteMap = {
-  root: "/";
-  notFound: "/:pathMatch(.*)*";
-  "two-level": "/two-level";
-  "two-level_route": "/two-level/route";
-};
-
-type CustomRouteKey = "root" | "notFound" | "two-level" | "two-level_route";
-```
-
-#### Custom routes's component
-
-**it can use existing page components as the route component**
-
-```ts
-import type { CustomRoute } from "@elegant-router/types";
-
-const customRoutes: CustomRoute[] = [
-  {
-    name: "root",
-    path: "/",
-    redirect: {
-      name: "403",
-    },
-  },
-  {
-    name: "not-found",
-    path: "/:pathMatch(.*)*",
-    component: "layout.base$view.404",
-  },
-  {
-    name: "two-level",
-    path: "/two-level",
-    component: "layout.base",
-    children: [
-      {
-        name: "two-level_route",
-        path: "/two-level/route",
-        component: "view.about",
-      },
-    ],
-  },
-];
-```
-
-## Plugin Option
-
-`ElegantRouterOption`:
-
-| property             | instruction                                                                                                           | type                                                | default value                          |
-| -------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | -------------------------------------- |
-| cmd                  | the root directory of the project                                                                                     | `string`                                            | `process.cwd()`                        |
-| pageDir              | the relative path to the root directory of the pages                                                                  | `string`                                            | `"src/views"`                          |
-| alias                | alias, it can be used for the page and layout file import path                                                        | `Record<string, string>`                            | `{ "@": "src" }`                       |
-| pagePatterns         | the patterns to match the page files (the match syntax follow [micromatch](https://github.com/micromatch/micromatch)) | `string[]`                                          | `["**‍/index.vue", "**‍/[[]*[]].vue"]` |
-| pageExcludePatterns  | the patterns to exclude the page files (The default exclusion folder `components` is used as the routing page file.)  | `string[]`                                          | `["**‍/components/**"]`                |
-| routeNameTransformer | transform the route name (The default is the name of the folder connected by an underscore)                           | `(routeName: string) => string`                     | `routeName => routeName`               |
-| routePathTransformer | transform the route path                                                                                              | `(transformedName: string, path: string) => string` | `(_transformedName, path) => path`     |
-
-`ElegantVueRouterOption`:
-
-> extends `ElegantRouterOption`
-
-| property         | instruction                                                                                                                                  | type                                               | default value                                                                                |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| dtsDir           | the declaration file directory of the generated routes                                                                                       | `string`                                           | `"src/typings/elegant-router.d.ts"`                                                          |
-| importsDir       | the directory of the imports of routes                                                                                                       | `string`                                           | `"src/router/elegant/imports.ts"`                                                            |
-| lazyImport       | whether the route is lazy import                                                                                                             | `(routeName: string) => boolean`                   | `_name => true`                                                                              |
-| constDir         | the directory of the route const                                                                                                             | `string`                                           | `"src/router/elegant/routes.ts"`                                                             |
-| customRoutes     | define custom routes, which's route only generate the route declaration                                                                      | `{ map: Record<string, string>; names: string[] }` | `{ map: { root: "/", notFound: "/:pathMatch(\*)\*" }, names: []}`                            |
-| layouts          | the name and file path of the route layouts                                                                                                  | `Record<string, string>`                           | `{ base: "src/layouts/base-layout/index.vue", blank: "src/layouts/blank-layout/index.vue" }` |
-| defaultLayout    | the default layout name used in generated route const ( takes the first layout of `layouts` by default.)                                     | `string`                                           | `"base"`                                                                                     |
-| layoutLazyImport | whether the route is lazy import                                                                                                             | `(layoutName: string) => boolean`                  | `_name => false`                                                                             |
-| transformDir     | the directory of the routes transform function (Converts the route definitions of the generated conventions into routes for the vue-router.) | `string`                                           | `"src/router/elegant/transform.ts"`                                                          |
-| onRouteMetaGen   | the route meta generator                                                                                                                     | `(routeName: string) => Record<string, string>`    | `routeName => ({ title: routeName })`                                                        |
-
-## Caveat
-
-- Folder naming: can only contain letters, numbers, dash, underscore, and no other special characters
-
-  > The underscore is a cut identifier for the routing hierarchy, and the short horizontal line is used to connect multiple words in a one-level route
-
-- The reason the generated route data is two-level is to fit in with vue-router's page caching functionality, and because KeepAlive is only related to the name of the Vue file and not the route name, the plugin automatically injects the name attribute into the Vue file, which has the value of the route name
-
-  ```ts
-  defineOptions({
-    name: "about",
-  });
-  ```
-
-  > Currently only the script setup mode is supported, which injects the above `defineOptions` function.
+1. 保持合理的文件命名和目录结构，虽然不再严格限制，但良好的组织结构有助于代码维护
+2. 使用参数路由时，根据需要选择必选参数 `[param]` 或可选参数 `[[param]]`
+3. 合理配置布局组件，利用 layout 参数控制页面的布局
+4. 利用 shared.ts 中提供的工具函数进行类型安全的路由导航
+5. 适当使用懒加载提高应用性能

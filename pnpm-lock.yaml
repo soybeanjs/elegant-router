@@ -24,7 +24,7 @@ importers:
         specifier: 0.2.13
         version: 0.2.13
       ts-morph:
-        specifier: ^25.0.1
+        specifier: 25.0.1
         version: 25.0.1
     devDependencies:
       '@soybeanjs/cli':
