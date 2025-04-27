@@ -1,18 +1,18 @@
 import process from 'node:process';
 import path from 'node:path';
-import { getImportName, pascalCase, resolveAliasFromTsConfig, resolveImportPath } from '../shared';
+import { getImportName, resolveAliasFromTsConfig, resolveImportPath, transformPathToName } from '../shared';
 import { NOT_FOUND_ROUTE_NAME, ROOT_ROUTE_NAME } from '../constants';
-import type { AutoRouterNode, AutoRouterOptions, CustomRoute, ParsedAutoRouterOptions } from '../types';
+import type { AutoRouterOptions, CustomRoute, ParsedAutoRouterOptions } from '../types';
 
-export async function resolveOptions(options?: AutoRouterOptions): Promise<ParsedAutoRouterOptions> {
+export function resolveOptions(options?: AutoRouterOptions): ParsedAutoRouterOptions {
   const cwd = process.cwd();
-  const alias = await resolveAliasFromTsConfig(cwd, 'tsconfig.json');
+  const alias = resolveAliasFromTsConfig(cwd, 'tsconfig.json');
 
   const defaultOptions: Required<AutoRouterOptions> = {
     cwd,
     watchFile: true,
     fileUpdateDuration: 500,
-    pageDir: ['src/pages', 'src/views'],
+    pageDir: 'src/views',
     pageInclude: '**/*.vue',
     pageExclude: ['**/components/**', '**/modules/**'],
     dts: 'src/typings/elegant-router.d.ts',
@@ -30,8 +30,17 @@ export async function resolveOptions(options?: AutoRouterOptions): Promise<Parse
     },
     layoutLazy: () => true,
     getRoutePath: node => node.path,
-    getRouteName,
-    getRouteLayout: _node => Object.keys(defaultOptions.layouts!)?.[0] || 'unknown',
+    getRouteName: node => transformPathToName(node.path),
+    routeLayoutMap: {},
+    getRouteLayout: (node, layoutMap) => {
+      const layout = layoutMap[node.filePath];
+
+      if (!layout) {
+        return Object.keys(defaultOptions.layouts!)?.[0] || 'unknown';
+      }
+
+      return layout;
+    },
     routeLazy: () => true
   };
 
@@ -68,10 +77,4 @@ export async function resolveOptions(options?: AutoRouterOptions): Promise<Parse
   };
 
   return parsedOptions;
-}
-
-export function getRouteName(node: AutoRouterNode) {
-  const $path = node.path.replaceAll(':', '').replaceAll('?', '');
-
-  return pascalCase($path.split('/').join('-'));
 }

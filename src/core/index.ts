@@ -26,17 +26,24 @@ export class AutoRouter {
 
   viteServer?: ViteDevServer;
 
-  constructor(options?: AutoRouterOptions) {
-    this.init(options);
+  constructor(options?: AutoRouterOptions, generate = false) {
+    this.init(options, generate);
   }
 
-  async init(options?: AutoRouterOptions) {
-    this.options = await resolveOptions(options);
-    this.watcher = new FileWatcher(this.options);
-    await this.generate();
-    if (this.options.watchFile) {
-      await this.watch();
+  init(options?: AutoRouterOptions, generate = false) {
+    this.options = resolveOptions(options);
+
+    if (generate) {
+      this.generate();
     }
+  }
+
+  getOptions() {
+    return this.options;
+  }
+
+  updateOptions(options: Partial<ParsedAutoRouterOptions>) {
+    this.options = Object.assign(this.options, options);
   }
 
   async generate() {
@@ -56,6 +63,9 @@ export class AutoRouter {
   }
 
   async watch() {
+    this.watcher = new FileWatcher(this.options);
+    await this.watch();
+
     this.watcher?.start(async () => {
       await this.generate();
     });

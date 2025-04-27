@@ -21,3 +21,9 @@ export function getImportName(name: string) {
 
   return key;
 }
+
+export function transformPathToName(path: string) {
+  const $path = path.replaceAll(':', '').replaceAll('?', '');
+
+  return pascalCase($path.split('/').join('-'));
+}

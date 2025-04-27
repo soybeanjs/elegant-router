@@ -26,6 +26,10 @@ class Logger {
     this.log(msg, 'info', show);
   }
 
+  success(msg: string, show = true) {
+    this.log(msg, 'success', show);
+  }
+
   warn(msg: string, show = true) {
     this.log(msg, 'warn', show);
   }

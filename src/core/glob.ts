@@ -5,7 +5,7 @@ import { resolveImportPath } from '../shared';
 import type { ParsedAutoRouterOptions, ResolvedGlob } from '../types';
 
 export async function resolveGlobs(options: ParsedAutoRouterOptions) {
-  const { cwd, pageDir, pageInclude, pageExclude, alias } = options;
+  const { cwd, pageDir, pageInclude, pageExclude } = options;
 
   const pageDirs = Array.isArray(pageDir) ? pageDir : [pageDir];
 
@@ -18,19 +18,7 @@ export async function resolveGlobs(options: ParsedAutoRouterOptions) {
       ignore: pageExclude
     });
 
-    const result = globs.map(glob => {
-      const filePath = path.resolve($pageDir, glob);
-      const importPath = resolveImportPath(filePath, alias);
-
-      return {
-        pageDir: dir,
-        glob,
-        filePath,
-        importPath
-      };
-    });
-
-    return result;
+    return globs.map(glob => resolveGlob(glob, dir, options));
   });
 
   const globs: ResolvedGlob[] = await Promise.all(
@@ -45,4 +33,22 @@ export async function resolveGlobs(options: ParsedAutoRouterOptions) {
   );
 
   return globs;
+}
+
+export function resolveGlob(glob: string, pageDir: string, options: Pick<ParsedAutoRouterOptions, 'cwd' | 'alias'>) {
+  const { cwd, alias } = options;
+
+  const $pageDir = path.resolve(cwd, pageDir);
+
+  const filePath = path.resolve($pageDir, glob);
+  const importPath = resolveImportPath(filePath, alias);
+
+  const resolvedGlob: Omit<ResolvedGlob, 'inode'> = {
+    pageDir,
+    glob,
+    filePath,
+    importPath
+  };
+
+  return resolvedGlob as ResolvedGlob;
 }

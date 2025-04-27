@@ -1,9 +1,9 @@
 import process from 'node:process';
-import { readFile } from 'node:fs/promises';
+import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
-export async function resolveAliasFromTsConfig(cwd: string = process.cwd(), tsconfigPath: string = 'tsconfig.json') {
-  const tsConfig = await readFile(path.resolve(cwd, tsconfigPath), 'utf-8');
+export function resolveAliasFromTsConfig(cwd: string = process.cwd(), tsconfigPath: string = 'tsconfig.json') {
+  const tsConfig = readFileSync(path.resolve(cwd, tsconfigPath), 'utf-8');
 
   let paths: Record<string, string[]> | undefined;
 

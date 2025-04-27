@@ -83,27 +83,29 @@ export async function getNodeStatInfo(cwd: string, nodes: AutoRouterNode[]) {
   return info;
 }
 
-function resolveNode(resolvedGlob: ResolvedGlob, options: ParsedAutoRouterOptions) {
-  const resolvedPath = resolvePath(resolvedGlob, options.pageExtension);
+export function resolveNode(resolvedGlob: ResolvedGlob, options: ParsedAutoRouterOptions) {
+  const { getRouteName, getRouteLayout, routeLayoutMap, routeLazy } = options;
+
+  const resolvedPath = resolveGlobPath(resolvedGlob, options.pageExtension);
 
   let node: AutoRouterNode = {
     ...resolvedGlob,
     path: resolvedPath,
     get name() {
-      return options.getRouteName(node);
+      return getRouteName(node);
     },
     originPath: resolvedPath,
     get component() {
       return node.name;
     },
     get layout() {
-      return options.getRouteLayout(node);
+      return getRouteLayout(node, routeLayoutMap);
     },
     get importName() {
       return getImportName(node.name);
     },
     get isLazy() {
-      return options.routeLazy(node);
+      return routeLazy(node);
     }
   };
 
@@ -114,7 +116,7 @@ function resolveNode(resolvedGlob: ResolvedGlob, options: ParsedAutoRouterOption
 }
 
 function resolveCustomNode(options: ParsedAutoRouterOptions) {
-  const { customRoute, notFoundRouteComponent, defaultCustomRouteComponent, getRouteLayout } = options;
+  const { customRoute, notFoundRouteComponent, defaultCustomRouteComponent, getRouteLayout, routeLayoutMap } = options;
 
   const nodes: AutoRouterNode[] = [];
 
@@ -139,7 +141,7 @@ function resolveCustomNode(options: ParsedAutoRouterOptions) {
           return '';
         }
 
-        return getRouteLayout(node);
+        return getRouteLayout(node, routeLayoutMap);
       },
       importName: '',
       isLazy: false,
@@ -159,7 +161,7 @@ function resolveCustomNode(options: ParsedAutoRouterOptions) {
   return nodes;
 }
 
-function resolvePath(resolvedGlob: ResolvedGlob, extension: string[]) {
+function resolveGlobPath(resolvedGlob: ResolvedGlob, extension: string[]) {
   const { glob } = resolvedGlob;
 
   let globPath = glob;

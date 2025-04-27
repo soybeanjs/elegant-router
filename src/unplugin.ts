@@ -1,9 +1,18 @@
 import { createUnplugin } from 'unplugin';
+import { loadConfig } from 'unconfig';
 import { AutoRouter } from './core';
 import type { AutoRouterNode, AutoRouterOptions } from './types';
 
 export default createUnplugin<Partial<AutoRouterOptions> | undefined>((options, _meta) => {
-  const autoRouter = new AutoRouter(options);
+  const { config } = loadConfig.sync<AutoRouterOptions>({
+    sources: [
+      {
+        files: 'elegant-router.config'
+      }
+    ]
+  });
+
+  const autoRouter = new AutoRouter({ ...options, ...config });
 
   return [
     {
@@ -12,6 +21,11 @@ export default createUnplugin<Partial<AutoRouterOptions> | undefined>((options, 
       vite: {
         apply: 'serve',
         async configureServer(server) {
+          await autoRouter.generate();
+          if (options?.watchFile) {
+            autoRouter.watch();
+          }
+
           autoRouter.setViteServer(server);
         }
       }
