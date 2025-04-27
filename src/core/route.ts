@@ -53,9 +53,10 @@ async function updateRoutes(nodes: AutoRouterNode[], statInfo: NodeStatInfo, rou
   }
 
   const routesExpression = initializer.asKindOrThrow(SyntaxKind.ArrayLiteralExpression);
-  const elements = initializer.getElements();
 
-  const namePathMap = getNamePathMapOfRouteFile(elements);
+  const elements = routesExpression.getElements();
+
+  const namePathMap = getNamePathMap(elements);
 
   const { createdNames, deletedNames, updatedNames } = getRouteStatInfo(nodes, namePathMap, statInfo);
 
@@ -71,20 +72,7 @@ async function updateRoutes(nodes: AutoRouterNode[], statInfo: NodeStatInfo, rou
 
   if (deletedNames.length > 0) {
     deletedNames.forEach(deletedName => {
-      const index = elements.findIndex(el => {
-        if (!el.isKind(SyntaxKind.ObjectLiteralExpression)) return false;
-
-        const nameProperty = el.getProperty('name');
-        if (!nameProperty?.isKind(SyntaxKind.PropertyAssignment)) return false;
-
-        const nameInitializer = nameProperty.getInitializer();
-        if (!nameInitializer?.isKind(SyntaxKind.StringLiteral)) return false;
-
-        const nameText = nameInitializer.getText();
-        const name = nameText.substring(1, nameText.length - 1);
-
-        return name === deletedName;
-      });
+      const index = elements.findIndex(el => getRouteStringPropertyValue(el, 'name') === deletedName);
 
       if (index !== -1) {
         routesExpression.removeElement(index);
@@ -100,110 +88,45 @@ async function updateRoutes(nodes: AutoRouterNode[], statInfo: NodeStatInfo, rou
     updatedRoutes.forEach(node => {
       const oldName = updatedNames.find(item => item.name === node.name)?.oldName;
 
-      const routeElement = elements.find(el => {
-        if (!el.isKind(SyntaxKind.ObjectLiteralExpression)) return false;
+      const routeElement = elements.find(el => getRouteStringPropertyValue(el, 'name') === oldName);
 
-        const nameProperty = el.getProperty('name');
-        if (!nameProperty?.isKind(SyntaxKind.PropertyAssignment)) return false;
+      if (!routeElement?.isKind(SyntaxKind.ObjectLiteralExpression)) return;
 
-        const nameInitializer = nameProperty.getInitializer();
-        if (!nameInitializer?.isKind(SyntaxKind.StringLiteral)) return false;
+      // 更新路由名称
+      const nameInitializer = getStringProperty(routeElement, 'name');
 
-        const nameText = nameInitializer.getText();
-        const name = nameText.substring(1, nameText.length - 1);
+      if (nameInitializer) {
+        nameInitializer.replaceWithText(`'${node.name}'`);
+      }
 
-        return name === oldName;
-      });
+      // 更新路由路径
+      const pathProperty = getStringProperty(routeElement, 'path');
+      if (pathProperty) {
+        pathProperty.replaceWithText(`'${node.path}'`);
+      }
 
-      if (routeElement && routeElement.isKind(SyntaxKind.ObjectLiteralExpression)) {
-        // 更新路由名称
-        const nameProperty = routeElement.getProperty('name');
-        if (nameProperty?.isKind(SyntaxKind.PropertyAssignment)) {
-          const nameInitializer = nameProperty.getInitializer();
-          if (nameInitializer?.isKind(SyntaxKind.StringLiteral)) {
-            nameInitializer.replaceWithText(`'${node.name}'`);
-          }
-        }
-
-        // 更新路由路径
-        const pathProperty = routeElement.getProperty('path');
-        if (pathProperty?.isKind(SyntaxKind.PropertyAssignment)) {
-          const pathInitializer = pathProperty.getInitializer();
-          if (pathInitializer?.isKind(SyntaxKind.StringLiteral)) {
-            pathInitializer.replaceWithText(`'${node.path}'`);
-          }
-        }
-
-        // 更新组件
-        if (node.component) {
-          const componentProperty = routeElement.getProperty('component');
-          if (componentProperty?.isKind(SyntaxKind.PropertyAssignment)) {
-            const componentInitializer = componentProperty.getInitializer();
-            if (componentInitializer?.isKind(SyntaxKind.StringLiteral)) {
-              componentInitializer.replaceWithText(`'${node.component}'`);
-            }
-          } else {
-            // 如果没有component属性，添加一个
-            routeElement.addPropertyAssignment({
-              name: 'component',
-              initializer: `'${node.component}'`
-            });
-          }
+      // 更新组件
+      if (node.component) {
+        const componentProperty = getStringProperty(routeElement, 'component');
+        if (componentProperty) {
+          componentProperty.replaceWithText(`'${node.component}'`);
+        } else {
+          // 如果没有component属性，添加一个
+          routeElement.addPropertyAssignment({
+            name: 'component',
+            initializer: `'${node.component}'`
+          });
         }
       }
     });
   }
 
-  const sortedElements = sortElements(routesExpression.getElements());
+  const sortedElements = sortElements(elements);
   const code = getRawCodeByElements(sortedElements);
 
   routesExpression.replaceWithText(`[${code}\n]`);
 
   await sourceFile.save();
-}
-
-function getRawCodeByElements(elements: Expression[]) {
-  return elements.map(el => el.getFullText()).join(',');
-}
-
-function sortElements(elements: Expression[]) {
-  return elements.sort((a, b) => {
-    const aName = getRouteNameOrPathOfElement(a, 'name');
-    const bName = getRouteNameOrPathOfElement(b, 'name');
-
-    if (aName && bName) {
-      return sortNodeName(aName, bName);
-    }
-
-    return 0;
-  });
-}
-
-function getRouteNameOrPathOfElement(element: Expression, nameOrPath: 'name' | 'path') {
-  if (!element.isKind(SyntaxKind.ObjectLiteralExpression)) return '';
-
-  const property = element.getProperty(nameOrPath);
-  if (!property?.isKind(SyntaxKind.PropertyAssignment)) return '';
-
-  const value = property.getInitializer();
-  if (!value?.isKind(SyntaxKind.StringLiteral)) return '';
-
-  return value.getText().substring(1, value.getText().length - 1);
-}
-
-function getNamePathMapOfRouteFile(elements: Expression[]) {
-  const namePathMap = new Map<string, string>();
-
-  elements.forEach(element => {
-    const routeName = getRouteNameOrPathOfElement(element, 'name');
-    const routePath = getRouteNameOrPathOfElement(element, 'path');
-
-    if (routeName && routePath) {
-      namePathMap.set(routeName, routePath);
-    }
-  });
-
-  return namePathMap;
 }
 
 function getRouteStatInfo(nodes: AutoRouterNode[], namePathMap: Map<string, string>, statInfo: NodeStatInfo) {
@@ -283,4 +206,66 @@ ${getSpace(space + 2)}path: '${node.path}',`;
 
 function getSpace(space: number) {
   return ' '.repeat(space);
+}
+
+function getRawCodeByElements(elements: Expression[]) {
+  return elements.map(el => el.getFullText()).join(',');
+}
+
+function sortElements(elements: Expression[]) {
+  return elements.sort((a, b) => {
+    const aName = getRouteStringPropertyValue(a, 'name');
+    const bName = getRouteStringPropertyValue(b, 'name');
+
+    if (aName && bName) {
+      return sortNodeName(aName, bName);
+    }
+
+    return 0;
+  });
+}
+
+function getRouteStringProperty(element: Expression, propertyName: string) {
+  return getStringProperty(element, propertyName);
+}
+
+function getRouteStringPropertyValue(element: Expression, propertyName: string) {
+  const value = getRouteStringProperty(element, propertyName);
+
+  if (!value) return null;
+
+  return value.getText().substring(1, value.getText().length - 1);
+}
+
+function getObjectProperty(element: Expression, propertyName: string) {
+  if (!element.isKind(SyntaxKind.ObjectLiteralExpression)) return null;
+
+  const property = element.getProperty(propertyName);
+  if (!property?.isKind(SyntaxKind.PropertyAssignment)) return null;
+
+  const value = property.getInitializer();
+
+  return value || null;
+}
+
+function getStringProperty(element: Expression, propertyName: string) {
+  const value = getObjectProperty(element, propertyName);
+  if (!value?.isKind(SyntaxKind.StringLiteral)) return null;
+
+  return value;
+}
+
+function getNamePathMap(elements: Expression[]) {
+  const namePathMap = new Map<string, string>();
+
+  elements.forEach(element => {
+    const routeName = getRouteStringPropertyValue(element, 'name');
+    const routePath = getRouteStringPropertyValue(element, 'path');
+
+    if (routeName && routePath) {
+      namePathMap.set(routeName, routePath);
+    }
+  });
+
+  return namePathMap;
 }
