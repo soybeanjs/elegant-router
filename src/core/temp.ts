@@ -1,4 +1,3 @@
-import process from 'node:process';
 import path from 'node:path';
 import { existsSync } from 'node:fs';
 import { readFile, writeFile } from 'node:fs/promises';
@@ -7,18 +6,24 @@ import type { AutoRouterNode } from '../types';
 
 const TEMP_DIR = '.temp';
 const GIT_IGNORE = '.gitignore';
-const TEMP_NODES = '.nodes-stat.json';
+const TEMP_NODE = '.node-stat.json';
 
-export async function initTempNodes() {
-  const tempNodesDir = path.resolve(process.cwd(), TEMP_DIR);
-  await ensureFile(tempNodesDir);
-  const tempNodesPath = path.resolve(tempNodesDir, TEMP_NODES);
+function getTempNodePath(cwd: string) {
+  return path.resolve(cwd, TEMP_DIR, TEMP_NODE);
+}
 
-  if (!existsSync(tempNodesPath)) {
-    await writeFile(tempNodesPath, '{}');
+function getGitIgnorePath(cwd: string) {
+  return path.resolve(cwd, GIT_IGNORE);
+}
+
+export async function initTempNode(cwd: string) {
+  const tempNodePath = getTempNodePath(cwd);
+  if (!existsSync(tempNodePath)) {
+    await ensureFile(tempNodePath);
+    await writeFile(tempNodePath, '{}');
   }
 
-  const gitIgnorePath = path.resolve(process.cwd(), GIT_IGNORE);
+  const gitIgnorePath = getGitIgnorePath(cwd);
 
   if (!existsSync(gitIgnorePath)) {
     await writeFile(gitIgnorePath, '');
@@ -33,10 +38,10 @@ export async function initTempNodes() {
   }
 }
 
-export async function getTempNodes() {
-  const tempNodesPath = path.resolve(process.cwd(), TEMP_DIR, TEMP_NODES);
+export async function getTempNode(cwd: string) {
+  const tempNodePath = getTempNodePath(cwd);
 
-  const content = await readFile(tempNodesPath, 'utf-8');
+  const content = await readFile(tempNodePath, 'utf-8');
 
   let stat: Record<string, number> = {};
 
@@ -49,9 +54,9 @@ export async function getTempNodes() {
   return stat;
 }
 
-export async function updateTempNodes(nodes: AutoRouterNode[]) {
-  const tempNodesPath = path.resolve(process.cwd(), TEMP_DIR, TEMP_NODES);
-  await ensureFile(tempNodesPath);
+export async function updateTempNode(cwd: string, nodes: AutoRouterNode[]) {
+  const tempNodePath = getTempNodePath(cwd);
+  await ensureFile(tempNodePath);
 
   const stat: Record<string, number> = {};
 
@@ -64,5 +69,5 @@ export async function updateTempNodes(nodes: AutoRouterNode[]) {
 
   const content = JSON.stringify(stat, null, 2);
 
-  await writeFile(tempNodesPath, content);
+  await writeFile(tempNodePath, content);
 }

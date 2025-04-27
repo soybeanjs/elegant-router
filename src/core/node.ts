@@ -8,7 +8,7 @@ import type {
   ParsedAutoRouterOptions,
   ResolvedGlob
 } from '../types';
-import { getTempNodes } from './temp';
+import { getTempNode } from './temp';
 
 export function resolveNodes(globs: ResolvedGlob[], options: ParsedAutoRouterOptions) {
   const nodes = globs.map(glob => resolveNode(glob, options));
@@ -50,8 +50,8 @@ export function sortNodeName(preName: string, curName: string) {
   return preName.localeCompare(curName);
 }
 
-export async function getNodeStatInfo(nodes: AutoRouterNode[]) {
-  const preStat = await getTempNodes();
+export async function getNodeStatInfo(cwd: string, nodes: AutoRouterNode[]) {
+  const preStat = await getTempNode(cwd);
   const preStatInodes = Object.values(preStat);
 
   const info: NodeStatInfo = {
