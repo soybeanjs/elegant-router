@@ -1,55 +1,80 @@
 # ElegantRouter
 
-A file-system based automatic routing tool that simplifies route configuration and improves development efficiency.
+A file-system based automatic routing tool for Vue.js, simplifying route configuration and improving development efficiency.
 
-[中文](./README.md) | English
+English | [中文](./README.md)
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Route Creation Conventions](#route-creation-conventions)
+- [How It Works](#how-it-works)
+- [Configuration Options](#configuration-options)
+- [Version Comparison](#version-comparison)
+- [Best Practices](#best-practices)
 
 ## Introduction
 
-ElegantRouter is a file-system based routing tool that automatically generates route definitions, component imports, and type definitions. Simply create route files following the convention rules without adding any additional configuration.
+ElegantRouter is an innovative routing management tool designed for Vue.js applications, specifically created to simplify Vue Router configuration. It automatically generates routes based on file system structure, eliminating the tedious process of manual route configuration and allowing developers to focus on implementing application features.
 
-### Why ElegantRouter?
+With ElegantRouter, you only need to create Vue page files following conventional naming rules, and the system will automatically:
 
-ElegantRouter differs from other file-system based routing tools in:
+- Parse file paths to generate route paths
+- Create intuitive route names
+- Handle nested routes and route parameters
+- Manage relationships between layouts and pages
+- Generate complete type definitions
 
-1. Other tools have complex configuration rules with black-box route data that's difficult to customize.
-2. ElegantRouter follows an API-first principle, automating the route configuration process.
+This convention-based route generation approach not only improves development efficiency but also enhances project maintainability and scalability. There's no need to manually define each route in separate configuration files; the route structure automatically updates with changes to the file system, ensuring route configurations stay synchronized with the actual page structure.
 
-For example, traditional Vue routing requires:
-1. Importing layout components
-2. Importing page components
-3. Defining routes in configuration files
+### Background
 
-While these steps aren't complex, they're repetitive and manual. Route name and path maintenance is cumbersome, and without clear conventions, route definitions can become messy.
+Traditional Vue Router configuration typically requires developers to manually complete multiple steps: importing layout components, importing page components, defining route configurations, etc. While these steps are simple, they become tedious and error-prone in large projects. Especially when maintaining a large number of routes, maintaining consistency in route names and paths becomes challenging, often leading to messy and difficult-to-manage route definitions.
 
-With ElegantRouter, you only need to create route files according to conventions, and routes are automatically generated.
+ElegantRouter aims to solve these problems by simplifying the route configuration process for Vue applications through file system conventions. Compared to similar tools, ElegantRouter's unique advantages include:
+
+1. **Simplified Configuration** - Other tools often have numerous configuration rules and treat route data as a black box that's difficult to customize; ElegantRouter adopts a white-box design, making route data transparent and easy to extend.
+
+2. **API-First** - Following the API-first principle, it completely automates the route configuration process, reducing manual intervention.
+
+With ElegantRouter, you only need to create files according to conventions, and the system will automatically recognize and generate corresponding route configurations, greatly improving Vue application development efficiency and reducing maintenance costs.
 
 ### Features
 
-- **File-system Based** - Automatically generates route configuration based on file system
-- **White-box Design** - Route data is transparent and easily customizable
-- **Type Safety** - Automatically generates type definitions for type-safe navigation
-- **Flexible Configuration** - Rich configuration options for different project needs
-- **Layout Management** - Simplifies layout and component relationships
-- **Code Splitting** - Automatically handles component imports and code splitting
+ElegantRouter provides a series of powerful features that make route management simple and efficient:
+
+- **File System Driven** - No manual configuration needed; route structure is derived directly from the file system, reducing maintenance work
+- **Transparent Data Structure** - Route data is completely transparent, making it easy to debug and customize
+- **Type-Safe Navigation** - Automatically generates type definition files, providing complete type inference and smart hints
+- **Flexible Configuration** - Offers rich configuration options to meet various complex scenario requirements
+- **Intelligent Layout Management** - Automatically handles relationships between layouts and page components, simplifying nested route creation
+- **Performance Optimization** - Built-in support for code splitting and lazy loading to optimize application performance
 
 ### Core Functions
 
-1. **Automatic Route Generation** - Creates route configuration from file system
-2. **Type Definition Generation** - Generates route-related type definitions
-3. **Import Management** - Handles component imports and code splitting
-4. **Layout Integration** - Simplifies layout and component relationships
-5. **Route Transformation** - Converts flat routes to nested routes
+ElegantRouter's core functionality is designed around simplifying development processes and improving efficiency:
+
+1. **Automatic Route Generation** - Automatically generates complete route configurations from the file system, including paths, names, and nested relationships
+2. **Type Definition Generation** - Creates type declaration files to ensure type-safe route operations
+3. **Component Import Optimization** - Handles dynamic component imports and code splitting to enhance application performance
+4. **Layout System Integration** - Simplifies the association between layouts and page components, automatically handling nested routes
+5. **Route Transformation** - Converts a concise single-level route structure into the nested route structure required by the framework
 
 ## Installation
+
+Install ElegantRouter using a package manager:
 
 ```bash
 pnpm install elegant-router
 ```
 
-## Usage
+## Quick Start
 
-### Including the Plugin in Vite
+### Configuring in a Vite Project
+
+Add the ElegantRouter plugin to your Vite configuration:
 
 ```ts
 import { defineConfig } from "vite";
@@ -59,12 +84,14 @@ import ElegantRouter from "elegant-router/vite";
 export default defineConfig({
   plugins: [
     vue(),
-    ElegantRouter(),
+    ElegantRouter(),  // Use default configuration
   ]
 });
 ```
 
 ### Integrating with Vue Router
+
+Import the generated route data in your router file:
 
 ```ts
 // src/router/index.ts
@@ -84,14 +111,17 @@ const router = createRouter({
 export default router;
 ```
 
-## Route File Creation Rules
+## Route Creation Conventions
 
-The plugin is flexible with directory structure but following conventions improves development efficiency.
+ElegantRouter creates routes based on file system conventions, following simple and intuitive rules. The new version is designed to be more flexible, not enforcing directory structure but providing clear file naming conventions.
 
 ### Basic Routes
 
-Creating `src/views/home/index.vue` automatically generates:
+Create a regular page component to automatically generate the corresponding route:
 
+**File Path:** `src/views/home/index.vue`
+
+**Generated Route:**
 ```ts
 {
   name: 'Home',
@@ -101,14 +131,17 @@ Creating `src/views/home/index.vue` automatically generates:
 }
 ```
 
-> The `layout` field specifies the layout component, and `component` specifies the view component import key. The transformer converts this into a nested route structure with layout and children.
+> The `layout` property specifies the layout component used by the page, and the `component` property identifies the view component. The transformer builds the final nested route structure based on this information.
 
-> Additional route properties like props, meta, and beforeEnter can be added to the existing route data.
+> You can add other properties to the generated route object, such as `meta`, `props`, `beforeEnter`, etc., to meet specific needs.
 
-### Routes with Parameters
+### Parameter Routes
 
-Creating `src/views/list/[id].vue` generates a route with parameters:
+Use bracket syntax to create routes with parameters:
 
+**File Path:** `src/views/list/[id].vue`
+
+**Generated Route:**
 ```ts
 {
   name: 'ListId',
@@ -120,21 +153,27 @@ Creating `src/views/list/[id].vue` generates a route with parameters:
 
 ### Optional Parameter Routes
 
-Creating `src/views/list/detail2-[[id]]-[[userId]].vue` generates a route with optional parameters:
+Use double bracket syntax to create routes with optional parameters:
 
+**File Path:** `src/views/list/detail-[[id]]-[[userId]].vue`
+
+**Generated Route:**
 ```ts
 {
-  name: 'ListDetail2IdUserId',
-  path: '/list/detail2-:id?-:userId?',
+  name: 'ListDetailIdUserId',
+  path: '/list/detail-:id?-:userId?',
   layout: 'base',
-  component: 'ListDetail2IdUserId'
+  component: 'ListDetailIdUserId'
 }
 ```
 
 ### Multiple Parameter Routes
 
-Creating `src/views/list/detail_[id]_[userId].vue` generates a route with multiple parameters:
+Use underscores to separate multiple parameters:
 
+**File Path:** `src/views/list/detail_[id]_[userId].vue`
+
+**Generated Route:**
 ```ts
 {
   name: 'ListDetailIdUserId',
@@ -146,8 +185,11 @@ Creating `src/views/list/detail_[id]_[userId].vue` generates a route with multip
 
 ### Group Routes
 
-Creating `src/views/(group)/demo/index.vue` generates a group route:
+Use parentheses to create groups that don't affect the route path:
 
+**File Path:** `src/views/(group)/demo/index.vue`
+
+**Generated Route:**
 ```ts
 {
   name: 'Demo',
@@ -158,19 +200,20 @@ Creating `src/views/(group)/demo/index.vue` generates a group route:
 
 ### Custom Routes
 
-Custom routes allow reusing existing page route files.
+For special requirements, custom routes can be configured:
 
-#### Custom Route Configuration
+#### Configuration Method
 
 ```ts
 ElegantRouter({
   customRoutes: {
-    'CustomRoute': '/custom-route'
+    'CustomRoute': '/custom-route',
+    'NotFound': '/:pathMatch(.*)*'
   },
 });
 ```
 
-#### Custom Route Component
+#### Route Result
 
 ```ts
 {
@@ -181,21 +224,23 @@ ElegantRouter({
 }
 ```
 
-## Automatically Generated Files
+## How It Works
 
-After starting the project, the plugin generates these files in the `routerGeneratedDir` (default: `src/router/_generated`):
+### Generated File Structure
 
-1. **routes.ts** - Contains file-system based route configurations
-2. **imports.ts** - Contains auto-imported layout and view components
-3. **transformer.ts** - Provides route transformation functions
-4. **shared.ts** - Provides route path and name mappings for easy reference
+After starting the project, ElegantRouter generates the following files in the configured directory (default: `src/router/_generated`):
 
-## Route Transformation Process
+1. **routes.ts** - Stores complete route configurations generated from the file system
+2. **imports.ts** - Contains automatic import statements for all layout and view components
+3. **transformer.ts** - Provides route transformation functions to convert single-level routes to nested structures
+4. **shared.ts** - Provides type-safe route utility functions for referencing routes in code
 
-The transformer converts flat routes to the Vue Router format:
+### Route Transformation Process
+
+ElegantRouter uses a single-level to nested route transformation process to simplify route management:
 
 ```ts
-// Before transformation (flat route)
+// Generated single-level route (simple and intuitive)
 {
   name: 'Home',
   path: '/home',
@@ -203,8 +248,7 @@ The transformer converts flat routes to the Vue Router format:
   component: 'Home'
 }
 
-// After transformation (Vue route)
-// Grouped by layout
+// Transformed nested route (grouped by layout)
 {
   path: '/base-layout',
   component: () => import('@/layouts/base/index.vue'),
@@ -221,6 +265,8 @@ The transformer converts flat routes to the Vue Router format:
 
 ## Configuration Options
 
+ElegantRouter provides rich configuration options to meet various project needs:
+
 ```ts
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
@@ -233,16 +279,16 @@ export default defineConfig({
       // Project root directory
       cwd: process.cwd(),
 
-      // Watch file changes
+      // Whether to watch file changes
       watchFile: true,
 
-      // File update duration (ms)
+      // File update interval (milliseconds)
       fileUpdateDuration: 500,
 
       // Page directories (can specify multiple)
       pageDir: ['src/pages', 'src/views'],
 
-      // Page file match pattern
+      // Page file matching pattern
       pageInclude: '**/*.vue',
 
       // Excluded page files
@@ -251,16 +297,14 @@ export default defineConfig({
       // Type definition file path
       dts: 'src/typings/elegant-router.d.ts',
 
-      // vue-router type definition file path
+      // Vue-router type definition file path
       vueRouterDts: 'src/typings/typed-router.d.ts',
 
       // tsconfig file path
       tsconfig: 'tsconfig.json',
 
-      // Project alias configuration
-      alias: {
-        '@': 'src'
-      },
+      // Project alias configuration, defaults to parsing aliases from tsconfig's compilerOptions.paths
+      alias: {},
 
       // Router generated directory
       routerGeneratedDir: 'src/router/_generated',
@@ -271,7 +315,7 @@ export default defineConfig({
         blank: 'src/layouts/blank/index.vue'
       },
 
-      // Lazy loading for layout components
+      // Whether to lazy load layout components
       layoutLazy: (layout) => true,
 
       // Custom routes (name:path)
@@ -298,52 +342,49 @@ export default defineConfig({
       // Custom route layout
       getRouteLayout: (node) => node.layout,
 
-      // Lazy loading for route components
+      // Whether to lazy load route components
       routeLazy: (node) => true
     })
   ]
 });
 ```
 
-## Major Differences Between Versions
+## Version Comparison
 
-### 1. Design Philosophy Changes
+ElegantRouter has undergone significant upgrades, with the new version featuring notable changes in design philosophy and implementation to provide a better development experience.
 
-#### Old Version
-- **Tightly coupled route and menu data**: Strict directory structure for quick menu generation
-- **Specific directory structure requirements**: No index.vue alongside subdirectories
-- **Multi-level route generation**: Generated nested routes converted to Vue Router's two-level structure
+### Design Philosophy Evolution
 
-#### New Version
-- **Decoupled routes and menus**: Focus on route generation, menu data handled separately
-- **More flexible directory structure**: Focus on file naming conventions, not strict directory structure
-- **Flat route model**: Generates flat routes with layout and component info, transformed by layout groups
+|   | Old Version | New Version |
+|---|-------------|-------------|
+| **Routes and Menus** | Tightly coupled design, route and menu data closely linked | Completely decoupled, focusing on route generation with menus configurable independently |
+| **Directory Structure** | Strict limitations, such as prohibiting subdirectories with sibling index.vue files | More flexible, no strict limitations, focus on file naming conventions |
+| **Route Model** | Multi-level nested structure requiring complex conversion | Concise single-level structure, transformed by grouping layouts |
+| **Data Transparency** | Intermediate data difficult to understand and debug | Completely transparent white-box design, easy to understand and extend |
 
-### 2. Technical Implementation Changes
+### Technical Implementation Changes
 
-#### Old Version
-- **Component composition**: Used `layout.base$view.about` format for layouts and components
-- **Recursive route structure**: Generated recursively nested routes, flattened during transformation
-- **Generated files**: Created imports.ts, routes.ts, transform.ts
+#### Old Version Implementation
+- **Component Association**: Used special strings (e.g., `layout.base$view.about`) to represent component relationships
+- **Route Data Structure**: Generated complex nested route structures, then converted to the required framework format
+- **Generated Files**: Produced the basic imports.ts, routes.ts, and transform.ts files
 
-#### New Version
-- **Separated layout and components**: Uses separate `layout` and `component` fields
-- **Flat data model**: Generates simple flat routes, layouts grouped by transformer
-- **Additional utility files**: Added shared.ts for route path and name mapping
-- **Better type support**: More comprehensive type definitions for type-safe navigation
+#### New Version Implementation
+- **Component Association**: Uses separate `layout` and `component` fields to clearly represent component relationships
+- **Route Data Structure**: Generates simple single-level route structures, grouped by layout through the transformer
+- **Enhanced Utility Functions**: Added shared.ts to provide route name and path mapping tools
+- **Optimized Type Support**: Provides more comprehensive type definitions for an enhanced development experience
 
-### 3. Generated Route Data Comparison
+### Route Data Structure Comparison
 
-#### Old Version Example
+#### Old Version Route Example
 ```ts
 // Single-level route
 {
   name: 'about',
   path: '/about',
   component: 'layout.base$view.about',
-  meta: {
-    title: 'about'
-  }
+  meta: { title: 'about' }
 }
 
 // Multi-level route
@@ -351,25 +392,21 @@ export default defineConfig({
   name: 'list',
   path: '/list',
   component: 'layout.base',
-  meta: {
-    title: 'list'
-  },
+  meta: { title: 'list' },
   children: [
     {
       name: 'list_home',
       path: '/list/home',
       component: 'view.list_home',
-      meta: {
-        title: 'list_home'
-      }
+      meta: { title: 'list_home' }
     }
   ]
 }
 ```
 
-#### New Version Example
+#### New Version Route Example
 ```ts
-// All routes have flat structure
+// Unified single-level route structure
 {
   name: 'Home',
   path: '/home',
@@ -385,11 +422,11 @@ export default defineConfig({
 }
 ```
 
-### 4. Transformed Route Structure Comparison
+### Transformed Route Structure Comparison
 
-#### Old Version
+#### Old Version Transformation Result
 ```ts
-// Single-level route transformation
+// Single-level route after transformation
 {
   path: '/about',
   component: BaseLayout,
@@ -398,40 +435,32 @@ export default defineConfig({
       name: 'about',
       path: '',
       component: () => import('@/views/about/index.vue'),
-      meta: {
-        title: 'about'
-      }
+      meta: { title: 'about' }
     }
   ]
 }
 
-// Multi-level route transformation
+// Multi-level route after transformation
 {
   name: 'list',
   path: '/list',
   component: BaseLayout,
-  redirect: {
-    name: 'list_home'
-  },
-  meta: {
-    title: 'list'
-  },
+  redirect: { name: 'list_home' },
+  meta: { title: 'list' },
   children: [
     {
       name: 'list_home',
       path: '/list/home',
       component: () => import('@/views/list/home/index.vue'),
-      meta: {
-        title: 'list_home'
-      }
+      meta: { title: 'list_home' }
     }
   ]
 }
 ```
 
-#### New Version
+#### New Version Transformation Result
 ```ts
-// Transformed routes grouped by layout
+// Routes grouped by layout
 {
   path: '/base-layout',
   component: () => import('@/layouts/base/index.vue'),
@@ -451,26 +480,58 @@ export default defineConfig({
 }
 ```
 
-### New Version Improvements
+### Key Improvements in the New Version
 
-1. **Simpler route model**: Flat route data model, easier to understand and maintain
-2. **More flexible file structure**: No strict directory structure limitations
-3. **Better type support**: More comprehensive type definitions for type-safe navigation
-4. **Layout-based grouping**: Routes grouped by layout for better management
-5. **Route mapping utilities**: shared.ts provides route name and path mapping
-6. **Intuitive component naming**: Generated import names match file paths
-7. **Higher extensibility**: Separated layout and component configuration
+The new ElegantRouter brings multiple improvements:
 
-### Usage Recommendations
+1. **Simpler Data Model** - Single-level route structure is more intuitive, reducing understanding and maintenance costs
+2. **More Flexible File Organization** - Removed strict directory limitations, increasing freedom in project organization
+3. **Enhanced Type System** - Comprehensive type definitions and utility functions provide a better development experience
+4. **Intelligent Layout Management** - Automatic grouping by layout makes managing pages with the same layout more sensible
+5. **Convenient Route Tools** - Utility functions provided in shared.ts simplify route navigation operations
+6. **Consistent Naming Rules** - Component import names are more intuitive and consistent with file paths
+7. **Improved Extensibility** - Separated layout and component configuration lays the foundation for future feature expansion
 
-1. For projects using the old version with many pages based on its structure, continue using it or prepare thoroughly for migration
-2. For new projects, use the new version for more flexible file structure and better type support
-3. For complex menu requirements, develop custom menu generation logic
+### Version Selection Recommendations
+
+Based on your project situation, consider the following recommendations when choosing a version:
+
+1. **Existing Projects** - If your project already uses the old plugin and has many pages created based on its rules, consider continuing to use the old version or carefully planning migration
+2. **New Projects** - Recommended to adopt the new version directly for more flexible file structure and stronger type support
+3. **Special Requirements** - If your project has complex menu needs, use the new plugin to handle routes and develop independent menu generation logic
 
 ## Best Practices
 
-1. Maintain reasonable file naming and directory structure for code maintenance
-2. Use parameter routes appropriately: required parameters `[param]` or optional parameters `[[param]]`
-3. Configure layout components and use the layout parameter to control page layout
-4. Use shared.ts utility functions for type-safe navigation
-5. Use lazy loading appropriately to improve application performance
+To fully leverage the advantages of ElegantRouter, the following development practices are recommended:
+
+### File Organization
+
+- Maintain reasonable naming conventions and directory structures; while there are no strict limitations, good organization helps improve maintainability
+- Organize file directories by business or functional modules to make route paths more meaningful
+- For better readability, it's recommended to use `index.vue` or files with clear meaning for page components
+
+### Route Parameter Handling
+
+- Choose parameter types appropriately: required parameters use `[param]`, optional parameters use `[[param]]`
+- Parameter names should be descriptive, avoiding overly simple or ambiguous names
+- Complex parameter combinations can use multi-parameter syntax like `detail_[id]_[userId]` to improve readability
+
+### Layout Management
+
+- Create clear layout hierarchy structures, avoiding overly complex nesting
+- Configure the `layouts` option appropriately to ensure each page has a suitable layout
+- Use the `layout` property to control page layouts; pages with the same layout will be automatically grouped
+
+### Performance Optimization
+
+- Configure component lazy loading as needed, especially for large page components
+- Large applications can split routes by functional modules to improve initial loading speed
+- Use the `dynamicImport` configuration appropriately to control component import methods
+
+### Utility Function Usage
+
+- Make full use of utility functions provided in shared.ts for type-safe route navigation
+- Use automatically generated types to enhance development experience and code quality
+- Combine IDE type hints to reduce errors in route operations
+
+By following these best practices, you can fully utilize ElegantRouter's powerful features to create efficient, maintainable routing systems.
