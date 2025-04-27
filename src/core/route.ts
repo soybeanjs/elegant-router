@@ -154,7 +154,7 @@ async function updateRoutes(nodes: AutoRouterNode[], statInfo: NodeStatInfo, rou
     });
   }
 
-  const sortedElements = sortElements(elements);
+  const sortedElements = sortElements(routesExpression.getElements());
   const code = getRawCodeByElements(sortedElements);
 
   routesExpression.replaceWithText(`[${code}\n]`);
