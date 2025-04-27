@@ -15,19 +15,19 @@ export const routes: AutoRouterRoute[] = [
   {
     name: 'NotFound',
     path: '/:pathMatch(.*)*',
-    layout: 'base',
+    layout: 'blank',
     component: '404',
   },
   {
     name: '403',
     path: '/403',
-    layout: 'base',
+    layout: 'blank',
     component: '403',
   },
   {
     name: '404',
     path: '/404',
-    layout: 'base',
+    layout: 'blank',
     component: '404',
   },
   {

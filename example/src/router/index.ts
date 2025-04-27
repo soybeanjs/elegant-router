@@ -1,16 +1,13 @@
 import type { App } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import type { Router } from 'vue-router';
+import { routes } from './_generated/routes';
+import { transformToVueRoutes } from './_generated/transformer';
+import { layouts, views } from './_generated/imports';
 
 export const router = createRouter({
   history: createWebHistory(),
-  routes: [
-    {
-      name: 'home',
-      path: '/',
-      component: () => import('../views/home/index.vue')
-    }
-  ]
+  routes: transformToVueRoutes(routes, layouts, views)
 });
 
 /**
