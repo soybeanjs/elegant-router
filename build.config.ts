@@ -3,6 +3,7 @@ import { defineBuildConfig } from 'unbuild';
 export default defineBuildConfig({
   entries: [
     'src/index',
+    'src/cli',
     'src/vite',
     'src/webpack',
     'src/rollup',
@@ -28,6 +29,7 @@ export default defineBuildConfig({
   ],
   rollup: {
     emitCJS: true,
+    cjsBridge: true,
     inlineDependencies: true,
     esbuild: {
       minify: true
