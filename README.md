@@ -2,6 +2,9 @@
 
 基于文件系统的 Vue.js 自动路由生成工具，简化路由配置，提升开发效率。
 
+> [!WARNING]
+> **注意**: 旧版本的代码和文档已迁移至 [legacy 分支](https://github.com/SoybeanJS/elegant-router/tree/legacy)。旧版本的包名为 `@elegant-router/vue`，而新版本的包名为 `elegant-router`。如果您正在使用旧版本或需要参考旧版本的文档，请访问该分支。
+
 中文 | [English](./README.en_US.md)
 
 ## 目录

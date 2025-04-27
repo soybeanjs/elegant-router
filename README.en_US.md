@@ -2,6 +2,9 @@
 
 A file-system based automatic routing tool for Vue.js, simplifying route configuration and improving development efficiency.
 
+> [!WARNING]
+> **Note**: The code and documentation for the old version have been migrated to the [legacy branch](https://github.com/SoybeanJS/elegant-router/tree/legacy). The old version's package name was `@elegant-router/vue`, while the new version's package name is `elegant-router`. If you are using the old version or need to reference its documentation, please visit that branch.
+
 English | [中文](./README.md)
 
 ## Table of Contents
