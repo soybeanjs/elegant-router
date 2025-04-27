@@ -6,11 +6,14 @@ import type { AutoRouterOptions, CliOptions } from './types';
 import { AutoRouter } from './core';
 import { addRouter, removeRouter } from './commands';
 
-type Command = 'gen' | 'add' | 'rm';
+type CommandType = 'gen' | 'add' | 'rm';
 
 type CommandAction<A extends object> = (args?: A) => Promise<void> | void;
 
-type CommandWithAction<A extends object = object> = Record<Command, { desc: string; action: CommandAction<A> }>;
+type Command<A extends object = object> = Record<
+  CommandType,
+  { shortcut: string; desc: string; action: CommandAction<A> }
+>;
 
 async function setupCli() {
   const { config } = await loadConfig<CliOptions>({
@@ -26,45 +29,40 @@ async function setupCli() {
     watchFile: false
   };
 
-  const cli = cac('elegant-router');
+  const cli = cac('er');
 
-  cli
-    .version(version)
-    .option('-g, --gen', 'generate router 【生成路由】')
-    .option('-a, --add', 'add router 【新增路由】')
-    .option('-r, --rm', 'remove router 【删除路由】')
-    .help();
-  // .option('-u, --update', 'update router 【更新路由】')
-  // .option('-s, --restore', 'restore router 【恢复路由】')
-
-  const commands: CommandWithAction = {
+  const commands: Command = {
     gen: {
+      shortcut: '-g, --gen',
       desc: 'generate router 【生成路由】',
       action: async () => {
         const autoRouter = new AutoRouter(options);
-
         await autoRouter.generate();
       }
     },
     add: {
+      shortcut: '-a, --add',
       desc: 'add router 【新增路由】',
       action: async () => {
         await addRouter(options);
       }
     },
     rm: {
+      shortcut: '-r, --rm',
       desc: 'remove router 【删除路由】',
       action: async () => {
         await removeRouter(options);
       }
     }
     // update: {
+    //   shortcut: '-u, --up',
     //   desc: 'update router 【更新路由】',
     //   action: async () => {
     //     await updateRouter(config);
     //   }
     // },
     // restore: {
+    //   shortcut: '-s, --re',
     //   desc: 'restore router 【恢复路由】',
     //   action: async () => {
     //     await restoreRouter(config);
@@ -76,7 +74,23 @@ async function setupCli() {
     cli.command(command, desc).action(action);
   }
 
-  cli.parse();
+  Object.values(commands).forEach(({ shortcut, desc }) => {
+    cli.option(shortcut, desc);
+  });
+
+  cli.version(version).help();
+
+  const parsed = cli.parse();
+
+  if (!parsed.args.length) {
+    const { options: parsedOptions } = parsed;
+
+    const matchedCommand = Object.keys(commands).find(key => parsedOptions[key]) as CommandType | undefined;
+
+    if (matchedCommand) {
+      await commands[matchedCommand].action();
+    }
+  }
 }
 
 setupCli();
