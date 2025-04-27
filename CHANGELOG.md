@@ -1,6 +1,43 @@
 # Changelog
 
 
+## [v1.0.0-alpha.4](https://github.com/soybeanjs/elegant-router/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2025-04-28)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **cli**:
+  - add CLI functionality with configuration loading and version display &nbsp;-&nbsp; by @soybeanjs [<samp>(1ccef)</samp>](https://github.com/soybeanjs/elegant-router/commit/1cceff1)
+  - implement CLI commands for adding and removing routes, enhance configuration handling &nbsp;-&nbsp; by @soybeanjs [<samp>(97e69)</samp>](https://github.com/soybeanjs/elegant-router/commit/97e69af)
+- **router**:
+  - enhance AutoRouter with configuration loading, glob resolution, and improved route handling &nbsp;-&nbsp; by @soybeanjs [<samp>(a4418)</samp>](https://github.com/soybeanjs/elegant-router/commit/a4418fe)
+  - introduce built-in custom routes and refactor custom node resolution &nbsp;-&nbsp; by @soybeanjs [<samp>(32a0c)</samp>](https://github.com/soybeanjs/elegant-router/commit/32a0c4a)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **route**: update route sorting to use elements from routesExpression &nbsp;-&nbsp; by @soybeanjs [<samp>(884db)</samp>](https://github.com/soybeanjs/elegant-router/commit/884db48)
+
+### &nbsp;&nbsp;&nbsp;🛠 Optimizations
+
+- **projects**: optimize ts-morph function of route &nbsp;-&nbsp; by @soybeanjs [<samp>(00910)</samp>](https://github.com/soybeanjs/elegant-router/commit/0091074)
+
+### &nbsp;&nbsp;&nbsp;💅 Refactors
+
+- **cli**: simplify CLI command structure and enhance command parsing logic &nbsp;-&nbsp; by @soybeanjs [<samp>(58c34)</samp>](https://github.com/soybeanjs/elegant-router/commit/58c3496)
+
+### &nbsp;&nbsp;&nbsp;📖 Documentation
+
+- **README**:
+  - add warning about migration to legacy branch and package name change &nbsp;-&nbsp; by @soybeanjs [<samp>(1c07e)</samp>](https://github.com/soybeanjs/elegant-router/commit/1c07e56)
+  - add Command Line Interface section with installation instructions and usage examples &nbsp;-&nbsp; by @soybeanjs [<samp>(29417)</samp>](https://github.com/soybeanjs/elegant-router/commit/294170f)
+- **TODO**:
+  - update task &nbsp;-&nbsp; by @soybeanjs [<samp>(d1e82)</samp>](https://github.com/soybeanjs/elegant-router/commit/d1e82b8)
+- **projects**:
+  - add introduce for CustomRoute &nbsp;-&nbsp; by @soybeanjs [<samp>(27634)</samp>](https://github.com/soybeanjs/elegant-router/commit/276342d)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v1.0.0-alpha.3](https://github.com/soybeanjs/elegant-router/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2025-04-27)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
