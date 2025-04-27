@@ -11,6 +11,7 @@ English | [中文](./README.md)
 
 - [Introduction](#introduction)
 - [Installation](#installation)
+- [Command Line Interface](#command-line-interface)
 - [Build Tool Support](#build-tool-support)
 - [Quick Start](#quick-start)
 - [Route Creation Conventions](#route-creation-conventions)
@@ -73,6 +74,90 @@ Install ElegantRouter using a package manager:
 ```bash
 pnpm install elegant-router
 ```
+
+## Command Line Interface
+
+ElegantRouter provides a command-line tool to help you quickly create, delete, and manage routes.
+
+### Global Installation
+
+```bash
+# Install globally
+npm install -g elegant-router
+
+# Use command
+er --help
+```
+
+### Local Installation
+
+If you've already installed ElegantRouter in your project, you can use the CLI tool via npx:
+
+```bash
+npx er --help
+```
+
+### Available Commands
+
+ElegantRouter CLI provides the following commands:
+
+| Command | Shorthand | Description |
+|---------|-----------|-------------|
+| `er gen` | `er -g` | Generate route configuration files |
+| `er add` | `er -a` | Interactively add new route files |
+| `er rm` | `er -r` | Interactively remove existing route files |
+| `er --help` | `er -h` | Display help information |
+| `er --version` | `er -v` | Display version information |
+
+### Configuration File
+
+You can create an `elegant-router.config.ts` file in your project root to configure the CLI tool's behavior:
+
+```ts
+// elegant-router.config.ts
+import { defineConfig } from 'elegant-router';
+
+export default defineConfig({
+  // Configuration options
+  pageDir: 'src/views',
+  layouts: {
+    base: 'src/layouts/base/index.vue',
+    blank: 'src/layouts/blank/index.vue'
+  }
+});
+```
+
+### Usage Examples
+
+#### Generate Routes
+
+```bash
+# Generate route configurations based on current file structure
+er gen
+```
+
+#### Add New Route
+
+```bash
+# Interactively add a new route
+er add
+```
+
+This will start an interactive command-line interface that guides you through:
+1. Entering the route file path or name
+2. Choosing a route layout
+3. Selecting the page directory (if multiple are configured)
+
+The CLI tool will automatically create the file and update the route configuration.
+
+#### Remove Route
+
+```bash
+# Interactively remove a route
+er rm
+```
+
+This will display a list of all current routes and let you select which one to remove. After confirmation, the CLI tool will delete the corresponding file and update the route configuration.
 
 ## Build Tool Support
 

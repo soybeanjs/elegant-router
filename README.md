@@ -11,6 +11,7 @@
 
 - [介绍](#介绍)
 - [安装](#安装)
+- [命令行工具](#命令行工具)
 - [构建工具支持](#构建工具支持)
 - [快速开始](#快速开始)
 - [路由创建约定](#路由创建约定)
@@ -73,6 +74,90 @@ ElegantRouter 的核心功能设计围绕简化开发流程和提高效率：
 ```bash
 pnpm install elegant-router
 ```
+
+## 命令行工具
+
+ElegantRouter 提供了命令行工具，可以帮助您快速创建、删除和管理路由。
+
+### 全局安装
+
+```bash
+# 全局安装
+npm install -g elegant-router
+
+# 使用命令
+er --help
+```
+
+### 本地安装
+
+如果您已经在项目中安装了 ElegantRouter，可以通过 npx 使用命令行工具：
+
+```bash
+npx er --help
+```
+
+### 可用命令
+
+ElegantRouter CLI 提供以下命令：
+
+| 命令 | 简写 | 描述 |
+|------|------|------|
+| `er gen` | `er -g` | 生成路由配置文件 |
+| `er add` | `er -a` | 交互式添加新路由文件 |
+| `er rm` | `er -r` | 交互式删除现有路由文件 |
+| `er --help` | `er -h` | 显示帮助信息 |
+| `er --version` | `er -v` | 显示版本信息 |
+
+### 配置文件
+
+您可以在项目根目录创建 `elegant-router.config.ts` 文件来配置 CLI 工具的行为：
+
+```ts
+// elegant-router.config.ts
+import { defineConfig } from 'elegant-router';
+
+export default defineConfig({
+  // 配置选项
+  pageDir: 'src/views',
+  layouts: {
+    base: 'src/layouts/base/index.vue',
+    blank: 'src/layouts/blank/index.vue'
+  }
+});
+```
+
+### 使用示例
+
+#### 生成路由
+
+```bash
+# 根据当前文件结构生成路由配置
+er gen
+```
+
+#### 添加新路由
+
+```bash
+# 交互式添加新路由
+er add
+```
+
+这将启动交互式命令行界面，引导您：
+1. 输入路由文件路径或名称
+2. 选择路由布局
+3. 选择页面目录（如果配置了多个）
+
+CLI 工具会自动创建文件并更新路由配置。
+
+#### 删除路由
+
+```bash
+# 交互式删除路由
+er rm
+```
+
+这将显示当前所有路由列表，让您选择要删除的路由。确认后，CLI 工具会删除相应的文件并更新路由配置。
 
 ## 构建工具支持
 
