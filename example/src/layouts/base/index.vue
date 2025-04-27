@@ -3,10 +3,9 @@ import { RouterView } from 'vue-router';
 </script>
 
 <template>
-  <div class="flex h-full flex-col">
-    <header>BaseLayout</header>
+  <SCard title="BaseLayout" split class="h-full">
     <RouterView />
-  </div>
+  </SCard>
 </template>
 
 <style scoped></style>
