@@ -91,12 +91,14 @@
     "update-pkg": "soy ncu"
   },
   "dependencies": {
+    "cac": "6.7.14",
     "chokidar": "4.0.3",
     "consola": "3.4.2",
     "kolorist": "1.8.0",
     "picomatch": "4.0.2",
     "tinyglobby": "0.2.13",
-    "ts-morph": "25.0.1"
+    "ts-morph": "25.0.1",
+    "unconfig": "^7.3.2"
   },
   "devDependencies": {
     "@nuxt/kit": "^3.16.2",
