@@ -226,6 +226,19 @@ ElegantRouter({
 
 ## How It Works
 
+### File Watching Mechanism
+
+When starting the project, the plugin initializes a file watcher that monitors page file changes in real-time. When file additions, deletions, or renames are detected, the plugin automatically regenerates the route-related content without requiring manual intervention or service restarts. This ensures that route configurations always stay synchronized with the actual file structure, greatly enhancing the development experience.
+
+The watcher's main features include:
+
+- **Real-time Response** - Updates route configurations immediately after file changes
+- **Intelligent Recognition** - Only processes file changes that conform to routing conventions
+- **Incremental Updates** - Only regenerates affected route content, improving performance
+- **Debounce Processing** - Batch file changes are processed together within a short time frame, avoiding frequent updates
+
+The `watchFile` configuration option controls whether the file watching functionality is enabled, and the `fileUpdateDuration` option sets the debounce delay time.
+
 ### Generated File Structure
 
 After starting the project, ElegantRouter generates the following files in the configured directory (default: `src/router/_generated`):
