@@ -371,102 +371,211 @@ ElegantRouter 采用一级路由到嵌套路由的转换流程，简化路由管
 
 ## 配置选项
 
-ElegantRouter 提供丰富的配置选项，满足各种项目需求：
+ElegantRouter 提供了丰富的配置选项，使您能够根据项目需求自定义路由生成行为：
 
 ```ts
-import { defineConfig } from 'vite';
-import vue from '@vitejs/plugin-vue';
-import ElegantRouter from 'elegant-router/vite';
-
-export default defineConfig({
-  plugins: [
-    vue(),
-    ElegantRouter({
-      // 项目根目录
-      cwd: process.cwd(),
-
-      // 是否监听文件变化
-      watchFile: true,
-
-      // 文件更新时间（毫秒）
-      fileUpdateDuration: 500,
-
-      // 页面目录（可以指定多个）
-      pageDir: ['src/pages', 'src/views'],
-
-      // 页面文件匹配规则
-      pageInclude: '**/*.vue',
-
-      // 排除的页面文件
-      pageExclude: ['**/components/**', '**/modules/**'],
-
-      // 类型定义文件路径
-      dts: 'src/typings/elegant-router.d.ts',
-
-      // vue-router 类型定义文件路径
-      vueRouterDts: 'src/typings/typed-router.d.ts',
-
-      // tsconfig 文件路径
-      tsconfig: 'tsconfig.json',
-
-      // 项目别名配置，默认从 tsconfig 的 compilerOptions.paths 中解析出别名
-      alias: {},
-
-      // 路由生成目录
-      routerGeneratedDir: 'src/router/_generated',
-
-      // 布局配置
-      layouts: {
-        base: 'src/layouts/base/index.vue',
-        blank: 'src/layouts/blank/index.vue'
-      },
-
-      // 布局组件是否懒加载
-      layoutLazy: (layout) => true,
-
-      // 自定义路由（名称:路径）
-      customRoute: {
-        Root: '/',
-        NotFound: '/:pathMatch(.*)*'
-      },
-
-      // 根路由重定向路径
-      rootRedirect: '/home',
-
-      // 404 路由组件
-      notFoundRouteComponent: '404',
-
-      // 默认自定义路由组件
-      defaultCustomRouteComponent: 'wip',
-
-      // 自定义路由路径生成
-      getRoutePath: (node) => node.path,
-
-      // 自定义路由名称生成
-      getRouteName: (node) => node.name,
-
-      // 自定义路由布局
-      getRouteLayout: (node) => node.layout,
-
-      // 路由组件是否懒加载
-      routeLazy: (node) => true
-    })
-  ]
-});
+interface AutoRouterOptions {
+  /**
+   * 项目根目录
+   *
+   * @default process.cwd()
+   */
+  cwd?: string;
+  /**
+   * 是否监听文件
+   *
+   * @default true
+   */
+  watchFile?: boolean;
+  /**
+   * 文件更新时间
+   *
+   * @default 500 ms
+   */
+  fileUpdateDuration?: number;
+  /**
+   * 页面目录
+   *
+   * @default "['src/views']"
+   */
+  pageDir?: MaybeArray<string>;
+  /**
+   * 页面 glob
+   *
+   * @default '**/*.vue'
+   */
+  pageInclude?: MaybeArray<string>;
+  /**
+   * 页面 glob 排除
+   *
+   * @default ['**/components/**', '**/modules/**']
+   */
+  pageExclude?: MaybeArray<string>;
+  /**
+   * 生成的路由类型声明文件路径
+   *
+   * @default 'src/typings/elegant-router.d.ts'
+   */
+  dts?: string;
+  /**
+   * vue-router 类型声明文件路径
+   *
+   * @default 'src/typings/typed-router.d.ts'
+   */
+  vueRouterDts?: string;
+  /**
+   * tsconfig 文件路径
+   *
+   * @default 'tsconfig.json'
+   */
+  tsconfig?: string;
+  /**
+   * 项目别名
+   *
+   * @default 'get the alias from the tsconfig'
+   */
+  alias?: Record<string, string>;
+  /**
+   * 路由自动生成的目录
+   *
+   * @default 'src/router/_generated'
+   */
+  routerGeneratedDir?: string;
+  /**
+   * 路由布局
+   *
+   * @default "{
+   *  base: 'src/layouts/base/index.vue',
+   *  blank: 'src/layouts/blank/index.vue',
+   * }"
+   */
+  layouts?: Record<string, string>;
+  /**
+   * 布局懒加载
+   *
+   * @default true
+   */
+  layoutLazy?: (layout: string) => boolean;
+  /**
+   * 自定义路由配置
+   *
+   * 您可以通过 map 配置名称与路径的映射，或通过 paths 提供路径列表
+   * 系统将自动为每条路径创建对应的路由节点
+   *
+   * @example
+   *   ```ts
+   *   customRoute: {
+   *     map: {
+   *       Home: '/home',
+   *       About: '/about'
+   *     },
+   *     paths: ['/home2', '/about2']
+   *   }
+   *   ```
+   */
+  customRoute?: Partial<CustomRoute>;
+  /**
+   * 根路由重定向路径
+   *
+   * @default '/home'
+   */
+  rootRedirect?: string;
+  /**
+   * 404 路由组件
+   *
+   * @default '404'
+   */
+  notFoundRouteComponent?: string;
+  /**
+   * 默认自定义路由组件
+   *
+   * @default 'wip'
+   */
+  defaultCustomRouteComponent?: string;
+  /**
+   * 路由路径获取函数
+   *
+   * @default 'src/router/auto-router'
+   */
+  getRoutePath?: (node: AutoRouterNode) => string;
+  /**
+   * 路由名称获取函数
+   *
+   * @default transform the path to the route name
+   */
+  getRouteName?: (node: AutoRouterNode) => string;
+  /**
+   * 路由布局映射，用于 `getRouteLayout`
+   *
+   * 如果设置，将根据路由文件路径查找布局
+   */
+  routeLayoutMap?: Record<string, string>;
+  /**
+   * 路由布局获取函数
+   *
+   * @default get the first key of the layouts
+   */
+  getRouteLayout?: (node: AutoRouterNode) => string;
+  /**
+   * 路由懒加载函数
+   *
+   * @default true
+   */
+  routeLazy?: (node: AutoRouterNode) => boolean;
+}
 ```
+
+### 内置路由
+
+ElegantRouter 现在提供了内置的基础路由支持，包括：
+
+1. **根路由 (Root)** - 自动创建路径为 '/' 的根路由节点
+2. **404路由 (NotFound)** - 自动创建路径为 '/:pathMatch(.*)*' 的通配符路由节点，用于捕获所有不匹配的路径
+
+这些内置路由无需额外配置即可使用，系统会自动将它们添加到路由列表中。您可以通过配置选项自定义它们的行为：
+
+- `rootRedirect` - 设置根路由的重定向目标
+- `notFoundRouteComponent` - 指定 404 路由使用的组件
+
+### 自定义路由
+
+除了基于文件系统的路由外，ElegantRouter 还支持以两种方式创建自定义路由：
+
+1. **通过映射表** - 使用 `customRoute.map` 配置名称与路径的映射关系：
+
+```ts
+customRoute: {
+  map: {
+    Dashboard: '/dashboard',
+    UserProfile: '/user/profile'
+  }
+}
+```
+
+2. **通过路径列表** - 使用 `customRoute.paths` 提供路径列表，系统将自动推导路由名称：
+
+```ts
+customRoute: {
+  paths: ['/settings', '/user/settings']
+}
+```
+
+自定义路由默认使用 `defaultCustomRouteComponent` 配置中指定的组件（默认为 'wip'）。
 
 ## 新旧版本对比
 
-ElegantRouter 经过重大升级，新版本在设计理念和实现方式上都有显著变化，以提供更好的开发体验。
+与旧版本 `@elegant-router/vue` 相比，新版本 `elegant-router` 进行了许多改进：
 
-### 设计理念演进
+### 系统设计的改进
 
-|   | 旧版本 | 新版本 |
-|---|--------|--------|
-| **路由与菜单** | 强耦合设计，路由和菜单数据紧密关联 | 完全解耦，专注于路由生成，菜单可独立配置 |
-| **目录结构** | 严格限制，如禁止子目录同时拥有同级 index.vue | 更加灵活，无严格限制，专注于文件命名约定 |
-| **路由模型** | 多级嵌套结构，需要复杂转换 | 简洁的一级结构，按布局分组转换 |
-| **数据透明度** | 中间数据不易理解和调试 | 完全透明的白盒设计，易于理解和扩展 |
+| 功能 | 旧版本 | 新版本 |
+|-----|-------|-------|
+| 架构设计 | 黑盒设计，路由数据处理逻辑不透明 | 白盒设计，路由数据完全透明可访问 |
+| 处理流程 | 复杂的流程，难以扩展 | 清晰的处理步骤，便于自定义和扩展 |
+| 文件解析 | 受限的文件解析能力 | 更强大的文件系统解析，支持多种命名约定 |
+| 类型安全 | 基本的类型支持 | 完整的类型定义和自动生成的类型声明 |
+| 自定义路由 | 有限的自定义能力 | 全面支持自定义路由，包括映射表和路径列表 |
+| 内置路由 | 需要手动配置基础路由 | 内置根路由和404路由，简化配置 |
 
 ### 技术实现变化
 
@@ -609,6 +718,47 @@ ElegantRouter 经过重大升级，新版本在设计理念和实现方式上都
 ## 最佳实践
 
 为了充分发挥 ElegantRouter 的优势，推荐以下开发实践：
+
+### 使用内置路由简化配置
+
+利用 ElegantRouter 内置的根路由和 404 路由简化配置：
+
+```ts
+// vite.config.ts
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+import ElegantRouter from "elegant-router/vite";
+
+export default defineConfig({
+  plugins: [
+    vue(),
+    ElegantRouter({
+      rootRedirect: '/dashboard', // 自定义根路由重定向
+      notFoundRouteComponent: 'NotFound' // 自定义404组件名
+    })
+  ]
+});
+```
+
+### 组合使用自动路由和自定义路由
+
+混合使用基于文件系统的自动路由和自定义路由，灵活应对各种场景：
+
+```ts
+ElegantRouter({
+  customRoute: {
+    map: {
+      Dashboard: '/dashboard',
+      Settings: '/settings'
+    },
+    paths: [
+      '/profile',
+      '/account/details'
+    ]
+  },
+  defaultCustomRouteComponent: 'WorkInProgress'
+})
+```
 
 ### 文件组织
 

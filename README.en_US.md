@@ -371,273 +371,253 @@ ElegantRouter uses a single-level to nested route transformation process to simp
 
 ## Configuration Options
 
-ElegantRouter provides rich configuration options to meet various project needs:
+ElegantRouter provides rich configuration options that allow you to customize the route generation behavior according to your project requirements:
 
 ```ts
-import { defineConfig } from 'vite';
-import vue from '@vitejs/plugin-vue';
-import ElegantRouter from 'elegant-router/vite';
+interface AutoRouterOptions {
+  /**
+   * The root directory of the project
+   *
+   * @default process.cwd()
+   */
+  cwd?: string;
+  /**
+   * Whether to watch the file
+   *
+   * @default true
+   */
+  watchFile?: boolean;
+  /**
+   * The duration of the file update
+   *
+   * @default 500 ms
+   */
+  fileUpdateDuration?: number;
+  /**
+   * The directory of the pages
+   *
+   * @default "['src/views']"
+   */
+  pageDir?: MaybeArray<string>;
+  /**
+   * The glob of the pages
+   *
+   * @default '**/*.vue'
+   */
+  pageInclude?: MaybeArray<string>;
+  /**
+   * The glob of the pages to exclude
+   *
+   * @default ['**/components/**', '**/modules/**']
+   */
+  pageExclude?: MaybeArray<string>;
+  /**
+   * The path of the dts file
+   *
+   * @default 'src/typings/elegant-router.d.ts'
+   */
+  dts?: string;
+  /**
+   * The path of the vue-router dts file
+   *
+   * @default 'src/typings/typed-router.d.ts'
+   */
+  vueRouterDts?: string;
+  /**
+   * The path of the tsconfig file
+   *
+   * @default 'tsconfig.json'
+   */
+  tsconfig?: string;
+  /**
+   * The alias of the project
+   *
+   * @default 'get the alias from the tsconfig'
+   */
+  alias?: Record<string, string>;
+  /**
+   * The directory of the router generated
+   *
+   * @default 'src/router/_generated'
+   */
+  routerGeneratedDir?: string;
+  /**
+   * The layouts of the router
+   *
+   * @default "{
+   *  base: 'src/layouts/base/index.vue',
+   *  blank: 'src/layouts/blank/index.vue',
+   * }"
+   */
+  layouts?: Record<string, string>;
+  /**
+   * The lazy of the layout
+   *
+   * @default true
+   */
+  layoutLazy?: (layout: string) => boolean;
+  /**
+   * Custom route configuration
+   *
+   * You can configure name-to-path mappings via map, or provide a list of paths via paths
+   * The system will automatically create corresponding route nodes for each path
+   *
+   * @example
+   *   ```ts
+   *   customRoute: {
+   *     map: {
+   *       Home: '/home',
+   *       About: '/about'
+   *     },
+   *     paths: ['/home2', '/about2']
+   *   }
+   *   ```
+   */
+  customRoute?: Partial<CustomRoute>;
+  /**
+   * The root redirect path
+   *
+   * @default '/home'
+   */
+  rootRedirect?: string;
+  /**
+   * The not found route component
+   *
+   * @default '404'
+   */
+  notFoundRouteComponent?: string;
+  /**
+   * The default custom route component
+   *
+   * @default 'wip'
+   */
+  defaultCustomRouteComponent?: string;
+  /**
+   * The path of the route
+   *
+   * @default 'src/router/auto-router'
+   */
+  getRoutePath?: (node: AutoRouterNode) => string;
+  /**
+   * The name of the route
+   *
+   * @default transform the path to the route name
+   */
+  getRouteName?: (node: AutoRouterNode) => string;
+  /**
+   * The layout of the route, used by `getRouteLayout`
+   *
+   * If set, it will find the layout by the route filepath
+   */
+  routeLayoutMap?: Record<string, string>;
+  /**
+   * The layout of the route
+   *
+   * @default get the first key of the layouts
+   */
+  getRouteLayout?: (node: AutoRouterNode) => string;
+  /**
+   * The lazy of the route
+   *
+   * @default true
+   */
+  routeLazy?: (node: AutoRouterNode) => boolean;
+}
+```
+
+### Built-in Routes
+
+ElegantRouter now provides built-in support for basic routes, including:
+
+1. **Root Route** - Automatically creates a root route node with path '/'
+2. **NotFound Route** - Automatically creates a wildcard route node with path '/:pathMatch(.*)*' to catch all unmatched paths
+
+These built-in routes can be used without additional configuration, as the system automatically adds them to the route list. You can customize their behavior through configuration options:
+
+- `rootRedirect` - Set the redirect target for the root route
+- `notFoundRouteComponent` - Specify the component used by the 404 route
+
+### Custom Routes
+
+In addition to file-system-based routes, ElegantRouter supports creating custom routes in two ways:
+
+1. **Via Mapping Table** - Use `customRoute.map` to configure the name-to-path mapping relationship:
+
+```ts
+customRoute: {
+  map: {
+    Dashboard: '/dashboard',
+    UserProfile: '/user/profile'
+  }
+}
+```
+
+2. **Via Path List** - Use `customRoute.paths` to provide a list of paths, and the system will automatically derive route names:
+
+```ts
+customRoute: {
+  paths: ['/settings', '/user/settings']
+}
+```
+
+Custom routes use the component specified in the `defaultCustomRouteComponent` configuration (default is 'wip').
+
+## Version Comparison
+
+Compared to the old version `@elegant-router/vue`, the new version `elegant-router` has made many improvements:
+
+### System Design Improvements
+
+| Feature | Old Version | New Version |
+|---------|------------|-------------|
+| Architecture | Black-box design, route data processing logic not transparent | White-box design, route data completely transparent and accessible |
+| Processing Flow | Complex process, difficult to extend | Clear processing steps, easy to customize and extend |
+| File Parsing | Limited file parsing capabilities | More powerful file system parsing, supporting various naming conventions |
+| Type Safety | Basic type support | Complete type definitions and automatically generated type declarations |
+| Custom Routes | Limited customization capabilities | Comprehensive support for custom routes, including mapping tables and path lists |
+| Built-in Routes | Basic routes need manual configuration | Built-in root and 404 routes, simplifying configuration |
+
+## Best Practices
+
+### Simplify Configuration with Built-in Routes
+
+Leverage ElegantRouter's built-in root and 404 routes to simplify configuration:
+
+```ts
+// vite.config.ts
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+import ElegantRouter from "elegant-router/vite";
 
 export default defineConfig({
   plugins: [
     vue(),
     ElegantRouter({
-      // Project root directory
-      cwd: process.cwd(),
-
-      // Whether to watch file changes
-      watchFile: true,
-
-      // File update interval (milliseconds)
-      fileUpdateDuration: 500,
-
-      // Page directories (can specify multiple)
-      pageDir: ['src/pages', 'src/views'],
-
-      // Page file matching pattern
-      pageInclude: '**/*.vue',
-
-      // Excluded page files
-      pageExclude: ['**/components/**', '**/modules/**'],
-
-      // Type definition file path
-      dts: 'src/typings/elegant-router.d.ts',
-
-      // Vue-router type definition file path
-      vueRouterDts: 'src/typings/typed-router.d.ts',
-
-      // tsconfig file path
-      tsconfig: 'tsconfig.json',
-
-      // Project alias configuration, defaults to parsing aliases from tsconfig's compilerOptions.paths
-      alias: {},
-
-      // Router generated directory
-      routerGeneratedDir: 'src/router/_generated',
-
-      // Layout configuration
-      layouts: {
-        base: 'src/layouts/base/index.vue',
-        blank: 'src/layouts/blank/index.vue'
-      },
-
-      // Whether to lazy load layout components
-      layoutLazy: (layout) => true,
-
-      // Custom routes (name:path)
-      customRoute: {
-        Root: '/',
-        NotFound: '/:pathMatch(.*)*'
-      },
-
-      // Root route redirect path
-      rootRedirect: '/home',
-
-      // 404 route component
-      notFoundRouteComponent: '404',
-
-      // Default custom route component
-      defaultCustomRouteComponent: 'wip',
-
-      // Custom route path generation
-      getRoutePath: (node) => node.path,
-
-      // Custom route name generation
-      getRouteName: (node) => node.name,
-
-      // Custom route layout
-      getRouteLayout: (node) => node.layout,
-
-      // Whether to lazy load route components
-      routeLazy: (node) => true
+      rootRedirect: '/dashboard', // Custom root route redirect
+      notFoundRouteComponent: 'NotFound' // Custom 404 component name
     })
   ]
 });
 ```
 
-## Version Comparison
+### Combine Automatic Routes with Custom Routes
 
-ElegantRouter has undergone significant upgrades, with the new version featuring notable changes in design philosophy and implementation to provide a better development experience.
+Mix file-system-based automatic routes with custom routes to flexibly address various scenarios:
 
-### Design Philosophy Evolution
-
-|   | Old Version | New Version |
-|---|-------------|-------------|
-| **Routes and Menus** | Tightly coupled design, route and menu data closely linked | Completely decoupled, focusing on route generation with menus configurable independently |
-| **Directory Structure** | Strict limitations, such as prohibiting subdirectories with sibling index.vue files | More flexible, no strict limitations, focus on file naming conventions |
-| **Route Model** | Multi-level nested structure requiring complex conversion | Concise single-level structure, transformed by grouping layouts |
-| **Data Transparency** | Intermediate data difficult to understand and debug | Completely transparent white-box design, easy to understand and extend |
-
-### Technical Implementation Changes
-
-#### Old Version Implementation
-- **Component Association**: Used special strings (e.g., `layout.base$view.about`) to represent component relationships
-- **Route Data Structure**: Generated complex nested route structures, then converted to the required framework format
-- **Generated Files**: Produced the basic imports.ts, routes.ts, and transform.ts files
-
-#### New Version Implementation
-- **Component Association**: Uses separate `layout` and `component` fields to clearly represent component relationships
-- **Route Data Structure**: Generates simple single-level route structures, grouped by layout through the transformer
-- **Enhanced Utility Functions**: Added shared.ts to provide route name and path mapping tools
-- **Optimized Type Support**: Provides more comprehensive type definitions for an enhanced development experience
-
-### Route Data Structure Comparison
-
-#### Old Version Route Example
 ```ts
-// Single-level route
-{
-  name: 'about',
-  path: '/about',
-  component: 'layout.base$view.about',
-  meta: { title: 'about' }
-}
-
-// Multi-level route
-{
-  name: 'list',
-  path: '/list',
-  component: 'layout.base',
-  meta: { title: 'list' },
-  children: [
-    {
-      name: 'list_home',
-      path: '/list/home',
-      component: 'view.list_home',
-      meta: { title: 'list_home' }
-    }
-  ]
-}
-```
-
-#### New Version Route Example
-```ts
-// Unified single-level route structure
-{
-  name: 'Home',
-  path: '/home',
-  layout: 'base',
-  component: 'Home'
-}
-
-{
-  name: 'ListHome',
-  path: '/list/home',
-  layout: 'base',
-  component: 'ListHome'
-}
-```
-
-### Transformed Route Structure Comparison
-
-#### Old Version Transformation Result
-```ts
-// Single-level route after transformation
-{
-  path: '/about',
-  component: BaseLayout,
-  children: [
-    {
-      name: 'about',
-      path: '',
-      component: () => import('@/views/about/index.vue'),
-      meta: { title: 'about' }
-    }
-  ]
-}
-
-// Multi-level route after transformation
-{
-  name: 'list',
-  path: '/list',
-  component: BaseLayout,
-  redirect: { name: 'list_home' },
-  meta: { title: 'list' },
-  children: [
-    {
-      name: 'list_home',
-      path: '/list/home',
-      component: () => import('@/views/list/home/index.vue'),
-      meta: { title: 'list_home' }
-    }
-  ]
-}
-```
-
-#### New Version Transformation Result
-```ts
-// Routes grouped by layout
-{
-  path: '/base-layout',
-  component: () => import('@/layouts/base/index.vue'),
-  children: [
-    {
-      name: 'Home',
-      path: '/home',
-      component: () => import('@/views/home/index.vue')
+ElegantRouter({
+  customRoute: {
+    map: {
+      Dashboard: '/dashboard',
+      Settings: '/settings'
     },
-    {
-      name: 'ListHome',
-      path: '/list/home',
-      component: () => import('@/views/list/home/index.vue')
-    }
-    // ...other routes with the same layout
-  ]
-}
+    paths: [
+      '/profile',
+      '/account/details'
+    ]
+  },
+  defaultCustomRouteComponent: 'WorkInProgress'
+})
 ```
-
-### Key Improvements in the New Version
-
-The new ElegantRouter brings multiple improvements:
-
-1. **Simpler Data Model** - Single-level route structure is more intuitive, reducing understanding and maintenance costs
-2. **More Flexible File Organization** - Removed strict directory limitations, increasing freedom in project organization
-3. **Enhanced Type System** - Comprehensive type definitions and utility functions provide a better development experience
-4. **Intelligent Layout Management** - Automatic grouping by layout makes managing pages with the same layout more sensible
-5. **Convenient Route Tools** - Utility functions provided in shared.ts simplify route navigation operations
-6. **Consistent Naming Rules** - Component import names are more intuitive and consistent with file paths
-7. **Improved Extensibility** - Separated layout and component configuration lays the foundation for future feature expansion
-
-### Version Selection Recommendations
-
-Based on your project situation, consider the following recommendations when choosing a version:
-
-1. **Existing Projects** - If your project already uses the old plugin and has many pages created based on its rules, consider continuing to use the old version or carefully planning migration
-2. **New Projects** - Recommended to adopt the new version directly for more flexible file structure and stronger type support
-3. **Special Requirements** - If your project has complex menu needs, use the new plugin to handle routes and develop independent menu generation logic
-
-## Best Practices
-
-To fully leverage the advantages of ElegantRouter, the following development practices are recommended:
-
-### File Organization
-
-- Maintain reasonable naming conventions and directory structures; while there are no strict limitations, good organization helps improve maintainability
-- Organize file directories by business or functional modules to make route paths more meaningful
-- For better readability, it's recommended to use `index.vue` or files with clear meaning for page components
-
-### Route Parameter Handling
-
-- Choose parameter types appropriately: required parameters use `[param]`, optional parameters use `[[param]]`
-- Parameter names should be descriptive, avoiding overly simple or ambiguous names
-- Complex parameter combinations can use multi-parameter syntax like `detail_[id]_[userId]` to improve readability
-
-### Layout Management
-
-- Create clear layout hierarchy structures, avoiding overly complex nesting
-- Configure the `layouts` option appropriately to ensure each page has a suitable layout
-- Use the `layout` property to control page layouts; pages with the same layout will be automatically grouped
-
-### Performance Optimization
-
-- Configure component lazy loading as needed, especially for large page components
-- Large applications can split routes by functional modules to improve initial loading speed
-- Use the `dynamicImport` configuration appropriately to control component import methods
-
-### Utility Function Usage
-
-- Make full use of utility functions provided in shared.ts for type-safe route navigation
-- Use automatically generated types to enhance development experience and code quality
-- Combine IDE type hints to reduce errors in route operations
 
 By following these best practices, you can fully utilize ElegantRouter's powerful features to create efficient, maintainable routing systems.
