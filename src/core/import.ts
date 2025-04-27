@@ -1,13 +1,12 @@
-import path from 'node:path';
 import { writeFile } from 'node:fs/promises';
-import { createPrefixCommentOfGenFile, ensureFile } from '../shared';
+import { createPrefixCommentOfGenFile, ensureFile, joinPath, normalizePath } from '../shared';
 import type { AutoRouterNode, ParsedAutoRouterOptions } from '../types';
 import { ELEGANT_ROUTER_TYPES_MODULE_NAME } from '../constants';
 
 export async function generateImportsFile(nodes: AutoRouterNode[], options: ParsedAutoRouterOptions) {
   const { cwd, routerGeneratedDir } = options;
 
-  const importsPath = path.posix.join(cwd, routerGeneratedDir, 'imports.ts');
+  const importsPath = joinPath(cwd, routerGeneratedDir, 'imports.ts');
 
   await ensureFile(importsPath);
 
@@ -27,10 +26,13 @@ export function getImportsCode(nodes: AutoRouterNode[], options: ParsedAutoRoute
   layouts.forEach(layout => {
     const { name, importName, importPath, isLazy } = layout;
 
+    // Ensure importPath uses forward slashes
+    const normalizedImportPath = normalizePath(importPath);
+
     if (isLazy) {
-      exportLayoutCode += `\n  ${name}: () => import("${importPath}"),`;
+      exportLayoutCode += `\n  ${name}: () => import("${normalizedImportPath}"),`;
     } else {
-      importCode += `import ${importName} from "${importPath}";\n`;
+      importCode += `import ${importName} from "${normalizedImportPath}";\n`;
       exportLayoutCode += `\n  ${name}: ${importName},`;
     }
   });
@@ -44,10 +46,13 @@ export function getImportsCode(nodes: AutoRouterNode[], options: ParsedAutoRoute
     .forEach(node => {
       const { name, importName, importPath, isLazy } = node;
 
+      // Ensure importPath uses forward slashes
+      const normalizedImportPath = normalizePath(importPath);
+
       if (isLazy) {
-        exportCode += `\n  ${name}: () => import("${importPath}"),`;
+        exportCode += `\n  ${name}: () => import("${normalizedImportPath}"),`;
       } else {
-        importCode += `import ${importName} from "${importPath}";\n`;
+        importCode += `import ${importName} from "${normalizedImportPath}";\n`;
         exportCode += `\n  ${name}${name === importName ? '' : `: ${importName}`},`;
       }
     });
