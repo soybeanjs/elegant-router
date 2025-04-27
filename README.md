@@ -8,6 +8,7 @@
 
 - [介绍](#介绍)
 - [安装](#安装)
+- [构建工具支持](#构建工具支持)
 - [快速开始](#快速开始)
 - [路由创建约定](#路由创建约定)
 - [工作原理](#工作原理)
@@ -68,6 +69,95 @@ ElegantRouter 的核心功能设计围绕简化开发流程和提高效率：
 
 ```bash
 pnpm install elegant-router
+```
+
+## 构建工具支持
+
+ElegantRouter 支持多种主流构建工具，以适应不同的项目环境需求。无论您使用哪种构建工具，ElegantRouter 都能提供一致的路由自动生成体验。
+
+### Vite
+
+```ts
+// vite.config.ts
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+import ElegantRouter from "elegant-router/vite";
+
+export default defineConfig({
+  plugins: [
+    vue(),
+    ElegantRouter({
+      // 配置选项
+    }),
+  ]
+});
+```
+
+### Webpack
+
+```ts
+// webpack.config.js
+const ElegantRouter = require('elegant-router/webpack');
+
+module.exports = {
+  // 其他配置...
+  plugins: [
+    new ElegantRouter({
+      // 配置选项
+    })
+  ]
+};
+```
+
+### Rollup
+
+```ts
+// rollup.config.js
+import ElegantRouter from 'elegant-router/rollup';
+
+export default {
+  // 其他配置...
+  plugins: [
+    ElegantRouter({
+      // 配置选项
+    })
+  ]
+};
+```
+
+### ESBuild
+
+```ts
+// esbuild.config.js
+const { build } = require('esbuild');
+const ElegantRouter = require('elegant-router/esbuild');
+
+build({
+  // 其他配置...
+  plugins: [
+    ElegantRouter({
+      // 配置选项
+    })
+  ]
+});
+```
+
+### UnPlugins 通用接口
+
+ElegantRouter 还提供了 UnPlugins 通用接口，可以在支持 UnPlugins 的构建工具中使用：
+
+```ts
+import { createUnplugin } from 'elegant-router/unplugin';
+
+const ElegantRouterUnplugin = createUnplugin({
+  // 配置选项
+});
+
+// 然后根据不同构建工具使用相应的方法
+// ElegantRouterUnplugin.vite()
+// ElegantRouterUnplugin.webpack()
+// ElegantRouterUnplugin.rollup()
+// 等等...
 ```
 
 ## 快速开始

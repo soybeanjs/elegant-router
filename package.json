@@ -47,6 +47,26 @@
       "import": "./dist/esbuild.mjs",
       "require": "./dist/esbuild.cjs"
     },
+    "./rspack": {
+      "types": "./dist/rspack.d.ts",
+      "import": "./dist/rspack.mjs",
+      "require": "./dist/rspack.cjs"
+    },
+    "./rolldown": {
+      "types": "./dist/rolldown.d.ts",
+      "import": "./dist/rolldown.mjs",
+      "require": "./dist/rolldown.cjs"
+    },
+    "./farm": {
+      "types": "./dist/farm.d.ts",
+      "import": "./dist/farm.mjs",
+      "require": "./dist/farm.cjs"
+    },
+    "./nuxt": {
+      "types": "./dist/nuxt.d.ts",
+      "import": "./dist/nuxt.mjs",
+      "require": "./dist/nuxt.cjs"
+    },
     "./*": "./*"
   },
   "main": "./dist/index.cjs",
@@ -57,7 +77,7 @@
       "*": ["./dist/*", "./*"]
     }
   },
-  "files": ["dist"],
+  "files": ["README.en_US.md", "dist", "README.md"],
   "scripts": {
     "build": "unbuild",
     "cleanup": "soy cleanup",
@@ -79,6 +99,8 @@
     "ts-morph": "25.0.1"
   },
   "devDependencies": {
+    "@nuxt/kit": "^3.16.2",
+    "@nuxt/schema": "^3.16.2",
     "@soybeanjs/cli": "1.2.1",
     "@soybeanjs/eslint-config": "1.6.0",
     "@types/node": "22.15.2",

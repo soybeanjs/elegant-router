@@ -8,6 +8,7 @@ English | [中文](./README.md)
 
 - [Introduction](#introduction)
 - [Installation](#installation)
+- [Build Tool Support](#build-tool-support)
 - [Quick Start](#quick-start)
 - [Route Creation Conventions](#route-creation-conventions)
 - [How It Works](#how-it-works)
@@ -68,6 +69,95 @@ Install ElegantRouter using a package manager:
 
 ```bash
 pnpm install elegant-router
+```
+
+## Build Tool Support
+
+ElegantRouter supports various mainstream build tools to accommodate different project environment requirements. Regardless of which build tool you use, ElegantRouter provides a consistent automatic route generation experience.
+
+### Vite
+
+```ts
+// vite.config.ts
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+import ElegantRouter from "elegant-router/vite";
+
+export default defineConfig({
+  plugins: [
+    vue(),
+    ElegantRouter({
+      // Configuration options
+    }),
+  ]
+});
+```
+
+### Webpack
+
+```ts
+// webpack.config.js
+const ElegantRouter = require('elegant-router/webpack');
+
+module.exports = {
+  // Other configurations...
+  plugins: [
+    new ElegantRouter({
+      // Configuration options
+    })
+  ]
+};
+```
+
+### Rollup
+
+```ts
+// rollup.config.js
+import ElegantRouter from 'elegant-router/rollup';
+
+export default {
+  // Other configurations...
+  plugins: [
+    ElegantRouter({
+      // Configuration options
+    })
+  ]
+};
+```
+
+### ESBuild
+
+```ts
+// esbuild.config.js
+const { build } = require('esbuild');
+const ElegantRouter = require('elegant-router/esbuild');
+
+build({
+  // Other configurations...
+  plugins: [
+    ElegantRouter({
+      // Configuration options
+    })
+  ]
+});
+```
+
+### UnPlugins Universal Interface
+
+ElegantRouter also provides a UnPlugins universal interface that can be used in build tools that support UnPlugins:
+
+```ts
+import { createUnplugin } from 'elegant-router/unplugin';
+
+const ElegantRouterUnplugin = createUnplugin({
+  // Configuration options
+});
+
+// Then use the appropriate method according to different build tools
+// ElegantRouterUnplugin.vite()
+// ElegantRouterUnplugin.webpack()
+// ElegantRouterUnplugin.rollup()
+// etc...
 ```
 
 ## Quick Start
