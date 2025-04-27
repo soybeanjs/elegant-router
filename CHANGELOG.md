@@ -1,6 +1,42 @@
 # Changelog
 
 
+## [v1.0.0-alpha.3](https://github.com/soybeanjs/elegant-router/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2025-04-27)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **build**: add support for additional build tools and update configuration &nbsp;-&nbsp; by @soybeanjs [<samp>(71f6e)</samp>](https://github.com/soybeanjs/elegant-router/commit/71f6ebb)
+- **projects**: apply plugin in example &nbsp;-&nbsp; by @soybeanjs [<samp>(d87f8)</samp>](https://github.com/soybeanjs/elegant-router/commit/d87f841)
+
+### &nbsp;&nbsp;&nbsp;🛠 Optimizations
+
+- **projects**:
+  - remove legacy packages code &nbsp;-&nbsp; by @soybeanjs [<samp>(2991a)</samp>](https://github.com/soybeanjs/elegant-router/commit/2991aac)
+  - optimize temp functions &nbsp;-&nbsp; by @soybeanjs [<samp>(94a90)</samp>](https://github.com/soybeanjs/elegant-router/commit/94a908b)
+  - optimize example layout &nbsp;-&nbsp; by @soybeanjs [<samp>(929ce)</samp>](https://github.com/soybeanjs/elegant-router/commit/929ce97)
+
+### &nbsp;&nbsp;&nbsp;📖 Documentation
+
+- **README**:
+  - add file watching mechanism details to enhance development experience &nbsp;-&nbsp; by @soybeanjs [<samp>(f28a0)</samp>](https://github.com/soybeanjs/elegant-router/commit/f28a0d9)
+- **TODO**:
+  - add initial TODO list for routing features &nbsp;-&nbsp; by @soybeanjs [<samp>(76cf1)</samp>](https://github.com/soybeanjs/elegant-router/commit/76cf115)
+- **projects**:
+  - add README.md &nbsp;-&nbsp; by @soybeanjs [<samp>(3c3a1)</samp>](https://github.com/soybeanjs/elegant-router/commit/3c3a16f)
+  - update README &nbsp;-&nbsp; by @soybeanjs [<samp>(8dad5)</samp>](https://github.com/soybeanjs/elegant-router/commit/8dad53c)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **deps**:
+  - update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(cd4a3)</samp>](https://github.com/soybeanjs/elegant-router/commit/cd4a358)
+  - lock deps &nbsp;-&nbsp; by @soybeanjs [<samp>(3a7d2)</samp>](https://github.com/soybeanjs/elegant-router/commit/3a7d230)
+- **vscode**:
+  - remove unused extensions from configuration &nbsp;-&nbsp; by @soybeanjs [<samp>(aed14)</samp>](https://github.com/soybeanjs/elegant-router/commit/aed1446)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v1.0.0-alpha.2](https://github.com/soybeanjs/elegant-router/compare/v0.3.8...v1.0.0-alpha.2) (2025-04-27)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
