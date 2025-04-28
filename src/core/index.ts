@@ -46,9 +46,17 @@ export class AutoRouter {
     this.options = Object.assign(this.options, options);
   }
 
-  async generate() {
+  async initGlobs() {
     this.globs = await resolveGlobs(this.options);
+  }
+
+  async initNodes() {
     this.nodes = resolveNodes(this.globs, this.options);
+  }
+
+  async generate() {
+    await this.initGlobs();
+    await this.initNodes();
 
     await initTempNode(this.options.cwd);
     this.statInfo = await getNodeStatInfo(this.options.cwd, this.nodes);

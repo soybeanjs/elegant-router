@@ -1,6 +1,7 @@
 import { createUnplugin } from 'unplugin';
 import { loadConfig } from 'unconfig';
 import { AutoRouter } from './core';
+import { injectName } from './plugins/name';
 import type { AutoRouterNode, AutoRouterOptions } from './types';
 
 export default createUnplugin<Partial<AutoRouterOptions> | undefined>((options, _meta) => {
@@ -14,6 +15,8 @@ export default createUnplugin<Partial<AutoRouterOptions> | undefined>((options, 
 
   const autoRouter = new AutoRouter({ ...options, ...config });
 
+  const autoRouterOptions = autoRouter.getOptions();
+
   return [
     {
       name: 'unplugin-elegant-router',
@@ -22,14 +25,15 @@ export default createUnplugin<Partial<AutoRouterOptions> | undefined>((options, 
         apply: 'serve',
         async configureServer(server) {
           await autoRouter.generate();
-          if (autoRouter.getOptions().watchFile) {
+          if (autoRouterOptions.watchFile) {
             autoRouter.watch();
           }
 
           autoRouter.setViteServer(server);
         }
       }
-    }
+    },
+    injectName(autoRouterOptions)
   ];
 });
 

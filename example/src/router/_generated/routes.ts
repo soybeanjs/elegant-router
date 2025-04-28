@@ -31,6 +31,12 @@ export const routes: AutoRouterRoute[] = [
     component: '404',
   },
   {
+    name: 'Demo',
+    path: '/demo',
+    layout: 'base',
+    component: 'Demo',
+  },
+  {
     name: 'Home',
     path: '/home',
     layout: 'base',

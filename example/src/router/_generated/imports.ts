@@ -14,6 +14,7 @@ export const layouts: Record<RouteLayoutKey, RawRouteComponent> = {
 export const views: Record<RouteFileKey, RawRouteComponent> = {
   403: () => import("@/views/(builtin)/403.vue"),
   404: () => import("@/views/(builtin)/404/index.vue"),
+  Demo: () => import("@/views/demo"),
   Home: () => import("@/views/home/index.vue"),
   HomeChild: () => import("@/views/home/child.vue"),
   HomeChild5: () => import("@/views/home/child5.vue"),
