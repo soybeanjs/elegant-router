@@ -4,7 +4,7 @@ import { writeFile } from 'node:fs/promises';
 import { IndentationText, Project, SyntaxKind } from 'ts-morph';
 import type { Expression } from 'ts-morph';
 import type { AutoRouterNode, NodeStatInfo, ParsedAutoRouterOptions } from '../types';
-import { createPrefixCommentOfGenFile, ensureFile } from '../shared';
+import { createPrefixCommentOfGenFile, ensureFile, getStringProperty } from '../shared';
 import { ELEGANT_ROUTER_TYPES_MODULE_NAME, ROOT_ROUTE_NAME } from '../constants';
 import { sortNodeName } from './node';
 
@@ -54,9 +54,7 @@ async function updateRoutes(nodes: AutoRouterNode[], statInfo: NodeStatInfo, rou
 
   const routesExpression = initializer.asKindOrThrow(SyntaxKind.ArrayLiteralExpression);
 
-  const elements = routesExpression.getElements();
-
-  const namePathMap = getNamePathMap(elements);
+  const namePathMap = getNamePathMap(routesExpression.getElements());
 
   const { createdNames, deletedNames, updatedNames } = getRouteStatInfo(nodes, namePathMap, statInfo);
 
@@ -72,7 +70,9 @@ async function updateRoutes(nodes: AutoRouterNode[], statInfo: NodeStatInfo, rou
 
   if (deletedNames.length > 0) {
     deletedNames.forEach(deletedName => {
-      const index = elements.findIndex(el => getRouteStringPropertyValue(el, 'name') === deletedName);
+      const index = routesExpression
+        .getElements()
+        .findIndex(el => getRouteStringPropertyValue(el, 'name') === deletedName);
 
       if (index !== -1) {
         routesExpression.removeElement(index);
@@ -88,7 +88,9 @@ async function updateRoutes(nodes: AutoRouterNode[], statInfo: NodeStatInfo, rou
     updatedRoutes.forEach(node => {
       const oldName = updatedNames.find(item => item.name === node.name)?.oldName;
 
-      const routeElement = elements.find(el => getRouteStringPropertyValue(el, 'name') === oldName);
+      const routeElement = routesExpression
+        .getElements()
+        .find(el => getRouteStringPropertyValue(el, 'name') === oldName);
 
       if (!routeElement?.isKind(SyntaxKind.ObjectLiteralExpression)) return;
 
@@ -121,7 +123,7 @@ async function updateRoutes(nodes: AutoRouterNode[], statInfo: NodeStatInfo, rou
     });
   }
 
-  const sortedElements = sortElements(elements);
+  const sortedElements = sortElements(routesExpression.getElements());
   const code = getRawCodeByElements(sortedElements);
 
   routesExpression.replaceWithText(`[${code}\n]`);
@@ -235,24 +237,6 @@ function getRouteStringPropertyValue(element: Expression, propertyName: string) 
   if (!value) return null;
 
   return value.getText().substring(1, value.getText().length - 1);
-}
-
-function getObjectProperty(element: Expression, propertyName: string) {
-  if (!element.isKind(SyntaxKind.ObjectLiteralExpression)) return null;
-
-  const property = element.getProperty(propertyName);
-  if (!property?.isKind(SyntaxKind.PropertyAssignment)) return null;
-
-  const value = property.getInitializer();
-
-  return value || null;
-}
-
-function getStringProperty(element: Expression, propertyName: string) {
-  const value = getObjectProperty(element, propertyName);
-  if (!value?.isKind(SyntaxKind.StringLiteral)) return null;
-
-  return value;
 }
 
 function getNamePathMap(elements: Expression[]) {

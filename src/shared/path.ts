@@ -17,5 +17,13 @@ export function resolveImportPath(filePath: string, alias: Record<string, string
     return match;
   });
 
+  const exts = ['.tsx', '.jsx'];
+
+  const findExt = exts.find(ext => iPath.endsWith(ext));
+
+  if (findExt) {
+    iPath = iPath.replace(findExt, '');
+  }
+
   return iPath;
 }
