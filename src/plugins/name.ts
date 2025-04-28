@@ -11,13 +11,11 @@ import type { ParsedAutoRouterOptions } from '../types';
 export function injectName(options: ParsedAutoRouterOptions) {
   const { pageInclude, pageExclude, pageDir } = options;
 
-  // 修改过滤条件，支持 .vue, .tsx, .jsx 文件
-  const filter = createFilter(
-    Array.isArray(pageInclude)
-      ? pageInclude.map(include => include.replace('.vue', '{.vue,.tsx,.jsx}'))
-      : pageInclude.replace('.vue', '{.vue,.tsx,.jsx}'),
-    pageExclude
-  );
+  const includes = Array.isArray(pageInclude) ? pageInclude : [pageInclude];
+  const pageDirs = Array.isArray(pageDir) ? pageDir : [pageDir];
+  const dirPatterns = pageDirs.flatMap(dir => includes.map(include => path.join(dir, include)));
+
+  const filter = createFilter(dirPatterns, pageExclude);
 
   const project = new Project({
     useInMemoryFileSystem: true,
@@ -33,7 +31,6 @@ export function injectName(options: ParsedAutoRouterOptions) {
       }
 
       const normalizedId = normalizePath(id);
-      const pageDirs = Array.isArray(pageDir) ? pageDir : [pageDir];
       const currentPageDir = pageDirs.find(dir => normalizedId.includes(dir));
 
       if (!currentPageDir) {
