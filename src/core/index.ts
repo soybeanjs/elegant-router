@@ -64,8 +64,6 @@ export class AutoRouter {
 
   async watch() {
     this.watcher = new FileWatcher(this.options);
-    await this.watch();
-
     this.watcher?.start(async () => {
       await this.generate();
     });

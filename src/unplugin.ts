@@ -22,7 +22,7 @@ export default createUnplugin<Partial<AutoRouterOptions> | undefined>((options, 
         apply: 'serve',
         async configureServer(server) {
           await autoRouter.generate();
-          if (options?.watchFile) {
+          if (autoRouter.getOptions().watchFile) {
             autoRouter.watch();
           }
 

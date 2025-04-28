@@ -1,6 +1,6 @@
+import { createFilter } from 'unplugin-utils';
 import chokidar from 'chokidar';
 import type { FSWatcher } from 'chokidar';
-import picomatch from 'picomatch';
 import { logger } from '../shared';
 import type { ParsedAutoRouterOptions } from '../types';
 
@@ -19,13 +19,10 @@ export class FileWatcher {
   init(options: ParsedAutoRouterOptions) {
     const { cwd, pageDir, pageInclude, pageExclude } = options;
 
-    // 监听目录路径
-    const watchDirs = Array.isArray(pageDir) ? pageDir : [pageDir];
-    const include = Array.isArray(pageInclude) ? pageInclude : [pageInclude];
-    const exclude = Array.isArray(pageExclude) ? pageExclude : [pageExclude];
+    const filter = createFilter(pageInclude, pageExclude);
 
     // 创建监听器
-    this.watcher = chokidar.watch(watchDirs, {
+    this.watcher = chokidar.watch(pageDir, {
       cwd,
       ignoreInitial: true,
       ignored: (glob: string, stats) => {
@@ -33,7 +30,7 @@ export class FileWatcher {
           return false;
         }
 
-        const isMatch = include.some(pattern => picomatch.isMatch(glob, pattern, { ignore: exclude }));
+        const isMatch = filter(glob);
 
         return !isMatch;
       }
