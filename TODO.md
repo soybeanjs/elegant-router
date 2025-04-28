@@ -10,5 +10,7 @@ TODO List:
 - [x] 支持配置文件 `elegant-router.config.ts` 配置
 - [x] 支持更多其他构建工具，如 rolldown, farm, rspack, nuxt
 - [ ] 支持路由的meta配置
+- [ ] windows 和 linux 的兼容
+- [ ] 集成单元测试
 - [ ] 以上内容的文档更新
 - [ ] 发布 1.0.0 版本
