@@ -29,7 +29,7 @@ declare module "vue-router/auto-routes" {
     "Demo": RouteRecordInfo<"Demo", "/demo", Record<never, never>, Record<never, never>>;
     "Home": RouteRecordInfo<"Home", "/home", Record<never, never>, Record<never, never>>;
     "HomeChild": RouteRecordInfo<"HomeChild", "/home/child", Record<never, never>, Record<never, never>>;
-    "HomeChild5": RouteRecordInfo<"HomeChild5", "/home/child5", Record<never, never>, Record<never, never>>;
+    "HomeChild2": RouteRecordInfo<"HomeChild2", "/home/child2", Record<never, never>, Record<never, never>>;
     "List": RouteRecordInfo<"List", "/list", Record<never, never>, Record<never, never>>;
     "ListAdd": RouteRecordInfo<"ListAdd", "/list/add", Record<never, never>, Record<never, never>>;
     "ListDetail2IdUserId": RouteRecordInfo<"ListDetail2IdUserId", "/list/detail2-:id?-:userId?", { id?: ParamValueZeroOrOne<true>, userId?: ParamValueZeroOrOne<true> }, { id?: ParamValueZeroOrOne<false>, userId?: ParamValueZeroOrOne<false> }>;

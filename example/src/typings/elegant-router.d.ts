@@ -29,7 +29,7 @@ declare module "@elegant-router/types" {
     "Demo": "/demo";
     "Home": "/home";
     "HomeChild": "/home/child";
-    "HomeChild5": "/home/child5";
+    "HomeChild2": "/home/child2";
     "List": "/list";
     "ListAdd": "/list/add";
     "ListDetail2IdUserId": "/list/detail2-:id?-:userId?";

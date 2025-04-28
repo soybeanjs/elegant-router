@@ -49,10 +49,10 @@ export const routes: AutoRouterRoute[] = [
     component: 'HomeChild',
   },
   {
-    name: 'HomeChild5',
-    path: '/home/child5',
+    name: 'HomeChild2',
+    path: '/home/child2',
     layout: 'base',
-    component: 'HomeChild5',
+    component: 'HomeChild2',
   },
   {
     name: 'List',
