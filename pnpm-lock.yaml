@@ -35,6 +35,9 @@ importers:
       unconfig:
         specifier: ^7.3.2
         version: 7.3.2
+      unplugin-utils:
+        specifier: ^0.2.4
+        version: 0.2.4
     devDependencies:
       '@nuxt/kit':
         specifier: ^3.16.2

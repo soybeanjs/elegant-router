@@ -1,5 +1,6 @@
 import process from 'node:process';
 import path from 'node:path';
+import { normalizePath } from 'unplugin-utils';
 import { getImportName, resolveAliasFromTsConfig, resolveImportPath, transformPathToName } from '../shared';
 import type { AutoRouterOptions, ParsedAutoRouterOptions } from '../types';
 
@@ -56,6 +57,8 @@ export function resolveOptions(options?: AutoRouterOptions): ParsedAutoRouterOpt
     customRoute[name] = p;
   });
 
+  restOptions.cwd = normalizePath(restOptions.cwd);
+
   const parsedOptions: ParsedAutoRouterOptions = {
     pageExtension: pageInclude.map(item => item.split('.').pop()!),
     ...restOptions,
@@ -67,9 +70,12 @@ export function resolveOptions(options?: AutoRouterOptions): ParsedAutoRouterOpt
         importName = `${importName}Layout`;
       }
 
+      const iPath = path.resolve(cwd, importPath);
+      const $importPath = normalizePath(resolveImportPath(iPath, restOptions.alias));
+
       return {
         name,
-        importPath: resolveImportPath(path.join(cwd, importPath), restOptions.alias),
+        importPath: $importPath,
         importName,
         isLazy: layoutLazy(name)
       };

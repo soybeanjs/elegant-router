@@ -1,8 +1,8 @@
-import process from 'node:process';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
+import { normalizePath } from 'unplugin-utils';
 
-export function resolveAliasFromTsConfig(cwd: string = process.cwd(), tsconfigPath: string = 'tsconfig.json') {
+export function resolveAliasFromTsConfig(cwd: string, tsconfigPath: string = 'tsconfig.json') {
   const tsConfig = readFileSync(path.resolve(cwd, tsconfigPath), 'utf-8');
 
   let paths: Record<string, string[]> | undefined;
@@ -16,7 +16,7 @@ export function resolveAliasFromTsConfig(cwd: string = process.cwd(), tsconfigPa
   Object.entries(paths ?? {}).forEach(([_key, value]) => {
     const key = _key.replace('/*', '');
 
-    alias[key] = path.join(cwd, value[0].replace('/*', ''));
+    alias[key] = normalizePath(path.join(cwd, value[0].replace('/*', '')));
   });
 
   return alias;

@@ -97,16 +97,17 @@
     "cac": "6.7.14",
     "chokidar": "4.0.3",
     "consola": "3.4.2",
-    "enquirer": "^2.4.1",
+    "enquirer": "2.4.1",
     "kolorist": "1.8.0",
     "picomatch": "4.0.2",
     "tinyglobby": "0.2.13",
     "ts-morph": "25.0.1",
-    "unconfig": "^7.3.2"
+    "unconfig": "7.3.2",
+    "unplugin-utils": "0.2.4"
   },
   "devDependencies": {
-    "@nuxt/kit": "^3.16.2",
-    "@nuxt/schema": "^3.16.2",
+    "@nuxt/kit": "3.16.2",
+    "@nuxt/schema": "3.16.2",
     "@soybeanjs/cli": "1.2.1",
     "@soybeanjs/eslint-config": "1.6.0",
     "@types/node": "22.15.2",

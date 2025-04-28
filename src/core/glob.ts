@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { stat } from 'node:fs/promises';
+import { normalizePath } from 'unplugin-utils';
 import { globSync } from 'tinyglobby';
 import { resolveImportPath } from '../shared';
 import type { ParsedAutoRouterOptions, ResolvedGlob } from '../types';
@@ -40,7 +41,7 @@ export function resolveGlob(glob: string, pageDir: string, options: Pick<ParsedA
 
   const $pageDir = path.resolve(cwd, pageDir);
 
-  const filePath = path.resolve($pageDir, glob);
+  const filePath = normalizePath(path.resolve($pageDir, glob));
   const importPath = resolveImportPath(filePath, alias);
 
   const resolvedGlob: Omit<ResolvedGlob, 'inode'> = {

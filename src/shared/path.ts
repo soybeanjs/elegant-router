@@ -1,14 +1,17 @@
+import { normalizePath } from 'unplugin-utils';
+
 export function resolveImportPath(filePath: string, alias: Record<string, string>) {
-  let iPath = filePath;
+  let iPath = normalizePath(filePath);
 
   const aliasEntries = Object.entries(alias);
 
   aliasEntries.some(item => {
     const [a, dir] = item;
-    const match = iPath.startsWith(dir);
+    const normalizeDir = normalizePath(dir);
+    const match = iPath.startsWith(normalizeDir);
 
     if (match) {
-      iPath = iPath.replace(dir, a);
+      iPath = iPath.replace(normalizeDir, a);
     }
 
     return match;
