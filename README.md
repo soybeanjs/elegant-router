@@ -418,6 +418,40 @@ ElegantRouter({
 
 通过 `watchFile` 配置项可以控制是否启用文件监听功能，`fileUpdateDuration` 配置项则用于设置防抖延迟时间。
 
+### 组件名称注入
+
+插件会自动将路由名称注入到路由文件组件中，这对于 Vue Router 的 KeepAlive 功能至关重要。KeepAlive 依赖于组件名称来正确缓存和恢复组件状态。
+
+支持的组件类型：
+- Vue 单文件组件 (.vue)
+- TSX 组件 (.tsx)
+- JSX 组件 (.jsx)
+
+注入规则：
+1. 如果组件已有 name 属性，则保持不变
+2. 如果组件没有 name 属性，则自动注入路由名称
+3. 路由名称基于文件路径自动生成，遵循 PascalCase 命名规范
+
+例如，对于文件 `src/views/home/index.vue`，会自动注入：
+```vue
+<script setup>
+const _sfc_main = {
+  name: 'Home',  // 自动注入的组件名称
+  // ... 其他组件选项
+}
+</script>
+```
+
+对于 TSX/JSX 组件：
+```tsx
+export default defineComponent({
+  name: 'Home',  // 自动注入的组件名称
+  setup() {
+    return () => <div>Home</div>;
+  }
+});
+```
+
 ### 生成的文件结构
 
 启动项目后，ElegantRouter 会在配置的目录（默认为 `src/router/_generated`）下生成以下文件：

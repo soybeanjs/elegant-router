@@ -418,6 +418,40 @@ The watcher's main features include:
 
 The `watchFile` configuration option controls whether the file watching functionality is enabled, and the `fileUpdateDuration` option sets the debounce delay time.
 
+### Component Name Injection
+
+The plugin automatically injects route names into route file components, which is crucial for Vue Router's KeepAlive functionality. KeepAlive relies on component names to correctly cache and restore component states.
+
+Supported component types:
+- Vue Single File Components (.vue)
+- TSX Components (.tsx)
+- JSX Components (.jsx)
+
+Injection rules:
+1. If a component already has a name property, it remains unchanged
+2. If a component doesn't have a name property, the route name is automatically injected
+3. Route names are automatically generated based on file paths, following PascalCase naming conventions
+
+For example, for the file `src/views/home/index.vue`, it will automatically inject:
+```vue
+<script setup>
+const _sfc_main = {
+  name: 'Home',  // Automatically injected component name
+  // ... other component options
+}
+</script>
+```
+
+For TSX/JSX components:
+```tsx
+export default defineComponent({
+  name: 'Home',  // Automatically injected component name
+  setup() {
+    return () => <div>Home</div>;
+  }
+});
+```
+
 ### Generated File Structure
 
 After starting the project, ElegantRouter generates the following files in the configured directory (default: `src/router/_generated`):
