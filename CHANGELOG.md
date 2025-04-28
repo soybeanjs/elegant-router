@@ -1,6 +1,36 @@
 # Changelog
 
 
+## [v1.0.0-alpha.5](https://github.com/soybeanjs/elegant-router/compare/v1.0.0-alpha.4...v1.0.0-alpha.5) (2025-04-29)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **projects**: support inject route name to route file component &nbsp;-&nbsp; by @soybeanjs [<samp>(2bc28)</samp>](https://github.com/soybeanjs/elegant-router/commit/2bc2829)
+
+### &nbsp;&nbsp;&nbsp;💅 Refactors
+
+- **route**: streamline route updates by consolidating element retrieval and move utility functions to a new module &nbsp;-&nbsp; by @soybeanjs [<samp>(8697a)</samp>](https://github.com/soybeanjs/elegant-router/commit/8697a02)
+- **watcher**: improve file watching logic and simplify directory filtering &nbsp;-&nbsp; by @soybeanjs [<samp>(ad269)</samp>](https://github.com/soybeanjs/elegant-router/commit/ad26958)
+
+### &nbsp;&nbsp;&nbsp;📖 Documentation
+
+- **README**:
+  - update language switch position &nbsp;-&nbsp; by @soybeanjs [<samp>(4d651)</samp>](https://github.com/soybeanjs/elegant-router/commit/4d6512f)
+  - add component name injection details for Vue Router KeepAlive functionality &nbsp;-&nbsp; by @soybeanjs [<samp>(dbe78)</samp>](https://github.com/soybeanjs/elegant-router/commit/dbe7846)
+- **TODO**:
+  - update task &nbsp;-&nbsp; by @soybeanjs [<samp>(90806)</samp>](https://github.com/soybeanjs/elegant-router/commit/90806b8)
+  - update task &nbsp;-&nbsp; by @soybeanjs [<samp>(e9eeb)</samp>](https://github.com/soybeanjs/elegant-router/commit/e9eeb63)
+  - update task &nbsp;-&nbsp; by @soybeanjs [<samp>(12ae5)</samp>](https://github.com/soybeanjs/elegant-router/commit/12ae5af)
+  - update task &nbsp;-&nbsp; by @soybeanjs [<samp>(d2e3f)</samp>](https://github.com/soybeanjs/elegant-router/commit/d2e3f0c)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **dependencies**: update package versions and add unplugin-utils for path normalization &nbsp;-&nbsp; by @soybeanjs [<samp>(0d71d)</samp>](https://github.com/soybeanjs/elegant-router/commit/0d71deb)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v1.0.0-alpha.4](https://github.com/soybeanjs/elegant-router/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2025-04-28)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
