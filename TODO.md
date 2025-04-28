@@ -7,6 +7,7 @@ TODO List:
      - [x] 新增路由文件
      - [x] 删除路由文件
      - [ ] 恢复路由文件
+     - [ ] 新增自定义路由
 - [x] 支持配置文件 `elegant-router.config.ts` 配置
 - [x] 支持更多其他构建工具，如 rolldown, farm, rspack, nuxt
 - [ ] 支持路由的meta配置
