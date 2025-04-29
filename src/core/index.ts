@@ -1,7 +1,7 @@
 import type { ViteDevServer } from 'vite';
 import type { AutoRouterNode, AutoRouterOptions, NodeStatInfo, ParsedAutoRouterOptions, ResolvedGlob } from '../types';
 import { resolveOptions } from './option';
-import { initTempNode, updateTempNode } from './temp';
+import { initTemp, updateTempNode } from './temp';
 import { getNodeStatInfo, resolveNodes } from './node';
 import { generateImportsFile } from './import';
 import { generateDtsFile } from './dts';
@@ -54,12 +54,15 @@ export class AutoRouter {
     this.nodes = resolveNodes(this.globs, this.options);
   }
 
+  async initStatInfo() {
+    this.statInfo = await getNodeStatInfo(this.options.cwd, this.nodes);
+  }
+
   async generate() {
+    await initTemp(this.options.cwd);
     await this.initGlobs();
     await this.initNodes();
-
-    await initTempNode(this.options.cwd);
-    this.statInfo = await getNodeStatInfo(this.options.cwd, this.nodes);
+    await this.initStatInfo();
 
     await generateDtsFile(this.nodes, this.options);
     await generateImportsFile(this.nodes, this.options);

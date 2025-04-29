@@ -4,9 +4,9 @@ import { loadConfig } from 'unconfig';
 import { version } from '../package.json';
 import type { AutoRouterOptions, CliOptions } from './types';
 import { AutoRouter } from './core';
-import { addRouter, removeRouter } from './commands';
+import { addRoute, deleteRoute, recoveryRoute, updateRoute } from './commands';
 
-type CommandType = 'gen' | 'add' | 'rm';
+type CommandType = 'generate' | 'add' | 'delete' | 'recovery' | 'update';
 
 type CommandAction<A extends object> = (args?: A) => Promise<void> | void;
 
@@ -17,11 +17,9 @@ type Command<A extends object = object> = Record<
 
 async function setupCli() {
   const { config } = await loadConfig<CliOptions>({
-    sources: [
-      {
-        files: 'elegant-router.config'
-      }
-    ]
+    sources: {
+      files: 'elegant-router.config'
+    }
   });
 
   const options: AutoRouterOptions = {
@@ -32,8 +30,8 @@ async function setupCli() {
   const cli = cac('er');
 
   const commands: Command = {
-    gen: {
-      shortcut: '-g, --gen',
+    generate: {
+      shortcut: '-g, --generate',
       desc: 'generate router 【生成路由】',
       action: async () => {
         const autoRouter = new AutoRouter(options);
@@ -44,30 +42,30 @@ async function setupCli() {
       shortcut: '-a, --add',
       desc: 'add router 【新增路由】',
       action: async () => {
-        await addRouter(options);
+        await addRoute(options);
       }
     },
-    rm: {
-      shortcut: '-r, --rm',
-      desc: 'remove router 【删除路由】',
+    delete: {
+      shortcut: '-d, --delete',
+      desc: 'delete router 【删除路由】',
       action: async () => {
-        await removeRouter(options);
+        await deleteRoute(options);
+      }
+    },
+    recovery: {
+      shortcut: '-r, --recovery',
+      desc: 'recovery router 【恢复路由】',
+      action: async () => {
+        await recoveryRoute(options);
+      }
+    },
+    update: {
+      shortcut: '-u, --update',
+      desc: 'update router 【更新路由】',
+      action: async () => {
+        await updateRoute(options);
       }
     }
-    // update: {
-    //   shortcut: '-u, --up',
-    //   desc: 'update router 【更新路由】',
-    //   action: async () => {
-    //     await updateRouter(config);
-    //   }
-    // },
-    // restore: {
-    //   shortcut: '-s, --re',
-    //   desc: 'restore router 【恢复路由】',
-    //   action: async () => {
-    //     await restoreRouter(config);
-    //   }
-    // }
   };
 
   for (const [command, { desc, action }] of Object.entries(commands)) {

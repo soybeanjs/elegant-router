@@ -7,6 +7,7 @@ import type { AutoRouterNode, NodeStatInfo, ParsedAutoRouterOptions } from '../t
 import { createPrefixCommentOfGenFile, ensureFile, getStringProperty } from '../shared';
 import { ELEGANT_ROUTER_TYPES_MODULE_NAME, ROOT_ROUTE_NAME } from '../constants';
 import { sortNodeName } from './node';
+import { updateRoutesBackup } from './temp';
 
 export async function generateRoutes(
   nodes: AutoRouterNode[],
@@ -25,10 +26,10 @@ export async function generateRoutes(
     return;
   }
 
-  await updateRoutes(nodes, statInfo, routesPath);
+  await updateRoutes(nodes, statInfo, routesPath, cwd);
 }
 
-async function updateRoutes(nodes: AutoRouterNode[], statInfo: NodeStatInfo, routesPath: string) {
+async function updateRoutes(nodes: AutoRouterNode[], statInfo: NodeStatInfo, routesPath: string, cwd: string) {
   const project = new Project({
     manipulationSettings: {
       indentationText: IndentationText.TwoSpaces,
@@ -69,15 +70,24 @@ async function updateRoutes(nodes: AutoRouterNode[], statInfo: NodeStatInfo, rou
   }
 
   if (deletedNames.length > 0) {
+    const routesToBackup: Record<string, string> = {};
+
     deletedNames.forEach(deletedName => {
-      const index = routesExpression
-        .getElements()
-        .findIndex(el => getRouteStringPropertyValue(el, 'name') === deletedName);
+      const elements = routesExpression.getElements();
+
+      const index = elements.findIndex(el => getRouteStringPropertyValue(el, 'name') === deletedName);
 
       if (index !== -1) {
+        const routeElement = elements[index];
+        const routeText = routeElement.getFullText();
+        routesToBackup[deletedName] = routeText;
         routesExpression.removeElement(index);
       }
     });
+
+    if (Object.keys(routesToBackup).length > 0) {
+      await updateRoutesBackup(cwd, routesToBackup);
+    }
   }
 
   if (updatedNames.length > 0) {
@@ -210,11 +220,11 @@ function getSpace(space: number) {
   return ' '.repeat(space);
 }
 
-function getRawCodeByElements(elements: Expression[]) {
+export function getRawCodeByElements(elements: Expression[]) {
   return elements.map(el => el.getFullText()).join(',');
 }
 
-function sortElements(elements: Expression[]) {
+export function sortElements(elements: Expression[]) {
   return elements.sort((a, b) => {
     const aName = getRouteStringPropertyValue(a, 'name');
     const bName = getRouteStringPropertyValue(b, 'name');

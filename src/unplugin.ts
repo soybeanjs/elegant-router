@@ -6,11 +6,9 @@ import type { AutoRouterNode, AutoRouterOptions } from './types';
 
 export default createUnplugin<Partial<AutoRouterOptions> | undefined>((options, _meta) => {
   const { config } = loadConfig.sync<AutoRouterOptions>({
-    sources: [
-      {
-        files: 'elegant-router.config'
-      }
-    ]
+    sources: {
+      files: 'elegant-router.config'
+    }
   });
 
   const autoRouter = new AutoRouter({ ...options, ...config });
