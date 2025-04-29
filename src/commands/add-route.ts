@@ -8,22 +8,24 @@ import { resolveGlob } from '../core/glob';
 import { ensureFile, logger } from '../shared';
 import type { CliOptions } from '../types';
 
-interface AddRouterPrompt {
+interface AddRoutePrompt {
   file: string;
   layout: string;
   pageDir: string;
 }
 
-export async function addRouter(options: CliOptions) {
+export async function addRoute(options: CliOptions) {
   const autoRouter = new AutoRouter(options);
 
   const resolvedOptions = autoRouter.getOptions();
+
+  await autoRouter.generate();
 
   const { cwd, pageDir: $pageDir } = resolvedOptions;
 
   const pageDirs = Array.isArray($pageDir) ? $pageDir : [$pageDir];
 
-  const result = await enquirer.prompt<AddRouterPrompt>([
+  const result = await enquirer.prompt<AddRoutePrompt>([
     {
       type: 'input',
       name: 'file',
@@ -55,7 +57,8 @@ export async function addRouter(options: CliOptions) {
   await ensureFile(fullPath);
 
   if (existsSync(fullPath)) {
-    throw new Error(`the route file ${fileNameOrPath} already exists`);
+    logger.warn(`the route file ${fileNameOrPath} already exists 【路由文件 ${fileNameOrPath} 已存在】`);
+    return;
   }
 
   validateExtension(fullPath);
@@ -63,6 +66,11 @@ export async function addRouter(options: CliOptions) {
   const resolvedGlob = resolveGlob(fileNameOrPath, pageDir, resolvedOptions);
 
   const node = resolveNode(resolvedGlob, resolvedOptions);
+
+  if (autoRouter.nodes.find(item => item.name === node.name)) {
+    logger.warn(`the route ${node.name} already exists 【路由 ${node.name} 已存在】`);
+    return;
+  }
 
   const template = createTemplate(fullPath, node.name);
 
@@ -76,7 +84,7 @@ export async function addRouter(options: CliOptions) {
 
   await autoRouter.generate();
 
-  logger.success(`the route ${fileNameOrPath} has been added`);
+  logger.success(`the route ${fileNameOrPath} has been added 【路由 ${fileNameOrPath} 已添加】`);
 }
 
 type FileExtension = 'vue' | 'tsx' | 'jsx';
@@ -85,7 +93,7 @@ function getExtension(filepath: string) {
   const extension = filepath.split('.').pop();
 
   if (!extension) {
-    throw new Error(`the route file ${filepath} has no extension`);
+    throw new Error(`the route file ${filepath} has no extension 【路由文件 ${filepath} 没有扩展名】`);
   }
 
   return extension as FileExtension;

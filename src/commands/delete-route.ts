@@ -4,19 +4,19 @@ import { AutoRouter } from '../core';
 import { logger } from '../shared';
 import type { CliOptions } from '../types';
 
-interface RemoveRouterPrompt {
+interface DeleteRoutePrompt {
   routeName: string;
 }
 
-export async function removeRouter(options: CliOptions) {
+export async function deleteRoute(options: CliOptions) {
   const autoRouter = new AutoRouter(options);
 
   await autoRouter.generate();
 
-  const result = await enquirer.prompt<RemoveRouterPrompt>({
+  const result = await enquirer.prompt<DeleteRoutePrompt>({
     type: 'select',
     name: 'routeName',
-    message: 'please select the route name to remove 【选择要删除的路由名称】',
+    message: 'please select the route to delete 【选择要删除的路由】',
     choices: autoRouter.nodes.map(node => node.name)
   });
 
@@ -25,12 +25,13 @@ export async function removeRouter(options: CliOptions) {
   const findNode = autoRouter.nodes.find(node => node.name === routeName);
 
   if (!findNode) {
-    throw new Error(`the route ${routeName} not found`);
+    logger.warn(`the route ${routeName} not found 【路由 ${routeName} 不存在】`);
+    return;
   }
 
   await unlink(findNode.filePath);
 
   await autoRouter.generate();
 
-  logger.success(`the route ${routeName} has been removed`);
+  logger.success(`the route ${routeName} has been deleted 【路由 ${routeName} 已删除】`);
 }
