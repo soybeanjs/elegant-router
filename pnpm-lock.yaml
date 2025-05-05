@@ -18,7 +18,7 @@ importers:
         specifier: 3.4.2
         version: 3.4.2
       enquirer:
-        specifier: ^2.4.1
+        specifier: 2.4.1
         version: 2.4.1
       kolorist:
         specifier: 1.8.0
@@ -33,17 +33,17 @@ importers:
         specifier: 25.0.1
         version: 25.0.1
       unconfig:
-        specifier: ^7.3.2
+        specifier: 7.3.2
         version: 7.3.2
       unplugin-utils:
-        specifier: ^0.2.4
+        specifier: 0.2.4
         version: 0.2.4
     devDependencies:
       '@nuxt/kit':
-        specifier: ^3.16.2
+        specifier: 3.16.2
         version: 3.16.2
       '@nuxt/schema':
-        specifier: ^3.16.2
+        specifier: 3.16.2
         version: 3.16.2
       '@soybeanjs/cli':
         specifier: 1.2.1

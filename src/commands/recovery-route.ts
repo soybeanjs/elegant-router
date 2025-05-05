@@ -1,11 +1,13 @@
 import path from 'node:path';
+import { writeFile } from 'node:fs/promises';
 import enquirer from 'enquirer';
 import { IndentationText, Project, SyntaxKind } from 'ts-morph';
 import { AutoRouter } from '../core';
 import { getRawCodeByElements, sortElements } from '../core/route';
-import { getRoutesBackup, removeRoutesBackup } from '../core/temp';
+import { getRouteBackup, getRouteItemBackup, removeRouteBackup } from '../core/temp';
 import { logger } from '../shared';
 import type { CliOptions } from '../types';
+import { createTemplate } from './add-route';
 
 interface RecoveryRoutePrompt {
   routeName: string;
@@ -18,7 +20,7 @@ export async function recoveryRoute(options: CliOptions) {
 
   const { cwd, routerGeneratedDir } = resolvedOptions;
 
-  const backup = await getRoutesBackup(cwd);
+  const backup = await getRouteBackup(cwd);
 
   const routeNames = Object.keys(backup);
 
@@ -29,9 +31,9 @@ export async function recoveryRoute(options: CliOptions) {
     choices: routeNames
   });
 
-  const recoveryItem = backup[result.routeName] || '';
+  const backupItem = await getRouteItemBackup(cwd, result.routeName);
 
-  if (!recoveryItem) {
+  if (!backupItem) {
     logger.warn(`the route ${result.routeName} not found 【路由 ${result.routeName} 不存在】`);
     return;
   }
@@ -63,23 +65,27 @@ export async function recoveryRoute(options: CliOptions) {
 
   const routesExpression = initializer.asKindOrThrow(SyntaxKind.ArrayLiteralExpression);
 
-  const index = routesExpression.getElements().findIndex(el => el.getText() === recoveryItem);
+  const index = routesExpression.getElements().findIndex(el => el.getText() === backupItem.routeCode);
 
   if (index !== -1) {
     logger.warn(
       `the route ${result.routeName} already exists, skip recovery 【路由 ${result.routeName} 已存在， 无需恢复】`
     );
 
-    await removeRoutesBackup(cwd, result.routeName);
+    await removeRouteBackup(cwd, result.routeName);
     return;
   }
 
-  routesExpression.addElement(recoveryItem);
+  const template = createTemplate(backupItem.filepath, result.routeName);
 
-  const sortedElements = sortElements(routesExpression.getElements());
-  const code = getRawCodeByElements(sortedElements);
+  await writeFile(backupItem.filepath, template, 'utf-8');
 
-  routesExpression.replaceWithText(`[${code}\n]`);
+  // routesExpression.addElement(recoveryItem);
+
+  // const sortedElements = sortElements(routesExpression.getElements());
+  // const code = getRawCodeByElements(sortedElements);
+
+  // routesExpression.replaceWithText(`[${code}\n]`);
 
   await sourceFile.save();
 

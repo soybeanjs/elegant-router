@@ -134,6 +134,13 @@ export interface NodeStatInfo {
   rename: RenamedNode[];
 }
 
+export interface RouteItemBackup {
+  filepath: string;
+  routeCode: string;
+}
+
+export type RouteBackup = Record<string, RouteItemBackup>;
+
 export interface CustomRoute {
   map: Record<string, string>;
   paths: string[];

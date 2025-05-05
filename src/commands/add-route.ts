@@ -111,7 +111,7 @@ function validateExtension(filepath: string) {
   }
 }
 
-function createTemplate(filepath: string, name: string) {
+export function createTemplate(filepath: string, name: string) {
   const extension = getExtension(filepath);
 
   const templateMap: Record<FileExtension, string> = {
