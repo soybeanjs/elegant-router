@@ -2,26 +2,17 @@ import path from 'node:path';
 import { existsSync } from 'node:fs';
 import { readFile, writeFile } from 'node:fs/promises';
 import { ensureFile } from '../shared';
-import type { AutoRouterNode, RouteBackup, RouteItemBackup } from '../types';
+import type { AutoRouterNode, NodeItemBackup, RouteBackup, RouteItemBackup } from '../types';
 
 const TEMP_DIR = '.temp';
 const GIT_IGNORE = '.gitignore';
-const NODE_STATE = '.node-stat.json';
-const ROUTES_BACKUP = '.routes-backup.json';
+const NODE_BACKUP = '.node-backup.json';
+const ROUTE_BACKUP = '.route-backup.json';
 
 export async function initTemp(cwd: string) {
-  await initTempNode(cwd);
   await initGitIgnore(cwd);
+  await initNodeBackup(cwd);
   await initRouteBackup(cwd);
-}
-
-async function initTempNode(cwd: string) {
-  const tempNodePath = getTempNodePath(cwd);
-
-  if (existsSync(tempNodePath)) return;
-
-  await ensureFile(tempNodePath);
-  await writeFile(tempNodePath, '{}');
 }
 
 async function initGitIgnore(cwd: string) {
@@ -38,55 +29,74 @@ async function initGitIgnore(cwd: string) {
   await writeFile(gitIgnorePath, content);
 }
 
-export async function getTempNode(cwd: string) {
-  const tempNodePath = getTempNodePath(cwd);
+async function initNodeBackup(cwd: string) {
+  const nodeBackupPath = getNodeBackupPath(cwd);
 
-  const content = await readFile(tempNodePath, 'utf-8');
+  if (existsSync(nodeBackupPath)) return;
 
-  let stat: Record<string, number> = {};
-
-  try {
-    stat = JSON.parse(content);
-  } catch {
-    stat = {};
-  }
-
-  return stat;
+  await ensureFile(nodeBackupPath);
+  await writeFile(nodeBackupPath, '{}');
 }
 
-export async function updateTempNode(cwd: string, nodes: AutoRouterNode[]) {
-  const tempNodePath = getTempNodePath(cwd);
-  await ensureFile(tempNodePath);
+export async function getNodeBackup(cwd: string) {
+  const nodeBackupPath = getNodeBackupPath(cwd);
 
-  const stat: Record<string, number> = {};
+  const content = await readFile(nodeBackupPath, 'utf-8');
+
+  let backup: Record<string, NodeItemBackup> = {};
+
+  try {
+    backup = JSON.parse(content);
+  } catch {
+    backup = {};
+  }
+
+  return backup;
+}
+
+export async function getNodeBackupItem(cwd: string, name: string): Promise<NodeItemBackup | null> {
+  const backup = await getNodeBackup(cwd);
+
+  return backup[name] || null;
+}
+
+export async function updateNodeBackup(cwd: string, nodes: AutoRouterNode[]) {
+  const nodeBackupPath = getNodeBackupPath(cwd);
+  await ensureFile(nodeBackupPath);
+
+  const backup: Record<string, NodeItemBackup> = {};
 
   for (const node of nodes) {
     const name = node.name;
     const inode = node.inode;
+    const filepath = node.filePath;
 
-    stat[name] = inode;
+    backup[name] = {
+      filepath,
+      inode
+    };
   }
 
-  const content = JSON.stringify(stat, null, 2);
+  const content = JSON.stringify(backup, null, 2);
 
-  await writeFile(tempNodePath, content);
+  await writeFile(nodeBackupPath, content);
 }
 
 async function initRouteBackup(cwd: string) {
-  const routesBackupPath = getRouteBackupPath(cwd);
-  if (existsSync(routesBackupPath)) return;
+  const routeBackupPath = getRouteBackupPath(cwd);
+  if (existsSync(routeBackupPath)) return;
 
-  await ensureFile(routesBackupPath);
-  await writeFile(routesBackupPath, '{}');
+  await ensureFile(routeBackupPath);
+  await writeFile(routeBackupPath, '{}');
 }
 
 export async function getRouteBackup(cwd: string) {
-  const routesBackupPath = getRouteBackupPath(cwd);
+  const routeBackupPath = getRouteBackupPath(cwd);
 
   let backup: RouteBackup = {};
 
   try {
-    const content = await readFile(routesBackupPath, 'utf-8');
+    const content = await readFile(routeBackupPath, 'utf-8');
     backup = JSON.parse(content);
   } catch {
     backup = {};
@@ -101,11 +111,11 @@ export async function getRouteItemBackup(cwd: string, routeName: string): Promis
   return backup[routeName] || null;
 }
 
-export async function updateRouteBackup(cwd: string, routes: RouteBackup) {
+export async function updateRouteBackup(cwd: string, routeBackup: RouteBackup) {
   await initRouteBackup(cwd);
 
   const backup = await getRouteBackup(cwd);
-  Object.assign(backup, routes);
+  Object.assign(backup, routeBackup);
 
   await writeRouteBackup(cwd, backup);
 }
@@ -121,13 +131,13 @@ export async function removeRouteBackup(cwd: string, routeName: string) {
 }
 
 async function writeRouteBackup(cwd: string, backup: RouteBackup) {
-  const routesBackupPath = getRouteBackupPath(cwd);
+  const routeBackupPath = getRouteBackupPath(cwd);
   const content = JSON.stringify(backup, null, 2);
-  await writeFile(routesBackupPath, content);
+  await writeFile(routeBackupPath, content);
 }
 
-function getTempNodePath(cwd: string) {
-  return path.resolve(cwd, TEMP_DIR, NODE_STATE);
+function getNodeBackupPath(cwd: string) {
+  return path.resolve(cwd, TEMP_DIR, NODE_BACKUP);
 }
 
 function getGitIgnorePath(cwd: string) {
@@ -135,5 +145,5 @@ function getGitIgnorePath(cwd: string) {
 }
 
 function getRouteBackupPath(cwd: string) {
-  return path.resolve(cwd, TEMP_DIR, ROUTES_BACKUP);
+  return path.resolve(cwd, TEMP_DIR, ROUTE_BACKUP);
 }

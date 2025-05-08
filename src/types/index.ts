@@ -129,6 +129,11 @@ interface RenamedNode extends AutoRouterNode {
   oldNodeName: string;
 }
 
+export interface NodeItemBackup {
+  filepath: string;
+  inode: number;
+}
+
 export interface NodeStatInfo {
   add: AutoRouterNode[];
   rename: RenamedNode[];

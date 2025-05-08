@@ -8,7 +8,7 @@ import type {
   ParsedAutoRouterOptions,
   ResolvedGlob
 } from '../types';
-import { getTempNode } from './temp';
+import { getNodeBackup } from './temp';
 
 export function resolveNodes(globs: ResolvedGlob[], options: ParsedAutoRouterOptions) {
   const nodes = globs.map(glob => resolveNode(glob, options));
@@ -52,8 +52,8 @@ export function sortNodeName(preName: string, curName: string) {
 }
 
 export async function getNodeStatInfo(cwd: string, nodes: AutoRouterNode[]) {
-  const preStat = await getTempNode(cwd);
-  const preStatInodes = Object.values(preStat);
+  const preStat = await getNodeBackup(cwd);
+  const preStatInodes = Object.values(preStat).map(item => item.inode);
 
   const info: NodeStatInfo = {
     add: [],
@@ -73,7 +73,7 @@ export async function getNodeStatInfo(cwd: string, nodes: AutoRouterNode[]) {
     }
 
     if (preStatInodes.includes(inode)) {
-      const oldNodeName = Object.entries(preStat).find(([_, ino]) => ino === inode)?.[0];
+      const oldNodeName = Object.entries(preStat).find(([_, item]) => item.inode === inode)?.[0];
 
       if (oldNodeName && oldNodeName !== name) {
         info.rename.push({ ...node, oldNodeName });

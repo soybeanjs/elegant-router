@@ -2,12 +2,12 @@ import path from 'node:path';
 import { existsSync } from 'node:fs';
 import { writeFile } from 'node:fs/promises';
 import { IndentationText, Project, SyntaxKind } from 'ts-morph';
-import type { Expression } from 'ts-morph';
-import type { AutoRouterNode, NodeStatInfo, ParsedAutoRouterOptions } from '../types';
-import { createPrefixCommentOfGenFile, ensureFile, getStringProperty } from '../shared';
+import type { ArrayLiteralExpression, Expression, SourceFile } from 'ts-morph';
+import { createPrefixCommentOfGenFile, ensureFile, getStringProperty, updateStringProperty } from '../shared';
 import { ELEGANT_ROUTER_TYPES_MODULE_NAME, ROOT_ROUTE_NAME } from '../constants';
+import type { AutoRouterNode, NodeStatInfo, ParsedAutoRouterOptions, RouteBackup } from '../types';
 import { sortNodeName } from './node';
-import { updateRoutesBackup } from './temp';
+import { getNodeBackupItem, updateRouteBackup } from './temp';
 
 export async function generateRoutes(
   nodes: AutoRouterNode[],
@@ -30,6 +30,84 @@ export async function generateRoutes(
 }
 
 async function updateRoutes(nodes: AutoRouterNode[], statInfo: NodeStatInfo, routesPath: string, cwd: string) {
+  const { sourceFile, routesExpression } = await getRouteSourceFile(routesPath);
+
+  const namePathMap = getNamePathMap(routesExpression.getElements());
+
+  const { createdNames, deletedNames, updatedNames } = getRouteStatInfo(nodes, namePathMap, statInfo);
+
+  if (createdNames.length > 0) {
+    const createdRoutes = nodes.filter(node => createdNames.includes(node.name));
+
+    createdRoutes.forEach(node => {
+      const routeStr = createRouteString(node, 0);
+
+      routesExpression.addElement(routeStr);
+    });
+  }
+
+  if (deletedNames.length > 0) {
+    const routeBackup: RouteBackup = {};
+
+    for await (const deletedName of deletedNames) {
+      const elements = routesExpression.getElements();
+
+      const index = elements.findIndex(el => getRouteStringPropertyValue(el, 'name') === deletedName);
+
+      if (index !== -1) {
+        const routeElement = elements[index];
+        const routeText = routeElement.getFullText();
+
+        const nodeBackupItem = await getNodeBackupItem(cwd, deletedName);
+
+        if (nodeBackupItem) {
+          routeBackup[deletedName] = {
+            filepath: nodeBackupItem.filepath,
+            routeCode: routeText
+          };
+        }
+
+        routesExpression.removeElement(index);
+      }
+    }
+
+    if (Object.keys(routeBackup).length > 0) {
+      await updateRouteBackup(cwd, routeBackup);
+    }
+  }
+
+  if (updatedNames.length > 0) {
+    const updatedRoutes = nodes.filter(node => {
+      return updatedNames.some(item => item.name === node.name);
+    });
+
+    updatedRoutes.forEach(node => {
+      const oldName = updatedNames.find(item => item.name === node.name)?.oldName;
+
+      const routeElement = routesExpression
+        .getElements()
+        .find(el => getRouteStringPropertyValue(el, 'name') === oldName);
+
+      if (!routeElement?.isKind(SyntaxKind.ObjectLiteralExpression)) return;
+
+      // 更新路由名称
+      updateStringProperty(routeElement, 'name', node.name);
+
+      // 更新路由路径
+      updateStringProperty(routeElement, 'path', node.path);
+
+      // 更新组件
+      updateStringProperty(routeElement, 'component', node.component);
+
+      // 更新布局
+      updateStringProperty(routeElement, 'layout', node.layout);
+    });
+  }
+
+  await saveRouteSourceFile(sourceFile, routesExpression);
+}
+
+export async function getRouteSourceFile(routesPath: string) {
   const project = new Project({
     manipulationSettings: {
       indentationText: IndentationText.TwoSpaces,
@@ -55,84 +133,13 @@ async function updateRoutes(nodes: AutoRouterNode[], statInfo: NodeStatInfo, rou
 
   const routesExpression = initializer.asKindOrThrow(SyntaxKind.ArrayLiteralExpression);
 
-  const namePathMap = getNamePathMap(routesExpression.getElements());
+  return {
+    sourceFile,
+    routesExpression
+  };
+}
 
-  const { createdNames, deletedNames, updatedNames } = getRouteStatInfo(nodes, namePathMap, statInfo);
-
-  if (createdNames.length > 0) {
-    const createdRoutes = nodes.filter(node => createdNames.includes(node.name));
-
-    createdRoutes.forEach(node => {
-      const routeStr = createRouteString(node, 0);
-
-      routesExpression.addElement(routeStr);
-    });
-  }
-
-  if (deletedNames.length > 0) {
-    const routesToBackup: Record<string, string> = {};
-
-    deletedNames.forEach(deletedName => {
-      const elements = routesExpression.getElements();
-
-      const index = elements.findIndex(el => getRouteStringPropertyValue(el, 'name') === deletedName);
-
-      if (index !== -1) {
-        const routeElement = elements[index];
-        const routeText = routeElement.getFullText();
-        routesToBackup[deletedName] = routeText;
-        routesExpression.removeElement(index);
-      }
-    });
-
-    if (Object.keys(routesToBackup).length > 0) {
-      await updateRoutesBackup(cwd, routesToBackup);
-    }
-  }
-
-  if (updatedNames.length > 0) {
-    const updatedRoutes = nodes.filter(node => {
-      return updatedNames.some(item => item.name === node.name);
-    });
-
-    updatedRoutes.forEach(node => {
-      const oldName = updatedNames.find(item => item.name === node.name)?.oldName;
-
-      const routeElement = routesExpression
-        .getElements()
-        .find(el => getRouteStringPropertyValue(el, 'name') === oldName);
-
-      if (!routeElement?.isKind(SyntaxKind.ObjectLiteralExpression)) return;
-
-      // 更新路由名称
-      const nameInitializer = getStringProperty(routeElement, 'name');
-
-      if (nameInitializer) {
-        nameInitializer.replaceWithText(`'${node.name}'`);
-      }
-
-      // 更新路由路径
-      const pathProperty = getStringProperty(routeElement, 'path');
-      if (pathProperty) {
-        pathProperty.replaceWithText(`'${node.path}'`);
-      }
-
-      // 更新组件
-      if (node.component) {
-        const componentProperty = getStringProperty(routeElement, 'component');
-        if (componentProperty) {
-          componentProperty.replaceWithText(`'${node.component}'`);
-        } else {
-          // 如果没有component属性，添加一个
-          routeElement.addPropertyAssignment({
-            name: 'component',
-            initializer: `'${node.component}'`
-          });
-        }
-      }
-    });
-  }
-
+export async function saveRouteSourceFile(sourceFile: SourceFile, routesExpression: ArrayLiteralExpression) {
   const sortedElements = sortElements(routesExpression.getElements());
   const code = getRawCodeByElements(sortedElements);
 

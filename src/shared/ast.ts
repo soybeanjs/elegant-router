@@ -18,3 +18,10 @@ export function getStringProperty(element: Expression, propertyName: string) {
 
   return value;
 }
+
+export function updateStringProperty(element: Expression, propertyName: string, newValue: string) {
+  const value = getStringProperty(element, propertyName);
+  if (!value) return;
+
+  value.replaceWithText(`'${newValue}'`);
+}
