@@ -10,7 +10,8 @@ export default defineConfig(
           ignores: ['index', 'App', '[id]']
         }
       ],
-      'max-params': ['error', 4]
+      'max-params': ['error', 4],
+      'no-continue': 'off'
     }
   }
 );

@@ -4,7 +4,7 @@ import enquirer from 'enquirer';
 import { SyntaxKind } from 'ts-morph';
 import { AutoRouter } from '../core';
 import { getRouteSourceFile, getRouteStringPropertyValue, saveRouteSourceFile } from '../core/route';
-import { getRouteBackup, getRouteItemBackup, removeRouteBackup } from '../core/temp';
+import { getRouteBackup, getRouteItemBackup } from '../core/temp';
 import { logger } from '../shared';
 import type { CliOptions } from '../types';
 import { createTemplate } from './add-route';
@@ -40,26 +40,19 @@ export async function recoveryRoute(options: CliOptions) {
 
   const routesPath = path.posix.join(cwd, routerGeneratedDir, 'routes.ts');
 
-  const { sourceFile, routesExpression } = await getRouteSourceFile(routesPath);
-
-  const index = routesExpression
-    .getElements()
-    .findIndex(el => getRouteStringPropertyValue(el, 'name') === result.routeName);
-
-  if (index !== -1) {
-    logger.warn(
-      `the route ${result.routeName} already exists, skip recovery 【路由 ${result.routeName} 已存在， 无需恢复】`
-    );
-
-    await removeRouteBackup(cwd, result.routeName);
-    return;
-  }
+  const { sourceFile, getRoutesExpression } = await getRouteSourceFile(routesPath);
 
   const template = createTemplate(backupItem.filepath, result.routeName);
 
   await writeFile(backupItem.filepath, template, 'utf-8');
 
+  await new Promise(resolve => {
+    setTimeout(resolve, 1000);
+  });
+
   await sourceFile.refreshFromFileSystem();
+
+  const routesExpression = getRoutesExpression();
 
   const routeElement = routesExpression
     .getElements()
@@ -68,6 +61,8 @@ export async function recoveryRoute(options: CliOptions) {
   if (!routeElement?.isKind(SyntaxKind.ObjectLiteralExpression)) return;
 
   routeElement.replaceWithText(backupItem.routeCode);
+
+  routeElement.formatText({ indentSize: 2 });
 
   await saveRouteSourceFile(sourceFile, routesExpression);
 

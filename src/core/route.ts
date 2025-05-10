@@ -30,7 +30,9 @@ export async function generateRoutes(
 }
 
 async function updateRoutes(nodes: AutoRouterNode[], statInfo: NodeStatInfo, routesPath: string, cwd: string) {
-  const { sourceFile, routesExpression } = await getRouteSourceFile(routesPath);
+  const { sourceFile, getRoutesExpression } = await getRouteSourceFile(routesPath);
+
+  const routesExpression = getRoutesExpression();
 
   const namePathMap = getNamePathMap(routesExpression.getElements());
 
@@ -50,25 +52,27 @@ async function updateRoutes(nodes: AutoRouterNode[], statInfo: NodeStatInfo, rou
     const routeBackup: RouteBackup = {};
 
     for await (const deletedName of deletedNames) {
-      const elements = routesExpression.getElements();
+      const nodeBackupItem = await getNodeBackupItem(cwd, deletedName);
 
+      if (!nodeBackupItem) continue;
+
+      const elements = routesExpression.getElements();
       const index = elements.findIndex(el => getRouteStringPropertyValue(el, 'name') === deletedName);
 
-      if (index !== -1) {
-        const routeElement = elements[index];
-        const routeText = routeElement.getFullText();
+      if (index === -1) continue;
 
-        const nodeBackupItem = await getNodeBackupItem(cwd, deletedName);
+      const routeElement = elements[index];
 
-        if (nodeBackupItem) {
-          routeBackup[deletedName] = {
-            filepath: nodeBackupItem.filepath,
-            routeCode: routeText
-          };
-        }
-
-        routesExpression.removeElement(index);
+      let routeText = routeElement.getFullText();
+      if (routeText.startsWith('\n')) {
+        routeText = routeText.slice(1);
       }
+      routeBackup[deletedName] = {
+        filepath: nodeBackupItem.filepath,
+        routeCode: routeText
+      };
+
+      routesExpression.removeElement(index);
     }
 
     if (Object.keys(routeBackup).length > 0) {
@@ -117,25 +121,27 @@ export async function getRouteSourceFile(routesPath: string) {
 
   const sourceFile = project.addSourceFileAtPath(routesPath);
 
-  const routes = sourceFile.getVariableDeclaration('routes');
+  function getRoutesExpression() {
+    const routes = sourceFile.getVariableDeclaration('routes');
 
-  const error = 'routes.ts content is not valid 【文件routes.ts内容不合法，请直接删除重新生成】';
+    const error = 'routes.ts content is not valid 【文件routes.ts内容不合法，请直接删除重新生成】';
 
-  if (!routes) {
-    throw new Error(error);
+    if (!routes) {
+      throw new Error(error);
+    }
+
+    const initializer = routes.getInitializer();
+
+    if (!initializer?.isKind(SyntaxKind.ArrayLiteralExpression)) {
+      throw new Error(error);
+    }
+
+    return initializer.asKindOrThrow(SyntaxKind.ArrayLiteralExpression);
   }
-
-  const initializer = routes.getInitializer();
-
-  if (!initializer?.isKind(SyntaxKind.ArrayLiteralExpression)) {
-    throw new Error(error);
-  }
-
-  const routesExpression = initializer.asKindOrThrow(SyntaxKind.ArrayLiteralExpression);
 
   return {
     sourceFile,
-    routesExpression
+    getRoutesExpression
   };
 }
 
