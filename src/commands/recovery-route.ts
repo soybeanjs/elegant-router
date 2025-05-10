@@ -1,9 +1,9 @@
 import path from 'node:path';
 import { writeFile } from 'node:fs/promises';
 import enquirer from 'enquirer';
-import { IndentationText, Project, SyntaxKind } from 'ts-morph';
+import { SyntaxKind } from 'ts-morph';
 import { AutoRouter } from '../core';
-import { getRawCodeByElements, sortElements } from '../core/route';
+import { getRouteSourceFile, getRouteStringPropertyValue, saveRouteSourceFile } from '../core/route';
 import { getRouteBackup, getRouteItemBackup, removeRouteBackup } from '../core/temp';
 import { logger } from '../shared';
 import type { CliOptions } from '../types';
@@ -40,32 +40,11 @@ export async function recoveryRoute(options: CliOptions) {
 
   const routesPath = path.posix.join(cwd, routerGeneratedDir, 'routes.ts');
 
-  const project = new Project({
-    manipulationSettings: {
-      indentationText: IndentationText.TwoSpaces,
-      useTrailingCommas: false
-    }
-  });
+  const { sourceFile, routesExpression } = await getRouteSourceFile(routesPath);
 
-  const sourceFile = project.addSourceFileAtPath(routesPath);
-
-  const routes = sourceFile.getVariableDeclaration('routes');
-
-  if (!routes) {
-    logger.error('routes.ts content is not valid 【文件routes.ts内容不合法，请直接删除重新生成】');
-    return;
-  }
-
-  const initializer = routes.getInitializer();
-
-  if (!initializer?.isKind(SyntaxKind.ArrayLiteralExpression)) {
-    logger.error('routes.ts content is not valid 【文件routes.ts内容不合法，请直接删除重新生成】');
-    return;
-  }
-
-  const routesExpression = initializer.asKindOrThrow(SyntaxKind.ArrayLiteralExpression);
-
-  const index = routesExpression.getElements().findIndex(el => el.getText() === backupItem.routeCode);
+  const index = routesExpression
+    .getElements()
+    .findIndex(el => getRouteStringPropertyValue(el, 'name') === result.routeName);
 
   if (index !== -1) {
     logger.warn(
@@ -80,14 +59,17 @@ export async function recoveryRoute(options: CliOptions) {
 
   await writeFile(backupItem.filepath, template, 'utf-8');
 
-  // routesExpression.addElement(recoveryItem);
+  await sourceFile.refreshFromFileSystem();
 
-  // const sortedElements = sortElements(routesExpression.getElements());
-  // const code = getRawCodeByElements(sortedElements);
+  const routeElement = routesExpression
+    .getElements()
+    .find(el => getRouteStringPropertyValue(el, 'name') === result.routeName);
 
-  // routesExpression.replaceWithText(`[${code}\n]`);
+  if (!routeElement?.isKind(SyntaxKind.ObjectLiteralExpression)) return;
 
-  await sourceFile.save();
+  routeElement.replaceWithText(backupItem.routeCode);
+
+  await saveRouteSourceFile(sourceFile, routesExpression);
 
   logger.success(`the route ${result.routeName} has been recovered 【路由 ${result.routeName} 已恢复】`);
 }

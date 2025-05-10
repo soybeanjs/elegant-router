@@ -248,7 +248,7 @@ function getRouteStringProperty(element: Expression, propertyName: string) {
   return getStringProperty(element, propertyName);
 }
 
-function getRouteStringPropertyValue(element: Expression, propertyName: string) {
+export function getRouteStringPropertyValue(element: Expression, propertyName: string) {
   const value = getRouteStringProperty(element, propertyName);
 
   if (!value) return null;
