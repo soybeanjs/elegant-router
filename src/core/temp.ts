@@ -8,11 +8,13 @@ const TEMP_DIR = '.temp';
 const GIT_IGNORE = '.gitignore';
 const NODE_BACKUP = '.node-backup.json';
 const ROUTE_BACKUP = '.route-backup.json';
+const EXCLUDE_GLOB = '.exclude-glob.json';
 
 export async function initTemp(cwd: string) {
   await initGitIgnore(cwd);
   await initNodeBackup(cwd);
   await initRouteBackup(cwd);
+  await initExcludeGlob(cwd);
 }
 
 async function initGitIgnore(cwd: string) {
@@ -146,4 +148,54 @@ function getGitIgnorePath(cwd: string) {
 
 function getRouteBackupPath(cwd: string) {
   return path.resolve(cwd, TEMP_DIR, ROUTE_BACKUP);
+}
+
+async function initExcludeGlob(cwd: string) {
+  const excludeGlobPath = getExcludeGlobPath(cwd);
+  if (existsSync(excludeGlobPath)) return;
+
+  await ensureFile(excludeGlobPath);
+  await writeFile(excludeGlobPath, '[]');
+}
+
+export async function getExcludeGlob(cwd: string) {
+  const excludeGlobPath = getExcludeGlobPath(cwd);
+
+  let excludeGlobs: string[] = [];
+
+  try {
+    const content = await readFile(excludeGlobPath, 'utf-8');
+    excludeGlobs = JSON.parse(content);
+  } catch {
+    excludeGlobs = [];
+  }
+
+  return excludeGlobs;
+}
+
+export async function addExcludeGlob(cwd: string, glob: string) {
+  const excludeGlobs = await getExcludeGlob(cwd);
+  excludeGlobs.push(glob);
+  await writeFile(getExcludeGlobPath(cwd), JSON.stringify(excludeGlobs, null, 2));
+}
+
+export async function removeExcludeGlob(cwd: string, glob: string) {
+  const excludeGlobs = await getExcludeGlob(cwd);
+  const newExcludeGlobs = excludeGlobs.filter(g => g !== glob);
+  await writeFile(getExcludeGlobPath(cwd), JSON.stringify(newExcludeGlobs, null, 2));
+}
+
+export async function resetExcludeGlob(cwd: string) {
+  const excludeGlobPath = getExcludeGlobPath(cwd);
+  await ensureFile(excludeGlobPath);
+  await writeFile(excludeGlobPath, '[]');
+}
+
+export async function isInExcludeGlob(cwd: string, glob: string) {
+  const excludeGlobs = await getExcludeGlob(cwd);
+  return excludeGlobs.includes(glob);
+}
+
+function getExcludeGlobPath(cwd: string) {
+  return path.resolve(cwd, TEMP_DIR, EXCLUDE_GLOB);
 }

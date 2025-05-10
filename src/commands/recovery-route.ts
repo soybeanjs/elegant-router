@@ -4,7 +4,7 @@ import enquirer from 'enquirer';
 import { SyntaxKind } from 'ts-morph';
 import { AutoRouter } from '../core';
 import { getRouteSourceFile, getRouteStringPropertyValue, saveRouteSourceFile } from '../core/route';
-import { getRouteBackup, getRouteItemBackup } from '../core/temp';
+import { addExcludeGlob, getRouteBackup, getRouteItemBackup, removeExcludeGlob } from '../core/temp';
 import { logger } from '../shared';
 import type { CliOptions } from '../types';
 import { createTemplate } from './add-route';
@@ -42,13 +42,17 @@ export async function recoveryRoute(options: CliOptions) {
 
   const { sourceFile, getRoutesExpression } = await getRouteSourceFile(routesPath);
 
+  const excludeGlob = backupItem.filepath.replace(`${cwd}/`, '');
+
+  await addExcludeGlob(cwd, excludeGlob);
+
   const template = createTemplate(backupItem.filepath, result.routeName);
 
   await writeFile(backupItem.filepath, template, 'utf-8');
 
-  await new Promise(resolve => {
-    setTimeout(resolve, 1000);
-  });
+  await autoRouter.generate();
+
+  await removeExcludeGlob(cwd, excludeGlob);
 
   await sourceFile.refreshFromFileSystem();
 

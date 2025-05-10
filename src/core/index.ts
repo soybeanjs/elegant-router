@@ -1,7 +1,7 @@
 import type { ViteDevServer } from 'vite';
 import type { AutoRouterNode, AutoRouterOptions, NodeStatInfo, ParsedAutoRouterOptions, ResolvedGlob } from '../types';
 import { resolveOptions } from './option';
-import { initTemp, updateNodeBackup } from './temp';
+import { initTemp, isInExcludeGlob, updateNodeBackup } from './temp';
 import { getNodeStatInfo, resolveNodes } from './node';
 import { generateImportsFile } from './import';
 import { generateDtsFile } from './dts';
@@ -75,7 +75,11 @@ export class AutoRouter {
 
   async watch() {
     this.watcher = new FileWatcher(this.options);
-    this.watcher?.start(async () => {
+    this.watcher?.start(async glob => {
+      const isInExclude = await isInExcludeGlob(this.options.cwd, glob);
+
+      if (isInExclude) return;
+
       await this.generate();
     });
   }
