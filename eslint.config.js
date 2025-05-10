@@ -11,7 +11,8 @@ export default defineConfig(
         }
       ],
       'max-params': ['error', 4],
-      'no-continue': 'off'
+      'no-continue': 'off',
+      'class-methods-use-this': 'off'
     }
   }
 );
