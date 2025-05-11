@@ -11,95 +11,143 @@ export const routes: AutoRouterRoute[] = [
     name: 'Root',
     path: '/',
     redirect: '/home',
+    meta: {
+      title: "Root"
+    },
   },
   {
     name: 'NotFound',
     path: '/:pathMatch(.*)*',
-    layout: 'blank',
+    layout: 'base',
     component: '404',
+    meta: {
+      title: "NotFound"
+    },
   },
   {
     name: '403',
     path: '/403',
-    layout: 'blank',
+    layout: 'base',
     component: '403',
+    meta: {
+      title: "403"
+    },
   },
   {
     name: '404',
     path: '/404',
-    layout: 'blank',
+    layout: 'base',
     component: '404',
+    meta: {
+      title: "404"
+    },
   },
   {
     name: 'Demo',
     path: '/demo',
     layout: 'base',
     component: 'Demo',
+    meta: {
+      title: "Demo"
+    },
   },
   {
     name: 'Home',
     path: '/home',
     layout: 'base',
     component: 'Home',
+    meta: {
+      title: "Home"
+    },
   },
   {
     name: 'HomeChild',
     path: '/home/child',
     layout: 'base',
     component: 'HomeChild',
+    meta: {
+      title: "HomeChild"
+    },
   },
   {
     name: 'HomeChild2',
     path: '/home/child2',
     layout: 'base',
     component: 'HomeChild2',
+    meta: {
+      title: "HomeChild2"
+    },
   },
   {
     name: 'List',
     path: '/list',
     layout: 'base',
     component: 'List',
+    meta: {
+      title: "List"
+    },
   },
   {
     name: 'ListAdd',
     path: '/list/add',
     layout: 'base',
     component: 'ListAdd',
+    meta: {
+      title: "ListAdd"
+    },
   },
   {
     name: 'ListDetail2IdUserId',
     path: '/list/detail2-:id?-:userId?',
     layout: 'base',
     component: 'ListDetail2IdUserId',
+    meta: {
+      title: "ListDetail2IdUserId"
+    },
   },
   {
     name: 'ListDetailIdUserId',
     path: '/list/detail/:id/:userId',
     layout: 'base',
     component: 'ListDetailIdUserId',
+    meta: {
+      title: "ListDetailIdUserId"
+    },
   },
   {
     name: 'ListEditId',
     path: '/list/edit/:id',
     layout: 'base',
     component: 'ListEditId',
+    meta: {
+      title: "ListEditId"
+    },
   },
   {
     name: 'ListId',
     path: '/list/:id',
     layout: 'base',
     component: 'ListId',
+    meta: {
+      title: "ListId"
+    },
   },
   {
     name: 'Login',
     path: '/login',
     layout: 'base',
     component: 'Login',
+    meta: {
+      title: "Login"
+    },
   },
   {
     name: 'Wip',
     path: '/wip',
     layout: 'base',
     component: 'Wip',
+    meta: {
+      title: "Wip"
+    },
   }
 ];

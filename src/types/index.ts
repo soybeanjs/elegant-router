@@ -340,6 +340,21 @@ export interface AutoRouterOptions {
    * @default true
    */
   routeLazy?: (node: AutoRouterNode) => boolean;
+  /**
+   * the function to generate the meta of the route
+   *
+   * 生成路由的 meta 函数, 只会覆盖不存在的 meta 属性
+   *
+   * @example
+   *   ```ts
+   *     getRouteMeta: (node) => {
+   *       return {
+   *         title: node.name
+   *       }
+   *     }
+   *   ```;
+   */
+  getRouteMeta?: (node: AutoRouterNode) => Record<string, any> | null;
 }
 
 export type CliOptions = Omit<AutoRouterOptions, 'watchFile' | 'fileUpdateDuration'>;

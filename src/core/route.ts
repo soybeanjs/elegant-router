@@ -3,7 +3,13 @@ import { existsSync } from 'node:fs';
 import { writeFile } from 'node:fs/promises';
 import { IndentationText, Project, SyntaxKind } from 'ts-morph';
 import type { ArrayLiteralExpression, Expression, SourceFile } from 'ts-morph';
-import { createPrefixCommentOfGenFile, ensureFile, getStringProperty, updateStringProperty } from '../shared';
+import {
+  createPrefixCommentOfGenFile,
+  ensureFile,
+  getObjectProperty,
+  getStringProperty,
+  updateStringProperty
+} from '../shared';
 import { ELEGANT_ROUTER_TYPES_MODULE_NAME, ROOT_ROUTE_NAME } from '../constants';
 import type { AutoRouterNode, NodeStatInfo, ParsedAutoRouterOptions, RouteBackup } from '../types';
 import { sortNodeName } from './node';
@@ -20,16 +26,36 @@ export async function generateRoutes(
   await ensureFile(routesPath);
 
   if (!existsSync(routesPath)) {
-    const code = await createEmptyRoutes(nodes, options.rootRedirect);
+    const code = await createInitRoutesCode();
     await writeFile(routesPath, code);
+
+    await initRoutes(nodes, routesPath, options);
 
     return;
   }
 
-  await updateRoutes(nodes, statInfo, routesPath, cwd);
+  await updateRoutes(nodes, statInfo, routesPath, options);
 }
 
-async function updateRoutes(nodes: AutoRouterNode[], statInfo: NodeStatInfo, routesPath: string, cwd: string) {
+async function initRoutes(nodes: AutoRouterNode[], routesPath: string, options: ParsedAutoRouterOptions) {
+  const { sourceFile, getRoutesExpression } = await getRouteSourceFile(routesPath);
+
+  const routesExpression = getRoutesExpression();
+
+  const code = await createRoutesCodeByNodes(nodes, options);
+
+  routesExpression.replaceWithText(code);
+
+  await saveRouteSourceFile(sourceFile, routesExpression);
+}
+
+async function updateRoutes(
+  nodes: AutoRouterNode[],
+  statInfo: NodeStatInfo,
+  routesPath: string,
+  options: ParsedAutoRouterOptions
+) {
+  const { cwd, getRouteMeta } = options;
   const { sourceFile, getRoutesExpression } = await getRouteSourceFile(routesPath);
 
   const routesExpression = getRoutesExpression();
@@ -42,7 +68,7 @@ async function updateRoutes(nodes: AutoRouterNode[], statInfo: NodeStatInfo, rou
     const createdRoutes = nodes.filter(node => createdNames.includes(node.name));
 
     createdRoutes.forEach(node => {
-      const routeStr = createRouteString(node, 0);
+      const routeStr = createRouteString(node);
 
       routesExpression.addElement(routeStr);
     });
@@ -108,6 +134,17 @@ async function updateRoutes(nodes: AutoRouterNode[], statInfo: NodeStatInfo, rou
     });
   }
 
+  nodes.forEach(node => {
+    const routeElement = routesExpression
+      .getElements()
+      .find(el => getRouteStringPropertyValue(el, 'name') === node.name);
+
+    if (!routeElement?.isKind(SyntaxKind.ObjectLiteralExpression)) return;
+
+    // 更新路由元信息
+    updateMetaProperty(routeElement, getRouteMeta?.(node));
+  });
+
   await saveRouteSourceFile(sourceFile, routesExpression);
 }
 
@@ -151,6 +188,10 @@ export async function saveRouteSourceFile(sourceFile: SourceFile, routesExpressi
 
   routesExpression.replaceWithText(`[${code}\n]`);
 
+  routesExpression.formatText({
+    indentSize: 2
+  });
+
   await sourceFile.save();
 }
 
@@ -192,45 +233,87 @@ function getRouteStatInfo(nodes: AutoRouterNode[], namePathMap: Map<string, stri
   };
 }
 
-async function createEmptyRoutes(nodes: AutoRouterNode[], rootRedirect: string) {
+async function createInitRoutesCode() {
   const preCode = createPrefixCommentOfGenFile();
 
   const code = `${preCode}
 
 import type { AutoRouterRoute } from '${ELEGANT_ROUTER_TYPES_MODULE_NAME}';
 
-export const routes: AutoRouterRoute[] = [
-${nodes.map(node => createRouteString(node, 2, rootRedirect)).join('\n')}
-];
+export const routes: AutoRouterRoute[] = [];
 `;
 
   return code;
 }
 
-function createRouteString(node: AutoRouterNode, space = 2, rootRedirect?: string) {
-  let code = `${getSpace(space)}{
-${getSpace(space + 2)}name: '${node.name}',
-${getSpace(space + 2)}path: '${node.path}',`;
+async function createRoutesCodeByNodes(nodes: AutoRouterNode[], options: ParsedAutoRouterOptions) {
+  const { rootRedirect, getRouteMeta } = options;
 
-  if (node.name === ROOT_ROUTE_NAME && rootRedirect) {
-    code += `\n${getSpace(space + 2)}redirect: '${rootRedirect}',`;
-  }
-
-  if (node.layout) {
-    code += `\n${getSpace(space + 2)}layout: '${node.layout}',`;
-  }
-
-  if (node.component) {
-    code += `\n${getSpace(space + 2)}component: '${node.component}',`;
-  }
-
-  code += `\n${getSpace(space)}},`;
+  const code = `[\n${nodes.map(node => createRouteString(node, rootRedirect, getRouteMeta)).join(',\n')}\n]`;
 
   return code;
 }
 
-function getSpace(space: number) {
-  return ' '.repeat(space);
+function createRouteString(
+  node: AutoRouterNode,
+  rootRedirect?: string,
+  getRouteMeta?: (node: AutoRouterNode) => Record<string, any> | null
+) {
+  let code = `{
+    name: '${node.name}',
+    path: '${node.path}',`;
+
+  if (node.name === ROOT_ROUTE_NAME && rootRedirect) {
+    code += `\nredirect: '${rootRedirect}',`;
+  }
+
+  if (node.layout) {
+    code += `\nlayout: '${node.layout}',`;
+  }
+
+  if (node.component) {
+    code += `\ncomponent: '${node.component}',`;
+  }
+
+  const meta = getRouteMeta?.(node);
+
+  if (meta) {
+    code += `\nmeta: ${createMetaString(meta)},`;
+  }
+
+  code += `\n}`;
+
+  return code;
+}
+
+function createMetaString(meta: Record<string, any>) {
+  return `{
+    ${Object.entries(meta)
+      .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
+      .join(',\n')}
+  }`;
+}
+
+function updateMetaProperty(element: Expression, newMeta?: Record<string, any> | null) {
+  if (!newMeta) return;
+
+  const meta = getRouteMetaPropertyValue(element);
+
+  if (!meta) return;
+
+  if (!meta.isKind(SyntaxKind.ObjectLiteralExpression)) return;
+
+  const keys = Object.keys(newMeta);
+
+  keys.forEach(key => {
+    const value = getObjectProperty(meta, key);
+    if (!value) {
+      meta.addPropertyAssignment({
+        name: key,
+        initializer: JSON.stringify(newMeta[key])
+      });
+    }
+  });
 }
 
 export function getRawCodeByElements(elements: Expression[]) {
@@ -260,6 +343,14 @@ export function getRouteStringPropertyValue(element: Expression, propertyName: s
   if (!value) return null;
 
   return value.getText().substring(1, value.getText().length - 1);
+}
+
+function getRouteMetaPropertyValue(element: Expression) {
+  const meta = getObjectProperty(element, 'meta');
+
+  if (!meta) return null;
+
+  return meta;
 }
 
 function getNamePathMap(elements: Expression[]) {

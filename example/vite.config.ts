@@ -23,7 +23,11 @@ export default defineConfig({
       types: [{ from: 'vue-router', names: ['RouterLink', 'RouterView'] }],
       resolvers: [SoybeanUIResolver()]
     }),
-    ElegantRouter(),
+    ElegantRouter({
+      getRouteMeta: node => ({
+        title: node.name
+      })
+    }),
     VueDevtools()
   ]
 });

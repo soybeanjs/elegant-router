@@ -41,7 +41,8 @@ export function resolveOptions(options?: AutoRouterOptions): ParsedAutoRouterOpt
 
       return layout;
     },
-    routeLazy: () => true
+    routeLazy: () => true,
+    getRouteMeta: () => null
   };
 
   const { customRoute: $customRoute, layouts, layoutLazy, ...restOptions } = Object.assign(defaultOptions, options);
