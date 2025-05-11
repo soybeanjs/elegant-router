@@ -104,11 +104,84 @@ ElegantRouter CLI provides the following commands:
 
 | Command | Shorthand | Description |
 |---------|-----------|-------------|
-| `er gen` | `er -g` | Generate route configuration files |
+| `er generate` | `er -g` | Generate route configuration files |
 | `er add` | `er -a` | Interactively add new route files |
-| `er rm` | `er -r` | Interactively remove existing route files |
+| `er delete` | `er -d` | Interactively remove existing route files |
+| `er recovery` | `er -r` | Recover deleted route files |
+| `er update` | `er -u` | Update route configuration |
 | `er --help` | `er -h` | Display help information |
 | `er --version` | `er -v` | Display version information |
+
+### Command Details
+
+#### `er generate` Command
+
+Generates route configuration files based on the current file system structure. This command will:
+- Scan configured page directories
+- Parse file paths to generate route configurations
+- Update files in the route generation directory
+
+```bash
+# Basic usage
+er generate
+```
+
+#### `er add` Command
+
+Interactively adds new route files. This command will guide you through the following steps:
+1. Enter the route file path or name
+2. Select the layout to use
+3. Choose the page directory (if multiple are configured)
+
+Supported file types:
+- Vue Single File Components (.vue)
+- TSX Components (.tsx)
+- JSX Components (.jsx)
+
+```bash
+# Basic usage
+er add
+```
+
+#### `er delete` Command
+
+Interactively removes existing route files. This command will:
+1. Display a list of all current routes
+2. Let you select the route to delete
+3. Delete the corresponding file
+4. Update route configuration
+
+Deleted routes are automatically backed up and can be recovered using the `recovery` command.
+
+```bash
+# Basic usage
+er delete
+```
+
+#### `er recovery` Command
+
+Recovers previously deleted route files. This command will:
+1. Display a list of all recoverable routes
+2. Let you select the route to recover
+3. Restore the route file and configuration
+4. Update route configuration
+
+```bash
+# Basic usage
+er recovery
+```
+
+#### `er update` Command
+
+Updates route configuration. This command will:
+- Rescan the file system
+- Update route configuration
+- Maintain existing route structure
+
+```bash
+# Basic usage
+er update
+```
 
 ### Configuration File
 
@@ -134,7 +207,7 @@ export default defineConfig({
 
 ```bash
 # Generate route configurations based on current file structure
-er gen
+er generate
 ```
 
 #### Add New Route
@@ -151,14 +224,23 @@ This will start an interactive command-line interface that guides you through:
 
 The CLI tool will automatically create the file and update the route configuration.
 
-#### Remove Route
+#### Delete Route
 
 ```bash
 # Interactively remove a route
-er rm
+er delete
 ```
 
 This will display a list of all current routes and let you select which one to remove. After confirmation, the CLI tool will delete the corresponding file and update the route configuration.
+
+#### Recover Route
+
+```bash
+# Recover a deleted route
+er recovery
+```
+
+This will display a list of all recoverable routes and let you select which one to recover. After confirmation, the CLI tool will restore the corresponding file and configuration.
 
 ## Build Tool Support
 
