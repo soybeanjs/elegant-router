@@ -1,6 +1,44 @@
 # Changelog
 
 
+## [v1.0.0-alpha.6](https://github.com/soybeanjs/elegant-router/compare/v1.0.0-alpha.5...v1.0.0-alpha.6) (2025-05-12)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **docs**:
+  - update README to reflect new CLI commands and usage details for route management &nbsp;-&nbsp; by @soybeanjs [<samp>(a5c94)</samp>](https://github.com/soybeanjs/elegant-router/commit/a5c94a3)
+- **projects**:
+  - add cli recovery &nbsp;-&nbsp; by @soybeanjs [<samp>(b8031)</samp>](https://github.com/soybeanjs/elegant-router/commit/b8031fe)
+  - add cli command recovery-route &nbsp;-&nbsp; by @soybeanjs [<samp>(4c418)</samp>](https://github.com/soybeanjs/elegant-router/commit/4c418a1)
+- **router**:
+  - replace HomeChild5 with HomeChild2 and add corresponding route and view files &nbsp;-&nbsp; by @soybeanjs [<samp>(c22f9)</samp>](https://github.com/soybeanjs/elegant-router/commit/c22f9b9)
+  - enhance route configuration with meta data generation and update route initialization logic &nbsp;-&nbsp; by @soybeanjs [<samp>(e00dd)</samp>](https://github.com/soybeanjs/elegant-router/commit/e00dd9d)
+- **temp**:
+  - implement exclude glob management for improved route recovery handling &nbsp;-&nbsp; by @soybeanjs [<samp>(09939)</samp>](https://github.com/soybeanjs/elegant-router/commit/0993991)
+- **todos**:
+  - update TODO list with completed tasks and add new item for updating route data &nbsp;-&nbsp; by @soybeanjs [<samp>(d9835)</samp>](https://github.com/soybeanjs/elegant-router/commit/d983588)
+  - update TODO list to include management of route backup table and clarify CLI command descriptions &nbsp;-&nbsp; by @soybeanjs [<samp>(cac7a)</samp>](https://github.com/soybeanjs/elegant-router/commit/cac7a40)
+
+### &nbsp;&nbsp;&nbsp;🛠 Optimizations
+
+- **projects**:
+  - optimize cli &nbsp;-&nbsp; by @soybeanjs [<samp>(84692)</samp>](https://github.com/soybeanjs/elegant-router/commit/846920d)
+  - optimize cli &nbsp;-&nbsp; by @soybeanjs [<samp>(4daca)</samp>](https://github.com/soybeanjs/elegant-router/commit/4daca0c)
+  - optimize recovery route &nbsp;-&nbsp; by @soybeanjs [<samp>(606b1)</samp>](https://github.com/soybeanjs/elegant-router/commit/606b123)
+
+### &nbsp;&nbsp;&nbsp;💅 Refactors
+
+- **name**: enhance filtering logic to support multiple file types and streamline directory handling &nbsp;-&nbsp; by @soybeanjs [<samp>(07a2d)</samp>](https://github.com/soybeanjs/elegant-router/commit/07a2ded)
+- **router**: update node and route backup handling for improved state management &nbsp;-&nbsp; by @soybeanjs [<samp>(7bc2f)</samp>](https://github.com/soybeanjs/elegant-router/commit/7bc2f36)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **eslint**: disable 'class-methods-use-this' rule and keep 'no-continue' off &nbsp;-&nbsp; by @soybeanjs [<samp>(28f43)</samp>](https://github.com/soybeanjs/elegant-router/commit/28f43ec)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v1.0.0-alpha.5](https://github.com/soybeanjs/elegant-router/compare/v1.0.0-alpha.4...v1.0.0-alpha.5) (2025-04-29)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
