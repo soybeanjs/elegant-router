@@ -14,3 +14,4 @@ export const BUILT_IN_CUSTOM_ROUTE = {
 } as const;
 
 export const CLI_CONFIG_SOURCE = 'elegant-router.config';
+export const SHORT_CLI_CONFIG_SOURCE = 'er.config';
