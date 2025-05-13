@@ -26,6 +26,8 @@ declare module "@elegant-router/types" {
     "NotFound": "/:pathMatch(.*)*";
     "403": "/403";
     "404": "/404";
+    "Custom1Aa": "/custom1/aa";
+    "Custom2": "/custom2";
     "Demo": "/demo";
     "Home": "/home";
     "HomeChild": "/home/child";
@@ -61,18 +63,23 @@ declare module "@elegant-router/types" {
   export type NotFoundRouteKey = 'NotFound';
 
   /**
+   * builtin route key
+   */
+  export type BuiltinRouteKey = RootRouteKey | NotFoundRouteKey;
+
+  /**
    * custom route key
    */
   export type CustomRouteKey = Extract<
     RouteKey,
-    | "Root"
-    | "NotFound"
+    | "Custom1Aa"
+    | "Custom2"
   >;
 
   /**
    * the route file key, which has it's own file
    */
-  export type RouteFileKey = Exclude<RouteKey, CustomRouteKey>;
+  export type RouteFileKey = Exclude<RouteKey, BuiltinRouteKey | CustomRouteKey>;
 
   /**
    * mapped name and path

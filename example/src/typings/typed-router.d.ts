@@ -26,6 +26,8 @@ declare module "vue-router/auto-routes" {
     "NotFound": RouteRecordInfo<"NotFound", "/:pathMatch(.*)*", Record<never, never>, Record<never, never>>;
     "403": RouteRecordInfo<"403", "/403", Record<never, never>, Record<never, never>>;
     "404": RouteRecordInfo<"404", "/404", Record<never, never>, Record<never, never>>;
+    "Custom1Aa": RouteRecordInfo<"Custom1Aa", "/custom1/aa", Record<never, never>, Record<never, never>>;
+    "Custom2": RouteRecordInfo<"Custom2", "/custom2", Record<never, never>, Record<never, never>>;
     "Demo": RouteRecordInfo<"Demo", "/demo", Record<never, never>, Record<never, never>>;
     "Home": RouteRecordInfo<"Home", "/home", Record<never, never>, Record<never, never>>;
     "HomeChild": RouteRecordInfo<"HomeChild", "/home/child", Record<never, never>, Record<never, never>>;

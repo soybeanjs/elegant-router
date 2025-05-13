@@ -43,6 +43,24 @@ export const routes: AutoRouterRoute[] = [
     },
   },
   {
+    name: 'Custom1Aa',
+    path: '/custom1/aa',
+    layout: 'blank',
+    component: 'List',
+    meta: {
+      title: "Custom1Aa"
+    }
+  },
+  {
+    name: 'Custom2',
+    path: '/custom2',
+    layout: 'base',
+    component: 'Wip',
+    meta: {
+      title: "Custom2"
+    }
+  },
+  {
     name: 'Demo',
     path: '/demo',
     layout: 'base',

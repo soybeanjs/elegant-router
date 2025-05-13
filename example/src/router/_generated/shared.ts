@@ -11,6 +11,8 @@ const routePathMap: RoutePathMap = {
   "NotFound": "/:pathMatch(.*)*",
   "403": "/403",
   "404": "/404",
+  "Custom1Aa": "/custom1/aa",
+  "Custom2": "/custom2",
   "Demo": "/demo",
   "Home": "/home",
   "HomeChild": "/home/child",
