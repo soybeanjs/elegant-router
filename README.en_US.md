@@ -846,19 +846,10 @@ export default defineConfig({
 Mix file-system-based automatic routes with custom routes to flexibly address various scenarios:
 
 ```ts
-ElegantRouter({
-  customRoute: {
-    map: {
-      Dashboard: '/dashboard',
-      Settings: '/settings'
-    },
-    paths: [
-      '/profile',
-      '/account/details'
-    ]
-  },
+{
+  customRoute: ['/dashboard', '/settings', '/profile', '/account/details'],
   defaultCustomRouteComponent: 'WorkInProgress'
-})
+}
 ```
 
 By following these best practices, you can fully utilize ElegantRouter's powerful features to create efficient, maintainable routing systems.

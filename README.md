@@ -977,19 +977,10 @@ export default defineConfig({
 混合使用基于文件系统的自动路由和自定义路由，灵活应对各种场景：
 
 ```ts
-ElegantRouter({
-  customRoute: {
-    map: {
-      Dashboard: '/dashboard',
-      Settings: '/settings'
-    },
-    paths: [
-      '/profile',
-      '/account/details'
-    ]
-  },
+{
+  customRoute: ['/dashboard', '/settings', '/profile', '/account/details'],
   defaultCustomRouteComponent: 'WorkInProgress'
-})
+}
 ```
 
 ### 文件组织
