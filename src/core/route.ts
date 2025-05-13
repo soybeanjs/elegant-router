@@ -295,11 +295,19 @@ function createMetaString(meta: Record<string, any>) {
 }
 
 function updateMetaProperty(element: Expression, newMeta?: Record<string, any> | null) {
-  if (!newMeta) return;
+  if (!newMeta || Object.keys(newMeta).length === 0) return;
+  if (!element.isKind(SyntaxKind.ObjectLiteralExpression)) return;
 
   const meta = getRouteMetaPropertyValue(element);
 
-  if (!meta) return;
+  if (meta === null) {
+    element.addPropertyAssignment({
+      name: 'meta',
+      initializer: createMetaString(newMeta)
+    });
+
+    return;
+  }
 
   if (!meta.isKind(SyntaxKind.ObjectLiteralExpression)) return;
 
