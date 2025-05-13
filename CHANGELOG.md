@@ -1,6 +1,55 @@
 # Changelog
 
 
+## [v1.0.0-beta.1](https://github.com/soybeanjs/elegant-router/compare/v1.0.0-alpha.6...v1.0.0-beta.1) (2025-05-14)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **cli**:
+  - add backup management command to CLI for route backup handling &nbsp;-&nbsp; by @soybeanjs [<samp>(a6605)</samp>](https://github.com/soybeanjs/elegant-router/commit/a660514)
+  - document new `er backup` command for managing route backups in README &nbsp;-&nbsp; by @soybeanjs [<samp>(ba271)</samp>](https://github.com/soybeanjs/elegant-router/commit/ba2713c)
+- **config**:
+  - add new configuration file for elegant-router and update CLI to support multiple config sources &nbsp;-&nbsp; by @soybeanjs [<samp>(6d230)</samp>](https://github.com/soybeanjs/elegant-router/commit/6d23083)
+- **projects**:
+  - add example for custom routes &nbsp;-&nbsp; by @soybeanjs [<samp>(60186)</samp>](https://github.com/soybeanjs/elegant-router/commit/60186fb)
+- **router**:
+  - refactor route handling to support custom routes and improve type definitions &nbsp;-&nbsp; by @soybeanjs [<samp>(c443e)</samp>](https://github.com/soybeanjs/elegant-router/commit/c443e96)
+  - update delete route command to display custom route indicators and filter configurable nodes &nbsp;-&nbsp; by @soybeanjs [<samp>(8525d)</samp>](https://github.com/soybeanjs/elegant-router/commit/8525d2b)
+  - implement interactive route update command to modify component and layout properties &nbsp;-&nbsp; by @soybeanjs [<samp>(74fe2)</samp>](https://github.com/soybeanjs/elegant-router/commit/74fe23e)
+  - add custom route command to CLI for interactive route management &nbsp;-&nbsp; by @soybeanjs [<samp>(3b3a3)</samp>](https://github.com/soybeanjs/elegant-router/commit/3b3a31b)
+  - enhance delete route command to support config file updates for custom routes &nbsp;-&nbsp; by @soybeanjs [<samp>(1111b)</samp>](https://github.com/soybeanjs/elegant-router/commit/1111bd6)
+- **tests**:
+  - integrate Vitest for testing framework and add initial test setup &nbsp;-&nbsp; by @soybeanjs [<samp>(5b0b4)</samp>](https://github.com/soybeanjs/elegant-router/commit/5b0b427)
+- **types**:
+  - add PluginOptions type to exclude customRoutes from AutoRouterOptions &nbsp;-&nbsp; by @soybeanjs [<samp>(93c18)</samp>](https://github.com/soybeanjs/elegant-router/commit/93c18d4)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **router**: enhance updateMetaProperty function to handle empty newMeta and ensure proper meta property assignment &nbsp;-&nbsp; by @soybeanjs [<samp>(09185)</samp>](https://github.com/soybeanjs/elegant-router/commit/091853e)
+
+### &nbsp;&nbsp;&nbsp;🛠 Optimizations
+
+- **projects**:
+  - optimize command add custom route &nbsp;-&nbsp; by @soybeanjs [<samp>(214e2)</samp>](https://github.com/soybeanjs/elegant-router/commit/214e28f)
+  - optimize import statement &nbsp;-&nbsp; by @soybeanjs [<samp>(8ad4e)</samp>](https://github.com/soybeanjs/elegant-router/commit/8ad4e1f)
+
+### &nbsp;&nbsp;&nbsp;💅 Refactors
+
+- **router**: remove routeLayoutMap option and update route handling to directly manage layout properties &nbsp;-&nbsp; by @soybeanjs [<samp>(ffea4)</samp>](https://github.com/soybeanjs/elegant-router/commit/ffea4af)
+
+### &nbsp;&nbsp;&nbsp;📖 Documentation
+
+- **readme**: update configuration file naming and simplify ElegantRouter usage examples &nbsp;-&nbsp; by @soybeanjs [<samp>(490ca)</samp>](https://github.com/soybeanjs/elegant-router/commit/490ca9a)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **deps**: update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(4b9f1)</samp>](https://github.com/soybeanjs/elegant-router/commit/4b9f1f9)
+- **todos**: remove outdated TODO list from repository &nbsp;-&nbsp; by @soybeanjs [<samp>(c0552)</samp>](https://github.com/soybeanjs/elegant-router/commit/c0552d6)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v1.0.0-alpha.6](https://github.com/soybeanjs/elegant-router/compare/v1.0.0-alpha.5...v1.0.0-alpha.6) (2025-05-12)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
