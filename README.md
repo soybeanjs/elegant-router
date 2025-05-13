@@ -109,6 +109,7 @@ ElegantRouter CLI 提供以下命令：
 | `er delete` | `er -d` | 交互式删除现有路由文件 |
 | `er recovery` | `er -r` | 恢复已删除的路由文件 |
 | `er update` | `er -u` | 更新路由配置 |
+| `er backup` | `er -b` | 管理路由备份 |
 | `er --help` | `er -h` | 显示帮助信息 |
 | `er --version` | `er -v` | 显示版本信息 |
 
@@ -183,23 +184,57 @@ er recovery
 er update
 ```
 
+#### `er backup` 命令
+
+管理路由备份。这个命令提供了以下功能：
+1. 列出所有路由备份
+2. 查看备份的路由文件内容
+3. 删除不需要的备份
+
+当您删除路由时，系统会自动创建备份。您可以使用此命令来管理这些备份。
+
+```bash
+# 基本用法
+er backup
+```
+
+使用此命令时，您将看到以下选项：
+- **列出路由备份** - 显示所有备份的路由列表，并可以查看每个备份的详细内容
+- **删除路由备份** - 从备份列表中删除指定的路由备份
+
 ### 配置文件
 
-您可以在项目根目录创建 `elegant-router.config.ts` 文件来配置 CLI 工具的行为：
+您可以在项目根目录创建 `elegant-router.config.ts` 文件来配置 CLI 工具的行为。
 
 ```ts
 // elegant-router.config.ts
 import { defineConfig } from 'elegant-router';
 
 export default defineConfig({
-  // 配置选项
+  // 页面目录
   pageDir: 'src/views',
+  // 布局配置
   layouts: {
     base: 'src/layouts/base/index.vue',
     blank: 'src/layouts/blank/index.vue'
-  }
+  },
+  // 自定义路由配置
+  customRoutes: [
+    '/dashboard',
+    '/user/profile',
+  ],
+  // 根路由重定向
+  rootRedirect: '/dashboard',
+  // 404 路由组件
+  notFoundRouteComponent: 'NotFound',
+  // 默认自定义路由组件
+  defaultCustomRouteComponent: 'wip'
 });
 ```
+
+> [!IMPORTANT]
+> **重要提示**：自定义路由只能通过 `elegant-router.config.ts` 配置文件来配置，不支持在运行时动态添加或修改。这是因为路由配置需要在构建时确定，以确保类型安全和代码分割的正确性。
+
 
 ### 使用示例
 
@@ -467,10 +502,10 @@ ElegantRouter 基于文件系统约定创建路由，遵循简单直观的规则
 
 ```ts
 ElegantRouter({
-  customRoutes: {
-    'CustomRoute': '/custom-route',
-    'NotFound': '/:pathMatch(.*)*'
-  },
+  customRoutes: [
+    '/dashboard',
+    '/user/profile',
+  ]
 });
 ```
 
@@ -478,12 +513,22 @@ ElegantRouter({
 
 ```ts
 {
-  name: "CustomRoute",
-  path: "/custom-route",
+  name: "Dashboard",
+  path: "/dashboard",
   layout: "base",
   component: "wip", // 使用已有的页面路由文件
 }
 ```
+
+系统会自动根据路径生成路由名称，遵循以下规则：
+1. 将路径转换为 PascalCase 格式
+2. 移除特殊字符和参数标记
+3. 对于参数路由，保留参数名称作为路由名称的一部分
+
+例如：
+- `/dashboard` -> `Dashboard`
+- `/user/profile` -> `UserProfile`
+- `/user/:id/profile` -> `UserIdProfile`
 
 ## 工作原理
 

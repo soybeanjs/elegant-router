@@ -109,6 +109,7 @@ ElegantRouter CLI provides the following commands:
 | `er delete` | `er -d` | Interactively remove existing route files |
 | `er recovery` | `er -r` | Recover deleted route files |
 | `er update` | `er -u` | Update route configuration |
+| `er backup` | `er -b` | Manage route backups |
 | `er --help` | `er -h` | Display help information |
 | `er --version` | `er -v` | Display version information |
 
@@ -183,23 +184,56 @@ Updates route configuration. This command will:
 er update
 ```
 
+#### `er backup` Command
+
+Manage route backups. This command provides the following features:
+1. List all route backups
+2. View the content of backed-up route files
+3. Delete unnecessary backups
+
+When you delete a route, the system automatically creates a backup. You can use this command to manage these backups.
+
+```bash
+# Basic usage
+er backup
+```
+
+When using this command, you will see the following options:
+- **List Route Backups** - Display a list of all backed-up routes and view the detailed content of each backup
+- **Delete Route Backup** - Remove a specified route backup from the backup list
+
 ### Configuration File
 
-You can create an `elegant-router.config.ts` file in your project root to configure the CLI tool's behavior:
+You can create an `elegant-router.config.ts` file in your project root to configure the CLI tool's behavior.
 
 ```ts
 // elegant-router.config.ts
 import { defineConfig } from 'elegant-router';
 
 export default defineConfig({
-  // Configuration options
+  // Page directory
   pageDir: 'src/views',
+  // Layout configuration
   layouts: {
     base: 'src/layouts/base/index.vue',
     blank: 'src/layouts/blank/index.vue'
-  }
+  },
+  // Custom routes configuration
+  customRoutes: [
+    '/dashboard',
+    '/user/profile',
+  ],
+  // Root route redirect
+  rootRedirect: '/dashboard',
+  // 404 route component
+  notFoundRouteComponent: 'NotFound',
+  // Default custom route component
+  defaultCustomRouteComponent: 'wip'
 });
 ```
+
+> [!IMPORTANT]
+> **Important Note**: Custom routes can only be configured through the `elegant-router.config.ts` configuration file. Dynamic addition or modification of routes at runtime is not supported. This is because route configuration needs to be determined at build time to ensure type safety and correct code splitting.
 
 ### Usage Examples
 
@@ -467,10 +501,10 @@ For special requirements, custom routes can be configured:
 
 ```ts
 ElegantRouter({
-  customRoutes: {
-    'CustomRoute': '/custom-route',
-    'NotFound': '/:pathMatch(.*)*'
-  },
+  customRoutes: [
+    '/dashboard',
+    '/user/profile',
+  ]
 });
 ```
 
@@ -478,12 +512,22 @@ ElegantRouter({
 
 ```ts
 {
-  name: "CustomRoute",
-  path: "/custom-route",
+  name: "Dashboard",
+  path: "/dashboard",
   layout: "base",
   component: "wip", // Using an existing page route file
 }
 ```
+
+The system automatically generates route names from paths following these rules:
+1. Convert the path to PascalCase format
+2. Remove special characters and parameter markers
+3. For parameter routes, keep parameter names as part of the route name
+
+Examples:
+- `/dashboard` -> `Dashboard`
+- `/user/profile` -> `UserProfile`
+- `/user/:id/profile` -> `UserIdProfile`
 
 ## How It Works
 
