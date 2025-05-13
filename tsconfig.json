@@ -3,7 +3,9 @@
   "compilerOptions": {
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "types": ["vitest/globals", "node"]
   },
-  "exclude": ["node_modules", "dist", "example"]
+  "exclude": ["node_modules", "dist", "example"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "test/**/*.ts", "vitest.config.ts"]
 }
