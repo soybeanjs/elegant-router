@@ -3,3 +3,4 @@ export * from './add-custom-route';
 export * from './delete-route';
 export * from './update-route';
 export * from './recovery-route';
+export * from './backup';

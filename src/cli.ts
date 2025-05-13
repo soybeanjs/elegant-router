@@ -4,10 +4,10 @@ import { loadConfig } from 'unconfig';
 import { version } from '../package.json';
 import type { AutoRouterOptions, CliOptions } from './types';
 import { AutoRouter } from './core';
-import { addCustomRoute, addRoute, deleteRoute, recoveryRoute, updateRoute } from './commands';
+import { addCustomRoute, addRoute, deleteRoute, manageBackup, recoveryRoute, updateRoute } from './commands';
 import { CLI_CONFIG_SOURCE } from './constants';
 
-type CommandType = 'generate' | 'add' | 'custom' | 'delete' | 'recovery' | 'update';
+type CommandType = 'generate' | 'add' | 'custom' | 'delete' | 'recovery' | 'update' | 'backup';
 
 type CommandAction<A extends object> = (args?: A) => Promise<void> | void;
 
@@ -72,6 +72,13 @@ async function setupCli() {
       desc: 'update router 【更新路由】',
       action: async () => {
         await updateRoute(options);
+      }
+    },
+    backup: {
+      shortcut: '-b, --backup',
+      desc: 'manage backup 【管理路由备份】',
+      action: async () => {
+        await manageBackup(options);
       }
     }
   };
