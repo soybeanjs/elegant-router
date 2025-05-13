@@ -4,9 +4,10 @@ import { loadConfig } from 'unconfig';
 import { version } from '../package.json';
 import type { AutoRouterOptions, CliOptions } from './types';
 import { AutoRouter } from './core';
-import { addRoute, deleteRoute, recoveryRoute, updateRoute } from './commands';
+import { addCustomRoute, addRoute, deleteRoute, recoveryRoute, updateRoute } from './commands';
+import { CLI_CONFIG_SOURCE } from './constants';
 
-type CommandType = 'generate' | 'add' | 'delete' | 'recovery' | 'update';
+type CommandType = 'generate' | 'add' | 'custom' | 'delete' | 'recovery' | 'update';
 
 type CommandAction<A extends object> = (args?: A) => Promise<void> | void;
 
@@ -16,9 +17,9 @@ type Command<A extends object = object> = Record<
 >;
 
 async function setupCli() {
-  const { config } = await loadConfig<CliOptions>({
+  const { config, sources } = await loadConfig<CliOptions>({
     sources: {
-      files: 'elegant-router.config'
+      files: CLI_CONFIG_SOURCE
     }
   });
 
@@ -45,11 +46,18 @@ async function setupCli() {
         await addRoute(options);
       }
     },
+    custom: {
+      shortcut: '-c, --custom',
+      desc: 'add custom route 【新增自定义路由】',
+      action: async () => {
+        await addCustomRoute(options, sources[0]);
+      }
+    },
     delete: {
       shortcut: '-d, --delete',
       desc: 'delete router 【删除路由】',
       action: async () => {
-        await deleteRoute(options);
+        await deleteRoute(options, sources[0]);
       }
     },
     recovery: {
