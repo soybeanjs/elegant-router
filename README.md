@@ -707,12 +707,6 @@ interface AutoRouterOptions {
    */
   getRouteName?: (node: AutoRouterNode) => string;
   /**
-   * 路由布局映射，用于 `getRouteLayout`
-   *
-   * 如果设置，将根据路由文件路径查找布局
-   */
-  routeLayoutMap?: Record<string, string>;
-  /**
    * 路由布局获取函数
    *
    * @default get the first key of the layouts

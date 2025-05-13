@@ -307,16 +307,6 @@ export interface AutoRouterOptions {
    */
   getRouteName?: (node: AutoRouterNode) => string;
   /**
-   * the layout of the route, used by `getRouteLayout`
-   *
-   * 路由布局，用于 `getRouteLayout`
-   *
-   * if set, it will find the layout by the route filepath
-   *
-   * 如果设置，将根据路由文件路径查找布局
-   */
-  routeLayoutMap?: Record<string, string>;
-  /**
    * the layout of the route
    *
    * 路由布局

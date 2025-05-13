@@ -2,10 +2,13 @@ import { existsSync } from 'node:fs';
 import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import enquirer from 'enquirer';
+import { SyntaxKind } from 'ts-morph';
 import { AutoRouter } from '../core';
 import { resolveNode } from '../core/node';
 import { resolveGlob } from '../core/glob';
+import { getRouteSourceFile, getRouteStringPropertyValue, saveRouteSourceFile } from '../core/route';
 import { ensureFile, logger } from '../shared';
+import { updateStringProperty } from '../shared/ast';
 import type { CliOptions } from '../types';
 
 interface AddRoutePrompt {
@@ -21,7 +24,7 @@ export async function addRoute(options: CliOptions) {
 
   await autoRouter.generate();
 
-  const { cwd, pageDir: $pageDir } = resolvedOptions;
+  const { cwd, pageDir: $pageDir, routerGeneratedDir } = resolvedOptions;
 
   const pageDirs = Array.isArray($pageDir) ? $pageDir : [$pageDir];
 
@@ -76,13 +79,21 @@ export async function addRoute(options: CliOptions) {
 
   await writeFile(fullPath, template, 'utf-8');
 
-  autoRouter.updateOptions({
-    routeLayoutMap: {
-      [fullPath]: layout
-    }
-  });
-
   await autoRouter.generate();
+
+  const routesPath = path.posix.join(cwd, routerGeneratedDir, 'routes.ts');
+
+  const { sourceFile, getRoutesExpression } = await getRouteSourceFile(routesPath);
+
+  const routesExpression = getRoutesExpression();
+
+  const routeElement = routesExpression.getElements().find(el => getRouteStringPropertyValue(el, 'name') === node.name);
+
+  if (!routeElement?.isKind(SyntaxKind.ObjectLiteralExpression)) return;
+
+  updateStringProperty(routeElement, 'layout', layout);
+
+  await saveRouteSourceFile(sourceFile, routesExpression);
 
   logger.success(`the route ${fileNameOrPath} has been added 【路由 ${fileNameOrPath} 已添加】`);
 }

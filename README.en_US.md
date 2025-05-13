@@ -707,12 +707,6 @@ interface AutoRouterOptions {
    */
   getRouteName?: (node: AutoRouterNode) => string;
   /**
-   * The layout of the route, used by `getRouteLayout`
-   *
-   * If set, it will find the layout by the route filepath
-   */
-  routeLayoutMap?: Record<string, string>;
-  /**
    * The layout of the route
    *
    * @default get the first key of the layouts

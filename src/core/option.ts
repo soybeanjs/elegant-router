@@ -31,16 +31,7 @@ export function resolveOptions(options?: AutoRouterOptions): ParsedAutoRouterOpt
     layoutLazy: () => true,
     getRoutePath: node => node.path,
     getRouteName: node => transformPathToName(node.path),
-    routeLayoutMap: {},
-    getRouteLayout: node => {
-      const layout = defaultOptions.routeLayoutMap[node.filePath];
-
-      if (!layout) {
-        return Object.keys(defaultOptions.layouts!)?.[0] || 'unknown';
-      }
-
-      return layout;
-    },
+    getRouteLayout: () => Object.keys(defaultOptions.layouts)[0],
     routeLazy: () => true,
     getRouteMeta: () => null
   };
@@ -51,6 +42,12 @@ export function resolveOptions(options?: AutoRouterOptions): ParsedAutoRouterOpt
 
   restOptions.cwd = normalizePath(restOptions.cwd);
   restOptions.defaultCustomRouteComponent = pascalCase(restOptions.defaultCustomRouteComponent);
+
+  if (Object.keys(layouts).length === 0) {
+    throw new Error('layouts is required');
+  }
+
+  restOptions.getRouteLayout = () => Object.keys(layouts)[0];
 
   const parsedOptions: ParsedAutoRouterOptions = {
     pageExtension: pageInclude.map(item => item.split('.').pop()!),
