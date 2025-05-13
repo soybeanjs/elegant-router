@@ -260,20 +260,12 @@ export interface AutoRouterOptions {
    */
   layoutLazy?: (layout: string) => boolean;
   /**
-   * the custom route
+   * the custom routes
    *
    * @example
-   *   ```ts
-   *     customRoute: {
-   *       map: {
-   *         Home: '/home',
-   *         About: '/about'
-   *       },
-   *       paths: ['/home2', '/about2']
-   *     }
-   *   ```;
+   *   ['/custom1', '/custom2'];
    */
-  customRoute?: Partial<CustomRoute>;
+  customRoutes?: string[];
   /**
    * the root redirect path
    *
@@ -295,7 +287,7 @@ export interface AutoRouterOptions {
    *
    * 默认自定义路由组件
    *
-   * @default 'wip'
+   * @default 'Wip'
    */
   defaultCustomRouteComponent?: string;
   /**
@@ -386,12 +378,9 @@ export interface NormalizedLayout {
   isLazy: boolean;
 }
 
-export type CustomRouteItem = { name: string; path: string };
-
-export type ParsedAutoRouterOptions = Omit<Required<AutoRouterOptions>, 'customRoute' | 'layouts' | 'layoutLazy'> & {
+export type ParsedAutoRouterOptions = Omit<Required<AutoRouterOptions>, 'layouts' | 'layoutLazy'> & {
   pageExtension: string[];
   layouts: NormalizedLayout[];
-  customRoutes: CustomRouteItem[];
 };
 
 export interface AutoRouterSingleView extends Omit<RouteRecordSingleView, 'component'> {

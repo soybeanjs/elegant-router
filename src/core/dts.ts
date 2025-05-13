@@ -2,7 +2,13 @@ import path from 'node:path';
 import { writeFile } from 'node:fs/promises';
 import { createPrefixCommentOfGenFile, ensureFile } from '../shared';
 import type { AutoRouterNode, ParsedAutoRouterOptions } from '../types';
-import { ELEGANT_ROUTER_TYPES_MODULE_NAME, VUE_ROUTER_MODULE_NAME } from '../constants';
+import {
+  BUILT_IN_CUSTOM_ROUTE,
+  ELEGANT_ROUTER_TYPES_MODULE_NAME,
+  NOT_FOUND_ROUTE_NAME,
+  ROOT_ROUTE_NAME,
+  VUE_ROUTER_MODULE_NAME
+} from '../constants';
 
 export async function generateDtsFile(nodes: AutoRouterNode[], options: ParsedAutoRouterOptions) {
   const dtsPath = path.posix.join(options.cwd, options.dts);
@@ -67,12 +73,17 @@ declare module "${ELEGANT_ROUTER_TYPES_MODULE_NAME}" {
   /**
    * root route key
    */
-  export type RootRouteKey = 'Root';
+  export type RootRouteKey = '${ROOT_ROUTE_NAME}';
 
   /**
    * not found route key
    */
-  export type NotFoundRouteKey = 'NotFound';
+  export type NotFoundRouteKey = '${NOT_FOUND_ROUTE_NAME}';
+
+  /**
+   * builtin route key
+   */
+  export type BuiltinRouteKey = RootRouteKey | NotFoundRouteKey;
 
   /**
    * custom route key
@@ -80,9 +91,11 @@ declare module "${ELEGANT_ROUTER_TYPES_MODULE_NAME}" {
   export type CustomRouteKey = Extract<
     RouteKey,`;
 
-  customNodes.forEach(node => {
-    code += `\n    | "${node.name}"`;
-  });
+  customNodes
+    .filter(node => !BUILT_IN_CUSTOM_ROUTE[node.name as keyof typeof BUILT_IN_CUSTOM_ROUTE])
+    .forEach(node => {
+      code += `\n    | "${node.name}"`;
+    });
 
   code += `
   >;
@@ -90,7 +103,7 @@ declare module "${ELEGANT_ROUTER_TYPES_MODULE_NAME}" {
   /**
    * the route file key, which has it's own file
    */
-  export type RouteFileKey = Exclude<RouteKey, CustomRouteKey>;
+  export type RouteFileKey = Exclude<RouteKey, BuiltinRouteKey | CustomRouteKey>;
 
   /**
    * mapped name and path

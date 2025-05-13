@@ -117,12 +117,12 @@ export function resolveNode(resolvedGlob: ResolvedGlob, options: ParsedAutoRoute
 }
 
 function resolveCustomNode(options: ParsedAutoRouterOptions) {
-  const { customRoutes, defaultCustomRouteComponent, getRouteLayout } = options;
+  const { customRoutes, defaultCustomRouteComponent } = options;
 
   const nodes: AutoRouterNode[] = [];
 
-  customRoutes.forEach(({ name, path }) => {
-    let node: AutoRouterNode = createEmptyCustomNode(name, path, getRouteLayout);
+  customRoutes.forEach(path => {
+    let node: AutoRouterNode = createEmptyCustomNode(path, options);
     node.component = defaultCustomRouteComponent;
 
     node = resolveParamNode(node);
@@ -134,25 +134,29 @@ function resolveCustomNode(options: ParsedAutoRouterOptions) {
 }
 
 function resolveBuiltinNode(options: ParsedAutoRouterOptions) {
-  const { notFoundRouteComponent, getRouteLayout } = options;
+  const { notFoundRouteComponent } = options;
 
   const rootNode: AutoRouterNode = {
-    ...createEmptyCustomNode(ROOT_ROUTE_NAME, BUILT_IN_CUSTOM_ROUTE[ROOT_ROUTE_NAME], getRouteLayout),
+    ...createEmptyCustomNode(BUILT_IN_CUSTOM_ROUTE[ROOT_ROUTE_NAME], options, ROOT_ROUTE_NAME),
     layout: ''
   };
 
   const notFoundNode: AutoRouterNode = {
-    ...createEmptyCustomNode(NOT_FOUND_ROUTE_NAME, BUILT_IN_CUSTOM_ROUTE[NOT_FOUND_ROUTE_NAME], getRouteLayout),
+    ...createEmptyCustomNode(BUILT_IN_CUSTOM_ROUTE[NOT_FOUND_ROUTE_NAME], options, NOT_FOUND_ROUTE_NAME),
     component: notFoundRouteComponent
   };
 
   return [rootNode, notFoundNode];
 }
 
-function createEmptyCustomNode(name: string, path: string, getRouteLayout: (node: AutoRouterNode) => string) {
+function createEmptyCustomNode(path: string, options: ParsedAutoRouterOptions, name?: string) {
+  const { getRouteName, getRouteLayout } = options;
+
   const node: AutoRouterNode = {
-    name,
     path,
+    get name() {
+      return name || getRouteName(node);
+    },
     originPath: '',
     component: '',
     get layout() {

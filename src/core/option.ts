@@ -1,7 +1,7 @@
 import process from 'node:process';
 import path from 'node:path';
 import { normalizePath } from 'unplugin-utils';
-import { getImportName, resolveAliasFromTsConfig, resolveImportPath, transformPathToName } from '../shared';
+import { getImportName, pascalCase, resolveAliasFromTsConfig, resolveImportPath, transformPathToName } from '../shared';
 import type { AutoRouterOptions, ParsedAutoRouterOptions } from '../types';
 
 export function resolveOptions(options?: AutoRouterOptions): ParsedAutoRouterOptions {
@@ -20,10 +20,10 @@ export function resolveOptions(options?: AutoRouterOptions): ParsedAutoRouterOpt
     tsconfig: 'tsconfig.json',
     alias,
     routerGeneratedDir: 'src/router/_generated',
-    customRoute: {},
+    customRoutes: [],
     rootRedirect: '/home',
     notFoundRouteComponent: '404',
-    defaultCustomRouteComponent: 'wip',
+    defaultCustomRouteComponent: 'Wip',
     layouts: {
       base: 'src/layouts/base/index.vue',
       blank: 'src/layouts/blank/index.vue'
@@ -45,25 +45,16 @@ export function resolveOptions(options?: AutoRouterOptions): ParsedAutoRouterOpt
     getRouteMeta: () => null
   };
 
-  const { customRoute: $customRoute, layouts, layoutLazy, ...restOptions } = Object.assign(defaultOptions, options);
+  const { layouts, layoutLazy, ...restOptions } = Object.assign(defaultOptions, options);
 
   const pageInclude = Array.isArray(restOptions.pageInclude) ? restOptions.pageInclude : [restOptions.pageInclude];
 
-  const customRoute: Record<string, string> = {
-    ...$customRoute.map
-  };
-
-  $customRoute.paths?.forEach(p => {
-    const name = transformPathToName(p);
-    customRoute[name] = p;
-  });
-
   restOptions.cwd = normalizePath(restOptions.cwd);
+  restOptions.defaultCustomRouteComponent = pascalCase(restOptions.defaultCustomRouteComponent);
 
   const parsedOptions: ParsedAutoRouterOptions = {
     pageExtension: pageInclude.map(item => item.split('.').pop()!),
     ...restOptions,
-    customRoutes: Object.entries(customRoute).map(([name, p]) => ({ name, path: p })),
     layouts: Object.entries(layouts).map(([name, importPath]) => {
       let importName = getImportName(name);
 
