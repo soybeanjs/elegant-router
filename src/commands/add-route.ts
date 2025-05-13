@@ -7,8 +7,7 @@ import { AutoRouter } from '../core';
 import { resolveNode } from '../core/node';
 import { resolveGlob } from '../core/glob';
 import { getRouteSourceFile, getRouteStringPropertyValue, saveRouteSourceFile } from '../core/route';
-import { ensureFile, logger } from '../shared';
-import { updateStringProperty } from '../shared/ast';
+import { ensureFile, logger, updateStringProperty } from '../shared';
 import type { CliOptions } from '../types';
 
 interface AddRoutePrompt {

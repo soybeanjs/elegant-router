@@ -3,8 +3,7 @@ import { SyntaxKind } from 'ts-morph';
 import enquirer from 'enquirer';
 import { AutoRouter } from '../core';
 import { getRouteSourceFile, getRouteStringPropertyValue, saveRouteSourceFile } from '../core/route';
-import { logger } from '../shared';
-import { updateStringProperty } from '../shared/ast';
+import { logger, updateStringProperty } from '../shared';
 import type { CliOptions } from '../types';
 
 interface UpdateRoutePrompt {
