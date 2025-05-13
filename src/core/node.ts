@@ -152,12 +152,12 @@ function resolveBuiltinNode(options: ParsedAutoRouterOptions) {
 function createEmptyCustomNode(path: string, options: ParsedAutoRouterOptions, name?: string) {
   const { getRouteName, getRouteLayout } = options;
 
-  const node: AutoRouterNode = {
+  let node: AutoRouterNode = {
     path,
     get name() {
       return name || getRouteName(node);
     },
-    originPath: '',
+    originPath: path,
     component: '',
     get layout() {
       return getRouteLayout(node);
@@ -171,6 +171,10 @@ function createEmptyCustomNode(path: string, options: ParsedAutoRouterOptions, n
     importPath: '',
     inode: NO_FILE_INODE
   };
+
+  if (name !== ROOT_ROUTE_NAME && name !== NOT_FOUND_ROUTE_NAME) {
+    node = resolveParamNode(node);
+  }
 
   return node;
 }
