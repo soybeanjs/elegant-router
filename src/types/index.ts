@@ -341,6 +341,8 @@ export interface AutoRouterOptions {
 
 export type CliOptions = Omit<AutoRouterOptions, 'watchFile' | 'fileUpdateDuration'>;
 
+export type PluginOptions = Omit<AutoRouterOptions, 'customRoutes'>;
+
 export interface NormalizedLayout {
   /**
    * the name of the layout
