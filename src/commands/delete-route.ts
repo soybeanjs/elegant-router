@@ -17,7 +17,18 @@ export async function deleteRoute(options: CliOptions) {
     type: 'select',
     name: 'routeName',
     message: 'please select the route to delete 【选择要删除的路由】',
-    choices: autoRouter.nodes.map(node => node.name)
+    choices: autoRouter.getConfigurableNodes().map(node => {
+      let message = node.name;
+
+      if (node.isCustom) {
+        message = `${message} (custom)`;
+      }
+
+      return {
+        name: node.name,
+        message
+      };
+    })
   });
 
   const { routeName } = result;

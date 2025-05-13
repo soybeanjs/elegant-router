@@ -1,5 +1,6 @@
 import type { ViteDevServer } from 'vite';
 import type { AutoRouterNode, AutoRouterOptions, NodeStatInfo, ParsedAutoRouterOptions, ResolvedGlob } from '../types';
+import { NOT_FOUND_ROUTE_NAME, ROOT_ROUTE_NAME } from '../constants';
 import { resolveOptions } from './option';
 import { initTemp, isInExcludeGlob, updateNodeBackup } from './temp';
 import { getNodeStatInfo, resolveNodes } from './node';
@@ -40,6 +41,10 @@ export class AutoRouter {
 
   getOptions() {
     return this.options;
+  }
+
+  getConfigurableNodes() {
+    return this.nodes.filter(node => node.name !== ROOT_ROUTE_NAME && node.name !== NOT_FOUND_ROUTE_NAME);
   }
 
   updateOptions(options: Partial<ParsedAutoRouterOptions>) {
