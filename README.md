@@ -204,10 +204,10 @@ er backup
 
 ### 配置文件
 
-您可以在项目根目录创建 `elegant-router.config.ts` 文件来配置 CLI 工具的行为。
+您可以在项目根目录创建 `{er|elegant-router}.config.{js,ts,mjs,mts}` 文件来配置 CLI 工具的行为。
 
 ```ts
-// elegant-router.config.ts
+// er.config.config.ts
 import { defineConfig } from 'elegant-router';
 
 export default defineConfig({
@@ -231,10 +231,6 @@ export default defineConfig({
   defaultCustomRouteComponent: 'wip'
 });
 ```
-
-> [!IMPORTANT]
-> **重要提示**：自定义路由只能通过 `elegant-router.config.ts` 配置文件来配置，不支持在运行时动态添加或修改。这是因为路由配置需要在构建时确定，以确保类型安全和代码分割的正确性。
-
 
 ### 使用示例
 
@@ -292,9 +288,7 @@ import ElegantRouter from "elegant-router/vite";
 export default defineConfig({
   plugins: [
     vue(),
-    ElegantRouter({
-      // 配置选项
-    }),
+    ElegantRouter(),
   ]
 });
 ```
@@ -307,11 +301,7 @@ const ElegantRouter = require('elegant-router/webpack');
 
 module.exports = {
   // 其他配置...
-  plugins: [
-    new ElegantRouter({
-      // 配置选项
-    })
-  ]
+  plugins: [new ElegantRouter()],
 };
 ```
 
@@ -323,11 +313,7 @@ import ElegantRouter from 'elegant-router/rollup';
 
 export default {
   // 其他配置...
-  plugins: [
-    ElegantRouter({
-      // 配置选项
-    })
-  ]
+  plugins: [ElegantRouter()],
 };
 ```
 
@@ -340,11 +326,7 @@ const ElegantRouter = require('elegant-router/esbuild');
 
 build({
   // 其他配置...
-  plugins: [
-    ElegantRouter({
-      // 配置选项
-    })
-  ]
+  plugins: [ElegantRouter()],
 });
 ```
 
@@ -496,17 +478,19 @@ ElegantRouter 基于文件系统约定创建路由，遵循简单直观的规则
 
 ### 自定义路由
 
-对于特殊需求，支持配置自定义路由：
+需要复用已有的页面路由文件，可以通过配置 `customRoutes` 选项来实现：
 
 #### 配置方式
 
+在配置文件 `er.config.ts` 中配置：
+
 ```ts
-ElegantRouter({
+{
   customRoutes: [
     '/dashboard',
     '/user/profile',
   ]
-});
+}
 ```
 
 #### 路由结果
@@ -517,7 +501,14 @@ ElegantRouter({
   path: "/dashboard",
   layout: "base",
   component: "wip", // 使用已有的页面路由文件
-}
+},
+{
+  name: "UserProfile",
+  path: "/user/profile",
+  layout: "base",
+  component: "demo",
+},
+
 ```
 
 系统会自动根据路径生成路由名称，遵循以下规则：

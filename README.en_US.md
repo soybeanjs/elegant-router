@@ -204,10 +204,10 @@ When using this command, you will see the following options:
 
 ### Configuration File
 
-You can create an `elegant-router.config.ts` file in your project root to configure the CLI tool's behavior.
+You can create an `{er|elegant-router}.config.{js,ts,mjs,mts}` file in your project root to configure the CLI tool's behavior.
 
 ```ts
-// elegant-router.config.ts
+// er.config.ts
 import { defineConfig } from 'elegant-router';
 
 export default defineConfig({
@@ -291,9 +291,7 @@ import ElegantRouter from "elegant-router/vite";
 export default defineConfig({
   plugins: [
     vue(),
-    ElegantRouter({
-      // Configuration options
-    }),
+    ElegantRouter(),
   ]
 });
 ```
@@ -307,9 +305,7 @@ const ElegantRouter = require('elegant-router/webpack');
 module.exports = {
   // Other configurations...
   plugins: [
-    new ElegantRouter({
-      // Configuration options
-    })
+    new ElegantRouter()
   ]
 };
 ```
@@ -323,9 +319,7 @@ import ElegantRouter from 'elegant-router/rollup';
 export default {
   // Other configurations...
   plugins: [
-    ElegantRouter({
-      // Configuration options
-    })
+    ElegantRouter()
   ]
 };
 ```
@@ -340,9 +334,7 @@ const ElegantRouter = require('elegant-router/esbuild');
 build({
   // Other configurations...
   plugins: [
-    ElegantRouter({
-      // Configuration options
-    })
+    ElegantRouter()
   ]
 });
 ```
@@ -495,17 +487,19 @@ Use parentheses to create groups that don't affect the route path:
 
 ### Custom Routes
 
-For special requirements, custom routes can be configured:
+Need to reuse existing page route files, you can configure the `customRoutes` option:
 
 #### Configuration Method
 
+In the configuration file `er.config.ts`, add the `customRoutes` option:
+
 ```ts
-ElegantRouter({
+{
   customRoutes: [
     '/dashboard',
     '/user/profile',
   ]
-});
+}
 ```
 
 #### Route Result
@@ -516,7 +510,14 @@ ElegantRouter({
   path: "/dashboard",
   layout: "base",
   component: "wip", // Using an existing page route file
-}
+},
+{
+  name: "UserProfile",
+  path: "/user/profile",
+  layout: "base",
+  component: "demo",
+},
+
 ```
 
 The system automatically generates route names from paths following these rules:
