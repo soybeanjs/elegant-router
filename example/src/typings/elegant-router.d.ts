@@ -26,10 +26,6 @@ declare module "@elegant-router/types" {
     "NotFound": "/:pathMatch(.*)*";
     "403": "/403";
     "404": "/404";
-    "Custom1": "/custom1";
-    "Custom2Id": "/custom2/:id";
-    "Custom3Id": "/custom3/:id?";
-    "Custom4IdName": "/custom4/:id?/:name?";
     "Demo": "/demo";
     "Home": "/home";
     "HomeChild": "/home/child";
@@ -41,6 +37,10 @@ declare module "@elegant-router/types" {
     "ListEditId": "/list/edit/:id";
     "ListId": "/list/:id";
     "Login": "/login";
+    "Reuse1": "/reuse1";
+    "Reuse2Id": "/reuse2/:id";
+    "Reuse3Id": "/reuse3/:id?";
+    "Reuse4IdName": "/reuse4/:id?/:name?";
     "Wip": "/wip";
   };
 
@@ -70,20 +70,20 @@ declare module "@elegant-router/types" {
   export type BuiltinRouteKey = RootRouteKey | NotFoundRouteKey;
 
   /**
-   * custom route key
+   * reuse route key
    */
-  export type CustomRouteKey = Extract<
+  export type ReuseRouteKey = Extract<
     RouteKey,
-    | "Custom1"
-    | "Custom2Id"
-    | "Custom3Id"
-    | "Custom4IdName"
+    | "Reuse1"
+    | "Reuse2Id"
+    | "Reuse3Id"
+    | "Reuse4IdName"
   >;
 
   /**
    * the route file key, which has it's own file
    */
-  export type RouteFileKey = Exclude<RouteKey, BuiltinRouteKey | CustomRouteKey>;
+  export type RouteFileKey = Exclude<RouteKey, BuiltinRouteKey | ReuseRouteKey>;
 
   /**
    * mapped name and path

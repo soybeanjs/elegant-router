@@ -40,7 +40,7 @@ export function getImportsCode(nodes: AutoRouterNode[], options: ParsedAutoRoute
   let exportCode = `export const views: Record<RouteFileKey, RawRouteComponent> = {`;
 
   nodes
-    .filter(node => !node.isCustom)
+    .filter(node => !node.isBuiltin && !node.isReuse)
     .forEach(node => {
       const { name, importName, importPath, isLazy } = node;
 

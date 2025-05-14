@@ -1,6 +1,6 @@
 import { yellow } from 'kolorist';
 import { getImportName, logger } from '../shared';
-import { BUILT_IN_CUSTOM_ROUTE, NOT_FOUND_ROUTE_NAME, NO_FILE_INODE, ROOT_ROUTE_NAME } from '../constants';
+import { BUILT_IN_ROUTE, NOT_FOUND_ROUTE_NAME, NO_FILE_INODE, ROOT_ROUTE_NAME } from '../constants';
 import type {
   AutoRouterNode,
   AutoRouterParamType,
@@ -13,12 +13,11 @@ import { getNodeBackup } from './temp';
 export function resolveNodes(globs: ResolvedGlob[], options: ParsedAutoRouterOptions) {
   const nodes = globs.map(glob => resolveNode(glob, options));
 
+  const builtinNodes = createBuiltinNode(options);
   const filteredNodes = filterConflictNodes(nodes);
+  const reuseNodes = resolveReuseNode(options);
 
-  const customNodes = resolveCustomNode(options);
-  const builtinNodes = resolveBuiltinNode(options);
-
-  const result = [...builtinNodes, ...filteredNodes, ...customNodes];
+  const result = [...builtinNodes, ...filteredNodes, ...reuseNodes];
 
   result.sort((a, b) => sortNodeName(a.name, b.name));
 
@@ -116,14 +115,14 @@ export function resolveNode(resolvedGlob: ResolvedGlob, options: ParsedAutoRoute
   return node;
 }
 
-function resolveCustomNode(options: ParsedAutoRouterOptions) {
-  const { customRoutes, defaultCustomRouteComponent } = options;
+function resolveReuseNode(options: ParsedAutoRouterOptions) {
+  const { reuseRoutes, defaultReuseRouteComponent } = options;
 
   const nodes: AutoRouterNode[] = [];
 
-  customRoutes.forEach(path => {
-    let node: AutoRouterNode = createEmptyCustomNode(path, options);
-    node.component = defaultCustomRouteComponent;
+  reuseRoutes.forEach(path => {
+    let node: AutoRouterNode = createEmptyReuseNode(path, options);
+    node.component = defaultReuseRouteComponent;
 
     node = resolveParamNode(node);
 
@@ -133,48 +132,69 @@ function resolveCustomNode(options: ParsedAutoRouterOptions) {
   return nodes;
 }
 
-function resolveBuiltinNode(options: ParsedAutoRouterOptions) {
+function createBuiltinNode(options: ParsedAutoRouterOptions) {
   const { notFoundRouteComponent } = options;
 
+  const rootPath = BUILT_IN_ROUTE[ROOT_ROUTE_NAME];
+
   const rootNode: AutoRouterNode = {
-    ...createEmptyCustomNode(BUILT_IN_CUSTOM_ROUTE[ROOT_ROUTE_NAME], options, ROOT_ROUTE_NAME),
-    layout: ''
+    path: rootPath,
+    name: ROOT_ROUTE_NAME,
+    originPath: rootPath,
+    component: '',
+    layout: '',
+    isBuiltin: true,
+    pageDir: '',
+    glob: '',
+    filePath: '',
+    importName: '',
+    importPath: '',
+    inode: NO_FILE_INODE
   };
 
+  const notFoundPath = BUILT_IN_ROUTE[NOT_FOUND_ROUTE_NAME];
+
   const notFoundNode: AutoRouterNode = {
-    ...createEmptyCustomNode(BUILT_IN_CUSTOM_ROUTE[NOT_FOUND_ROUTE_NAME], options, NOT_FOUND_ROUTE_NAME),
-    component: notFoundRouteComponent
+    path: notFoundPath,
+    name: NOT_FOUND_ROUTE_NAME,
+    originPath: notFoundPath,
+    component: notFoundRouteComponent,
+    layout: '',
+    isBuiltin: true,
+    pageDir: '',
+    glob: '',
+    filePath: '',
+    importName: '',
+    importPath: '',
+    inode: NO_FILE_INODE
   };
 
   return [rootNode, notFoundNode];
 }
 
-function createEmptyCustomNode(path: string, options: ParsedAutoRouterOptions, name?: string) {
+function createEmptyReuseNode(path: string, options: ParsedAutoRouterOptions) {
   const { getRouteName, getRouteLayout } = options;
 
   let node: AutoRouterNode = {
     path,
     get name() {
-      return name || getRouteName(node);
+      return getRouteName(node);
     },
     originPath: path,
     component: '',
     get layout() {
       return getRouteLayout(node);
     },
-    importName: '',
-    isLazy: false,
-    isCustom: true,
+    isReuse: true,
     pageDir: '',
     glob: '',
     filePath: '',
+    importName: '',
     importPath: '',
     inode: NO_FILE_INODE
   };
 
-  if (name !== ROOT_ROUTE_NAME && name !== NOT_FOUND_ROUTE_NAME) {
-    node = resolveParamNode(node);
-  }
+  node = resolveParamNode(node);
 
   return node;
 }

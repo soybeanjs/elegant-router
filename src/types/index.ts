@@ -111,13 +111,19 @@ export interface AutoRouterNode extends ResolvedGlob {
    *
    * 路由懒加载
    */
-  isLazy: boolean;
+  isLazy?: boolean;
   /**
-   * the custom of the route
+   * the builtin of the route. (Root, NotFound)
    *
-   * 自定义路由
+   * 内置路由 (Root, NotFound)
    */
-  isCustom?: boolean;
+  isBuiltin?: boolean;
+  /**
+   * the reuse of the route
+   *
+   * 复用路由
+   */
+  isReuse?: boolean;
 }
 
 interface RenamedNode extends AutoRouterNode {
@@ -145,11 +151,6 @@ export interface RouteItemBackup {
 }
 
 export type RouteBackup = Record<string, RouteItemBackup>;
-
-export interface CustomRoute {
-  map: Record<string, string>;
-  paths: string[];
-}
 
 export interface AutoRouterOptions {
   /**
@@ -260,12 +261,22 @@ export interface AutoRouterOptions {
    */
   layoutLazy?: (layout: string) => boolean;
   /**
-   * the custom routes
+   * the routes to reuse
+   *
+   * 复用已存在文件的路由
    *
    * @example
-   *   ['/custom1', '/custom2'];
+   *   ['/reuse1', '/reuse2/:id', '/reuse3/:id?/:name?'];
    */
-  customRoutes?: string[];
+  reuseRoutes?: string[];
+  /**
+   * the default component of the reuse route
+   *
+   * 复用路由的默认组件
+   *
+   * @default 'Wip'
+   */
+  defaultReuseRouteComponent?: string;
   /**
    * the root redirect path
    *
@@ -282,14 +293,6 @@ export interface AutoRouterOptions {
    * @default '404'
    */
   notFoundRouteComponent?: string;
-  /**
-   * the default custom route component
-   *
-   * 默认自定义路由组件
-   *
-   * @default 'Wip'
-   */
-  defaultCustomRouteComponent?: string;
   /**
    * the path of the route
    *
@@ -341,7 +344,7 @@ export interface AutoRouterOptions {
 
 export type CliOptions = Omit<AutoRouterOptions, 'watchFile' | 'fileUpdateDuration'>;
 
-export type PluginOptions = Omit<AutoRouterOptions, 'customRoutes'>;
+export type PluginOptions = Omit<AutoRouterOptions, 'reuseRoutes'>;
 
 export interface NormalizedLayout {
   /**

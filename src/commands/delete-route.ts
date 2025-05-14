@@ -6,7 +6,7 @@ import { CLI_CONFIG_SOURCE } from '../constants';
 import { AutoRouter } from '../core';
 import { logger } from '../shared';
 import type { CliOptions } from '../types';
-import { getCliConfigSourceFile } from './add-custom-route';
+import { getCliConfigSourceFile } from './add-reuse-route';
 
 interface DeleteRoutePrompt {
   routeName: string;
@@ -24,8 +24,8 @@ export async function deleteRoute(options: CliOptions, configPath?: string) {
     choices: autoRouter.getConfigurableNodes().map(node => {
       let message = node.name;
 
-      if (node.isCustom) {
-        message = `${message} (custom)`;
+      if (node.isReuse) {
+        message = `${message} (reuse)`;
       }
 
       return {
@@ -44,7 +44,7 @@ export async function deleteRoute(options: CliOptions, configPath?: string) {
     return;
   }
 
-  if (findNode.isCustom) {
+  if (findNode.isReuse) {
     if (!configPath) {
       logger.error(
         `the config file is not found, please add the config file ${CLI_CONFIG_SOURCE}.{js,ts,mjs,mts} 【配置文件未找到，请添加配置文件 ${CLI_CONFIG_SOURCE}.{js,ts,mjs,mts}】`
@@ -53,7 +53,7 @@ export async function deleteRoute(options: CliOptions, configPath?: string) {
     }
 
     try {
-      await removeCustomRouteFromConfig(configPath, findNode.originPath);
+      await removeReuseRouteFromConfig(configPath, findNode.originPath);
     } catch (error) {
       logger.error(`Failed to update config file: ${error} 【更新配置文件失败】`);
     }
@@ -63,7 +63,7 @@ export async function deleteRoute(options: CliOptions, configPath?: string) {
   }
 
   autoRouter.updateOptions({
-    customRoutes: autoRouter.getOptions().customRoutes.filter(route => route !== findNode.originPath)
+    reuseRoutes: autoRouter.getOptions().reuseRoutes.filter(route => route !== findNode.originPath)
   });
 
   await autoRouter.generate();
@@ -71,31 +71,31 @@ export async function deleteRoute(options: CliOptions, configPath?: string) {
   logger.success(`the route ${routeName} has been deleted 【路由 ${routeName} 已删除】`);
 }
 
-async function removeCustomRouteFromConfig(configPath: string, routePath: string) {
+async function removeReuseRouteFromConfig(configPath: string, routePath: string) {
   const { sourceFile, configObject } = await getCliConfigSourceFile(configPath);
 
-  const customRoutesProp = configObject.getProperty('customRoutes');
-  if (!customRoutesProp?.isKind(SyntaxKind.PropertyAssignment)) {
+  const reuseRoutesProp = configObject.getProperty('reuseRoutes');
+  if (!reuseRoutesProp?.isKind(SyntaxKind.PropertyAssignment)) {
     return;
   }
 
-  const customRoutesArray = customRoutesProp.getInitializer();
-  if (!customRoutesArray?.isKind(SyntaxKind.ArrayLiteralExpression)) {
+  const reuseRoutesArray = reuseRoutesProp.getInitializer();
+  if (!reuseRoutesArray?.isKind(SyntaxKind.ArrayLiteralExpression)) {
     return;
   }
 
   // Get existing routes
-  const elements = customRoutesArray.getElements();
+  const elements = reuseRoutesArray.getElements();
   const routeToRemove = elements.find(
     (el: Expression) => el.isKind(SyntaxKind.StringLiteral) && (el as StringLiteral).getLiteralValue() === routePath
   );
 
   if (routeToRemove) {
-    customRoutesArray.removeElement(routeToRemove);
+    reuseRoutesArray.removeElement(routeToRemove);
 
     await sourceFile.save();
     logger.success(
-      `the custom route ${routePath} has been removed from config file 【自定义路由 ${routePath} 已从配置文件中移除】`
+      `the reuse route ${routePath} has been removed from config file 【复用路由 ${routePath} 已从配置文件中移除】`
     );
   }
 }

@@ -51,8 +51,8 @@ export async function updateRoute(options: CliOptions) {
         .map(node => {
           let message = node.name;
 
-          if (node.isCustom) {
-            message = `${message} (custom)`;
+          if (node.isReuse) {
+            message = `${message} (reuse)`;
           }
 
           return {

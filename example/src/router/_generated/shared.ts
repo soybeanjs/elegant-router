@@ -11,10 +11,6 @@ const routePathMap: RoutePathMap = {
   "NotFound": "/:pathMatch(.*)*",
   "403": "/403",
   "404": "/404",
-  "Custom1": "/custom1",
-  "Custom2Id": "/custom2/:id",
-  "Custom3Id": "/custom3/:id?",
-  "Custom4IdName": "/custom4/:id?/:name?",
   "Demo": "/demo",
   "Home": "/home",
   "HomeChild": "/home/child",
@@ -26,6 +22,10 @@ const routePathMap: RoutePathMap = {
   "ListEditId": "/list/edit/:id",
   "ListId": "/list/:id",
   "Login": "/login",
+  "Reuse1": "/reuse1",
+  "Reuse2Id": "/reuse2/:id",
+  "Reuse3Id": "/reuse3/:id?",
+  "Reuse4IdName": "/reuse4/:id?/:name?",
   "Wip": "/wip",
 };
 

@@ -43,42 +43,6 @@ export const routes: AutoRouterRoute[] = [
     },
   },
   {
-    name: 'Custom1',
-    path: '/custom1',
-    layout: 'base',
-    component: 'Wip',
-    meta: {
-      title: "Custom1"
-    }
-  },
-  {
-    name: 'Custom2Id',
-    path: '/custom2/:id',
-    layout: 'base',
-    component: 'Wip',
-    meta: {
-      title: "Custom2Id"
-    }
-  },
-  {
-    name: 'Custom3Id',
-    path: '/custom3/:id?',
-    layout: 'base',
-    component: 'Wip',
-    meta: {
-      title: "Custom3Id"
-    }
-  },
-  {
-    name: 'Custom4IdName',
-    path: '/custom4/:id?/:name?',
-    layout: 'base',
-    component: 'Wip',
-    meta: {
-      title: "Custom4IdName"
-    }
-  },
-  {
     name: 'Demo',
     path: '/demo',
     layout: 'base',
@@ -176,6 +140,42 @@ export const routes: AutoRouterRoute[] = [
     meta: {
       title: "Login"
     },
+  },
+  {
+    name: 'Reuse1',
+    path: '/reuse1',
+    layout: 'base',
+    component: 'Wip',
+    meta: {
+      title: "Reuse1"
+    }
+  },
+  {
+    name: 'Reuse2Id',
+    path: '/reuse2/:id',
+    layout: 'base',
+    component: 'Wip',
+    meta: {
+      title: "Reuse2Id"
+    }
+  },
+  {
+    name: 'Reuse3Id',
+    path: '/reuse3/:id?',
+    layout: 'base',
+    component: 'Wip',
+    meta: {
+      title: "Reuse3Id"
+    }
+  },
+  {
+    name: 'Reuse4IdName',
+    path: '/reuse4/:id?/:name?',
+    layout: 'base',
+    component: 'Wip',
+    meta: {
+      title: "Reuse4IdName"
+    }
   },
   {
     name: 'Wip',

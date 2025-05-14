@@ -4,10 +4,10 @@ import { loadConfig } from 'unconfig';
 import { version } from '../package.json';
 import type { AutoRouterOptions, CliOptions } from './types';
 import { AutoRouter } from './core';
-import { addCustomRoute, addRoute, deleteRoute, manageBackup, recoveryRoute, updateRoute } from './commands';
+import { addReuseRoute, addRoute, deleteRoute, manageBackup, recoveryRoute, updateRoute } from './commands';
 import { CLI_CONFIG_SOURCE, SHORT_CLI_CONFIG_SOURCE } from './constants';
 
-type CommandType = 'generate' | 'add' | 'custom' | 'delete' | 'recovery' | 'update' | 'backup';
+type CommandType = 'generate' | 'add' | 'reuse' | 'delete' | 'recovery' | 'update' | 'backup';
 
 type CommandAction<A extends object> = (args?: A) => Promise<void> | void;
 
@@ -46,11 +46,11 @@ async function setupCli() {
         await addRoute(options);
       }
     },
-    custom: {
-      shortcut: '-c, --custom',
-      desc: 'add custom route 【新增自定义路由】',
+    reuse: {
+      shortcut: '-p, --reuse',
+      desc: 'add reuse route 【新增复用路由】',
       action: async () => {
-        await addCustomRoute(options, sources[0]);
+        await addReuseRoute(options, sources[0]);
       }
     },
     delete: {

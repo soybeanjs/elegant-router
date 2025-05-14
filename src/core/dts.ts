@@ -3,7 +3,6 @@ import { writeFile } from 'node:fs/promises';
 import { createPrefixCommentOfGenFile, ensureFile } from '../shared';
 import type { AutoRouterNode, ParsedAutoRouterOptions } from '../types';
 import {
-  BUILT_IN_CUSTOM_ROUTE,
   ELEGANT_ROUTER_TYPES_MODULE_NAME,
   NOT_FOUND_ROUTE_NAME,
   ROOT_ROUTE_NAME,
@@ -28,7 +27,7 @@ function getDtsCode(nodes: AutoRouterNode[], options: ParsedAutoRouterOptions) {
   const { layouts } = options;
 
   const layoutKeys = layouts.map(layout => layout.name);
-  const customNodes = nodes.filter(node => node.isCustom);
+  const reuseNodes = nodes.filter(node => node.isReuse);
 
   const prefixComment = createPrefixCommentOfGenFile();
 
@@ -86,16 +85,14 @@ declare module "${ELEGANT_ROUTER_TYPES_MODULE_NAME}" {
   export type BuiltinRouteKey = RootRouteKey | NotFoundRouteKey;
 
   /**
-   * custom route key
+   * reuse route key
    */
-  export type CustomRouteKey = Extract<
+  export type ReuseRouteKey = Extract<
     RouteKey,`;
 
-  customNodes
-    .filter(node => !BUILT_IN_CUSTOM_ROUTE[node.name as keyof typeof BUILT_IN_CUSTOM_ROUTE])
-    .forEach(node => {
-      code += `\n    | "${node.name}"`;
-    });
+  reuseNodes.forEach(node => {
+    code += `\n    | "${node.name}"`;
+  });
 
   code += `
   >;
@@ -103,7 +100,7 @@ declare module "${ELEGANT_ROUTER_TYPES_MODULE_NAME}" {
   /**
    * the route file key, which has it's own file
    */
-  export type RouteFileKey = Exclude<RouteKey, BuiltinRouteKey | CustomRouteKey>;
+  export type RouteFileKey = Exclude<RouteKey, BuiltinRouteKey | ReuseRouteKey>;
 
   /**
    * mapped name and path

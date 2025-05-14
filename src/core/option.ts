@@ -20,10 +20,10 @@ export function resolveOptions(options?: AutoRouterOptions): ParsedAutoRouterOpt
     tsconfig: 'tsconfig.json',
     alias,
     routerGeneratedDir: 'src/router/_generated',
-    customRoutes: [],
+    reuseRoutes: [],
+    defaultReuseRouteComponent: 'Wip',
     rootRedirect: '/home',
     notFoundRouteComponent: '404',
-    defaultCustomRouteComponent: 'Wip',
     layouts: {
       base: 'src/layouts/base/index.vue',
       blank: 'src/layouts/blank/index.vue'
@@ -41,7 +41,8 @@ export function resolveOptions(options?: AutoRouterOptions): ParsedAutoRouterOpt
   const pageInclude = Array.isArray(restOptions.pageInclude) ? restOptions.pageInclude : [restOptions.pageInclude];
 
   restOptions.cwd = normalizePath(restOptions.cwd);
-  restOptions.defaultCustomRouteComponent = pascalCase(restOptions.defaultCustomRouteComponent);
+  restOptions.defaultReuseRouteComponent = pascalCase(restOptions.defaultReuseRouteComponent);
+  restOptions.notFoundRouteComponent = pascalCase(restOptions.notFoundRouteComponent);
 
   if (Object.keys(layouts).length === 0) {
     throw new Error('layouts is required');

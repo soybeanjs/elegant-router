@@ -8,13 +8,13 @@ import { logger, updateStringProperty } from '../shared';
 import { CLI_CONFIG_SOURCE } from '../constants';
 import type { CliOptions } from '../types';
 
-interface AddCustomRoutePrompt {
+interface AddReuseRoutePrompt {
   cPath: string;
   layout: string;
   component: string;
 }
 
-export async function addCustomRoute(options: CliOptions, configPath?: string) {
+export async function addReuseRoute(options: CliOptions, configPath?: string) {
   if (!configPath) {
     logger.error(
       `the config file is not found, please add the config file ${CLI_CONFIG_SOURCE}.{js,ts,mjs,mts} 【配置文件未找到，请添加配置文件 ${CLI_CONFIG_SOURCE}.{js,ts,mjs,mts}】`
@@ -29,22 +29,22 @@ export async function addCustomRoute(options: CliOptions, configPath?: string) {
 
   const { cwd, routerGeneratedDir } = resolvedOptions;
 
-  const result = await enquirer.prompt<AddCustomRoutePrompt>([
+  const result = await enquirer.prompt<AddReuseRoutePrompt>([
     {
       type: 'input',
       name: 'cPath',
-      message: 'please input the path of the custom route, like `/demo`\n 【输入自定义路由的路径，如：/demo】'
+      message: 'please input the path of the reuse route, like `/demo`\n 【输入复用路由的路径，如：/demo】'
     },
     {
       type: 'select',
       name: 'layout',
-      message: 'please select the layout of the custom route 【选择路由布局】',
+      message: 'please select the layout of the reuse route 【选择路由布局】',
       choices: resolvedOptions.layouts.map(layout => layout.name)
     },
     {
       type: 'select',
       name: 'component',
-      message: 'please select the component of the route 【选择路由组件】',
+      message: 'please select the component of the reuse route 【选择路由组件】',
       choices: autoRouter.nodes.filter(item => item.filePath).map(item => item.name)
     }
   ]);
@@ -52,7 +52,7 @@ export async function addCustomRoute(options: CliOptions, configPath?: string) {
   const { cPath, layout, component } = result;
 
   autoRouter.updateOptions({
-    customRoutes: resolvedOptions.customRoutes.concat(cPath)
+    reuseRoutes: resolvedOptions.reuseRoutes.concat(cPath)
   });
 
   await autoRouter.generate();
@@ -60,7 +60,7 @@ export async function addCustomRoute(options: CliOptions, configPath?: string) {
   const node = autoRouter.nodes.find(item => item.originPath === cPath);
 
   if (!node) {
-    logger.warn(`the custom route ${cPath} not found 【自定义路由 ${cPath} 不存在】`);
+    logger.warn(`the reuse route ${cPath} not found 【复用路由 ${cPath} 不存在】`);
     return;
   }
 
@@ -89,44 +89,44 @@ export async function addCustomRoute(options: CliOptions, configPath?: string) {
   }
 
   try {
-    await updateConfigCustomRoutes(configObject, cPath);
+    await updateConfigReuseRoutes(configObject, cPath);
     await configSourceFile.save();
-    logger.success(`the custom route ${cPath} has been added 【自定义路由 ${cPath} 已添加】`);
+    logger.success(`the reuse route ${cPath} has been added 【复用路由 ${cPath} 已添加】`);
   } catch (error) {
     logger.error(`Failed to update config file: ${error} 【更新配置文件失败】`);
   }
 }
 
-async function updateConfigCustomRoutes(configObject: ObjectLiteralExpression, newRoute: string) {
-  const customRoutesProp = configObject.getProperty('customRoutes');
+async function updateConfigReuseRoutes(configObject: ObjectLiteralExpression, newRoute: string) {
+  const reuseRoutesProp = configObject.getProperty('reuseRoutes');
 
-  if (!customRoutesProp) {
-    // Create new customRoutes property if it doesn't exist
+  if (!reuseRoutesProp) {
+    // Create new reuseRoutes property if it doesn't exist
     configObject.addPropertyAssignment({
-      name: 'customRoutes',
+      name: 'reuseRoutes',
       initializer: `['${newRoute}']`
     });
     return;
   }
 
-  if (!customRoutesProp.isKind(SyntaxKind.PropertyAssignment)) {
-    throw new Error('customRoutes property is not a property assignment');
+  if (!reuseRoutesProp.isKind(SyntaxKind.PropertyAssignment)) {
+    throw new Error('reuseRoutes property is not a property assignment');
   }
 
-  const customRoutesArray = customRoutesProp.getInitializer();
-  if (!customRoutesArray?.isKind(SyntaxKind.ArrayLiteralExpression)) {
-    throw new Error('customRoutes property is not an array');
+  const reuseRoutesArray = reuseRoutesProp.getInitializer();
+  if (!reuseRoutesArray?.isKind(SyntaxKind.ArrayLiteralExpression)) {
+    throw new Error('reuseRoutes property is not an array');
   }
 
   // Get existing routes
-  const existingRoutes = customRoutesArray
+  const existingRoutes = reuseRoutesArray
     .getElements()
     .map((el: Node) => (el.isKind(SyntaxKind.StringLiteral) ? el.getLiteralValue() : ''))
     .filter(Boolean);
 
   // Add new route if it doesn't exist
   if (!existingRoutes.includes(newRoute)) {
-    customRoutesArray.addElement(`'${newRoute}'`);
+    reuseRoutesArray.addElement(`'${newRoute}'`);
   }
 }
 

@@ -36,14 +36,14 @@ describe('AutoRouter', () => {
     ]);
   });
 
-  it('should handle custom routes configuration', () => {
-    const customOptions: AutoRouterOptions = {
+  it('should handle reuse routes configuration', () => {
+    const reuseOptions: AutoRouterOptions = {
       ...options,
-      customRoutes: ['/dashboard', '/user/profile']
+      reuseRoutes: ['/dashboard', '/user/profile']
     };
-    const customRouter = new AutoRouter(customOptions);
-    const resolvedOptions = customRouter.getOptions();
-    expect(resolvedOptions.customRoutes).toEqual(['/dashboard', '/user/profile']);
+    const reuseRouter = new AutoRouter(reuseOptions);
+    const resolvedOptions = reuseRouter.getOptions();
+    expect(resolvedOptions.reuseRoutes).toEqual(['/dashboard', '/user/profile']);
   });
 
   it('should handle root redirect configuration', () => {

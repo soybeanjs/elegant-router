@@ -8,7 +8,7 @@ export const NOT_FOUND_ROUTE_NAME = 'NotFound';
 
 export const NO_FILE_INODE = -99;
 
-export const BUILT_IN_CUSTOM_ROUTE = {
+export const BUILT_IN_ROUTE = {
   [ROOT_ROUTE_NAME]: '/',
   [NOT_FOUND_ROUTE_NAME]: '/:pathMatch(.*)*'
 } as const;
