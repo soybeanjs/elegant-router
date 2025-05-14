@@ -1,6 +1,20 @@
 # Changelog
 
 
+## [v1.0.0-beta.3](https://github.com/soybeanjs/elegant-router/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2025-05-14)
+
+### &nbsp;&nbsp;&nbsp;🚨 Breaking Changes
+
+- **projects**: refactor `customRoutes` to `reuseRoutes` &nbsp;-&nbsp; by @soybeanjs [<samp>(5c172)</samp>](https://github.com/soybeanjs/elegant-router/commit/5c1724b)
+
+### &nbsp;&nbsp;&nbsp;📖 Documentation
+
+- **projects**: update `customRoutes` to `reuseRoutes` & optimize README &nbsp;-&nbsp; by @soybeanjs [<samp>(9c0cd)</samp>](https://github.com/soybeanjs/elegant-router/commit/9c0cd61)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v1.0.0-beta.2](https://github.com/soybeanjs/elegant-router/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2025-05-14)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
