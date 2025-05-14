@@ -1,6 +1,10 @@
 # Changelog
 
 
+## [v1.0.0-rc.1](https://github.com/soybeanjs/elegant-router/compare/v1.0.0-beta.3...v1.0.0-rc.1) (2025-05-14)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
 ## [v1.0.0-beta.3](https://github.com/soybeanjs/elegant-router/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2025-05-14)
 
 ### &nbsp;&nbsp;&nbsp;🚨 Breaking Changes
