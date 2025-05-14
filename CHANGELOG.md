@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [v1.0.1](https://github.com/soybeanjs/elegant-router/compare/v1.0.0...v1.0.1) (2025-05-15)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **package**: remove unused `prepare` script from package.json &nbsp;-&nbsp; by @soybeanjs [<samp>(57300)</samp>](https://github.com/soybeanjs/elegant-router/commit/5730027)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v1.0.0](https://github.com/soybeanjs/elegant-router/compare/v0.3.8...v1.0.0) (2025-05-14)
 
 ### &nbsp;&nbsp;&nbsp;🚨 Breaking Changes
