@@ -26,8 +26,10 @@ declare module "vue-router/auto-routes" {
     "NotFound": RouteRecordInfo<"NotFound", "/:pathMatch(.*)*", Record<never, never>, Record<never, never>>;
     "403": RouteRecordInfo<"403", "/403", Record<never, never>, Record<never, never>>;
     "404": RouteRecordInfo<"404", "/404", Record<never, never>, Record<never, never>>;
-    "Custom1Aa": RouteRecordInfo<"Custom1Aa", "/custom1/aa", Record<never, never>, Record<never, never>>;
-    "Custom2": RouteRecordInfo<"Custom2", "/custom2", Record<never, never>, Record<never, never>>;
+    "Custom1": RouteRecordInfo<"Custom1", "/custom1", Record<never, never>, Record<never, never>>;
+    "Custom2Id": RouteRecordInfo<"Custom2Id", "/custom2/:id", { id: ParamValue<true> }, { id: ParamValue<false> }>;
+    "Custom3Id": RouteRecordInfo<"Custom3Id", "/custom3/:id?", { id?: ParamValueZeroOrOne<true> }, { id?: ParamValueZeroOrOne<false> }>;
+    "Custom4IdName": RouteRecordInfo<"Custom4IdName", "/custom4/:id?/:name?", { id?: ParamValueZeroOrOne<true>, name?: ParamValueZeroOrOne<true> }, { id?: ParamValueZeroOrOne<false>, name?: ParamValueZeroOrOne<false> }>;
     "Demo": RouteRecordInfo<"Demo", "/demo", Record<never, never>, Record<never, never>>;
     "Home": RouteRecordInfo<"Home", "/home", Record<never, never>, Record<never, never>>;
     "HomeChild": RouteRecordInfo<"HomeChild", "/home/child", Record<never, never>, Record<never, never>>;

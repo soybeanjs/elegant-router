@@ -234,21 +234,42 @@ function resolveGroupNode(node: AutoRouterNode) {
  * @param node
  */
 function resolveParamNode(node: AutoRouterNode) {
+  // 1. 先将 [id]/[[id]] 转换为 /:id/:id?
   const optional = getOptionalParamsByPath(node.path);
-  if (optional?.params) {
-    node.params = { ...node.params, ...optional.params };
+  if (optional) {
     node.path = optional.path;
-  }
-
-  if (!optional) {
+  } else {
     const required = getParamsByPath(node.path);
-    if (required?.params) {
-      node.params = { ...node.params, ...required.params };
+    if (required) {
       node.path = required.path;
     }
   }
+  // 2. 再统一从 /:id/:id? 这种格式中提取参数
+  const paramInfo = getParamsFromRoutePath(node.path);
+  if (paramInfo?.params) {
+    node.params = { ...node.params, ...paramInfo.params };
+  }
 
   return node;
+}
+
+/**
+ * 从 '/:id/:userId?' 这种格式中提取参数
+ *
+ * @param nodePath
+ */
+function getParamsFromRoutePath(nodePath: string) {
+  // 匹配 :param 和 :param?，不匹配 ::
+  const PARAM_REG = /:(\w+)(\?)?/g;
+  const params: Record<string, AutoRouterParamType> = {};
+  let match: RegExpExecArray | null;
+
+  while ((match = PARAM_REG.exec(nodePath)) !== null) {
+    const [, param, optional] = match;
+    params[param] = optional === '?' ? 'optional' : 'required';
+  }
+
+  return Object.keys(params).length > 0 ? { params, path: nodePath } : null;
 }
 
 function getOptionalParamsByPath(nodePath: string) {
