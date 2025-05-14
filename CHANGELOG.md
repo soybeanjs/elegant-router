@@ -1,6 +1,158 @@
 # Changelog
 
 
+## [v1.0.0](https://github.com/soybeanjs/elegant-router/compare/v0.3.8...v1.0.0) (2025-05-14)
+
+### &nbsp;&nbsp;&nbsp;🚨 Breaking Changes
+
+- **projects**: refactor `customRoutes` to `reuseRoutes` &nbsp;-&nbsp; by @soybeanjs [<samp>(5c172)</samp>](https://github.com/soybeanjs/elegant-router/commit/5c1724b)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **build**:
+  - add support for additional build tools and update configuration &nbsp;-&nbsp; by @soybeanjs [<samp>(71f6e)</samp>](https://github.com/soybeanjs/elegant-router/commit/71f6ebb)
+- **cli**:
+  - add CLI functionality with configuration loading and version display &nbsp;-&nbsp; by @soybeanjs [<samp>(1ccef)</samp>](https://github.com/soybeanjs/elegant-router/commit/1cceff1)
+  - implement CLI commands for adding and removing routes, enhance configuration handling &nbsp;-&nbsp; by @soybeanjs [<samp>(97e69)</samp>](https://github.com/soybeanjs/elegant-router/commit/97e69af)
+  - add backup management command to CLI for route backup handling &nbsp;-&nbsp; by @soybeanjs [<samp>(a6605)</samp>](https://github.com/soybeanjs/elegant-router/commit/a660514)
+  - document new `er backup` command for managing route backups in README &nbsp;-&nbsp; by @soybeanjs [<samp>(ba271)</samp>](https://github.com/soybeanjs/elegant-router/commit/ba2713c)
+- **config**:
+  - add new configuration file for elegant-router and update CLI to support multiple config sources &nbsp;-&nbsp; by @soybeanjs [<samp>(6d230)</samp>](https://github.com/soybeanjs/elegant-router/commit/6d23083)
+- **docs**:
+  - update README to reflect new CLI commands and usage details for route management &nbsp;-&nbsp; by @soybeanjs [<samp>(a5c94)</samp>](https://github.com/soybeanjs/elegant-router/commit/a5c94a3)
+- **projects**:
+  - init next version &nbsp;-&nbsp; by @soybeanjs [<samp>(8d5b0)</samp>](https://github.com/soybeanjs/elegant-router/commit/8d5b07d)
+  - resolve node &nbsp;-&nbsp; by @soybeanjs [<samp>(4c308)</samp>](https://github.com/soybeanjs/elegant-router/commit/4c30868)
+  - resolve node &nbsp;-&nbsp; by @soybeanjs [<samp>(1dae2)</samp>](https://github.com/soybeanjs/elegant-router/commit/1dae212)
+  - add alias & optimize resolve glob &nbsp;-&nbsp; by @soybeanjs [<samp>(cd1c5)</samp>](https://github.com/soybeanjs/elegant-router/commit/cd1c54e)
+  - generate dts & optimize node &nbsp;-&nbsp; by @soybeanjs [<samp>(5b854)</samp>](https://github.com/soybeanjs/elegant-router/commit/5b8541a)
+  - init generate routes code &nbsp;-&nbsp; by @soybeanjs [<samp>(5840e)</samp>](https://github.com/soybeanjs/elegant-router/commit/5840e90)
+  - generate routes &nbsp;-&nbsp; by @soybeanjs [<samp>(ba64b)</samp>](https://github.com/soybeanjs/elegant-router/commit/ba64b34)
+  - generate transformer and shared &nbsp;-&nbsp; by @soybeanjs [<samp>(a80fd)</samp>](https://github.com/soybeanjs/elegant-router/commit/a80fd18)
+  - apply plugin in example &nbsp;-&nbsp; by @soybeanjs [<samp>(d87f8)</samp>](https://github.com/soybeanjs/elegant-router/commit/d87f841)
+  - support inject route name to route file component &nbsp;-&nbsp; by @soybeanjs [<samp>(2bc28)</samp>](https://github.com/soybeanjs/elegant-router/commit/2bc2829)
+  - add cli recovery &nbsp;-&nbsp; by @soybeanjs [<samp>(b8031)</samp>](https://github.com/soybeanjs/elegant-router/commit/b8031fe)
+  - add cli command recovery-route &nbsp;-&nbsp; by @soybeanjs [<samp>(4c418)</samp>](https://github.com/soybeanjs/elegant-router/commit/4c418a1)
+  - add example for custom routes &nbsp;-&nbsp; by @soybeanjs [<samp>(60186)</samp>](https://github.com/soybeanjs/elegant-router/commit/60186fb)
+- **router**:
+  - enhance AutoRouter with configuration loading, glob resolution, and improved route handling &nbsp;-&nbsp; by @soybeanjs [<samp>(a4418)</samp>](https://github.com/soybeanjs/elegant-router/commit/a4418fe)
+  - introduce built-in custom routes and refactor custom node resolution &nbsp;-&nbsp; by @soybeanjs [<samp>(32a0c)</samp>](https://github.com/soybeanjs/elegant-router/commit/32a0c4a)
+  - replace HomeChild5 with HomeChild2 and add corresponding route and view files &nbsp;-&nbsp; by @soybeanjs [<samp>(c22f9)</samp>](https://github.com/soybeanjs/elegant-router/commit/c22f9b9)
+  - enhance route configuration with meta data generation and update route initialization logic &nbsp;-&nbsp; by @soybeanjs [<samp>(e00dd)</samp>](https://github.com/soybeanjs/elegant-router/commit/e00dd9d)
+  - refactor route handling to support custom routes and improve type definitions &nbsp;-&nbsp; by @soybeanjs [<samp>(c443e)</samp>](https://github.com/soybeanjs/elegant-router/commit/c443e96)
+  - update delete route command to display custom route indicators and filter configurable nodes &nbsp;-&nbsp; by @soybeanjs [<samp>(8525d)</samp>](https://github.com/soybeanjs/elegant-router/commit/8525d2b)
+  - implement interactive route update command to modify component and layout properties &nbsp;-&nbsp; by @soybeanjs [<samp>(74fe2)</samp>](https://github.com/soybeanjs/elegant-router/commit/74fe23e)
+  - add custom route command to CLI for interactive route management &nbsp;-&nbsp; by @soybeanjs [<samp>(3b3a3)</samp>](https://github.com/soybeanjs/elegant-router/commit/3b3a31b)
+  - enhance delete route command to support config file updates for custom routes &nbsp;-&nbsp; by @soybeanjs [<samp>(1111b)</samp>](https://github.com/soybeanjs/elegant-router/commit/1111bd6)
+- **routes**:
+  - support parse params of custom route &nbsp;-&nbsp; by @soybeanjs [<samp>(5b9e1)</samp>](https://github.com/soybeanjs/elegant-router/commit/5b9e115)
+- **temp**:
+  - implement exclude glob management for improved route recovery handling &nbsp;-&nbsp; by @soybeanjs [<samp>(09939)</samp>](https://github.com/soybeanjs/elegant-router/commit/0993991)
+- **tests**:
+  - integrate Vitest for testing framework and add initial test setup &nbsp;-&nbsp; by @soybeanjs [<samp>(5b0b4)</samp>](https://github.com/soybeanjs/elegant-router/commit/5b0b427)
+- **todos**:
+  - update TODO list with completed tasks and add new item for updating route data &nbsp;-&nbsp; by @soybeanjs [<samp>(d9835)</samp>](https://github.com/soybeanjs/elegant-router/commit/d983588)
+  - update TODO list to include management of route backup table and clarify CLI command descriptions &nbsp;-&nbsp; by @soybeanjs [<samp>(cac7a)</samp>](https://github.com/soybeanjs/elegant-router/commit/cac7a40)
+- **types**:
+  - add PluginOptions type to exclude customRoutes from AutoRouterOptions &nbsp;-&nbsp; by @soybeanjs [<samp>(93c18)</samp>](https://github.com/soybeanjs/elegant-router/commit/93c18d4)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **projects**:
+  - fix template-vue vite config &nbsp;-&nbsp; by @soybeanjs [<samp>(e8581)</samp>](https://github.com/soybeanjs/elegant-router/commit/e8581f9)
+  - fix generated dts &nbsp;-&nbsp; by @soybeanjs [<samp>(8c486)</samp>](https://github.com/soybeanjs/elegant-router/commit/8c48680)
+- **route**:
+  - update route sorting to use elements from routesExpression &nbsp;-&nbsp; by @soybeanjs [<samp>(884db)</samp>](https://github.com/soybeanjs/elegant-router/commit/884db48)
+- **router**:
+  - enhance updateMetaProperty function to handle empty newMeta and ensure proper meta property assignment &nbsp;-&nbsp; by @soybeanjs [<samp>(09185)</samp>](https://github.com/soybeanjs/elegant-router/commit/091853e)
+
+### &nbsp;&nbsp;&nbsp;🛠 Optimizations
+
+- **projects**:
+  - move debug files to debug directory &nbsp;-&nbsp; by @soybeanjs [<samp>(b7b7a)</samp>](https://github.com/soybeanjs/elegant-router/commit/b7b7a3f)
+  - remove legacy packages code &nbsp;-&nbsp; by @soybeanjs [<samp>(2991a)</samp>](https://github.com/soybeanjs/elegant-router/commit/2991aac)
+  - optimize temp functions &nbsp;-&nbsp; by @soybeanjs [<samp>(94a90)</samp>](https://github.com/soybeanjs/elegant-router/commit/94a908b)
+  - optimize example layout &nbsp;-&nbsp; by @soybeanjs [<samp>(929ce)</samp>](https://github.com/soybeanjs/elegant-router/commit/929ce97)
+  - optimize ts-morph function of route &nbsp;-&nbsp; by @soybeanjs [<samp>(00910)</samp>](https://github.com/soybeanjs/elegant-router/commit/0091074)
+  - optimize cli &nbsp;-&nbsp; by @soybeanjs [<samp>(84692)</samp>](https://github.com/soybeanjs/elegant-router/commit/846920d)
+  - optimize cli &nbsp;-&nbsp; by @soybeanjs [<samp>(4daca)</samp>](https://github.com/soybeanjs/elegant-router/commit/4daca0c)
+  - optimize recovery route &nbsp;-&nbsp; by @soybeanjs [<samp>(606b1)</samp>](https://github.com/soybeanjs/elegant-router/commit/606b123)
+  - optimize command add custom route &nbsp;-&nbsp; by @soybeanjs [<samp>(214e2)</samp>](https://github.com/soybeanjs/elegant-router/commit/214e28f)
+  - optimize import statement &nbsp;-&nbsp; by @soybeanjs [<samp>(8ad4e)</samp>](https://github.com/soybeanjs/elegant-router/commit/8ad4e1f)
+  - remove useless file &nbsp;-&nbsp; by @soybeanjs [<samp>(2cd45)</samp>](https://github.com/soybeanjs/elegant-router/commit/2cd451e)
+
+### &nbsp;&nbsp;&nbsp;💅 Refactors
+
+- **cli**:
+  - simplify CLI command structure and enhance command parsing logic &nbsp;-&nbsp; by @soybeanjs [<samp>(58c34)</samp>](https://github.com/soybeanjs/elegant-router/commit/58c3496)
+- **name**:
+  - enhance filtering logic to support multiple file types and streamline directory handling &nbsp;-&nbsp; by @soybeanjs [<samp>(07a2d)</samp>](https://github.com/soybeanjs/elegant-router/commit/07a2ded)
+- **projects**:
+  - refactor example template-vue &nbsp;-&nbsp; by @soybeanjs [<samp>(5770f)</samp>](https://github.com/soybeanjs/elegant-router/commit/5770fbf)
+  - move `template-vue` to `example` &nbsp;-&nbsp; by @soybeanjs [<samp>(9e5e4)</samp>](https://github.com/soybeanjs/elegant-router/commit/9e5e4e8)
+- **route**:
+  - streamline route updates by consolidating element retrieval and move utility functions to a new module &nbsp;-&nbsp; by @soybeanjs [<samp>(8697a)</samp>](https://github.com/soybeanjs/elegant-router/commit/8697a02)
+- **router**:
+  - update node and route backup handling for improved state management &nbsp;-&nbsp; by @soybeanjs [<samp>(7bc2f)</samp>](https://github.com/soybeanjs/elegant-router/commit/7bc2f36)
+  - remove routeLayoutMap option and update route handling to directly manage layout properties &nbsp;-&nbsp; by @soybeanjs [<samp>(ffea4)</samp>](https://github.com/soybeanjs/elegant-router/commit/ffea4af)
+- **watcher**:
+  - improve file watching logic and simplify directory filtering &nbsp;-&nbsp; by @soybeanjs [<samp>(ad269)</samp>](https://github.com/soybeanjs/elegant-router/commit/ad26958)
+
+### &nbsp;&nbsp;&nbsp;📖 Documentation
+
+- **README**:
+  - add file watching mechanism details to enhance development experience &nbsp;-&nbsp; by @soybeanjs [<samp>(f28a0)</samp>](https://github.com/soybeanjs/elegant-router/commit/f28a0d9)
+  - add warning about migration to legacy branch and package name change &nbsp;-&nbsp; by @soybeanjs [<samp>(1c07e)</samp>](https://github.com/soybeanjs/elegant-router/commit/1c07e56)
+  - add Command Line Interface section with installation instructions and usage examples &nbsp;-&nbsp; by @soybeanjs [<samp>(29417)</samp>](https://github.com/soybeanjs/elegant-router/commit/294170f)
+  - update language switch position &nbsp;-&nbsp; by @soybeanjs [<samp>(4d651)</samp>](https://github.com/soybeanjs/elegant-router/commit/4d6512f)
+  - add component name injection details for Vue Router KeepAlive functionality &nbsp;-&nbsp; by @soybeanjs [<samp>(dbe78)</samp>](https://github.com/soybeanjs/elegant-router/commit/dbe7846)
+- **TODO**:
+  - add initial TODO list for routing features &nbsp;-&nbsp; by @soybeanjs [<samp>(76cf1)</samp>](https://github.com/soybeanjs/elegant-router/commit/76cf115)
+  - update task &nbsp;-&nbsp; by @soybeanjs [<samp>(d1e82)</samp>](https://github.com/soybeanjs/elegant-router/commit/d1e82b8)
+  - update task &nbsp;-&nbsp; by @soybeanjs [<samp>(90806)</samp>](https://github.com/soybeanjs/elegant-router/commit/90806b8)
+  - update task &nbsp;-&nbsp; by @soybeanjs [<samp>(e9eeb)</samp>](https://github.com/soybeanjs/elegant-router/commit/e9eeb63)
+  - update task &nbsp;-&nbsp; by @soybeanjs [<samp>(12ae5)</samp>](https://github.com/soybeanjs/elegant-router/commit/12ae5af)
+  - update task &nbsp;-&nbsp; by @soybeanjs [<samp>(d2e3f)</samp>](https://github.com/soybeanjs/elegant-router/commit/d2e3f0c)
+- **projects**:
+  - add README.md &nbsp;-&nbsp; by @soybeanjs [<samp>(3c3a1)</samp>](https://github.com/soybeanjs/elegant-router/commit/3c3a16f)
+  - update README &nbsp;-&nbsp; by @soybeanjs [<samp>(8dad5)</samp>](https://github.com/soybeanjs/elegant-router/commit/8dad53c)
+  - add introduce for CustomRoute &nbsp;-&nbsp; by @soybeanjs [<samp>(27634)</samp>](https://github.com/soybeanjs/elegant-router/commit/276342d)
+  - update `customRoutes` to `reuseRoutes` & optimize README &nbsp;-&nbsp; by @soybeanjs [<samp>(9c0cd)</samp>](https://github.com/soybeanjs/elegant-router/commit/9c0cd61)
+- **readme**:
+  - update configuration file naming and simplify ElegantRouter usage examples &nbsp;-&nbsp; by @soybeanjs [<samp>(490ca)</samp>](https://github.com/soybeanjs/elegant-router/commit/490ca9a)
+  - simplify ElegantRouter customRoute example for clarity &nbsp;-&nbsp; by @soybeanjs [<samp>(079a2)</samp>](https://github.com/soybeanjs/elegant-router/commit/079a207)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **dependencies**:
+  - update package versions and add unplugin-utils for path normalization &nbsp;-&nbsp; by @soybeanjs [<samp>(0d71d)</samp>](https://github.com/soybeanjs/elegant-router/commit/0d71deb)
+- **deps**:
+  - update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(3d344)</samp>](https://github.com/soybeanjs/elegant-router/commit/3d3446d)
+  - bump vue from 3.5.4 to 3.5.12 &nbsp;-&nbsp; by **dependabot[bot]** [<samp>(80a79)</samp>](https://github.com/soybeanjs/elegant-router/commit/80a791e)
+  - update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(26087)</samp>](https://github.com/soybeanjs/elegant-router/commit/26087f5)
+  - update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(cd4a3)</samp>](https://github.com/soybeanjs/elegant-router/commit/cd4a358)
+  - lock deps &nbsp;-&nbsp; by @soybeanjs [<samp>(3a7d2)</samp>](https://github.com/soybeanjs/elegant-router/commit/3a7d230)
+  - update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(4b9f1)</samp>](https://github.com/soybeanjs/elegant-router/commit/4b9f1f9)
+  - update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(edd66)</samp>](https://github.com/soybeanjs/elegant-router/commit/edd66f7)
+- **eslint**:
+  - disable 'class-methods-use-this' rule and keep 'no-continue' off &nbsp;-&nbsp; by @soybeanjs [<samp>(28f43)</samp>](https://github.com/soybeanjs/elegant-router/commit/28f43ec)
+- **projects**:
+  - remove dependabot.yml &nbsp;-&nbsp; by @soybeanjs [<samp>(68d0c)</samp>](https://github.com/soybeanjs/elegant-router/commit/68d0c98)
+  - init project &nbsp;-&nbsp; by @soybeanjs [<samp>(ddfc8)</samp>](https://github.com/soybeanjs/elegant-router/commit/ddfc85c)
+- **todos**:
+  - remove outdated TODO list from repository &nbsp;-&nbsp; by @soybeanjs [<samp>(c0552)</samp>](https://github.com/soybeanjs/elegant-router/commit/c0552d6)
+- **vscode**:
+  - remove unused extensions from configuration &nbsp;-&nbsp; by @soybeanjs [<samp>(aed14)</samp>](https://github.com/soybeanjs/elegant-router/commit/aed1446)
+
+### &nbsp;&nbsp;&nbsp;🎨 Styles
+
+- **projects**: format code &nbsp;-&nbsp; by @soybeanjs [<samp>(5fc15)</samp>](https://github.com/soybeanjs/elegant-router/commit/5fc151c)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+[dependabot[bot]](mailto:49699333+dependabot[bot]@users.noreply.github.com)
+
 ## [v1.0.0-rc.1](https://github.com/soybeanjs/elegant-router/compare/v1.0.0-beta.3...v1.0.0-rc.1) (2025-05-14)
 
 ### &nbsp;&nbsp;&nbsp;❤️ Contributors
