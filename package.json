@@ -86,7 +86,6 @@
     "cleanup": "soy cleanup",
     "commit": "soy git-commit",
     "lint": "eslint . --fix",
-    "prepare": "pnpm stub",
     "publish-pkg": "pnpm publish --access public",
     "release": "pnpm soy release",
     "stub": "unbuild --stub",
