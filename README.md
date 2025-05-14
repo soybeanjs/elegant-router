@@ -105,8 +105,9 @@ ElegantRouter CLI 提供以下命令：
 | 命令 | 简写 | 描述 |
 |------|------|------|
 | `er generate` | `er -g` | 生成路由配置文件 |
-| `er add` | `er -a` | 交互式添加新路由文件 |
-| `er delete` | `er -d` | 交互式删除现有路由文件 |
+| `er add` | `er -a` | 添加新路由文件 |
+| `er reuse` | `er -p` | 添加复用路由文件 |
+| `er delete` | `er -d` | 删除现有路由文件 |
 | `er recovery` | `er -r` | 恢复已删除的路由文件 |
 | `er update` | `er -u` | 更新路由配置 |
 | `er backup` | `er -b` | 管理路由备份 |
@@ -218,17 +219,14 @@ export default defineConfig({
     base: 'src/layouts/base/index.vue',
     blank: 'src/layouts/blank/index.vue'
   },
-  // 自定义路由配置
-  customRoutes: [
-    '/dashboard',
-    '/user/profile',
-  ],
+  // 复用路由配置
+  reuseRoutes: ['/reuse1', '/reuse2/:id', '/reuse3/:id?', '/reuse4/:id?/:name?'],
+  // 默认复用路由组件
+  defaultReuseRouteComponent: 'wip',
   // 根路由重定向
   rootRedirect: '/dashboard',
   // 404 路由组件
   notFoundRouteComponent: 'NotFound',
-  // 默认自定义路由组件
-  defaultCustomRouteComponent: 'wip'
 });
 ```
 
@@ -476,9 +474,9 @@ ElegantRouter 基于文件系统约定创建路由，遵循简单直观的规则
 }
 ```
 
-### 自定义路由
+### 复用路由
 
-需要复用已有的页面路由文件，可以通过配置 `customRoutes` 选项来实现：
+需要复用已有的页面路由文件，可以通过配置 `reuseRoutes` 选项来实现：
 
 #### 配置方式
 
@@ -486,9 +484,11 @@ ElegantRouter 基于文件系统约定创建路由，遵循简单直观的规则
 
 ```ts
 {
-  customRoutes: [
-    '/dashboard',
-    '/user/profile',
+  reuseRoutes: [
+    '/reuse1',
+    '/reuse2/:id',
+    '/reuse3/:id?',
+    '/reuse4/:id?/:name?'
   ]
 }
 ```
@@ -496,18 +496,42 @@ ElegantRouter 基于文件系统约定创建路由，遵循简单直观的规则
 #### 路由结果
 
 ```ts
-{
-  name: "Dashboard",
-  path: "/dashboard",
-  layout: "base",
-  component: "wip", // 使用已有的页面路由文件
-},
-{
-  name: "UserProfile",
-  path: "/user/profile",
-  layout: "base",
-  component: "demo",
-},
+  {
+    name: 'Reuse1',
+    path: '/reuse1',
+    layout: 'base',
+    component: 'Wip', // 现有文件的组件
+    meta: {
+      title: "Reuse1"
+    }
+  },
+  {
+    name: 'Reuse2Id',
+    path: '/reuse2/:id',
+    layout: 'base',
+    component: 'Wip',
+    meta: {
+      title: "Reuse2Id"
+    }
+  },
+  {
+    name: 'Reuse3Id',
+    path: '/reuse3/:id?',
+    layout: 'base',
+    component: 'Wip',
+    meta: {
+      title: "Reuse3Id"
+    }
+  },
+  {
+    name: 'Reuse4IdName',
+    path: '/reuse4/:id?/:name?',
+    layout: 'base',
+    component: 'Wip',
+    meta: {
+      title: "Reuse4IdName"
+    }
+  },
 
 ```
 
@@ -695,23 +719,18 @@ interface AutoRouterOptions {
    */
   layoutLazy?: (layout: string) => boolean;
   /**
-   * 自定义路由配置
-   *
-   * 您可以通过 map 配置名称与路径的映射，或通过 paths 提供路径列表
-   * 系统将自动为每条路径创建对应的路由节点
+   * 复用已存在文件的路由
    *
    * @example
-   *   ```ts
-   *   customRoute: {
-   *     map: {
-   *       Home: '/home',
-   *       About: '/about'
-   *     },
-   *     paths: ['/home2', '/about2']
-   *   }
-   *   ```
+   *   ['/reuse1', '/reuse2/:id', '/reuse3/:id?/:name?'];
    */
-  customRoute?: Partial<CustomRoute>;
+  reuseRoute?: string[];
+  /**
+   * 复用路由的默认组件
+   *
+   * @default 'Wip'
+   */
+  defaultReuseRouteComponent?: string;
   /**
    * 根路由重定向路径
    *
@@ -724,12 +743,6 @@ interface AutoRouterOptions {
    * @default '404'
    */
   notFoundRouteComponent?: string;
-  /**
-   * 默认自定义路由组件
-   *
-   * @default 'wip'
-   */
-  defaultCustomRouteComponent?: string;
   /**
    * 路由路径获取函数
    *
@@ -754,6 +767,19 @@ interface AutoRouterOptions {
    * @default true
    */
   routeLazy?: (node: AutoRouterNode) => boolean;
+  /**
+   * 生成路由的 meta 函数, 只会覆盖不存在的 meta 属性
+   *
+   * @example
+   *   ```ts
+   *     getRouteMeta: (node) => {
+   *       return {
+   *         title: node.name
+   *       }
+   *     }
+   *   ```;
+   */
+  getRouteMeta?: (node: AutoRouterNode) => Record<string, any> | null;
 }
 ```
 
@@ -769,30 +795,15 @@ ElegantRouter 现在提供了内置的基础路由支持，包括：
 - `rootRedirect` - 设置根路由的重定向目标
 - `notFoundRouteComponent` - 指定 404 路由使用的组件
 
-### 自定义路由
+### 复用路由
 
-除了基于文件系统的路由外，ElegantRouter 还支持以两种方式创建自定义路由：
-
-1. **通过映射表** - 使用 `customRoute.map` 配置名称与路径的映射关系：
+除了基于文件系统的路由外，ElegantRouter 还支持创建复用现有文件的路由：
 
 ```ts
-customRoute: {
-  map: {
-    Dashboard: '/dashboard',
-    UserProfile: '/user/profile'
-  }
-}
+reuseRoutes: ['/reuse1', '/reuse2/:id', '/reuse3/:id?/:name?']
 ```
 
-2. **通过路径列表** - 使用 `customRoute.paths` 提供路径列表，系统将自动推导路由名称：
-
-```ts
-customRoute: {
-  paths: ['/settings', '/user/settings']
-}
-```
-
-自定义路由默认使用 `defaultCustomRouteComponent` 配置中指定的组件（默认为 'wip'）。
+复用路由默认使用 `defaultReuseRouteComponent` 配置中指定的组件（默认为 'Wip'）。
 
 ## 新旧版本对比
 
@@ -806,7 +817,7 @@ customRoute: {
 | 处理流程 | 复杂的流程，难以扩展 | 清晰的处理步骤，便于自定义和扩展 |
 | 文件解析 | 受限的文件解析能力 | 更强大的文件系统解析，支持多种命名约定 |
 | 类型安全 | 基本的类型支持 | 完整的类型定义和自动生成的类型声明 |
-| 自定义路由 | 有限的自定义能力 | 全面支持自定义路由，包括映射表和路径列表 |
+| 复用路由 | 有限的能力 | 全面支持复用路由 |
 | 内置路由 | 需要手动配置基础路由 | 内置根路由和404路由，简化配置 |
 
 ### 技术实现变化
@@ -964,22 +975,19 @@ import ElegantRouter from "elegant-router/vite";
 export default defineConfig({
   plugins: [
     vue(),
-    ElegantRouter({
-      rootRedirect: '/dashboard', // 自定义根路由重定向
-      notFoundRouteComponent: 'NotFound' // 自定义404组件名
-    })
+    ElegantRouter()
   ]
 });
 ```
 
-### 组合使用自动路由和自定义路由
+### 组合使用自动路由和复用路由
 
-混合使用基于文件系统的自动路由和自定义路由，灵活应对各种场景：
+混合使用基于文件系统的自动路由和复用路由，灵活应对各种场景：
 
 ```ts
 {
-  customRoute: ['/dashboard', '/settings', '/profile', '/account/details'],
-  defaultCustomRouteComponent: 'WorkInProgress'
+  reuseRoutes: ['/reuse1', '/reuse2/:id', '/reuse3/:id?/:name?']
+  defaultReuseRouteComponent: 'Wip'
 }
 ```
 

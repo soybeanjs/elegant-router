@@ -102,16 +102,17 @@ npx er --help
 
 ElegantRouter CLI provides the following commands:
 
-| Command | Shorthand | Description |
-|---------|-----------|-------------|
-| `er generate` | `er -g` | Generate route configuration files |
-| `er add` | `er -a` | Interactively add new route files |
-| `er delete` | `er -d` | Interactively remove existing route files |
-| `er recovery` | `er -r` | Recover deleted route files |
-| `er update` | `er -u` | Update route configuration |
-| `er backup` | `er -b` | Manage route backups |
-| `er --help` | `er -h` | Display help information |
-| `er --version` | `er -v` | Display version information |
+| Command         | Shorthand | Description                           |
+|-----------------|-----------|---------------------------------------|
+| `er generate`   | `er -g`   | Generate route configuration files    |
+| `er add`        | `er -a`   | Add a new route file                  |
+| `er reuse`      | `er -p`   | Add a reused route file               |
+| `er delete`     | `er -d`   | Delete an existing route file         |
+| `er recovery`   | `er -r`   | Recover a deleted route file          |
+| `er update`     | `er -u`   | Update route configuration            |
+| `er backup`     | `er -b`   | Manage route backups                  |
+| `er --help`     | `er -h`   | Show help information                 |
+| `er --version`  | `er -v`   | Show version information              |
 
 ### Command Details
 
@@ -142,6 +143,23 @@ Supported file types:
 ```bash
 # Basic usage
 er add
+```
+
+#### `er reuse` Command
+
+Interactively add a reused route file. This command will guide you through:
+1. Entering the reused route path or name
+2. Selecting the layout to use
+3. Selecting the page directory (if multiple are configured)
+
+Supported file types:
+- Vue Single File Component (.vue)
+- TSX Component (.tsx)
+- JSX Component (.jsx)
+
+```bash
+# Basic usage
+er reuse
 ```
 
 #### `er delete` Command
@@ -218,22 +236,16 @@ export default defineConfig({
     base: 'src/layouts/base/index.vue',
     blank: 'src/layouts/blank/index.vue'
   },
-  // Custom routes configuration
-  customRoutes: [
-    '/dashboard',
-    '/user/profile',
-  ],
+  // Reuse route configuration
+  reuseRoutes: ['/reuse1', '/reuse2/:id', '/reuse3/:id?', '/reuse4/:id?/:name?'],
+  // Default reuse route component
+  defaultReuseRouteComponent: 'wip',
   // Root route redirect
   rootRedirect: '/dashboard',
   // 404 route component
   notFoundRouteComponent: 'NotFound',
-  // Default custom route component
-  defaultCustomRouteComponent: 'wip'
 });
 ```
-
-> [!IMPORTANT]
-> **Important Note**: Custom routes can only be configured through the `elegant-router.config.ts` configuration file. Dynamic addition or modification of routes at runtime is not supported. This is because route configuration needs to be determined at build time to ensure type safety and correct code splitting.
 
 ### Usage Examples
 
@@ -485,50 +497,15 @@ Use parentheses to create groups that don't affect the route path:
 }
 ```
 
-### Custom Routes
+### Reuse Routes
 
-Need to reuse existing page route files, you can configure the `customRoutes` option:
-
-#### Configuration Method
-
-In the configuration file `er.config.ts`, add the `customRoutes` option:
+If you need to reuse existing page route files, you can configure the `reuseRoutes` option:
 
 ```ts
-{
-  customRoutes: [
-    '/dashboard',
-    '/user/profile',
-  ]
-}
+reuseRoutes: ['/reuse1', '/reuse2/:id', '/reuse3/:id?/:name?']
 ```
 
-#### Route Result
-
-```ts
-{
-  name: "Dashboard",
-  path: "/dashboard",
-  layout: "base",
-  component: "wip", // Using an existing page route file
-},
-{
-  name: "UserProfile",
-  path: "/user/profile",
-  layout: "base",
-  component: "demo",
-},
-
-```
-
-The system automatically generates route names from paths following these rules:
-1. Convert the path to PascalCase format
-2. Remove special characters and parameter markers
-3. For parameter routes, keep parameter names as part of the route name
-
-Examples:
-- `/dashboard` -> `Dashboard`
-- `/user/profile` -> `UserProfile`
-- `/user/:id/profile` -> `UserIdProfile`
+Reused routes use the component specified in the `defaultReuseRouteComponent` configuration (default is 'Wip').
 
 ## How It Works
 
@@ -704,23 +681,18 @@ interface AutoRouterOptions {
    */
   layoutLazy?: (layout: string) => boolean;
   /**
-   * Custom route configuration
-   *
-   * You can configure name-to-path mappings via map, or provide a list of paths via paths
-   * The system will automatically create corresponding route nodes for each path
+   * Reuse existing route files
    *
    * @example
-   *   ```ts
-   *   customRoute: {
-   *     map: {
-   *       Home: '/home',
-   *       About: '/about'
-   *     },
-   *     paths: ['/home2', '/about2']
-   *   }
-   *   ```
+   *   ['/reuse1', '/reuse2/:id', '/reuse3/:id?/:name?'];
    */
-  customRoute?: Partial<CustomRoute>;
+  reuseRoutes?: string[];
+  /**
+   * The default component for reused routes
+   *
+   * @default 'Wip'
+   */
+  defaultReuseRouteComponent?: string;
   /**
    * The root redirect path
    *
@@ -733,12 +705,6 @@ interface AutoRouterOptions {
    * @default '404'
    */
   notFoundRouteComponent?: string;
-  /**
-   * The default custom route component
-   *
-   * @default 'wip'
-   */
-  defaultCustomRouteComponent?: string;
   /**
    * The path of the route
    *
@@ -778,31 +744,6 @@ These built-in routes can be used without additional configuration, as the syste
 - `rootRedirect` - Set the redirect target for the root route
 - `notFoundRouteComponent` - Specify the component used by the 404 route
 
-### Custom Routes
-
-In addition to file-system-based routes, ElegantRouter supports creating custom routes in two ways:
-
-1. **Via Mapping Table** - Use `customRoute.map` to configure the name-to-path mapping relationship:
-
-```ts
-customRoute: {
-  map: {
-    Dashboard: '/dashboard',
-    UserProfile: '/user/profile'
-  }
-}
-```
-
-2. **Via Path List** - Use `customRoute.paths` to provide a list of paths, and the system will automatically derive route names:
-
-```ts
-customRoute: {
-  paths: ['/settings', '/user/settings']
-}
-```
-
-Custom routes use the component specified in the `defaultCustomRouteComponent` configuration (default is 'wip').
-
 ## Version Comparison
 
 Compared to the old version `@elegant-router/vue`, the new version `elegant-router` has made many improvements:
@@ -815,14 +756,16 @@ Compared to the old version `@elegant-router/vue`, the new version `elegant-rout
 | Processing Flow | Complex process, difficult to extend | Clear processing steps, easy to customize and extend |
 | File Parsing | Limited file parsing capabilities | More powerful file system parsing, supporting various naming conventions |
 | Type Safety | Basic type support | Complete type definitions and automatically generated type declarations |
-| Custom Routes | Limited customization capabilities | Comprehensive support for custom routes, including mapping tables and path lists |
+| Reuse Routes | Limited capabilities | Comprehensive support for reuse routes |
 | Built-in Routes | Basic routes need manual configuration | Built-in root and 404 routes, simplifying configuration |
 
 ## Best Practices
 
-### Simplify Configuration with Built-in Routes
+To fully leverage the power of ElegantRouter, we recommend the following best practices:
 
-Leverage ElegantRouter's built-in root and 404 routes to simplify configuration:
+### Use Built-in Routes to Simplify Configuration
+
+Leverage ElegantRouter's built-in root and 404 routes to simplify your configuration:
 
 ```ts
 // vite.config.ts
@@ -833,23 +776,50 @@ import ElegantRouter from "elegant-router/vite";
 export default defineConfig({
   plugins: [
     vue(),
-    ElegantRouter({
-      rootRedirect: '/dashboard', // Custom root route redirect
-      notFoundRouteComponent: 'NotFound' // Custom 404 component name
-    })
+    ElegantRouter()
   ]
 });
 ```
 
-### Combine Automatic Routes with Custom Routes
+### Combine Automatic Routes and Reuse Routes
 
-Mix file-system-based automatic routes with custom routes to flexibly address various scenarios:
+Mix file-system-based automatic routes with reuse routes to flexibly address various scenarios:
 
 ```ts
 {
-  customRoute: ['/dashboard', '/settings', '/profile', '/account/details'],
-  defaultCustomRouteComponent: 'WorkInProgress'
+  reuseRoutes: ['/reuse1', '/reuse2/:id', '/reuse3/:id?/:name?'],
+  defaultReuseRouteComponent: 'Wip'
 }
 ```
 
-By following these best practices, you can fully utilize ElegantRouter's powerful features to create efficient, maintainable routing systems.
+### File Organization
+
+- Maintain a reasonable naming convention and directory structure. Although there are no strict restrictions, good organization improves maintainability.
+- Organize files by business module or feature module to make route paths more meaningful.
+- For better readability, it is recommended to use `index.vue` or meaningful file names for page components.
+
+### Route Parameter Handling
+
+- Choose parameter types appropriately: use `[param]` for required parameters and `[[param]]` for optional parameters.
+- Parameter names should be descriptive and avoid being too simple or ambiguous.
+- For complex parameter combinations, use multi-parameter syntax like `detail_[id]_[userId]` to improve readability.
+
+### Layout Management
+
+- Create a clear layout hierarchy and avoid overly complex nesting.
+- Configure the `layouts` option reasonably to ensure each page has an appropriate layout.
+- Use the `layout` property to control the layout of the page; pages with the same layout will be automatically grouped.
+
+### Performance Optimization
+
+- Configure component lazy loading as needed, especially for large page components.
+- For large applications, split routes by feature module to improve initial load speed.
+- Use the `dynamicImport` configuration appropriately to control how components are imported.
+
+### Utility Functions
+
+- Make full use of the utility functions provided in `shared.ts` for type-safe route navigation.
+- Use the automatically generated types to enhance development experience and code quality.
+- Combine with IDE type hints to reduce errors in route operations.
+
+By following these best practices, you can fully utilize ElegantRouter's powerful features to create efficient and maintainable routing systems.
