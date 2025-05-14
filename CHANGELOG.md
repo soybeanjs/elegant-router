@@ -1,6 +1,20 @@
 # Changelog
 
 
+## [v1.0.2](https://github.com/soybeanjs/elegant-router/compare/v1.0.1...v1.0.2) (2025-05-15)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **node**: add `getRouteLayout` to options and implement dynamic layout for not found route &nbsp;-&nbsp; by @soybeanjs [<samp>(4afa7)</samp>](https://github.com/soybeanjs/elegant-router/commit/4afa7e9)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **deps**: update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(d0a37)</samp>](https://github.com/soybeanjs/elegant-router/commit/d0a379e)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v1.0.1](https://github.com/soybeanjs/elegant-router/compare/v1.0.0...v1.0.1) (2025-05-15)
 
 ### &nbsp;&nbsp;&nbsp;🏡 Chore
