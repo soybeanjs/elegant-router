@@ -133,7 +133,7 @@ function resolveReuseNode(options: ParsedAutoRouterOptions) {
 }
 
 function createBuiltinNode(options: ParsedAutoRouterOptions) {
-  const { notFoundRouteComponent } = options;
+  const { notFoundRouteComponent, getRouteLayout } = options;
 
   const rootPath = BUILT_IN_ROUTE[ROOT_ROUTE_NAME];
 
@@ -159,7 +159,9 @@ function createBuiltinNode(options: ParsedAutoRouterOptions) {
     name: NOT_FOUND_ROUTE_NAME,
     originPath: notFoundPath,
     component: notFoundRouteComponent,
-    layout: '',
+    get layout() {
+      return getRouteLayout(notFoundNode);
+    },
     isBuiltin: true,
     pageDir: '',
     glob: '',
