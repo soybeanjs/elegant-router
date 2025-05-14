@@ -1,6 +1,28 @@
 # Changelog
 
 
+## [v1.0.0-beta.2](https://github.com/soybeanjs/elegant-router/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2025-05-14)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **routes**: support parse params of custom route &nbsp;-&nbsp; by @soybeanjs [<samp>(5b9e1)</samp>](https://github.com/soybeanjs/elegant-router/commit/5b9e115)
+
+### &nbsp;&nbsp;&nbsp;🛠 Optimizations
+
+- **projects**: remove useless file &nbsp;-&nbsp; by @soybeanjs [<samp>(2cd45)</samp>](https://github.com/soybeanjs/elegant-router/commit/2cd451e)
+
+### &nbsp;&nbsp;&nbsp;📖 Documentation
+
+- **readme**: simplify ElegantRouter customRoute example for clarity &nbsp;-&nbsp; by @soybeanjs [<samp>(079a2)</samp>](https://github.com/soybeanjs/elegant-router/commit/079a207)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **deps**: update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(edd66)</samp>](https://github.com/soybeanjs/elegant-router/commit/edd66f7)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v1.0.0-beta.1](https://github.com/soybeanjs/elegant-router/compare/v1.0.0-alpha.6...v1.0.0-beta.1) (2025-05-14)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
