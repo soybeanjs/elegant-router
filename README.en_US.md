@@ -1,5 +1,7 @@
 # ElegantRouter
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/soybeanjs/elegant-router)
+
 English | [中文](./README.md)
 
 A file-system based automatic routing tool for Vue.js, simplifying route configuration and improving development efficiency.

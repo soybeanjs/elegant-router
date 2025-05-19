@@ -1,5 +1,7 @@
 # ElegantRouter
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/soybeanjs/elegant-router)
+
 中文 | [English](./README.en_US.md)
 
 基于文件系统的 Vue.js 自动路由生成工具，简化路由配置，提升开发效率。
