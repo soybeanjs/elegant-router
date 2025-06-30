@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { normalizePath } from 'unplugin-utils';
+import stripJsonComments from 'strip-json-comments';
 
 export function resolveAliasFromTsConfig(cwd: string, tsconfigPath: string = 'tsconfig.json') {
   const tsConfig = readFileSync(path.resolve(cwd, tsconfigPath), 'utf-8');
@@ -8,7 +9,7 @@ export function resolveAliasFromTsConfig(cwd: string, tsconfigPath: string = 'ts
   let paths: Record<string, string[]> | undefined;
 
   try {
-    paths = JSON.parse(tsConfig)?.compilerOptions?.paths;
+    paths = JSON.parse(stripJsonComments(tsConfig))?.compilerOptions?.paths;
   } catch {}
 
   const alias: Record<string, string> = {};
