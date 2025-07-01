@@ -102,6 +102,7 @@
     "enquirer": "2.4.1",
     "kolorist": "1.8.0",
     "picomatch": "4.0.2",
+    "strip-json-comments": "5.0.2",
     "tinyglobby": "0.2.14",
     "ts-morph": "26.0.0",
     "unconfig": "7.3.2",
