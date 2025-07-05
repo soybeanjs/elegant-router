@@ -1,6 +1,30 @@
 # Changelog
 
 
+## [v1.0.3](https://github.com/soybeanjs/elegent-router/compare/v1.0.2...v1.0.3) (2025-07-05)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **projects**: add the "stripJsonComments" dep enables safer reading of the "tsconfig.json" file. &nbsp;-&nbsp; by @Ohh-889 in https://github.com/soybeanjs/elegent-router/issues/64 [<samp>(4d9bd)</samp>](https://github.com/soybeanjs/elegent-router/commit/4d9bdaf)
+
+### &nbsp;&nbsp;&nbsp;🛠 Optimizations
+
+- **projects**: remove useless file &nbsp;-&nbsp; by @soybeanjs [<samp>(816c1)</samp>](https://github.com/soybeanjs/elegent-router/commit/816c1fe)
+
+### &nbsp;&nbsp;&nbsp;📖 Documentation
+
+- **README**: add DeepWiki badge to README files &nbsp;-&nbsp; by @soybeanjs [<samp>(45210)</samp>](https://github.com/soybeanjs/elegent-router/commit/45210d1)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **deps**:
+  - update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(85a6d)</samp>](https://github.com/soybeanjs/elegent-router/commit/85a6dd3)
+  - update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(d0eec)</samp>](https://github.com/soybeanjs/elegent-router/commit/d0eec1f)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;[![Ohh-889](https://github.com/Ohh-889.png?size=48)](https://github.com/Ohh-889)&nbsp;&nbsp;
+
 ## [v1.0.2](https://github.com/soybeanjs/elegant-router/compare/v1.0.1...v1.0.2) (2025-05-15)
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
