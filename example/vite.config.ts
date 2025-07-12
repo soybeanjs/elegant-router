@@ -3,10 +3,11 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import VueDevtools from 'vite-plugin-vue-devtools';
+import { tsImport } from 'tsx/esm/api';
 import unocss from 'unocss/vite';
 import Components from 'unplugin-vue-components/vite';
 import SoybeanUIResolver from 'soy-ui/resolver';
-import ElegantRouter from 'elegant-router/vite';
+const ElegantRouter = (await tsImport('elegant-router/vite', import.meta.url)).default;
 
 export default defineConfig({
   resolve: {

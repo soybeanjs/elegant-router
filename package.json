@@ -18,77 +18,87 @@
     "url": "https://github.com/soybeanjs/elegant-router/issues"
   },
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "bin": {
+      "er": "dist/cli.mjs"
+    },
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.mjs",
+        "require": "./dist/index.cjs"
+      },
+      "./vite": {
+        "types": "./dist/vite.d.ts",
+        "import": "./dist/vite.mjs",
+        "require": "./dist/vite.cjs"
+      },
+      "./webpack": {
+        "types": "./dist/webpack.d.ts",
+        "import": "./dist/webpack.mjs",
+        "require": "./dist/webpack.cjs"
+      },
+      "./rollup": {
+        "types": "./dist/rollup.d.ts",
+        "import": "./dist/rollup.mjs",
+        "require": "./dist/rollup.cjs"
+      },
+      "./esbuild": {
+        "types": "./dist/esbuild.d.ts",
+        "import": "./dist/esbuild.mjs",
+        "require": "./dist/esbuild.cjs"
+      },
+      "./rspack": {
+        "types": "./dist/rspack.d.ts",
+        "import": "./dist/rspack.mjs",
+        "require": "./dist/rspack.cjs"
+      },
+      "./rolldown": {
+        "types": "./dist/rolldown.d.ts",
+        "import": "./dist/rolldown.mjs",
+        "require": "./dist/rolldown.cjs"
+      },
+      "./farm": {
+        "types": "./dist/farm.d.ts",
+        "import": "./dist/farm.mjs",
+        "require": "./dist/farm.cjs"
+      },
+      "./nuxt": {
+        "types": "./dist/nuxt.d.ts",
+        "import": "./dist/nuxt.mjs",
+        "require": "./dist/nuxt.cjs"
+      }
+    },
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts"
   },
   "sideEffects": false,
   "bin": {
-    "er": "dist/cli.mjs"
+    "er": "src/bin.mjs"
   },
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
-    },
-    "./vite": {
-      "types": "./dist/vite.d.ts",
-      "import": "./dist/vite.mjs",
-      "require": "./dist/vite.cjs"
-    },
-    "./webpack": {
-      "types": "./dist/webpack.d.ts",
-      "import": "./dist/webpack.mjs",
-      "require": "./dist/webpack.cjs"
-    },
-    "./rollup": {
-      "types": "./dist/rollup.d.ts",
-      "import": "./dist/rollup.mjs",
-      "require": "./dist/rollup.cjs"
-    },
-    "./esbuild": {
-      "types": "./dist/esbuild.d.ts",
-      "import": "./dist/esbuild.mjs",
-      "require": "./dist/esbuild.cjs"
-    },
-    "./rspack": {
-      "types": "./dist/rspack.d.ts",
-      "import": "./dist/rspack.mjs",
-      "require": "./dist/rspack.cjs"
-    },
-    "./rolldown": {
-      "types": "./dist/rolldown.d.ts",
-      "import": "./dist/rolldown.mjs",
-      "require": "./dist/rolldown.cjs"
-    },
-    "./farm": {
-      "types": "./dist/farm.d.ts",
-      "import": "./dist/farm.mjs",
-      "require": "./dist/farm.cjs"
-    },
-    "./nuxt": {
-      "types": "./dist/nuxt.d.ts",
-      "import": "./dist/nuxt.mjs",
-      "require": "./dist/nuxt.cjs"
-    },
-    "./*": "./*"
+    ".": "./src/index.ts",
+    "./vite": "./src/vite.ts",
+    "./webpack": "./src/webpack.ts",
+    "./rollup": "./src/rollup.ts",
+    "./esbuild": "./src/esbuild.ts",
+    "./rspack": "./src/rspack.ts",
+    "./rolldown": "./src/rolldown.ts",
+    "./farm": "./src/farm.ts",
+    "./nuxt": "./src/nuxt.ts"
   },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "typesVersions": {
-    "*": {
-      "*": ["./dist/*", "./*"]
-    }
-  },
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "types": "./src/index.ts",
   "files": ["README.en_US.md", "dist", "README.md"],
   "scripts": {
-    "build": "unbuild",
+    "build": "tsdown",
     "cleanup": "soy cleanup",
     "commit": "soy git-commit",
     "lint": "eslint . --fix",
     "publish-pkg": "pnpm publish --access public",
     "release": "pnpm soy release",
-    "stub": "unbuild --stub",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
@@ -101,11 +111,13 @@
     "consola": "3.4.2",
     "enquirer": "2.4.1",
     "kolorist": "1.8.0",
+    "pathe": "2.0.3",
     "picomatch": "4.0.2",
     "strip-json-comments": "5.0.2",
     "tinyglobby": "0.2.14",
     "ts-morph": "26.0.0",
     "unconfig": "7.3.2",
+    "unplugin": "2.3.5",
     "unplugin-utils": "0.2.4"
   },
   "devDependencies": {
@@ -121,9 +133,9 @@
     "eslint-plugin-vue": "10.3.0",
     "lint-staged": "16.1.2",
     "simple-git-hooks": "2.13.0",
+    "tsdown": "0.12.9",
     "tsx": "4.20.3",
     "typescript": "5.8.3",
-    "unbuild": "3.5.0",
     "vitest": "3.2.4",
     "vue-eslint-parser": "10.2.0"
   },
