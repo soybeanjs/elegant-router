@@ -1,6 +1,24 @@
 # Changelog
 
 
+## [v1.0.4-beta.1](https://github.com/soybeanjs/elegent-router/compare/v1.0.3...v1.0.4-beta.1) (2025-07-13)
+
+### &nbsp;&nbsp;&nbsp;🛠 Optimizations
+
+- **projects**: optimize package.json exports &nbsp;-&nbsp; by @soybeanjs [<samp>(91df5)</samp>](https://github.com/soybeanjs/elegent-router/commit/91df505)
+
+### &nbsp;&nbsp;&nbsp;💅 Refactors
+
+- **projects**: use tsdown replace unbuild &nbsp;-&nbsp; by @soybeanjs [<samp>(7ba98)</samp>](https://github.com/soybeanjs/elegent-router/commit/7ba98ec)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **deps**: update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(c6327)</samp>](https://github.com/soybeanjs/elegent-router/commit/c6327fe)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v1.0.3](https://github.com/soybeanjs/elegent-router/compare/v1.0.2...v1.0.3) (2025-07-05)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
