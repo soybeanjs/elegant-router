@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.3",
   "private": true,
-  "packageManager": "pnpm@10.12.4",
+  "packageManager": "pnpm@10.13.0",
   "scripts": {
     "build": "pnpm typecheck && pnpm build-only",
     "build-only": "vite build",
@@ -17,7 +17,7 @@
     "update-pkg": "soy ncu"
   },
   "dependencies": {
-    "@unocss/reset": "66.3.2",
+    "@unocss/reset": "66.3.3",
     "pinia": "3.0.3",
     "soy-ui": "0.0.2-beta.5",
     "vue": "3.5.17",
@@ -26,8 +26,8 @@
   "devDependencies": {
     "@soybean-ui/unocss-preset": "0.0.2-beta.5",
     "@soybeanjs/cli": "1.3.1",
-    "@types/node": "24.0.10",
-    "@unocss/eslint-config": "66.3.2",
+    "@types/node": "24.0.13",
+    "@unocss/eslint-config": "66.3.3",
     "@vitejs/plugin-vue": "6.0.0",
     "@vitejs/plugin-vue-jsx": "5.0.1",
     "elegant-router": "workspace:*",
@@ -35,9 +35,9 @@
     "lint-staged": "16.1.2",
     "simple-git-hooks": "2.13.0",
     "typescript": "5.8.3",
-    "unocss": "66.3.2",
+    "unocss": "66.3.3",
     "unplugin-vue-components": "28.8.0",
-    "vite": "7.0.2",
+    "vite": "7.0.4",
     "vite-plugin-vue-devtools": "7.7.7",
     "vue-eslint-parser": "10.2.0",
     "vue-tsc": "3.0.1"
