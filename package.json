@@ -19,63 +19,60 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "bin": {
-      "er": "dist/cli.mjs"
-    },
     "exports": {
       ".": {
         "types": "./dist/index.d.ts",
-        "import": "./dist/index.mjs",
-        "require": "./dist/index.cjs"
+        "import": "./dist/index.js",
+        "require": "./dist/index.js"
       },
       "./vite": {
         "types": "./dist/vite.d.ts",
-        "import": "./dist/vite.mjs",
-        "require": "./dist/vite.cjs"
+        "import": "./dist/vite.js",
+        "require": "./dist/vite.js"
       },
       "./webpack": {
         "types": "./dist/webpack.d.ts",
-        "import": "./dist/webpack.mjs",
-        "require": "./dist/webpack.cjs"
+        "import": "./dist/webpack.js",
+        "require": "./dist/webpack.js"
       },
       "./rollup": {
         "types": "./dist/rollup.d.ts",
-        "import": "./dist/rollup.mjs",
-        "require": "./dist/rollup.cjs"
+        "import": "./dist/rollup.js",
+        "require": "./dist/rollup.js"
       },
       "./esbuild": {
         "types": "./dist/esbuild.d.ts",
-        "import": "./dist/esbuild.mjs",
-        "require": "./dist/esbuild.cjs"
+        "import": "./dist/esbuild.js",
+        "require": "./dist/esbuild.js"
       },
       "./rspack": {
         "types": "./dist/rspack.d.ts",
-        "import": "./dist/rspack.mjs",
-        "require": "./dist/rspack.cjs"
+        "import": "./dist/rspack.js",
+        "require": "./dist/rspack.js"
       },
       "./rolldown": {
         "types": "./dist/rolldown.d.ts",
-        "import": "./dist/rolldown.mjs",
-        "require": "./dist/rolldown.cjs"
+        "import": "./dist/rolldown.js",
+        "require": "./dist/rolldown.js"
       },
       "./farm": {
         "types": "./dist/farm.d.ts",
-        "import": "./dist/farm.mjs",
-        "require": "./dist/farm.cjs"
+        "import": "./dist/farm.js",
+        "require": "./dist/farm.js"
       },
       "./nuxt": {
         "types": "./dist/nuxt.d.ts",
-        "import": "./dist/nuxt.mjs",
-        "require": "./dist/nuxt.cjs"
+        "import": "./dist/nuxt.js",
+        "require": "./dist/nuxt.js"
       }
     },
-    "main": "./dist/index.cjs",
-    "module": "./dist/index.mjs",
+    "main": "./dist/index.js",
+    "module": "./dist/index.js",
     "types": "./dist/index.d.ts"
   },
   "sideEffects": false,
   "bin": {
-    "er": "src/bin.mjs"
+    "er": "dist/cli.js"
   },
   "exports": {
     ".": "./src/index.ts",
