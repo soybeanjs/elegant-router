@@ -7,7 +7,6 @@ import type { ParsedAutoRouterOptions, ResolvedGlob } from '../types';
 
 export async function resolveGlobs(options: ParsedAutoRouterOptions) {
   const { cwd, pageDir, pageInclude, pageExclude } = options;
-
   const pageDirs = Array.isArray(pageDir) ? pageDir : [pageDir];
 
   const pageGlobs = pageDirs.flatMap(dir => {

@@ -13,7 +13,7 @@ export function resolveOptions(options?: AutoRouterOptions): ParsedAutoRouterOpt
     watchFile: true,
     fileUpdateDuration: 500,
     pageDir: 'src/views',
-    pageInclude: '**/*.vue',
+    pageInclude: ['**/*.vue', '**/*.tsx', '**/*.jsx'],
     pageExclude: ['**/components/**', '**/modules/**'],
     dts: 'src/typings/elegant-router.d.ts',
     vueRouterDts: 'src/typings/typed-router.d.ts',

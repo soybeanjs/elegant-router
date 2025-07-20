@@ -72,7 +72,7 @@
   },
   "sideEffects": false,
   "bin": {
-    "er": "dist/cli.js"
+    "er": "src/bin.mjs"
   },
   "exports": {
     ".": "./src/index.ts",
