@@ -19,6 +19,9 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
+    "bin": {
+      "er": "dist/cli.js"
+    },
     "exports": {
       ".": {
         "types": "./dist/index.d.ts",
