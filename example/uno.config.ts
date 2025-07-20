@@ -10,6 +10,7 @@ export default defineConfig({
   transformers: [transformerDirectives(), transformerVariantGroup()],
   presets: [
     presetWind3({ dark: 'class' }),
+    // @ts-expect-error ignore type
     presetSoybeanUI({
       color: 'default'
     })
