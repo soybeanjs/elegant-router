@@ -1,6 +1,25 @@
 # Changelog
 
 
+## [v1.0.4-beta.2](https://github.com/soybeanjs/elegent-router/compare/v1.0.4-beta.1...v1.0.4-beta.2) (2025-07-20)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **types**: fix unocss types &nbsp;-&nbsp; by @soybeanjs [<samp>(c0072)</samp>](https://github.com/soybeanjs/elegent-router/commit/c007273)
+
+### &nbsp;&nbsp;&nbsp;🛠 Optimizations
+
+- **projects**: optimize option &nbsp;-&nbsp; by @soybeanjs [<samp>(7a77f)</samp>](https://github.com/soybeanjs/elegent-router/commit/7a77f4b)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **deps**: update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(437ee)</samp>](https://github.com/soybeanjs/elegent-router/commit/437ee9b)
+- **projects**: update package.json bin &nbsp;-&nbsp; by @soybeanjs [<samp>(c9502)</samp>](https://github.com/soybeanjs/elegent-router/commit/c95027b)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v1.0.4-beta.1](https://github.com/soybeanjs/elegent-router/compare/v1.0.3...v1.0.4-beta.1) (2025-07-13)
 
 ### &nbsp;&nbsp;&nbsp;🛠 Optimizations
