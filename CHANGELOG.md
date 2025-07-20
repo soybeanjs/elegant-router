@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [v1.0.4-beta.4](https://github.com/soybeanjs/elegent-router/compare/v1.0.4-beta.3...v1.0.4-beta.4) (2025-07-20)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **projects**: fix getRoutePath &nbsp;-&nbsp; by @soybeanjs [<samp>(5c7eb)</samp>](https://github.com/soybeanjs/elegent-router/commit/5c7eb97)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v1.0.4-beta.3](https://github.com/soybeanjs/elegent-router/compare/v1.0.4-beta.2...v1.0.4-beta.3) (2025-07-20)
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
