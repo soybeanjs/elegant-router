@@ -1,8 +1,7 @@
 import { defineConfig, presetWind3, transformerDirectives, transformerVariantGroup } from 'unocss';
-import type { Theme } from '@unocss/preset-uno';
 import { presetSoybeanUI } from '@soybean-ui/unocss-preset';
 
-export default defineConfig<Theme>({
+export default defineConfig({
   content: {
     pipeline: {
       include: [/\.vue($|\?)/, /.*\/soy-ui.*\.js/]
