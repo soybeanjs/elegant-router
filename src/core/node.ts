@@ -91,9 +91,7 @@ export function resolveNode(resolvedGlob: ResolvedGlob, options: ParsedAutoRoute
   let node: AutoRouterNode = {
     ...resolvedGlob,
     path: resolvedPath,
-    get name() {
-      return getRouteName(node);
-    },
+    name: '',
     originPath: resolvedPath,
     get component() {
       return node.name;
@@ -111,6 +109,7 @@ export function resolveNode(resolvedGlob: ResolvedGlob, options: ParsedAutoRoute
 
   node = resolveGroupNode(node);
   node = resolveParamNode(node);
+  node.name = getRouteName(node);
   node.path = getRoutePath(node);
 
   return node;
@@ -176,13 +175,11 @@ function createBuiltinNode(options: ParsedAutoRouterOptions) {
 }
 
 function createEmptyReuseNode(path: string, options: ParsedAutoRouterOptions) {
-  const { getRouteName, getRouteLayout } = options;
+  const { getRouteName, getRoutePath, getRouteLayout } = options;
 
   let node: AutoRouterNode = {
     path,
-    get name() {
-      return getRouteName(node);
-    },
+    name: '',
     originPath: path,
     component: '',
     get layout() {
@@ -198,6 +195,8 @@ function createEmptyReuseNode(path: string, options: ParsedAutoRouterOptions) {
   };
 
   node = resolveParamNode(node);
+  node.name = getRouteName(node);
+  node.path = getRoutePath(node);
 
   return node;
 }
