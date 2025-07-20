@@ -1,5 +1,5 @@
 import { yellow } from 'kolorist';
-import { getImportName, logger } from '../shared';
+import { getImportName, logger, tokenizePath } from '../shared';
 import { BUILT_IN_ROUTE, NOT_FOUND_ROUTE_NAME, NO_FILE_INODE, ROOT_ROUTE_NAME } from '../constants';
 import type {
   AutoRouterNode,
@@ -108,9 +108,10 @@ export function resolveNode(resolvedGlob: ResolvedGlob, options: ParsedAutoRoute
   };
 
   node = resolveGroupNode(node);
-  node = resolveParamNode(node);
+  node = transformParamNode(node);
   node.name = getRouteName(node);
   node.path = getRoutePath(node);
+  node.params = getParamsFromPath(node.path);
 
   return node;
 }
@@ -121,10 +122,8 @@ function resolveReuseNode(options: ParsedAutoRouterOptions) {
   const nodes: AutoRouterNode[] = [];
 
   reuseRoutes.forEach(path => {
-    let node: AutoRouterNode = createEmptyReuseNode(path, options);
+    const node: AutoRouterNode = createEmptyReuseNode(path, options);
     node.component = defaultReuseRouteComponent;
-
-    node = resolveParamNode(node);
 
     nodes.push(node);
   });
@@ -194,9 +193,10 @@ function createEmptyReuseNode(path: string, options: ParsedAutoRouterOptions) {
     inode: NO_FILE_INODE
   };
 
-  node = resolveParamNode(node);
+  node = transformParamNode(node);
   node.name = getRouteName(node);
   node.path = getRoutePath(node);
+  node.params = getParamsFromPath(node.path);
 
   return node;
 }
@@ -255,46 +255,38 @@ function resolveGroupNode(node: AutoRouterNode) {
  *
  * @param node
  */
-function resolveParamNode(node: AutoRouterNode) {
-  // 1. 先将 [id]/[[id]] 转换为 /:id/:id?
-  const optional = getOptionalParamsByPath(node.path);
+function transformParamNode(node: AutoRouterNode) {
+  // 将 [id]/[[id]] 转换为 /:id/:id?
+  const optional = transformOptionalParamsPath(node.path);
   if (optional) {
-    node.path = optional.path;
+    node.path = optional;
   } else {
-    const required = getParamsByPath(node.path);
+    const required = transformRequiredParamsPath(node.path);
     if (required) {
-      node.path = required.path;
+      node.path = required;
     }
-  }
-  // 2. 再统一从 /:id/:id? 这种格式中提取参数
-  const paramInfo = getParamsFromRoutePath(node.path);
-  if (paramInfo?.params) {
-    node.params = { ...node.params, ...paramInfo.params };
   }
 
   return node;
 }
 
-/**
- * 从 '/:id/:userId?' 这种格式中提取参数
- *
- * @param nodePath
- */
-function getParamsFromRoutePath(nodePath: string) {
-  // 匹配 :param 和 :param?，不匹配 ::
-  const PARAM_REG = /:(\w+)(\?)?/g;
+function getParamsFromPath(path: string) {
+  const tokens = tokenizePath(path);
+
   const params: Record<string, AutoRouterParamType> = {};
-  let match: RegExpExecArray | null;
 
-  while ((match = PARAM_REG.exec(nodePath)) !== null) {
-    const [, param, optional] = match;
-    params[param] = optional === '?' ? 'optional' : 'required';
-  }
+  tokens.forEach(token => {
+    token.forEach(item => {
+      if (item.type === 'param') {
+        params[item.value] = item.optional ? 'optional' : 'required';
+      }
+    });
+  });
 
-  return Object.keys(params).length > 0 ? { params, path: nodePath } : null;
+  return params;
 }
 
-function getOptionalParamsByPath(nodePath: string) {
+function transformOptionalParamsPath(nodePath: string) {
   const OPTIONAL_PARAM_REG = /\[\[(\w+)\]\]/g;
 
   const match = nodePath.match(OPTIONAL_PARAM_REG);
@@ -303,24 +295,16 @@ function getOptionalParamsByPath(nodePath: string) {
     return null;
   }
 
-  const params: Record<string, AutoRouterParamType> = {};
-  let formatPath = nodePath;
-
-  match.forEach(item => {
-    const param = item.slice(2, -2);
-    params[param] = 'optional';
-  });
-
-  formatPath = nodePath.replace(OPTIONAL_PARAM_REG, ':$1?');
+  let formatPath = nodePath.replace(OPTIONAL_PARAM_REG, ':$1?');
   formatPath = formatPath.replace(/_:/g, '/:');
 
   const BETWEEN_REG = /\/:\w+\??\w+\/:/;
   formatPath = formatPath.replace(BETWEEN_REG, item => item.replace('_', '/'));
 
-  return { params, path: formatPath };
+  return formatPath;
 }
 
-function getParamsByPath(nodePath: string) {
+function transformRequiredParamsPath(nodePath: string) {
   const PARAM_REG = /\[(\w+)\]/g;
 
   const match = nodePath.match(PARAM_REG);
@@ -329,22 +313,13 @@ function getParamsByPath(nodePath: string) {
     return null;
   }
 
-  const params: Record<string, AutoRouterParamType> = {};
-
-  let formatPath = nodePath;
-
-  match.forEach(item => {
-    const param = item.slice(1, -1);
-    params[param] = 'required';
-  });
-
-  formatPath = nodePath.replace(PARAM_REG, ':$1');
+  let formatPath = nodePath.replace(PARAM_REG, ':$1');
   formatPath = formatPath.replace(/_:/g, '/:');
 
   const BETWEEN_REG = /\/:\w+\??\w+\/:/;
   formatPath = formatPath.replace(BETWEEN_REG, item => item.replace('_', '/'));
 
-  return { params, path: formatPath };
+  return formatPath;
 }
 
 function filterConflictNodes(nodes: AutoRouterNode[]) {

@@ -148,7 +148,7 @@ export const routes: AutoRouterRoute[] = [
     component: 'Wip',
     meta: {
       title: "Reuse1"
-    }
+    },
   },
   {
     name: 'Reuse2Id',
@@ -157,7 +157,7 @@ export const routes: AutoRouterRoute[] = [
     component: 'Wip',
     meta: {
       title: "Reuse2Id"
-    }
+    },
   },
   {
     name: 'Reuse3Id',
@@ -166,7 +166,7 @@ export const routes: AutoRouterRoute[] = [
     component: 'Wip',
     meta: {
       title: "Reuse3Id"
-    }
+    },
   },
   {
     name: 'Reuse4IdName',
@@ -175,7 +175,7 @@ export const routes: AutoRouterRoute[] = [
     component: 'Wip',
     meta: {
       title: "Reuse4IdName"
-    }
+    },
   },
   {
     name: 'Wip',

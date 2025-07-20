@@ -5,3 +5,4 @@ export * from './fs';
 export * from './log';
 export * from './path';
 export * from './ast';
+export * from './route';
