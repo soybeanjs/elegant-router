@@ -84,7 +84,7 @@ export async function getNodeStatInfo(cwd: string, nodes: AutoRouterNode[]) {
 }
 
 export function resolveNode(resolvedGlob: ResolvedGlob, options: ParsedAutoRouterOptions) {
-  const { getRouteName, getRouteLayout, routeLazy } = options;
+  const { getRouteName, getRoutePath, getRouteLayout, routeLazy } = options;
 
   const resolvedPath = resolveGlobPath(resolvedGlob, options.pageExtension);
 
@@ -111,6 +111,7 @@ export function resolveNode(resolvedGlob: ResolvedGlob, options: ParsedAutoRoute
 
   node = resolveGroupNode(node);
   node = resolveParamNode(node);
+  node.path = getRoutePath(node);
 
   return node;
 }
