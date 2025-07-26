@@ -1,6 +1,17 @@
 # Changelog
 
 
+## [v1.0.4-beta.7](https://github.com/soybeanjs/elegent-router/compare/v1.0.4-beta.6...v1.0.4-beta.7) (2025-07-26)
+
+### &nbsp;&nbsp;&nbsp;💅 Refactors
+
+- **dts**: improve reuse route key generation logic &nbsp;-&nbsp; by @soybeanjs [<samp>(3e516)</samp>](https://github.com/soybeanjs/elegent-router/commit/3e516ae)
+- **generate**: remove unused getRouteName function and clean up imports &nbsp;-&nbsp; by @soybeanjs [<samp>(712a6)</samp>](https://github.com/soybeanjs/elegent-router/commit/712a6c2)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v1.0.4-beta.6](https://github.com/soybeanjs/elegent-router/compare/v1.0.4-beta.5...v1.0.4-beta.6) (2025-07-26)
 
 ### &nbsp;&nbsp;&nbsp;💅 Refactors
