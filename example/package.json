@@ -1,7 +1,7 @@
 {
   "name": "template-vue",
   "type": "module",
-  "version": "1.0.4-beta.7",
+  "version": "1.0.4-beta.8",
   "private": true,
   "packageManager": "pnpm@10.13.1",
   "scripts": {

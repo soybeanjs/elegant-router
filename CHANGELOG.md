@@ -1,6 +1,20 @@
 # Changelog
 
 
+## [v1.0.4-beta.8](https://github.com/soybeanjs/elegent-router/compare/v1.0.4-beta.7...v1.0.4-beta.8) (2025-07-26)
+
+### &nbsp;&nbsp;&nbsp;🛠 Optimizations
+
+- **projects**: update example route genrations &nbsp;-&nbsp; by @soybeanjs [<samp>(89d50)</samp>](https://github.com/soybeanjs/elegent-router/commit/89d501f)
+
+### &nbsp;&nbsp;&nbsp;💅 Refactors
+
+- **route**: optimize updateRoutes function by rearranging element removal logic &nbsp;-&nbsp; by @soybeanjs [<samp>(1a4de)</samp>](https://github.com/soybeanjs/elegent-router/commit/1a4deb4)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v1.0.4-beta.7](https://github.com/soybeanjs/elegent-router/compare/v1.0.4-beta.6...v1.0.4-beta.7) (2025-07-26)
 
 ### &nbsp;&nbsp;&nbsp;💅 Refactors
