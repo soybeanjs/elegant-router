@@ -5,7 +5,7 @@ import { version } from '../package.json';
 import type { AutoRouterOptions, CliOptions } from './types';
 import { AutoRouter } from './core';
 import { addReuseRoute, addRoute, deleteRoute, manageBackup, recoveryRoute, updateRoute } from './commands';
-import { CLI_CONFIG_SOURCE, SHORT_CLI_CONFIG_SOURCE } from './constants';
+import { CONFIG_FILE_SOURCE } from './constants';
 
 type CommandType = 'generate' | 'add' | 'reuse' | 'delete' | 'recovery' | 'update' | 'backup';
 
@@ -19,7 +19,7 @@ type Command<A extends object = object> = Record<
 async function setupCli() {
   const { config, sources } = await loadConfig<CliOptions>({
     sources: {
-      files: [SHORT_CLI_CONFIG_SOURCE, CLI_CONFIG_SOURCE]
+      files: CONFIG_FILE_SOURCE
     }
   });
 

@@ -2,7 +2,7 @@ import { unlink } from 'node:fs/promises';
 import enquirer from 'enquirer';
 import type { Expression, StringLiteral } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
-import { CLI_CONFIG_SOURCE } from '../constants';
+import { CONFIG_FILE_SOURCE } from '../constants';
 import { AutoRouter } from '../core';
 import { logger } from '../shared';
 import type { CliOptions } from '../types';
@@ -47,7 +47,7 @@ export async function deleteRoute(options: CliOptions, configPath?: string) {
   if (findNode.isReuse) {
     if (!configPath) {
       logger.error(
-        `the config file is not found, please add the config file ${CLI_CONFIG_SOURCE}.{js,ts,mjs,mts} 【配置文件未找到，请添加配置文件 ${CLI_CONFIG_SOURCE}.{js,ts,mjs,mts}】`
+        `the config file is not found, please add the config file ${CONFIG_FILE_SOURCE.join('|')}.{js,ts,mjs,mts} 【配置文件未找到，请添加配置文件 ${CONFIG_FILE_SOURCE.join('|')}.{js,ts,mjs,mts}】`
       );
       return;
     }

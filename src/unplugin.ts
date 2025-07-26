@@ -1,14 +1,14 @@
 import { createUnplugin } from 'unplugin';
 import { loadConfig } from 'unconfig';
 import { AutoRouter } from './core';
-import { CLI_CONFIG_SOURCE, SHORT_CLI_CONFIG_SOURCE } from './constants';
+import { CONFIG_FILE_SOURCE } from './constants';
 import { injectName } from './plugins/name';
 import type { AutoRouterNode, AutoRouterOptions, PluginOptions } from './types';
 
 export default createUnplugin<PluginOptions | undefined>((options, _meta) => {
   const { config } = loadConfig.sync<AutoRouterOptions>({
     sources: {
-      files: [SHORT_CLI_CONFIG_SOURCE, CLI_CONFIG_SOURCE]
+      files: CONFIG_FILE_SOURCE
     }
   });
 

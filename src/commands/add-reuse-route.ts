@@ -5,7 +5,7 @@ import { IndentationText, Project, SyntaxKind } from 'ts-morph';
 import { AutoRouter } from '../core';
 import { getRouteSourceFile, getRouteStringPropertyValue, saveRouteSourceFile } from '../core/route';
 import { logger, updateStringProperty } from '../shared';
-import { CLI_CONFIG_SOURCE } from '../constants';
+import { CONFIG_FILE_SOURCE } from '../constants';
 import type { CliOptions } from '../types';
 
 interface AddReuseRoutePrompt {
@@ -17,7 +17,7 @@ interface AddReuseRoutePrompt {
 export async function addReuseRoute(options: CliOptions, configPath?: string) {
   if (!configPath) {
     logger.error(
-      `the config file is not found, please add the config file ${CLI_CONFIG_SOURCE}.{js,ts,mjs,mts} 【配置文件未找到，请添加配置文件 ${CLI_CONFIG_SOURCE}.{js,ts,mjs,mts}】`
+      `the config file is not found, please add the config file ${CONFIG_FILE_SOURCE.join('|')}.{js,ts,mjs,mts} 【配置文件未找到，请添加配置文件 ${CONFIG_FILE_SOURCE.join('|')}.{js,ts,mjs,mts}】`
     );
     return;
   }

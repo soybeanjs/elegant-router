@@ -13,5 +13,4 @@ export const BUILT_IN_ROUTE = {
   [NOT_FOUND_ROUTE_NAME]: '/:pathMatch(.*)*'
 } as const;
 
-export const CLI_CONFIG_SOURCE = 'elegant-router.config';
-export const SHORT_CLI_CONFIG_SOURCE = 'er.config';
+export const CONFIG_FILE_SOURCE = ['er.config', 'router.config', 'elegant-router.config'];
