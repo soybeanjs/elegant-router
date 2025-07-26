@@ -106,7 +106,7 @@ function getSharedCode(nodes: AutoRouterNode[]) {
 
   const code = `${prefixComment}
 
-import type { RouteKey, RoutePath, RoutePathMap } from '${ELEGANT_ROUTER_TYPES_MODULE_NAME}';
+import type { RouteKey, RoutePathMap } from '${ELEGANT_ROUTER_TYPES_MODULE_NAME}';
 
 const routePathMap: RoutePathMap = {
   ${nodes.map(node => `"${node.name}": "${node.path}",`).join('\n  ')}
@@ -114,10 +114,6 @@ const routePathMap: RoutePathMap = {
 
 export function getRoutePath(key: RouteKey) {
   return routePathMap[key];
-}
-
-export function getRouteName(path: RoutePath) {
-  return Object.keys(routePathMap).find(key => routePathMap[key as RouteKey] === path) as RouteKey;
 }
 `;
 
