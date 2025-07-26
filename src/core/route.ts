@@ -78,14 +78,17 @@ async function updateRoutes(
     const routeBackup: RouteBackup = {};
 
     for await (const deletedName of deletedNames) {
-      const nodeBackupItem = await getNodeBackupItem(cwd, deletedName);
-
-      if (!nodeBackupItem) continue;
-
       const elements = routesExpression.getElements();
+
       const index = elements.findIndex(el => getRouteStringPropertyValue(el, 'name') === deletedName);
 
       if (index === -1) continue;
+
+      routesExpression.removeElement(index);
+
+      const nodeBackupItem = await getNodeBackupItem(cwd, deletedName);
+
+      if (!nodeBackupItem) continue;
 
       const routeElement = elements[index];
 
@@ -97,8 +100,6 @@ async function updateRoutes(
         filepath: nodeBackupItem.filepath,
         routeCode: routeText
       };
-
-      routesExpression.removeElement(index);
     }
 
     if (Object.keys(routeBackup).length > 0) {
