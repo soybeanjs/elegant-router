@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [v1.0.4-beta.9](https://github.com/soybeanjs/elegent-router/compare/v1.0.4-beta.8...v1.0.4-beta.9) (2025-07-26)
+
+### &nbsp;&nbsp;&nbsp;🛠 Optimizations
+
+- **comment**: add oxlint-disable to generated file comments &nbsp;-&nbsp; by @soybeanjs [<samp>(cdc4c)</samp>](https://github.com/soybeanjs/elegent-router/commit/cdc4c2e)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v1.0.4-beta.8](https://github.com/soybeanjs/elegent-router/compare/v1.0.4-beta.7...v1.0.4-beta.8) (2025-07-26)
 
 ### &nbsp;&nbsp;&nbsp;🛠 Optimizations
