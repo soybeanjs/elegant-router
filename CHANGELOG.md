@@ -1,6 +1,20 @@
 # Changelog
 
 
+## [v1.0.4-beta.6](https://github.com/soybeanjs/elegent-router/compare/v1.0.4-beta.5...v1.0.4-beta.6) (2025-07-26)
+
+### &nbsp;&nbsp;&nbsp;💅 Refactors
+
+- **constants**: unify configuration file source constants &nbsp;-&nbsp; by @soybeanjs [<samp>(4b23a)</samp>](https://github.com/soybeanjs/elegent-router/commit/4b23aa5)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **build**: remove build.config.ts file &nbsp;-&nbsp; by @soybeanjs [<samp>(1cf79)</samp>](https://github.com/soybeanjs/elegent-router/commit/1cf7923)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v1.0.4-beta.5](https://github.com/soybeanjs/elegent-router/compare/v1.0.4-beta.4...v1.0.4-beta.5) (2025-07-20)
 
 ### &nbsp;&nbsp;&nbsp;🛠 Optimizations
