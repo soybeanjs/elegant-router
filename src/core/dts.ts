@@ -82,20 +82,11 @@ declare module "${ELEGANT_ROUTER_TYPES_MODULE_NAME}" {
   /**
    * builtin route key
    */
-  export type BuiltinRouteKey = RootRouteKey | NotFoundRouteKey;
+  export type BuiltinRouteKey = RootRouteKey | NotFoundRouteKey;`;
 
-  /**
-   * reuse route key
-   */
-  export type ReuseRouteKey = Extract<
-    RouteKey,`;
-
-  reuseNodes.forEach(node => {
-    code += `\n    | "${node.name}"`;
-  });
+  code += getReuseRouteDtsCode(reuseNodes);
 
   code += `
-  >;
 
   /**
    * the route file key, which has it's own file
@@ -128,6 +119,34 @@ declare module "${ELEGANT_ROUTER_TYPES_MODULE_NAME}" {
   export type AutoRouterRoute = AutoRouterSingleView | AutoRouterRedirect;
 }
 `;
+
+  return code;
+}
+
+function getReuseRouteDtsCode(nodes: AutoRouterNode[]) {
+  if (!nodes.length) {
+    return `
+
+  /**
+   * reuse route key
+   */
+  export type ReuseRouteKey = never;`;
+  }
+
+  let code = `
+
+  /**
+   * reuse route key
+   */
+  export type ReuseRouteKey = Extract<
+    RouteKey,`;
+
+  nodes.forEach(node => {
+    code += `\n    | "${node.name}"`;
+  });
+
+  code += `
+  >;`;
 
   return code;
 }
