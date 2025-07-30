@@ -84,15 +84,16 @@ async function updateRoutes(
 
       if (index === -1) continue;
 
+      const routeElement = elements[index];
+
+      let routeText = routeElement.getFullText();
+
       routesExpression.removeElement(index);
 
       const nodeBackupItem = await getNodeBackupItem(cwd, deletedName);
 
       if (!nodeBackupItem) continue;
 
-      const routeElement = elements[index];
-
-      let routeText = routeElement.getFullText();
       if (routeText.startsWith('\n')) {
         routeText = routeText.slice(1);
       }
