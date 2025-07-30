@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [v1.0.4-beta.10](https://github.com/soybeanjs/elegent-router/compare/v1.0.4-beta.9...v1.0.4-beta.10) (2025-07-31)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **route**: remove redundant variable declarations in updateRoutes function &nbsp;-&nbsp; by @soybeanjs [<samp>(9a6c9)</samp>](https://github.com/soybeanjs/elegent-router/commit/9a6c93a)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v1.0.4-beta.9](https://github.com/soybeanjs/elegent-router/compare/v1.0.4-beta.8...v1.0.4-beta.9) (2025-07-26)
 
 ### &nbsp;&nbsp;&nbsp;🛠 Optimizations
