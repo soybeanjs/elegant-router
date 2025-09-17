@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import cac from 'cac';
 import { loadConfig } from 'unconfig';
-import { version } from '../package.json';
+import { version } from '../package.json' with { type: 'json' };
 import type { AutoRouterOptions, CliOptions } from './types';
 import { AutoRouter } from './core';
 import { addReuseRoute, addRoute, deleteRoute, manageBackup, recoveryRoute, updateRoute } from './commands';
