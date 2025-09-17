@@ -1,6 +1,52 @@
 # Changelog
 
 
+## [v1.0.4](https://github.com/soybeanjs/elegent-router/compare/v1.0.3...v1.0.4) (2025-09-17)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **projects**:
+  - add getRoutePath to resolve node &nbsp;-&nbsp; by @soybeanjs [<samp>(43506)</samp>](https://github.com/soybeanjs/elegent-router/commit/435060b)
+  - fix getRoutePath &nbsp;-&nbsp; by @soybeanjs [<samp>(5c7eb)</samp>](https://github.com/soybeanjs/elegent-router/commit/5c7eb97)
+  - fix json import &nbsp;-&nbsp; by @soybeanjs [<samp>(029f1)</samp>](https://github.com/soybeanjs/elegent-router/commit/029f1ad)
+- **route**:
+  - remove redundant variable declarations in updateRoutes function &nbsp;-&nbsp; by @soybeanjs [<samp>(9a6c9)</samp>](https://github.com/soybeanjs/elegent-router/commit/9a6c93a)
+- **types**:
+  - fix unocss types &nbsp;-&nbsp; by @soybeanjs [<samp>(c0072)</samp>](https://github.com/soybeanjs/elegent-router/commit/c007273)
+
+### &nbsp;&nbsp;&nbsp;🛠 Optimizations
+
+- **comment**:
+  - add oxlint-disable to generated file comments &nbsp;-&nbsp; by @soybeanjs [<samp>(cdc4c)</samp>](https://github.com/soybeanjs/elegent-router/commit/cdc4c2e)
+- **projects**:
+  - optimize package.json exports &nbsp;-&nbsp; by @soybeanjs [<samp>(91df5)</samp>](https://github.com/soybeanjs/elegent-router/commit/91df505)
+  - optimize option &nbsp;-&nbsp; by @soybeanjs [<samp>(7a77f)</samp>](https://github.com/soybeanjs/elegent-router/commit/7a77f4b)
+  - enhance parameter parse &nbsp;-&nbsp; by @soybeanjs [<samp>(aaa2a)</samp>](https://github.com/soybeanjs/elegent-router/commit/aaa2a78)
+  - update example route genrations &nbsp;-&nbsp; by @soybeanjs [<samp>(89d50)</samp>](https://github.com/soybeanjs/elegent-router/commit/89d501f)
+
+### &nbsp;&nbsp;&nbsp;💅 Refactors
+
+- **constants**: unify configuration file source constants &nbsp;-&nbsp; by @soybeanjs [<samp>(4b23a)</samp>](https://github.com/soybeanjs/elegent-router/commit/4b23aa5)
+- **dts**: improve reuse route key generation logic &nbsp;-&nbsp; by @soybeanjs [<samp>(3e516)</samp>](https://github.com/soybeanjs/elegent-router/commit/3e516ae)
+- **generate**: remove unused getRouteName function and clean up imports &nbsp;-&nbsp; by @soybeanjs [<samp>(712a6)</samp>](https://github.com/soybeanjs/elegent-router/commit/712a6c2)
+- **projects**: use tsdown replace unbuild &nbsp;-&nbsp; by @soybeanjs [<samp>(7ba98)</samp>](https://github.com/soybeanjs/elegent-router/commit/7ba98ec)
+- **route**: optimize updateRoutes function by rearranging element removal logic &nbsp;-&nbsp; by @soybeanjs [<samp>(1a4de)</samp>](https://github.com/soybeanjs/elegent-router/commit/1a4deb4)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **build**:
+  - remove build.config.ts file &nbsp;-&nbsp; by @soybeanjs [<samp>(1cf79)</samp>](https://github.com/soybeanjs/elegent-router/commit/1cf7923)
+- **deps**:
+  - update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(c6327)</samp>](https://github.com/soybeanjs/elegent-router/commit/c6327fe)
+  - update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(437ee)</samp>](https://github.com/soybeanjs/elegent-router/commit/437ee9b)
+  - update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(4da01)</samp>](https://github.com/soybeanjs/elegent-router/commit/4da011e)
+- **projects**:
+  - update package.json bin &nbsp;-&nbsp; by @soybeanjs [<samp>(c9502)</samp>](https://github.com/soybeanjs/elegent-router/commit/c95027b)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v1.0.4-beta.10](https://github.com/soybeanjs/elegent-router/compare/v1.0.4-beta.9...v1.0.4-beta.10) (2025-07-31)
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
