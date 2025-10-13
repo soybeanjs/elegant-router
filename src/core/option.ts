@@ -20,6 +20,7 @@ export function resolveOptions(options?: AutoRouterOptions): ParsedAutoRouterOpt
     tsconfig: 'tsconfig.json',
     alias,
     routerGeneratedDir: 'src/router/_generated',
+    generateBuiltinRoutes: false,
     reuseRoutes: [],
     defaultReuseRouteComponent: 'Wip',
     rootRedirect: '/home',

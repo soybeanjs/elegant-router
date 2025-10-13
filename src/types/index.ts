@@ -242,6 +242,14 @@ export interface AutoRouterOptions {
    */
   routerGeneratedDir?: string;
   /**
+   * whether to generate the built-in routes definitions (Root, NotFound)
+   *
+   * 是否生成内置路由(Root, NotFound)的定义数据
+   *
+   * @default false
+   */
+  generateBuiltinRoutes?: boolean;
+  /**
    * the layouts of the router
    *
    * 路由布局
@@ -280,7 +288,7 @@ export interface AutoRouterOptions {
   /**
    * the root redirect path
    *
-   * 根路由重定向路径
+   * 根路由重定向路径(生成root路由时使用)
    *
    * @default '/home'
    */
@@ -288,7 +296,7 @@ export interface AutoRouterOptions {
   /**
    * the not found route component
    *
-   * 404 路由组件
+   * 404 路由组件(生成notFound路由时使用)
    *
    * @default '404'
    */

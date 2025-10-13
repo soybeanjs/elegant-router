@@ -20,21 +20,26 @@ export async function generateRoutes(
   statInfo: NodeStatInfo,
   options: ParsedAutoRouterOptions
 ) {
-  const { cwd, routerGeneratedDir } = options;
+  const { cwd, routerGeneratedDir, generateBuiltinRoutes } = options;
 
   const routesPath = path.posix.join(cwd, routerGeneratedDir, 'routes.ts');
   await ensureFile(routesPath);
+
+  let filteredNodes = nodes;
+  if (!generateBuiltinRoutes) {
+    filteredNodes = nodes.filter(node => !node.isBuiltin);
+  }
 
   if (!existsSync(routesPath)) {
     const code = await createInitRoutesCode();
     await writeFile(routesPath, code);
 
-    await initRoutes(nodes, routesPath, options);
+    await initRoutes(filteredNodes, routesPath, options);
 
     return;
   }
 
-  await updateRoutes(nodes, statInfo, routesPath, options);
+  await updateRoutes(filteredNodes, statInfo, routesPath, options);
 }
 
 async function initRoutes(nodes: AutoRouterNode[], routesPath: string, options: ParsedAutoRouterOptions) {
