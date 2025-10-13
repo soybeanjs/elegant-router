@@ -1,6 +1,22 @@
 # Changelog
 
 
+## [v1.1.0-beta.1](https://github.com/soybeanjs/elegent-router/compare/v1.0.4...v1.1.0-beta.1) (2025-10-13)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **route**: add option to generate built-in routes and filter nodes accordingly &nbsp;-&nbsp; by @soybeanjs [<samp>(02d27)</samp>](https://github.com/soybeanjs/elegent-router/commit/02d273a)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **deps**:
+  - update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(7bb56)</samp>](https://github.com/soybeanjs/elegent-router/commit/7bb562e)
+  - update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(570d4)</samp>](https://github.com/soybeanjs/elegent-router/commit/570d4ac)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v1.0.4](https://github.com/soybeanjs/elegent-router/compare/v1.0.3...v1.0.4) (2025-09-17)
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
