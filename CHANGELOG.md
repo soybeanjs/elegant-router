@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [v1.1.0-beta.2](https://github.com/soybeanjs/elegent-router/compare/v1.1.0-beta.1...v1.1.0-beta.2) (2025-11-19)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **deps**: update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(81aa7)</samp>](https://github.com/soybeanjs/elegent-router/commit/81aa7aa)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v1.1.0-beta.1](https://github.com/soybeanjs/elegent-router/compare/v1.0.4...v1.1.0-beta.1) (2025-10-13)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
