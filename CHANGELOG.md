@@ -1,6 +1,17 @@
 # Changelog
 
 
+## [v1.1.0-beta.3](https://github.com/soybeanjs/elegent-router/compare/v1.1.0-beta.2...v1.1.0-beta.3) (2025-11-20)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **deps**: update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(fab6a)</samp>](https://github.com/soybeanjs/elegent-router/commit/fab6a9f)
+- **tsdown**: add fixedExtension option to configuration &nbsp;-&nbsp; by @soybeanjs [<samp>(7c118)</samp>](https://github.com/soybeanjs/elegent-router/commit/7c118b2)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v1.1.0-beta.2](https://github.com/soybeanjs/elegent-router/compare/v1.1.0-beta.1...v1.1.0-beta.2) (2025-11-19)
 
 ### &nbsp;&nbsp;&nbsp;🏡 Chore
