@@ -49,7 +49,9 @@ export function resolveOptions(options?: AutoRouterOptions): ParsedAutoRouterOpt
     throw new Error('layouts is required');
   }
 
-  restOptions.getRouteLayout = () => Object.keys(layouts)[0];
+  if (!options?.getRouteLayout) {
+    restOptions.getRouteLayout = () => Object.keys(layouts)[0];
+  }
 
   const parsedOptions: ParsedAutoRouterOptions = {
     pageExtension: pageInclude.map(item => item.split('.').pop()!),
