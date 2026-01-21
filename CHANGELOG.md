@@ -1,6 +1,20 @@
 # Changelog
 
 
+## [v1.1.1](https://github.com/soybeanjs/elegent-router/compare/v1.1.0...v1.1.1) (2026-01-22)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **option**: fix option where getRouteLayout was overridden. fixed #72 &nbsp;-&nbsp; by @ilolicon in https://github.com/soybeanjs/elegent-router/issues/72 [<samp>(b47b8)</samp>](https://github.com/soybeanjs/elegent-router/commit/b47b813)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **deps**: update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(cc1aa)</samp>](https://github.com/soybeanjs/elegent-router/commit/cc1aa0c)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;[![ilolicon](https://github.com/ilolicon.png?size=48)](https://github.com/ilolicon)&nbsp;&nbsp;
+
 ## [v1.1.0](https://github.com/soybeanjs/elegent-router/compare/v1.0.4...v1.1.0) (2025-12-23)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
