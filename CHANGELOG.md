@@ -1,6 +1,20 @@
 # Changelog
 
 
+## [v1.1.2](https://github.com/soybeanjs/elegent-router/compare/v1.1.1...v1.1.2) (2026-01-26)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **comment**: add oxfmt-ignore to generated file prefix comment &nbsp;-&nbsp; by @soybeanjs [<samp>(ff96e)</samp>](https://github.com/soybeanjs/elegent-router/commit/ff96e64)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **deps**: update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(f97f4)</samp>](https://github.com/soybeanjs/elegent-router/commit/f97f4a3)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v1.1.1](https://github.com/soybeanjs/elegent-router/compare/v1.1.0...v1.1.1) (2026-01-22)
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
