@@ -117,18 +117,18 @@
     "tinyglobby": "0.2.15",
     "ts-morph": "27.0.2",
     "unconfig": "7.4.2",
-    "unplugin": "2.3.11",
+    "unplugin": "3.0.0",
     "unplugin-utils": "0.3.1"
   },
   "devDependencies": {
-    "@nuxt/kit": "4.2.2",
-    "@nuxt/schema": "4.2.2",
+    "@nuxt/kit": "4.3.0",
+    "@nuxt/schema": "4.3.0",
     "@soybeanjs/cli": "1.4.4",
     "@soybeanjs/eslint-config": "1.7.5",
-    "@types/node": "25.0.9",
+    "@types/node": "25.0.10",
     "@types/picomatch": "4.0.2",
-    "@vitest/coverage-v8": "4.0.17",
-    "@vitest/ui": "4.0.17",
+    "@vitest/coverage-v8": "4.0.18",
+    "@vitest/ui": "4.0.18",
     "eslint": "9.39.2",
     "eslint-plugin-vue": "10.7.0",
     "lint-staged": "16.2.7",
@@ -136,7 +136,7 @@
     "tsdown": "0.19.0",
     "tsx": "4.21.0",
     "typescript": "5.9.3",
-    "vitest": "4.0.17",
+    "vitest": "4.0.18",
     "vue-eslint-parser": "10.2.0"
   },
   "simple-git-hooks": {
