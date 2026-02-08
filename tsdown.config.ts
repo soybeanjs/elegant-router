@@ -24,7 +24,9 @@ export default defineConfig({
     'nuxt',
     'rspack',
     'farm',
-    'rolldown'
+    'rolldown',
+    'vue',
+    'vue-router'
   ],
   clean: true,
   dts: true,
