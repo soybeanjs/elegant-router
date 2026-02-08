@@ -9,7 +9,6 @@ A file-system based automatic routing tool for Vue.js, simplifying route configu
 > [!WARNING]
 > **Note**: The code and documentation for the old version have been migrated to the [legacy branch](https://github.com/SoybeanJS/elegant-router/tree/legacy). The old version's package name was `@elegant-router/vue`, while the new version's package name is `elegant-router`. If you are using the old version or need to reference its documentation, please visit that branch.
 
-
 ## Table of Contents
 
 - [Introduction](#introduction)
@@ -104,23 +103,24 @@ npx er --help
 
 ElegantRouter CLI provides the following commands:
 
-| Command         | Shorthand | Description                           |
-|-----------------|-----------|---------------------------------------|
-| `er generate`   | `er -g`   | Generate route configuration files    |
-| `er add`        | `er -a`   | Add a new route file                  |
-| `er reuse`      | `er -p`   | Add a reused route file               |
-| `er delete`     | `er -d`   | Delete an existing route file         |
-| `er recovery`   | `er -r`   | Recover a deleted route file          |
-| `er update`     | `er -u`   | Update route configuration            |
-| `er backup`     | `er -b`   | Manage route backups                  |
-| `er --help`     | `er -h`   | Show help information                 |
-| `er --version`  | `er -v`   | Show version information              |
+| Command        | Shorthand | Description                        |
+| -------------- | --------- | ---------------------------------- |
+| `er generate`  | `er -g`   | Generate route configuration files |
+| `er add`       | `er -a`   | Add a new route file               |
+| `er reuse`     | `er -p`   | Add a reused route file            |
+| `er delete`    | `er -d`   | Delete an existing route file      |
+| `er recovery`  | `er -r`   | Recover a deleted route file       |
+| `er update`    | `er -u`   | Update route configuration         |
+| `er backup`    | `er -b`   | Manage route backups               |
+| `er --help`    | `er -h`   | Show help information              |
+| `er --version` | `er -v`   | Show version information           |
 
 ### Command Details
 
 #### `er generate` Command
 
 Generates route configuration files based on the current file system structure. This command will:
+
 - Scan configured page directories
 - Parse file paths to generate route configurations
 - Update files in the route generation directory
@@ -133,11 +133,13 @@ er generate
 #### `er add` Command
 
 Interactively adds new route files. This command will guide you through the following steps:
+
 1. Enter the route file path or name
 2. Select the layout to use
 3. Choose the page directory (if multiple are configured)
 
 Supported file types:
+
 - Vue Single File Components (.vue)
 - TSX Components (.tsx)
 - JSX Components (.jsx)
@@ -150,11 +152,13 @@ er add
 #### `er reuse` Command
 
 Interactively add a reused route file. This command will guide you through:
+
 1. Entering the reused route path or name
 2. Selecting the layout to use
 3. Selecting the page directory (if multiple are configured)
 
 Supported file types:
+
 - Vue Single File Component (.vue)
 - TSX Component (.tsx)
 - JSX Component (.jsx)
@@ -167,6 +171,7 @@ er reuse
 #### `er delete` Command
 
 Interactively removes existing route files. This command will:
+
 1. Display a list of all current routes
 2. Let you select the route to delete
 3. Delete the corresponding file
@@ -182,6 +187,7 @@ er delete
 #### `er recovery` Command
 
 Recovers previously deleted route files. This command will:
+
 1. Display a list of all recoverable routes
 2. Let you select the route to recover
 3. Restore the route file and configuration
@@ -195,6 +201,7 @@ er recovery
 #### `er update` Command
 
 Updates route configuration. This command will:
+
 - Rescan the file system
 - Update route configuration
 - Maintain existing route structure
@@ -207,6 +214,7 @@ er update
 #### `er backup` Command
 
 Manage route backups. This command provides the following features:
+
 1. List all route backups
 2. View the content of backed-up route files
 3. Delete unnecessary backups
@@ -219,6 +227,7 @@ er backup
 ```
 
 When using this command, you will see the following options:
+
 - **List Route Backups** - Display a list of all backed-up routes and view the detailed content of each backup
 - **Delete Route Backup** - Remove a specified route backup from the backup list
 
@@ -245,7 +254,7 @@ export default defineConfig({
   // Root route redirect
   rootRedirect: '/dashboard',
   // 404 route component
-  notFoundRouteComponent: 'NotFound',
+  notFoundRouteComponent: 'NotFound'
 });
 ```
 
@@ -266,6 +275,7 @@ er add
 ```
 
 This will start an interactive command-line interface that guides you through:
+
 1. Entering the route file path or name
 2. Choosing a route layout
 3. Selecting the page directory (if multiple are configured)
@@ -298,15 +308,12 @@ ElegantRouter supports various mainstream build tools to accommodate different p
 
 ```ts
 // vite.config.ts
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import ElegantRouter from "elegant-router/vite";
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import ElegantRouter from 'elegant-router/vite';
 
 export default defineConfig({
-  plugins: [
-    vue(),
-    ElegantRouter(),
-  ]
+  plugins: [vue(), ElegantRouter()]
 });
 ```
 
@@ -318,9 +325,7 @@ const ElegantRouter = require('elegant-router/webpack');
 
 module.exports = {
   // Other configurations...
-  plugins: [
-    new ElegantRouter()
-  ]
+  plugins: [new ElegantRouter()]
 };
 ```
 
@@ -332,9 +337,7 @@ import ElegantRouter from 'elegant-router/rollup';
 
 export default {
   // Other configurations...
-  plugins: [
-    ElegantRouter()
-  ]
+  plugins: [ElegantRouter()]
 };
 ```
 
@@ -347,9 +350,7 @@ const ElegantRouter = require('elegant-router/esbuild');
 
 build({
   // Other configurations...
-  plugins: [
-    ElegantRouter()
-  ]
+  plugins: [ElegantRouter()]
 });
 ```
 
@@ -378,14 +379,14 @@ const ElegantRouterUnplugin = createUnplugin({
 Add the ElegantRouter plugin to your Vite configuration:
 
 ```ts
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import ElegantRouter from "elegant-router/vite";
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import ElegantRouter from 'elegant-router/vite';
 
 export default defineConfig({
   plugins: [
     vue(),
-    ElegantRouter(),  // Use default configuration
+    ElegantRouter() // Use default configuration
   ]
 });
 ```
@@ -423,6 +424,7 @@ Create a regular page component to automatically generate the corresponding rout
 **File Path:** `src/views/home/index.vue`
 
 **Generated Route:**
+
 ```ts
 {
   name: 'Home',
@@ -443,6 +445,7 @@ Use bracket syntax to create routes with parameters:
 **File Path:** `src/views/list/[id].vue`
 
 **Generated Route:**
+
 ```ts
 {
   name: 'ListId',
@@ -459,6 +462,7 @@ Use double bracket syntax to create routes with optional parameters:
 **File Path:** `src/views/list/detail-[[id]]-[[userId]].vue`
 
 **Generated Route:**
+
 ```ts
 {
   name: 'ListDetailIdUserId',
@@ -475,6 +479,7 @@ Use underscores to separate multiple parameters:
 **File Path:** `src/views/list/detail_[id]_[userId].vue`
 
 **Generated Route:**
+
 ```ts
 {
   name: 'ListDetailIdUserId',
@@ -491,6 +496,7 @@ Use parentheses to create groups that don't affect the route path:
 **File Path:** `src/views/(group)/demo/index.vue`
 
 **Generated Route:**
+
 ```ts
 {
   name: 'Demo',
@@ -504,7 +510,7 @@ Use parentheses to create groups that don't affect the route path:
 If you need to reuse existing page route files, you can configure the `reuseRoutes` option:
 
 ```ts
-reuseRoutes: ['/reuse1', '/reuse2/:id', '/reuse3/:id?/:name?']
+reuseRoutes: ['/reuse1', '/reuse2/:id', '/reuse3/:id?/:name?'];
 ```
 
 Reused routes use the component specified in the `defaultReuseRouteComponent` configuration (default is 'Wip').
@@ -529,29 +535,33 @@ The `watchFile` configuration option controls whether the file watching function
 The plugin automatically injects route names into route file components, which is crucial for Vue Router's KeepAlive functionality. KeepAlive relies on component names to correctly cache and restore component states.
 
 Supported component types:
+
 - Vue Single File Components (.vue)
 - TSX Components (.tsx)
 - JSX Components (.jsx)
 
 Injection rules:
+
 1. If a component already has a name property, it remains unchanged
 2. If a component doesn't have a name property, the route name is automatically injected
 3. Route names are automatically generated based on file paths, following PascalCase naming conventions
 
 For example, for the file `src/views/home/index.vue`, it will automatically inject:
+
 ```vue
 <script setup>
 const _sfc_main = {
-  name: 'Home',  // Automatically injected component name
+  name: 'Home' // Automatically injected component name
   // ... other component options
-}
+};
 </script>
 ```
 
 For TSX/JSX components:
+
 ```tsx
 export default defineComponent({
-  name: 'Home',  // Automatically injected component name
+  name: 'Home', // Automatically injected component name
   setup() {
     return () => <div>Home</div>;
   }
@@ -739,7 +749,7 @@ interface AutoRouterOptions {
 ElegantRouter now provides built-in support for basic routes, including:
 
 1. **Root Route** - Automatically creates a root route node with path '/'
-2. **NotFound Route** - Automatically creates a wildcard route node with path '/:pathMatch(.*)*' to catch all unmatched paths
+2. **NotFound Route** - Automatically creates a wildcard route node with path '/:pathMatch(._)_' to catch all unmatched paths
 
 These built-in routes can be used without additional configuration, as the system automatically adds them to the route list. You can customize their behavior through configuration options:
 
@@ -752,14 +762,14 @@ Compared to the old version `@elegant-router/vue`, the new version `elegant-rout
 
 ### System Design Improvements
 
-| Feature | Old Version | New Version |
-|---------|------------|-------------|
-| Architecture | Black-box design, route data processing logic not transparent | White-box design, route data completely transparent and accessible |
-| Processing Flow | Complex process, difficult to extend | Clear processing steps, easy to customize and extend |
-| File Parsing | Limited file parsing capabilities | More powerful file system parsing, supporting various naming conventions |
-| Type Safety | Basic type support | Complete type definitions and automatically generated type declarations |
-| Reuse Routes | Limited capabilities | Comprehensive support for reuse routes |
-| Built-in Routes | Basic routes need manual configuration | Built-in root and 404 routes, simplifying configuration |
+| Feature         | Old Version                                                   | New Version                                                              |
+| --------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| Architecture    | Black-box design, route data processing logic not transparent | White-box design, route data completely transparent and accessible       |
+| Processing Flow | Complex process, difficult to extend                          | Clear processing steps, easy to customize and extend                     |
+| File Parsing    | Limited file parsing capabilities                             | More powerful file system parsing, supporting various naming conventions |
+| Type Safety     | Basic type support                                            | Complete type definitions and automatically generated type declarations  |
+| Reuse Routes    | Limited capabilities                                          | Comprehensive support for reuse routes                                   |
+| Built-in Routes | Basic routes need manual configuration                        | Built-in root and 404 routes, simplifying configuration                  |
 
 ## Best Practices
 
@@ -771,15 +781,12 @@ Leverage ElegantRouter's built-in root and 404 routes to simplify your configura
 
 ```ts
 // vite.config.ts
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import ElegantRouter from "elegant-router/vite";
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import ElegantRouter from 'elegant-router/vite';
 
 export default defineConfig({
-  plugins: [
-    vue(),
-    ElegantRouter()
-  ]
+  plugins: [vue(), ElegantRouter()]
 });
 ```
 

@@ -9,7 +9,6 @@
 > [!WARNING]
 > **注意**: 旧版本的代码和文档已迁移至 [legacy 分支](https://github.com/SoybeanJS/elegant-router/tree/legacy)。旧版本的包名为 `@elegant-router/vue`，而新版本的包名为 `elegant-router`。如果您正在使用旧版本或需要参考旧版本的文档，请访问该分支。
 
-
 ## 目录
 
 - [介绍](#介绍)
@@ -104,23 +103,24 @@ npx er --help
 
 ElegantRouter CLI 提供以下命令：
 
-| 命令 | 简写 | 描述 |
-|------|------|------|
-| `er generate` | `er -g` | 生成路由配置文件 |
-| `er add` | `er -a` | 添加新路由文件 |
-| `er reuse` | `er -p` | 添加复用路由文件 |
-| `er delete` | `er -d` | 删除现有路由文件 |
-| `er recovery` | `er -r` | 恢复已删除的路由文件 |
-| `er update` | `er -u` | 更新路由配置 |
-| `er backup` | `er -b` | 管理路由备份 |
-| `er --help` | `er -h` | 显示帮助信息 |
-| `er --version` | `er -v` | 显示版本信息 |
+| 命令           | 简写    | 描述                 |
+| -------------- | ------- | -------------------- |
+| `er generate`  | `er -g` | 生成路由配置文件     |
+| `er add`       | `er -a` | 添加新路由文件       |
+| `er reuse`     | `er -p` | 添加复用路由文件     |
+| `er delete`    | `er -d` | 删除现有路由文件     |
+| `er recovery`  | `er -r` | 恢复已删除的路由文件 |
+| `er update`    | `er -u` | 更新路由配置         |
+| `er backup`    | `er -b` | 管理路由备份         |
+| `er --help`    | `er -h` | 显示帮助信息         |
+| `er --version` | `er -v` | 显示版本信息         |
 
 ### 命令详细说明
 
 #### `er generate` 命令
 
 根据当前文件系统结构生成路由配置文件。这个命令会：
+
 - 扫描配置的页面目录
 - 解析文件路径生成路由配置
 - 更新路由生成目录下的文件
@@ -133,11 +133,13 @@ er generate
 #### `er add` 命令
 
 交互式添加新的路由文件。这个命令会引导您完成以下步骤：
+
 1. 输入路由文件路径或名称
 2. 选择要使用的布局
 3. 选择页面目录（如果配置了多个）
 
 支持的文件类型：
+
 - Vue 单文件组件 (.vue)
 - TSX 组件 (.tsx)
 - JSX 组件 (.jsx)
@@ -150,6 +152,7 @@ er add
 #### `er delete` 命令
 
 交互式删除现有的路由文件。这个命令会：
+
 1. 显示当前所有路由列表
 2. 让您选择要删除的路由
 3. 删除对应的文件
@@ -165,6 +168,7 @@ er delete
 #### `er recovery` 命令
 
 恢复之前删除的路由文件。这个命令会：
+
 1. 显示所有可恢复的路由列表
 2. 让您选择要恢复的路由
 3. 恢复路由文件和配置
@@ -178,6 +182,7 @@ er recovery
 #### `er update` 命令
 
 更新路由配置。这个命令会：
+
 - 重新扫描文件系统
 - 更新路由配置
 - 保持现有的路由结构
@@ -190,6 +195,7 @@ er update
 #### `er backup` 命令
 
 管理路由备份。这个命令提供了以下功能：
+
 1. 列出所有路由备份
 2. 查看备份的路由文件内容
 3. 删除不需要的备份
@@ -202,6 +208,7 @@ er backup
 ```
 
 使用此命令时，您将看到以下选项：
+
 - **列出路由备份** - 显示所有备份的路由列表，并可以查看每个备份的详细内容
 - **删除路由备份** - 从备份列表中删除指定的路由备份
 
@@ -228,7 +235,7 @@ export default defineConfig({
   // 根路由重定向
   rootRedirect: '/dashboard',
   // 404 路由组件
-  notFoundRouteComponent: 'NotFound',
+  notFoundRouteComponent: 'NotFound'
 });
 ```
 
@@ -249,6 +256,7 @@ er add
 ```
 
 这将启动交互式命令行界面，引导您：
+
 1. 输入路由文件路径或名称
 2. 选择路由布局
 3. 选择页面目录（如果配置了多个）
@@ -281,15 +289,12 @@ ElegantRouter 支持多种主流构建工具，以适应不同的项目环境需
 
 ```ts
 // vite.config.ts
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import ElegantRouter from "elegant-router/vite";
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import ElegantRouter from 'elegant-router/vite';
 
 export default defineConfig({
-  plugins: [
-    vue(),
-    ElegantRouter(),
-  ]
+  plugins: [vue(), ElegantRouter()]
 });
 ```
 
@@ -301,7 +306,7 @@ const ElegantRouter = require('elegant-router/webpack');
 
 module.exports = {
   // 其他配置...
-  plugins: [new ElegantRouter()],
+  plugins: [new ElegantRouter()]
 };
 ```
 
@@ -313,7 +318,7 @@ import ElegantRouter from 'elegant-router/rollup';
 
 export default {
   // 其他配置...
-  plugins: [ElegantRouter()],
+  plugins: [ElegantRouter()]
 };
 ```
 
@@ -326,7 +331,7 @@ const ElegantRouter = require('elegant-router/esbuild');
 
 build({
   // 其他配置...
-  plugins: [ElegantRouter()],
+  plugins: [ElegantRouter()]
 });
 ```
 
@@ -355,14 +360,14 @@ const ElegantRouterUnplugin = createUnplugin({
 将 ElegantRouter 插件添加到您的 Vite 配置中：
 
 ```ts
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import ElegantRouter from "elegant-router/vite";
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import ElegantRouter from 'elegant-router/vite';
 
 export default defineConfig({
   plugins: [
     vue(),
-    ElegantRouter(),  // 使用默认配置
+    ElegantRouter() // 使用默认配置
   ]
 });
 ```
@@ -400,6 +405,7 @@ ElegantRouter 基于文件系统约定创建路由，遵循简单直观的规则
 **文件路径:** `src/views/home/index.vue`
 
 **生成路由:**
+
 ```ts
 {
   name: 'Home',
@@ -420,6 +426,7 @@ ElegantRouter 基于文件系统约定创建路由，遵循简单直观的规则
 **文件路径:** `src/views/list/[id].vue`
 
 **生成路由:**
+
 ```ts
 {
   name: 'ListId',
@@ -436,6 +443,7 @@ ElegantRouter 基于文件系统约定创建路由，遵循简单直观的规则
 **文件路径:** `src/views/list/detail-[[id]]-[[userId]].vue`
 
 **生成路由:**
+
 ```ts
 {
   name: 'ListDetailIdUserId',
@@ -452,6 +460,7 @@ ElegantRouter 基于文件系统约定创建路由，遵循简单直观的规则
 **文件路径:** `src/views/list/detail_[id]_[userId].vue`
 
 **生成路由:**
+
 ```ts
 {
   name: 'ListDetailIdUserId',
@@ -468,6 +477,7 @@ ElegantRouter 基于文件系统约定创建路由，遵循简单直观的规则
 **文件路径:** `src/views/(group)/demo/index.vue`
 
 **生成路由:**
+
 ```ts
 {
   name: 'Demo',
@@ -486,12 +496,7 @@ ElegantRouter 基于文件系统约定创建路由，遵循简单直观的规则
 
 ```ts
 {
-  reuseRoutes: [
-    '/reuse1',
-    '/reuse2/:id',
-    '/reuse3/:id?',
-    '/reuse4/:id?/:name?'
-  ]
+  reuseRoutes: ['/reuse1', '/reuse2/:id', '/reuse3/:id?', '/reuse4/:id?/:name?'];
 }
 ```
 
@@ -538,11 +543,13 @@ ElegantRouter 基于文件系统约定创建路由，遵循简单直观的规则
 ```
 
 系统会自动根据路径生成路由名称，遵循以下规则：
+
 1. 将路径转换为 PascalCase 格式
 2. 移除特殊字符和参数标记
 3. 对于参数路由，保留参数名称作为路由名称的一部分
 
 例如：
+
 - `/dashboard` -> `Dashboard`
 - `/user/profile` -> `UserProfile`
 - `/user/:id/profile` -> `UserIdProfile`
@@ -567,29 +574,33 @@ ElegantRouter 基于文件系统约定创建路由，遵循简单直观的规则
 插件会自动将路由名称注入到路由文件组件中，这对于 Vue Router 的 KeepAlive 功能至关重要。KeepAlive 依赖于组件名称来正确缓存和恢复组件状态。
 
 支持的组件类型：
+
 - Vue 单文件组件 (.vue)
 - TSX 组件 (.tsx)
 - JSX 组件 (.jsx)
 
 注入规则：
+
 1. 如果组件已有 name 属性，则保持不变
 2. 如果组件没有 name 属性，则自动注入路由名称
 3. 路由名称基于文件路径自动生成，遵循 PascalCase 命名规范
 
 例如，对于文件 `src/views/home/index.vue`，会自动注入：
+
 ```vue
 <script setup>
 const _sfc_main = {
-  name: 'Home',  // 自动注入的组件名称
+  name: 'Home' // 自动注入的组件名称
   // ... 其他组件选项
-}
+};
 </script>
 ```
 
 对于 TSX/JSX 组件：
+
 ```tsx
 export default defineComponent({
-  name: 'Home',  // 自动注入的组件名称
+  name: 'Home', // 自动注入的组件名称
   setup() {
     return () => <div>Home</div>;
   }
@@ -637,7 +648,7 @@ ElegantRouter 采用一级路由到嵌套路由的转换流程，简化路由管
 
 ElegantRouter 提供了丰富的配置选项，使您能够根据项目需求自定义路由生成行为：
 
-```ts
+````ts
 interface AutoRouterOptions {
   /**
    * 项目根目录
@@ -783,14 +794,14 @@ interface AutoRouterOptions {
    */
   getRouteMeta?: (node: AutoRouterNode) => Record<string, any> | null;
 }
-```
+````
 
 ### 内置路由
 
 ElegantRouter 现在提供了内置的基础路由支持，包括：
 
 1. **根路由 (Root)** - 自动创建路径为 '/' 的根路由节点
-2. **404路由 (NotFound)** - 自动创建路径为 '/:pathMatch(.*)*' 的通配符路由节点，用于捕获所有不匹配的路径
+2. **404路由 (NotFound)** - 自动创建路径为 '/:pathMatch(._)_' 的通配符路由节点，用于捕获所有不匹配的路径
 
 这些内置路由无需额外配置即可使用，系统会自动将它们添加到路由列表中。您可以通过配置选项自定义它们的行为：
 
@@ -802,7 +813,7 @@ ElegantRouter 现在提供了内置的基础路由支持，包括：
 除了基于文件系统的路由外，ElegantRouter 还支持创建复用现有文件的路由：
 
 ```ts
-reuseRoutes: ['/reuse1', '/reuse2/:id', '/reuse3/:id?/:name?']
+reuseRoutes: ['/reuse1', '/reuse2/:id', '/reuse3/:id?/:name?'];
 ```
 
 复用路由默认使用 `defaultReuseRouteComponent` 配置中指定的组件（默认为 'Wip'）。
@@ -813,23 +824,25 @@ reuseRoutes: ['/reuse1', '/reuse2/:id', '/reuse3/:id?/:name?']
 
 ### 系统设计的改进
 
-| 功能 | 旧版本 | 新版本 |
-|-----|-------|-------|
-| 架构设计 | 黑盒设计，路由数据处理逻辑不透明 | 白盒设计，路由数据完全透明可访问 |
-| 处理流程 | 复杂的流程，难以扩展 | 清晰的处理步骤，便于自定义和扩展 |
-| 文件解析 | 受限的文件解析能力 | 更强大的文件系统解析，支持多种命名约定 |
-| 类型安全 | 基本的类型支持 | 完整的类型定义和自动生成的类型声明 |
-| 复用路由 | 有限的能力 | 全面支持复用路由 |
-| 内置路由 | 需要手动配置基础路由 | 内置根路由和404路由，简化配置 |
+| 功能     | 旧版本                           | 新版本                                 |
+| -------- | -------------------------------- | -------------------------------------- |
+| 架构设计 | 黑盒设计，路由数据处理逻辑不透明 | 白盒设计，路由数据完全透明可访问       |
+| 处理流程 | 复杂的流程，难以扩展             | 清晰的处理步骤，便于自定义和扩展       |
+| 文件解析 | 受限的文件解析能力               | 更强大的文件系统解析，支持多种命名约定 |
+| 类型安全 | 基本的类型支持                   | 完整的类型定义和自动生成的类型声明     |
+| 复用路由 | 有限的能力                       | 全面支持复用路由                       |
+| 内置路由 | 需要手动配置基础路由             | 内置根路由和404路由，简化配置          |
 
 ### 技术实现变化
 
 #### 旧版本实现
+
 - **组件关联方式**：使用特殊字符串（如 `layout.base$view.about`）表示组件关系
 - **路由数据结构**：生成复杂的嵌套路由结构，再转换为框架需要的格式
 - **生成文件范围**：生成基础的 imports.ts、routes.ts、transform.ts 三个文件
 
 #### 新版本实现
+
 - **组件关联方式**：使用独立的 `layout` 和 `component` 字段清晰表示组件关系
 - **路由数据结构**：生成简洁的一级路由结构，通过转换器按布局分组
 - **工具函数增强**：新增 shared.ts 提供路由名称和路径映射工具
@@ -838,6 +851,7 @@ reuseRoutes: ['/reuse1', '/reuse2/:id', '/reuse3/:id?/:name?']
 ### 路由数据结构对比
 
 #### 旧版本路由示例
+
 ```ts
 // 单级路由
 {
@@ -865,6 +879,7 @@ reuseRoutes: ['/reuse1', '/reuse2/:id', '/reuse3/:id?/:name?']
 ```
 
 #### 新版本路由示例
+
 ```ts
 // 统一的一级路由结构
 {
@@ -885,6 +900,7 @@ reuseRoutes: ['/reuse1', '/reuse2/:id', '/reuse3/:id?/:name?']
 ### 转换后的路由结构对比
 
 #### 旧版本转换结果
+
 ```ts
 // 单级路由转换后
 {
@@ -919,6 +935,7 @@ reuseRoutes: ['/reuse1', '/reuse2/:id', '/reuse3/:id?/:name?']
 ```
 
 #### 新版本转换结果
+
 ```ts
 // 按布局分组的路由结构
 {
@@ -970,15 +987,12 @@ reuseRoutes: ['/reuse1', '/reuse2/:id', '/reuse3/:id?/:name?']
 
 ```ts
 // vite.config.ts
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import ElegantRouter from "elegant-router/vite";
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import ElegantRouter from 'elegant-router/vite';
 
 export default defineConfig({
-  plugins: [
-    vue(),
-    ElegantRouter()
-  ]
+  plugins: [vue(), ElegantRouter()]
 });
 ```
 
@@ -988,8 +1002,8 @@ export default defineConfig({
 
 ```ts
 {
-  reuseRoutes: ['/reuse1', '/reuse2/:id', '/reuse3/:id?/:name?']
-  defaultReuseRouteComponent: 'Wip'
+  reuseRoutes: ['/reuse1', '/reuse2/:id', '/reuse3/:id?/:name?'];
+  defaultReuseRouteComponent: 'Wip';
 }
 ```
 

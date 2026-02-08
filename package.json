@@ -1,24 +1,45 @@
 {
   "name": "elegant-router",
-  "type": "module",
   "version": "1.1.2",
-  "packageManager": "pnpm@10.29.1",
   "description": "A plugin to create router elegantly",
+  "homepage": "https://github.com/soybeanjs/elegant-router",
+  "bugs": {
+    "url": "https://github.com/soybeanjs/elegant-router/issues"
+  },
+  "license": "MIT",
   "author": {
     "name": "Soybean",
     "email": "soybeanjs@outlook.com",
     "url": "https://github.com/soybeanjs"
   },
-  "license": "MIT",
-  "homepage": "https://github.com/soybeanjs/elegant-router",
   "repository": {
     "url": "https://github.com/soybeanjs/elegant-router.git"
   },
-  "bugs": {
-    "url": "https://github.com/soybeanjs/elegant-router/issues"
+  "bin": {
+    "er": "src/bin.mjs"
+  },
+  "files": [
+    "README.en_US.md",
+    "dist",
+    "README.md"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./vite": "./src/vite.ts",
+    "./webpack": "./src/webpack.ts",
+    "./rollup": "./src/rollup.ts",
+    "./esbuild": "./src/esbuild.ts",
+    "./rspack": "./src/rspack.ts",
+    "./rolldown": "./src/rolldown.ts",
+    "./farm": "./src/farm.ts",
+    "./nuxt": "./src/nuxt.ts"
   },
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
     "bin": {
       "er": "dist/cli.js"
     },
@@ -71,39 +92,22 @@
     },
     "main": "./dist/index.js",
     "module": "./dist/index.js",
+    "registry": "https://registry.npmjs.org/",
     "types": "./dist/index.d.ts"
   },
-  "sideEffects": false,
-  "bin": {
-    "er": "src/bin.mjs"
-  },
-  "exports": {
-    ".": "./src/index.ts",
-    "./vite": "./src/vite.ts",
-    "./webpack": "./src/webpack.ts",
-    "./rollup": "./src/rollup.ts",
-    "./esbuild": "./src/esbuild.ts",
-    "./rspack": "./src/rspack.ts",
-    "./rolldown": "./src/rolldown.ts",
-    "./farm": "./src/farm.ts",
-    "./nuxt": "./src/nuxt.ts"
-  },
-  "main": "./src/index.ts",
-  "module": "./src/index.ts",
-  "types": "./src/index.ts",
-  "files": ["README.en_US.md", "dist", "README.md"],
   "scripts": {
     "build": "tsdown",
     "cleanup": "soy cleanup",
     "commit": "soy git-commit",
-    "lint": "eslint . --fix",
+    "fmt": "oxfmt",
+    "lint": "oxlint --fix",
     "publish-pkg": "pnpm publish --access public",
     "release": "pnpm soy release",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
     "typecheck": "tsc --noEmit --skipLibCheck",
-    "update-pkg": "soy ncu"
+    "upkg": "soy ncu"
   },
   "dependencies": {
     "cac": "6.7.14",
@@ -124,26 +128,25 @@
     "@nuxt/kit": "4.3.1",
     "@nuxt/schema": "4.3.1",
     "@soybeanjs/cli": "1.5.0",
-    "@soybeanjs/eslint-config": "1.7.5",
     "@types/node": "25.2.2",
     "@types/picomatch": "4.0.2",
     "@vitest/coverage-v8": "4.0.18",
     "@vitest/ui": "4.0.18",
-    "eslint": "10.0.0",
-    "eslint-plugin-vue": "10.7.0",
     "lint-staged": "16.2.7",
+    "oxfmt": "^0.28.0",
+    "oxlint": "^1.43.0",
     "simple-git-hooks": "2.13.1",
     "tsdown": "0.20.3",
     "tsx": "4.21.0",
     "typescript": "5.9.3",
-    "vitest": "4.0.18",
-    "vue-eslint-parser": "10.2.0"
+    "vitest": "4.0.18"
   },
   "simple-git-hooks": {
     "commit-msg": "pnpm soy git-commit-verify",
     "pre-commit": "pnpm typecheck && pnpm lint-staged"
   },
   "lint-staged": {
-    "*": "eslint --fix"
-  }
+    "*": "oxlint --fix && oxfmt"
+  },
+  "packageManager": "pnpm@10.29.1"
 }

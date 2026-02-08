@@ -1,6 +1,5 @@
 # Changelog
 
-
 ## [v1.1.2](https://github.com/soybeanjs/elegent-router/compare/v1.1.1...v1.1.2) (2026-01-26)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
@@ -1207,4 +1206,3 @@
 
 [![honghuangdc](https://github.com/honghuangdc.png?size=48)](https://github.com/honghuangdc)&nbsp;&nbsp;
 [Soybean](mailto:Soybean@macdeMacBook-Pro-2.local),&nbsp;[Soybean](mailto:honghuangdc@gmail.com)
-

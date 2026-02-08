@@ -1,0 +1,11 @@
+{
+  "ignorePatterns": ["example/src/router/_generated", "example/src/typings"],
+  "printWidth": 120,
+  "singleQuote": true,
+  "trailingComma": "none",
+  "arrowParens": "avoid",
+  "htmlWhitespaceSensitivity": "ignore",
+  "experimentalSortPackageJson": {
+    "sortScripts": true
+  }
+}

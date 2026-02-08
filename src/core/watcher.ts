@@ -1,5 +1,5 @@
 import { createFilter } from 'unplugin-utils';
-import chokidar from 'chokidar';
+import { watch } from 'chokidar';
 import type { FSWatcher } from 'chokidar';
 import { logger } from '../shared';
 import type { ParsedAutoRouterOptions } from '../types';
@@ -22,7 +22,7 @@ export class FileWatcher {
     const filter = createFilter(pageInclude, pageExclude);
 
     // 创建监听器
-    this.watcher = chokidar.watch(pageDir, {
+    this.watcher = watch(pageDir, {
       cwd,
       ignoreInitial: true,
       ignored: (glob: string, stats) => {

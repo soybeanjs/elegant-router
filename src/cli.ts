@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import cac from 'cac';
+import { cac } from 'cac';
 import { loadConfig } from 'unconfig';
 import { version } from '../package.json' with { type: 'json' };
 import type { AutoRouterOptions, CliOptions } from './types';
