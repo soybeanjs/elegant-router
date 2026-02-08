@@ -122,7 +122,7 @@ function getTsxComponentOptions(sourceFile: SourceFile): ObjectLiteralExpression
 function getComponentOptionsFromInitializer(initializer: any): ObjectLiteralExpression | undefined {
   if (initializer.isKind(SyntaxKind.CallExpression)) {
     const callExpr = initializer.asKind(SyntaxKind.CallExpression);
-    if (callExpr?.getExpression().getText() === 'defineComponent') {
+    if (callExpr?.getExpression().getText().includes('defineComponent')) {
       const args = callExpr.getArguments();
       if (args.length > 0 && args[0].isKind(SyntaxKind.ObjectLiteralExpression)) {
         return args[0];
