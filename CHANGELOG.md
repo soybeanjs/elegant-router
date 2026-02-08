@@ -1,5 +1,15 @@
 # Changelog
 
+## [v1.3.0](https://github.com/soybeanjs/elegent-router/compare/v1.2.0...v1.3.0) (2026-02-08)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **name**: update condition to check for defineComponent in getComponentOptionsFromInitializer &nbsp;-&nbsp; by @soybeanjs [<samp>(248ca)</samp>](https://github.com/soybeanjs/elegent-router/commit/248caee)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v1.2.0](https://github.com/soybeanjs/elegent-router/compare/v1.1.2...v1.2.0) (2026-02-08)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
