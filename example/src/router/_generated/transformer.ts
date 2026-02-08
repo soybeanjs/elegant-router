@@ -14,6 +14,7 @@ import type {
   RouteFileKey,
   RouteLayoutKey
 } from '@elegant-router/types';
+import { isAutoRouterRedirect } from "./shared";
 
 export function transformToVueRoutes(
   routes: AutoRouterRoute[],
@@ -63,8 +64,4 @@ function getFormattedRoutes(routes: AutoRouterRoute[]) {
     redirects,
     groupedRoutes
   };
-}
-
-function isAutoRouterRedirect(route: AutoRouterRoute): route is AutoRouterRedirect {
-  return 'redirect' in route;
 }

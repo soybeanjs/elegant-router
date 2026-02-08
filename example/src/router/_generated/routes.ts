@@ -13,7 +13,7 @@ export const routes: AutoRouterRoute[] = [
     redirect: '/home',
     meta: {
       title: "Root"
-    },
+    }
   },
   {
     name: 'NotFound',
@@ -22,7 +22,7 @@ export const routes: AutoRouterRoute[] = [
     component: '404',
     meta: {
       title: "NotFound"
-    },
+    }
   },
   {
     name: '403',
