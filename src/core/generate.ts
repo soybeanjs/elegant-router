@@ -30,6 +30,7 @@ import type {
   RouteFileKey,
   RouteLayoutKey
 } from '${ELEGANT_ROUTER_TYPES_MODULE_NAME}';
+import { isAutoRouterRedirect } from "./shared";
 
 export function transformToVueRoutes(
   routes: AutoRouterRoute[],
@@ -80,10 +81,6 @@ function getFormattedRoutes(routes: AutoRouterRoute[]) {
     groupedRoutes
   };
 }
-
-function isAutoRouterRedirect(route: AutoRouterRoute): route is AutoRouterRedirect {
-  return 'redirect' in route;
-}
 `;
 
   return code;
@@ -106,7 +103,7 @@ function getSharedCode(nodes: AutoRouterNode[]) {
 
   const code = `${prefixComment}
 
-import type { RouteKey, RoutePathMap } from '${ELEGANT_ROUTER_TYPES_MODULE_NAME}';
+import type { RouteKey, RoutePathMap, AutoRouterRoute, AutoRouterRedirect } from '${ELEGANT_ROUTER_TYPES_MODULE_NAME}';
 
 const routePathMap: RoutePathMap = {
   ${nodes.map(node => `"${node.name}": "${node.path}",`).join('\n  ')}
@@ -114,6 +111,10 @@ const routePathMap: RoutePathMap = {
 
 export function getRoutePath(key: RouteKey) {
   return routePathMap[key];
+}
+
+export function isAutoRouterRedirect(route: AutoRouterRoute): route is AutoRouterRedirect {
+  return 'redirect' in route;
 }
 `;
 
