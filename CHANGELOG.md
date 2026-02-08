@@ -1,5 +1,30 @@
 # Changelog
 
+## [v1.2.0](https://github.com/soybeanjs/elegent-router/compare/v1.1.2...v1.2.0) (2026-02-08)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **projects**: update exmaple router config &nbsp;-&nbsp; by @soybeanjs [<samp>(189a2)</samp>](https://github.com/soybeanjs/elegent-router/commit/189a2d5)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **tsdown**:
+  - expand external dependencies in tsdown config &nbsp;-&nbsp; by @soybeanjs [<samp>(02b91)</samp>](https://github.com/soybeanjs/elegent-router/commit/02b91e1)
+  - add vue and vue-router to external dependencies &nbsp;-&nbsp; by @soybeanjs [<samp>(b0ce2)</samp>](https://github.com/soybeanjs/elegent-router/commit/b0ce2c7)
+
+### &nbsp;&nbsp;&nbsp;🛠 Optimizations
+
+- **transform**: move isAutoRouterRedirect function shared.ts &nbsp;-&nbsp; by @soybeanjs [<samp>(c55c4)</samp>](https://github.com/soybeanjs/elegent-router/commit/c55c448)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **deps**: update deps &nbsp;-&nbsp; by @soybeanjs [<samp>(d2d08)</samp>](https://github.com/soybeanjs/elegent-router/commit/d2d08c1)
+- **projects**: use oxlint,oxfmt replace eslint,prettier &nbsp;-&nbsp; by @soybeanjs [<samp>(3055e)</samp>](https://github.com/soybeanjs/elegent-router/commit/3055e85)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![soybeanjs](https://github.com/soybeanjs.png?size=48)](https://github.com/soybeanjs)&nbsp;&nbsp;
+
 ## [v1.1.2](https://github.com/soybeanjs/elegent-router/compare/v1.1.1...v1.1.2) (2026-01-26)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
