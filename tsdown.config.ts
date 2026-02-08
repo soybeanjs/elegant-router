@@ -15,7 +15,17 @@ export default defineConfig({
     'src/rolldown.ts'
   ],
   platform: 'node',
-  external: Object.keys(pkg.devDependencies),
+  external: [
+    ...Object.keys(pkg.devDependencies),
+    'rollup',
+    'webpack',
+    'esbuild',
+    'vite',
+    'nuxt',
+    'rspack',
+    'farm',
+    'rolldown'
+  ],
   clean: true,
   dts: true,
   sourcemap: false,
