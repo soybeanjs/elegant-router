@@ -9,32 +9,31 @@
     "cleanup": "soy cleanup",
     "commit": "soy git-commit",
     "dev": "vite",
-    "prepare": "simple-git-hooks",
     "preview": "vite preview",
     "typecheck": "vue-tsc --noEmit --skipLibCheck",
     "update-pkg": "soy ncu"
   },
   "dependencies": {
-    "@unocss/reset": "66.6.0",
+    "@unocss/reset": "66.7.0",
     "pinia": "3.0.4",
     "soy-ui": "0.0.2-beta.5",
-    "vue": "3.5.27",
-    "vue-router": "5.0.2"
+    "vue": "3.5.35",
+    "vue-router": "5.1.0"
   },
   "devDependencies": {
     "@soybean-ui/unocss-preset": "0.0.2-beta.5",
-    "@soybeanjs/cli": "1.5.0",
-    "@types/node": "25.2.2",
-    "@vitejs/plugin-vue": "6.0.4",
-    "@vitejs/plugin-vue-jsx": "5.1.4",
+    "@soybeanjs/cli": "1.7.2",
+    "@types/node": "25.9.1",
+    "@vitejs/plugin-vue": "6.0.7",
+    "@vitejs/plugin-vue-jsx": "5.1.5",
     "elegant-router": "workspace:*",
     "klona": "2.0.6",
-    "typescript": "5.9.3",
-    "unocss": "66.6.0",
-    "unplugin-vue-components": "31.0.0",
-    "vite": "7.3.1",
-    "vite-plugin-vue-devtools": "8.0.6",
-    "vue-tsc": "3.2.4"
+    "typescript": "6.0.3",
+    "unocss": "66.7.0",
+    "unplugin-vue-components": "32.1.0",
+    "vite": "8.0.14",
+    "vite-plugin-vue-devtools": "8.1.2",
+    "vue-tsc": "3.3.3"
   },
-  "packageManager": "pnpm@10.29.1"
+  "packageManager": "pnpm@11.5.0"
 }

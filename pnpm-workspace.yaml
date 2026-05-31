@@ -1,2 +1,13 @@
 packages:
   - example
+allowBuilds:
+  esbuild: true
+  simple-git-hooks: false
+  vue-demi: false
+minimumReleaseAgeExclude:
+  - '@vue/language-core@3.3.3'
+  - lint-staged@17.0.6
+  - tinyglobby@0.2.17
+  - vue-tsc@3.3.3
+shamefullyHoist: true
+ignoreWorkspaceRootCheck: true
