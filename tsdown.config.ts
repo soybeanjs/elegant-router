@@ -2,32 +2,24 @@ import { defineConfig } from 'tsdown';
 import pkg from './package.json' with { type: 'json' };
 
 export default defineConfig({
-  entry: [
-    'src/index.ts',
-    'src/cli.ts',
-    'src/vite.ts',
-    'src/webpack.ts',
-    'src/rollup.ts',
-    'src/esbuild.ts',
-    'src/rspack.ts',
-    'src/nuxt.ts',
-    'src/farm.ts',
-    'src/rolldown.ts'
-  ],
+  entry: ['src/*.ts'],
   platform: 'node',
-  external: [
-    ...Object.keys(pkg.devDependencies),
-    'rollup',
-    'webpack',
-    'esbuild',
-    'vite',
-    'nuxt',
-    'rspack',
-    'farm',
-    'rolldown',
-    'vue',
-    'vue-router'
-  ],
+  deps: {
+    neverBundle: [
+      ...Object.keys(pkg.dependencies),
+      ...Object.keys(pkg.devDependencies),
+      'rollup',
+      'webpack',
+      'esbuild',
+      'vite',
+      'nuxt',
+      'rspack',
+      'farm',
+      'rolldown',
+      'vue',
+      'vue-router'
+    ]
+  },
   clean: true,
   dts: true,
   sourcemap: false,
